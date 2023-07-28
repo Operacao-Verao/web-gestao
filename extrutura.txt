@@ -1,0 +1,17 @@
+
+- actions => Ações do sistema
+
+- assets => Recursos e mídia do Client-Side
+	* css => Folhas de estilos utilizados pelas páginas
+	* images => Arquivos de imagens gerais utilizados pelas páginas
+	* js => Scripts de execução do Client-Side
+
+- dao => Scripts com contato direto ao banco de dados
+
+- media => Pasta contendo mídia enviada pelos usuários
+
+- models => Scripts com classes de modelos para interação com o banco
+
+- partials => Arquivos HTML contendo fragmentos de páginas para serem reaproveitados pelo sistema
+
+- views => Arquivos de Scripts e HTML para interface do sistema
