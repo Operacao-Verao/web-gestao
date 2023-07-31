@@ -1,0 +1,4 @@
+Remodelagens do Banco de Dados:
+Remover Todos os nomes 'Underscores' e colocar em formato 'Camel-o-Case'
+alterar atributo 'idEndereco' de 'Local_Ajuda' para 'cep', remover 'cepEndereco'
+Rever nome de table 'nivelDiario' para um possível 'nivelRio'
