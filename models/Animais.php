@@ -24,20 +24,40 @@
             return $this->idRelatorio;
         }
     
+        public function setRelatorio($model_relatorio) {
+            $this->idRelatorio = $model_relatorio->getId();
+        }
+    
         public function getCaes() {
             return $this->caes;
+        }
+        
+        public function setCaes($caes) {
+            $this->caes = $caes;
         }
     
         public function getGatos() {
             return $this->gatos;
         }
+        
+        public function setGatos($gatos) {
+            $this->gatos = $gatos;
+        }
     
         public function getAves() {
             return $this->aves;
         }
+        
+        public function setAves($aves) {
+            $this->aves = $aves;
+        }
     
         public function getEquinos() {
             return $this->equinos;
+        }
+        
+        public function setEquinos($equinos) {
+            $this->equinos = $equinos;
         }
     }
     

@@ -15,6 +15,10 @@
         public function getFuncionarioId() {
             return $this->funcionarioId;
         }
+        
+        public function setFuncionario($funcionario) {
+            $this->funcionarioId = $funcionario->getId();
+        }
     }
     
 ?> 

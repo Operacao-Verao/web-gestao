@@ -17,9 +17,17 @@
     public function getIdGestor() {
         return $this->idGestor;
     }
+    
+    public function setGestor($gestor) {
+        $this->idGestor = $gestor->getId();
+    }
 
     public function getConteudo() {
         return $this->conteudo;
+    }
+    
+    public function setCounteudo($conteudo) {
+        $this->conteudo = $conteudo;
     }
 }
 
