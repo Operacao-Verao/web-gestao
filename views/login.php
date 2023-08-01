@@ -7,6 +7,14 @@
 	</head>
 	<body>
 		
+		<h2>Início - Área de teste</h2>
+		
+		<?php
+			include_once("../actions/tests.php");
+		?>
+		
+		<h2>Fim - Área de teste</h2>
+		
 		<center>
 			<fieldset>
 				

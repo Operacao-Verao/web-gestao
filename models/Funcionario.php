@@ -1,4 +1,7 @@
 <?php 
+    const TIPO_USUARIO_GESTOR = 0;
+    const TIPO_USUARIO_FUNCIONARIO = 1;
+    
     class Funcionario {
         private $id;
         private $nome;
