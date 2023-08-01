@@ -4,13 +4,14 @@
 *Tecnico
 *Afetados
 *Animais
-Ocorrencia
-Foto
-Memo
-Casa
-Secretario
-Secretaria
-Cargo
+*Ocorrencia
+*Foto
+*Memo
+*Casa
+*Secretario
+*Secretaria
+*Cargo
+Registro
 
 *Relatorio
 *Civil

@@ -3,29 +3,29 @@
 		private $id;
 		private $idRelatorio;
 		private $desmoronamento;
-		private $escorregamento;
-		private $esgoto_escoamento;
+		private $deslizamento;
+		private $esgotoEscoamento;
 		private $erosao;
 		private $inundacao;
 		private $incendio;
 		private $arvores;
-		private $infiltracao_trinca;
+		private $infiltracaoTrinca;
 		private $judicial;
 		private $monitoramento;
 		private $transito;
 		private $outros;
 		
-		public function __construct($id, $idRelatorio, $desmoronamento, $escorregamento, $esgoto_escoamento, $erosao, $inundacao, $incendio, $arvores, $infiltracao_trinca, $judicial, $monitoramento, $transito, $outros){
+		public function __construct($id, $idRelatorio, $desmoronamento, $deslizamento, $esgotoEscoamento, $erosao, $inundacao, $incendio, $arvores, $infiltracaoTrinca, $judicial, $monitoramento, $transito, $outros){
 			$this->id = $id;
 			$this->idRelatorio = $idRelatorio;
 			$this->desmoronamento = $desmoronamento;
-			$this->escorregamento = $escorregamento;
-			$this->esgoto_escoamento = $esgoto_escoamento;
+			$this->deslizamento = $deslizamento;
+			$this->esgotoEscoamento = $esgotoEscoamento;
 			$this->erosao = $erosao;
 			$this->inundacao = $inundacao;
 			$this->incendio = $incendio;
 			$this->arvores = $arvores;
-			$this->infiltracao_trinca = $infiltracao_trinca;
+			$this->infiltracaoTrinca = $infiltracaoTrinca;
 			$this->judicial = $judicial;
 			$this->monitoramento = $monitoramento;
 			$this->transito = $transito;
@@ -52,20 +52,20 @@
 			$this->desmoronamento = $desmoronamento;
 		}
 		
-		public function getEscorregamento() {
-			return $this->escorregamento;
+		public function getDeslizamento() {
+			return $this->deslizamento;
 		}
 		
-		public function setEscorregamento($escorregamento) {
-			$this->escorregamento = $escorregamento;
+		public function setDeslizamento($deslizamento) {
+			$this->deslizamento = $deslizamento;
 		}
 		
 		public function getEsgotoEscoamento() {
-			return $this->esgoto_escoamento;
+			return $this->esgotoEscoamento;
 		}
 		
-		public function setEsgotoEscoamento($esgoto_escoamento) {
-			$this->esgoto_escoamento = $esgoto_escoamento;
+		public function setEsgotoEscoamento($esgotoEscoamento) {
+			$this->esgotoEscoamento = $esgotoEscoamento;
 		}
 		
 		public function getErosao() {
@@ -101,11 +101,11 @@
 		}
 		
 		public function getInfiltracaoTrinca() {
-			return $this->infiltracao_trinca;
+			return $this->infiltracaoTrinca;
 		}
 		
-		public function setInfiltracaoTrinca($infiltracao_trinca) {
-			$this->infiltracao_trinca = $infiltracao_trinca;
+		public function setInfiltracaoTrinca($infiltracaoTrinca) {
+			$this->infiltracaoTrinca = $infiltracaoTrinca;
 		}
 		
 		public function getJudicial() {

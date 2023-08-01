@@ -1,15 +1,15 @@
 <?php
 	class Fluviometro{	
-		private id;
-		private cep;
-		private lat;
-		private long;
+		private $id;
+		private $cep;
+		private $latitude;
+		private $longitude;
 		
-		public function __construct($id, $cep, $lat, $long){
+		public function __construct($id, $cep, $latitude, $longitude){
 			$this->id = $id;
 			$this->cep = $cep;
-			$this->lat = $lat;
-			$this->long = $long;
+			$this->latitude = $latitude;
+			$this->longitude = $longitude;
 		}
 		
 		public function getId() {
@@ -24,20 +24,20 @@
 			$this->cep = $cep;
 		}
 		
-		public function getLat() {
-			return $this->lat;
+		public function getLatitude() {
+			return $this->latitude;
 		}
 		
-		public function setLat($lat) {
-			$this->lat = $lat;
+		public function setLatitude($latitude) {
+			$this->latitude = $latitude;
 		}
 		
-		public function getLong() {
-			return $this->long;
+		public function getLongitude() {
+			return $this->longitude;
 		}
 		
-		public function setLong($long) {
-			$this->long = $long;
+		public function setLongitude($longitude) {
+			$this->longitude = $longitude;
 		}
 	}
 ?>

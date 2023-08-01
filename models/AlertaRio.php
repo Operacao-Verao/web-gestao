@@ -1,43 +1,43 @@
 <?php
 	class AlertaRio{
-		private id;
-		private idFluv;
-		private status;
-		private data;
+		private $id;
+		private $idFluviometro;
+		private $statusRio;
+		private $dataAlertaRio;
 		
-		public function __construct($id, $idFluv, $status, $data) {
+		public function __construct($id, $idFluviometro, $statusRio, $dataAlertaRio) {
 			$this->id = $id;
-			$this->idFluv = $idFluv;
-			$this->status = $status;
-			$this->data = $data;
+			$this->idFluviometro = $idFluviometro;
+			$this->statusRio = $statusRio;
+			$this->dataAlertaRio = $dataAlertaRio;
 		}
 		
 		public function getId() {
 			return $this->id;
 		}
 		
-		public function getIdFluv() {
-			return $this->idFluv;
+		public function getIdFluviometro() {
+			return $this->idFluviometro;
 		}
 		
 		public function setFluviometro($fluviometro) {
-			$this->idFluv = $fluviometro->getId();
+			$this->idFluviometro = $fluviometro->getId();
 		}
 		
-		public function getStatus() {
-			return $this->status;
+		public function getStatusRio() {
+			return $this->statusRio;
 		}
 		
-		public function setStatus($status) {
-			$this->status = $status;
+		public function setStatusRio($statusRio) {
+			$this->statusRio = $statusRio;
 		}
 		
-		public function getData() {
-			return $this->data;
+		public function getDataAlertaRio() {
+			return $this->dataAlertaRio;
 		}
 		
-		public function setData($data) {
-			$this->data = $data;
+		public function setDataAlertaRio($dataAlertaRio) {
+			$this->dataAlertaRio = $dataAlertaRio;
 		}
 	}
 ?>

@@ -1,43 +1,43 @@
 <?php
 	class AlertaChuva{
-		private id;
-		private idPluv;
-		private status;
-		private data;
+		private $id;
+		private $idPluviometro;
+		private $statusChuva;
+		private $dataChuva;
 		
-		public function __construct($id, $idPluv, $status, $data) {
+		public function __construct($id, $idPluviometro, $statusChuva, $dataChuva) {
 			$this->id = $id;
-			$this->idPluv = $idPluv;
-			$this->status = $status;
-			$this->data = $data;
+			$this->idPluviometro = $idPluviometro;
+			$this->statusChuva = $statusChuva;
+			$this->dataChuva = $dataChuva;
 		}
 		
 		public function getId() {
 			return $this->id;
 		}
 		
-		public function getIdPluv() {
-			return $this->idPluv;
+		public function getIdPluviometro() {
+			return $this->idPluviometro;
 		}
 		
 		public function setPluviometro($pluviometro) {
-			$this->idPluv = $pluviometro->getId();
+			$this->idPluviometro = $pluviometro->getId();
 		}
 		
-		public function getStatus() {
-			return $this->status;
+		public function getStatusChuva() {
+			return $this->statusChuva;
 		}
 		
-		public function setStatus($status) {
-			$this->status = $status;
+		public function setStatusChuva($statusChuva) {
+			$this->statusChuva = $statusChuva;
 		}
 		
-		public function getData() {
-			return $this->data;
+		public function getDataChuva() {
+			return $this->dataChuva;
 		}
 		
-		public function setData($data) {
-			$this->data = $data;
+		public function setDataChuva($dataChuva) {
+			$this->dataChuva = $dataChuva;
 		}
 	}
 ?>

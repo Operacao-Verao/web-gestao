@@ -1,4 +1,34 @@
 <?php
+	const GRAVIDADE_NENHUM = 0;
+	const GRAVIDADE_RISCO = 1;
+	const GRAVIDADE_DESASTRE = 2;
+	
+	const AREA_AFETADA_INESPECIFICADO = 0;
+	const AREA_AFETADA_PUBLICA = 1;
+	const AREA_AFETADA_PARTICULAR = 2;
+	
+	const TIPO_CONSTRUCAO_INESPECIFICADO = 0;
+	const TIPO_CONSTRUCAO_ALVENARIA = 1;
+	const TIPO_CONSTRUCAO_MADEIRA = 2;
+	const TIPO_CONSTRUCAO_MISTA = 3;
+	
+	const TIPO_TALUDE_INESPECIFICADO = 0;
+	const TIPO_TALUDE_NATURAL = 1;
+	const TIPO_TALUDE_DECORTE = 2;
+	const TIPO_TALUDE_ATERRO = 3;
+	
+	const VEGETACAO_NENHUMA = 0;
+	const VEGETACAO_RASTEIRA = 1;
+	const VEGETACAO_ARVORES = 2;
+	
+	const SITUACAO_VITIMAS_INESPECIFICADO = 0;
+	const SITUACAO_VITIMAS_DESABRIGADAS = 1;
+	const SITUACAO_VITIMAS_DESALOJADAS = 2;
+	
+	const INTERDICAO_NAO = 0;
+	const INTERDICAO_PARCIAL = 1;
+	const INTERDICAO_TOTAL = 2;
+	
 	class Relatorio{
 		private $id;
 		private $idOcorrencia;
@@ -16,11 +46,13 @@
 		private $tipoConstrucao;
 		private $tipoTalude;
 		private $vegetacao;
-		private $danos_materiais;
+		private $situacaoVitimas;
+		private $interdicao;
+		private $danosMateriais;
 		private $dataGeracao;
 		private $dataAtendimento;
 		
-		public function __construct($id, $idOcorrencia, $idCasa, $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada, $tipoConstrucao, $tipoTalude, $vegetacao, $danos_materiais, $dataGeracao, $dataAtendimento) {
+		public function __construct($id, $idOcorrencia, $idCasa, $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada, $tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento) {
 			$this->id = $id;
 			$this->idOcorrencia = $idOcorrencia;
 			$this->idCasa = $idCasa;
@@ -37,7 +69,9 @@
 			$this->tipoConstrucao = $tipoConstrucao;
 			$this->tipoTalude = $tipoTalude;
 			$this->vegetacao = $vegetacao;
-			$this->danos_materiais = $danos_materiais;
+			$this->situacaoVitimas = $situacaoVitimas;
+			$this->interdicao = $interdicao;
+			$this->danosMateriais = $danosMateriais;
 			$this->dataGeracao = $dataGeracao;
 			$this->dataAtendimento = $dataAtendimento;
 		}
@@ -166,12 +200,28 @@
 			$this->vegetacao = $vegetacao;
 		}
 		
-		public function getDanosMateriais() {
-			return $this->danos_materiais;
+		public function getSituacaoVitimas() {
+			return $this->situacaoVitimas;
 		}
 		
-		public function setDanosMateriais($danos_materiais) {
-			$this->danos_materiais = $danos_materiais;
+		public function setSituacaoVitimas($situacaoVitimas) {
+			$this->situacaoVitimas = $situacaoVitimas;
+		}
+		
+		public function getInterdicao() {
+			return $this->interdicao;
+		}
+		
+		public function setInterdicao($interdicao) {
+			$this->interdicao = $interdicao;
+		}
+		
+		public function getDanosMateriais() {
+			return $this->situacaoVitimas;
+		}
+		
+		public function setDanosMateriais($danosMateriais) {
+			$this->danosMateriais = $danosMateriais;
 		}
 		
 		public function getDataGeracao() {

@@ -1,43 +1,43 @@
 <?php
 	class NivelChuva{
-		private id;
-		private idPluv;
-		private chuva_em_mm;
-		private data;
+		private $id;
+		private $idPluviometro;
+		private $chuvaEmMm;
+		private $dataChuva;
 		
-		public function __construct($id, $idPluv, $chuva_em_mm, $data){
+		public function __construct($id, $idPluviometro, $chuvaEmMm, $dataChuva){
 			$this->id = $id;
-			$this->idPluv = $idPluv;
-			$this->chuva_em_mm = $chuva_em_mm;
-			$this->data = $data;
+			$this->idPluviometro = $idPluviometro;
+			$this->chuvaEmMm = $chuvaEmMm;
+			$this->dataChuva = $dataChuva;
 		}
 		
 		public function getId() {
 			return $this->id;
 		}
 		
-		public function getIdPluv() {
-			return $this->idPluv;
+		public function getIdPluviometro() {
+			return $this->idPluviometro;
 		}
 		
 		public function setPluviometro($pluviometro) {
-			$this->idPluv = $pluviometro->getId();
+			$this->idPluviometro = $pluviometro->getId();
 		}
 		
-		public function getChuvaEmMM() {
-			return $this->chuva_em_mm;
+		public function getChuvaEmMm() {
+			return $this->chuvaEmMm;
 		}
 		
-		public function setChuvaEmMM($chuva_em_mm) {
-			$this->chuva_em_mm = $chuva_em_mm;
+		public function setChuvaEmMm($chuvaEmMm) {
+			$this->chuvaEmMm = $chuvaEmMm;
 		}
 		
-		public function getData() {
-			return $this->data;
+		public function getDataChuva() {
+			return $this->dataChuva;
 		}
 		
-		public function setData($data) {
-			$this->data = $data;
+		public function setDataChuva($dataChuva) {
+			$this->dataChuva = $dataChuva;
 		}
 	}
 ?>
