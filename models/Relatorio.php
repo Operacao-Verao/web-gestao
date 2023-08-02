@@ -66,7 +66,8 @@
 		private $dataGeracao;
 		private $dataAtendimento;
 		
-		public function __construct($id, $idOcorrencia, $idCasa, $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada, $tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento) {
+		public function __construct($id, $idOcorrencia, $idCasa, $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
+			$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento) {
 			$this->id = $id;
 			$this->idOcorrencia = $idOcorrencia;
 			$this->idCasa = $idCasa;

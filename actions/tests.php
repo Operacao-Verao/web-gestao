@@ -1,7 +1,9 @@
 <?php
-	include_once("../daos/Funcionario.php");
+	include_once("../daos/DAOFuncionario.php");
+	include_once("../daos/DAORegistro.php");
 	
 	$daofuncionario = new DAOFuncionario($pdo);
+	$daoregistro = new DAORegistro($pdo);
 	
 	// Exemplo de criação de Entrada na tabela Funcionário
 	//$fun = $daofuncionario->insert("Andressa", "andressa@gmail.com", "12345678", TIPO_USUARIO::GESTOR);
@@ -24,12 +26,12 @@
 		// Removendo a entrada da tabela
 		//$daofuncionario->remove($fun);
 	//}
-	
+	/*
 	// Lista todos os funcionarios
-	$funs = $daofuncionario->listAll();
-	foreach ($funs as $fun){
-		var_dump($fun);
+	$regs = $daoregistro->listAll();
+	foreach ($regs as $reg){
+		var_dump($reg);
 		echo '<br/>';
 		//$daofuncionario->remove($fun);
-	}
+	}*/
 ?>

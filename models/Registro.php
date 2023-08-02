@@ -6,7 +6,7 @@
 		private $descricao;
 		private $momento;
 		
-		public function __construct($id, $idFuncionario, $cao, $descricao, $momento) {
+		public function __construct($id, $idFuncionario, $acao, $descricao, $momento) {
 			$this->id = $id;
 			$this->idFuncionario = $idFuncionario;
 			$this->acao = $acao;
