@@ -10,7 +10,7 @@
 		}
 		
 		// Insere dados de funcionário na tabela
-		// Retorna um modelo se for realizado com sucesso, retona nulo do contrário
+		// Retorna um modelo se for realizado com sucesso, retona null do contrário
 		public function insert($nome, $email, $senha, $tipoUsuario) {
 			// Tenta inserir os dados fornecidos no banco de dados
 			$insertion = $this->pdo->prepare("insert into Funcionario (nome, email, senha, tipo_usuario) values (:nome, :email, :senha, :tipo)");
@@ -39,8 +39,8 @@
 		}
 		
 		// Procura uma única entrada na tabela Funcionario
-		// Retorna um modelo se for encontrado, retorna nulo do contrário
-		public function findSingleById($id) {
+		// Retorna um modelo se for encontrado, retorna null do contrário
+		public function findById($id) {
             $statement = $this->pdo->query("select * from Funcionario where id = ".$id);
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
             
@@ -49,6 +49,23 @@
             	$query = $queries[0];
             	return new Funcionario($id, $query['nome'], $query['email'], $query['senha'], $query['tipo_usuario']);
             }
+			return null;
+		}
+		
+		// Retorna todos os cadastros de Funcionario
+		// Retorna um array com todos os modelos encontrados, retorna null em caso de erro
+		public function listAll() {
+			$statement = $this->pdo->query("select * from Funcionario");
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+			
+			// Todas as entradas serão percorridas
+			if ($queries){
+				$modelos = [];
+				foreach ($queries as $query){
+					$modelos[] = new Funcionario($query['id'], $query['nome'], $query['email'], $query['senha'], $query['tipo_usuario']);
+				}
+				return $modelos;
+			}
 			return null;
 		}
 		

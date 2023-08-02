@@ -1,33 +1,47 @@
 <?php
-	const GRAVIDADE_NENHUM = 0;
-	const GRAVIDADE_RISCO = 1;
-	const GRAVIDADE_DESASTRE = 2;
+	enum GRAVIDADE{
+		const NENHUM = 0;
+		const RISCO = 1;
+		const DESASTRE = 2;
+	};
 	
-	const AREA_AFETADA_INESPECIFICADO = 0;
-	const AREA_AFETADA_PUBLICA = 1;
-	const AREA_AFETADA_PARTICULAR = 2;
+	enum AREA_AFETADA{
+		const INESPECIFICADO = 0;
+		const PUBLICA = 0;
+		const PARTICULAR = 0;
+	};
 	
-	const TIPO_CONSTRUCAO_INESPECIFICADO = 0;
-	const TIPO_CONSTRUCAO_ALVENARIA = 1;
-	const TIPO_CONSTRUCAO_MADEIRA = 2;
-	const TIPO_CONSTRUCAO_MISTA = 3;
+	enum TIPO_CONSTRUCAO{
+		const INESPECIFICADO = 0;
+		const ALVENARIA = 1;
+		const MADEIRA = 2;
+		const MISTA = 3;
+	};
 	
-	const TIPO_TALUDE_INESPECIFICADO = 0;
-	const TIPO_TALUDE_NATURAL = 1;
-	const TIPO_TALUDE_DECORTE = 2;
-	const TIPO_TALUDE_ATERRO = 3;
+	enum TIPO_TALUDE{
+		const INESPECIFICADO = 0;
+		const NATURAL = 1;
+		const DE_CORTE = 2;
+		const ATERRO = 3;
+	};
 	
-	const VEGETACAO_NENHUMA = 0;
-	const VEGETACAO_RASTEIRA = 1;
-	const VEGETACAO_ARVORES = 2;
+	enum VEGETACAO{
+		const NENHUMA = 0;
+		const RASTEIRA = 1;
+		const ARVORES = 2;
+	};
 	
-	const SITUACAO_VITIMAS_INESPECIFICADO = 0;
-	const SITUACAO_VITIMAS_DESABRIGADAS = 1;
-	const SITUACAO_VITIMAS_DESALOJADAS = 2;
+	enum SITUACAO_VITIMAS{
+		const INESPECIFICADO = 0;
+		const DESABRIGADOS = 1;
+		const DESALOJADOS = 2;
+	};
 	
-	const INTERDICAO_NAO = 0;
-	const INTERDICAO_PARCIAL = 1;
-	const INTERDICAO_TOTAL = 2;
+	enum INTERDICAO{
+		const NAO = 0;
+		const PARCIAL = 1;
+		const TOTAL = 2;
+	};
 	
 	class Relatorio{
 		private $id;
