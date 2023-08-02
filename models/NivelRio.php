@@ -1,13 +1,13 @@
 <?php
 	class NivelRio{
 		private $id;
-		private $idFluviomatro;
+		private $idFluviometro;
 		private $nivelRio;
 		private $dataDiario;
 		
-		public function __construct($id, $idFluviomatro, $nivelRio, $dataDiario){
+		public function __construct($id, $idFluviometro, $nivelRio, $dataDiario){
 			$this->id = $id;
-			$this->idFluviomatro = $idFluviomatro;
+			$this->idFluviometro = $idFluviometro;
 			$this->nivelRio = $nivelRio;
 			$this->dataDiario = $dataDiario;
 		}
@@ -17,11 +17,11 @@
 		}
 		
 		public function getIdFluviometro() {
-			return $this->idFluviomatro;
+			return $this->idFluviometro;
 		}
 		
 		public function setFluviometro($fluviometro) {
-			$this->idFluviomatro = $fluviometro->getId();
+			$this->idFluviometro = $fluviometro->getId();
 		}
 		
 		public function getNivelRio() {
