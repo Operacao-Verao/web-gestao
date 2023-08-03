@@ -47,7 +47,6 @@
 		private $id;
 		private $idOcorrencia;
 		private $idCasa;
-		private $enfermos;
 		private $gravidade;
 		private $relatorio;
 		private $encaminhamento;
@@ -66,12 +65,11 @@
 		private $dataGeracao;
 		private $dataAtendimento;
 		
-		public function __construct($id, $idOcorrencia, $idCasa, $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
+		public function __construct($id, $idOcorrencia, $idCasa, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
 			$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento) {
 			$this->id = $id;
 			$this->idOcorrencia = $idOcorrencia;
 			$this->idCasa = $idCasa;
-			$this->enfermos = $enfermos;
 			$this->gravidade = $gravidade;
 			$this->relatorio = $relatorio;
 			$this->encaminhamento = $encaminhamento;
@@ -109,14 +107,6 @@
 		
 		public function setCasa($casa) {
 			$this->idCasa = $casa->getId();
-		}
-		
-		public function getEnfermos() {
-			return $this->enfermos;
-		}
-		
-		public function setEnfermos($enfermos) {
-			$this->enfermos = $enfermos;
 		}
 		
 		public function getGravidade() {

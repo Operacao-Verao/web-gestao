@@ -11,13 +11,12 @@
 		
 		// Insert data of "Relatorio" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($ocorrencia, $casa, $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
+		public function insert($ocorrencia, $casa, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
 			$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento) {
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into Relatorio (id_ocorrencia, id_casa, enfermos, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) values (:ocorrencia, :casa, :enfermos, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
+			$insertion = $this->pdo->prepare("insert into Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) values (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
 			$insertion->bindValue(":ocorrencia", $ocorrencia->getId());
 			$insertion->bindValue(":casa", $casa->getId());
-			$insertion->bindValue(":enfermos", $enfermos);
 			$insertion->bindValue(":gravidade", $gravidade);
 			$insertion->bindValue(":relatorio", $relatorio);
 			$insertion->bindValue(":encaminhamento", $encaminhamento);
@@ -40,7 +39,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Relatorio($last_id, $ocorrencia->getId(), $casa->getId(), $enfermos, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
+				return new Relatorio($last_id, $ocorrencia->getId(), $casa->getId(), $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
 					$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento);
 			}
 
@@ -65,7 +64,7 @@
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query = $queries[0];
-				return new Relatorio($id, $query['id_ocorrencia'], $query['id_casa'], $query['enfermos'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+				return new Relatorio($id, $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 			}
 			return null;
@@ -81,7 +80,7 @@
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['enfermos'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 				}
 				return $modelos;
@@ -92,11 +91,10 @@
 		// Update the "Relatorio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($relatorio) {
-			$insertion = $this->pdo->prepare("update Relatorio set id_ocorrencia = :id_ocorrencia, id_casa = :id_casa, enfermos = :enfermos, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, memorando = :memorando, oficio = :oficio, processo = :processo, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento where id = :id");
+			$insertion = $this->pdo->prepare("update Relatorio set id_ocorrencia = :id_ocorrencia, id_casa = :id_casa, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, memorando = :memorando, oficio = :oficio, processo = :processo, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento where id = :id");
 			$insertion->bindValue(":id", $relatorio->getId());
 			$insertion->bindValue(":id_ocorrencia", $relatorio->getIdOcorrencia());
 			$insertion->bindValue(":id_casa", $relatorio->getIdCasa());
-			$insertion->bindValue(":enfermos", $relatorio->getEnfermos());
 			$insertion->bindValue(":gravidade", $relatorio->getGravidade());
 			$insertion->bindValue(":relatorio", $relatorio->getRelatorio());
 			$insertion->bindValue(":encaminhamento", $relatorio->getEncaminhamento());

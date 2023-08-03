@@ -11,13 +11,13 @@
 		
 		// Insert data of "Funcionario" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($nome, $email, $senha, $tipoUsuario) {
+		public function insert(string $nome, string $email, string $senha, TIPO_USUARIO $tipoUsuario): Funcionario{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Funcionario (nome, email, senha, tipo_usuario) values (:nome, :email, :senha, :tipo)");
 			$insertion->bindValue(":nome", $nome);
 			$insertion->bindValue(":email", $email);
 			$insertion->bindValue(":senha", $senha);
-			$insertion->bindValue(":tipo", $tipoUsuario);
+			$insertion->bindValue(":tipo", $tipoUsuario->value);
 
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
@@ -32,7 +32,7 @@
 		
 		// Remove the "Funcionario" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($funcionario) {
+		public function remove(Funcionario $funcionario): bool{
 			$insertion = $this->pdo->prepare("delete from Funcionario where id = :id");
 			$insertion->bindValue(":id", $funcionario->getId());
 			return $insertion->execute();
@@ -40,7 +40,7 @@
 		
 		// Find a single entry in the "Funcionario" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): Funcionario{
 			$statement = $this->pdo->query("select * from Funcionario where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Return all records of "Funcionario"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): array{
 			$statement = $this->pdo->query("select * from Funcionario");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -71,7 +71,7 @@
 		
 		// Update the "Funcionario" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($funcionario) {
+		public function update($funcionario): bool{
 			$insertion = $this->pdo->prepare("update Funcionario set nome = :nome, email = :email, senha = :senha, tipo_usuario = :tipo where id = :id");
 			$insertion->bindValue(":id", $funcionario->getId());
 			$insertion->bindValue(":nome", $funcionario->getNome());

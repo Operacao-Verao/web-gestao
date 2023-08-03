@@ -102,6 +102,10 @@
 	$ar = $daoAlertaRio->listAll()[0];
 	var_dump($ar); echo '<br/><br/>';
 	
+	
+	// Inserindo funcionário administrador
+	//$daoFuncionario->insert("admin", "admin@gmail.com", "1234", TIPO_USUARIO::GESTOR);
+	
 	/*
 	$dao = $daoNivelRio;
 	
