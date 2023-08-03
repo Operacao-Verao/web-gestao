@@ -51,7 +51,7 @@
 			return null;
 		}
 		
-		// Return all records of "Afetados"
+		// Return all records of "Endereco"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from Endereco");
@@ -68,7 +68,7 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "Endereco" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($endereco) {
 			$insertion = $this->pdo->prepare("update Endereco set cep = :cep, rua = :rua, bairro = :bairro, cidade = :cidade where cep = :cep");

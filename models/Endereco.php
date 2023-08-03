@@ -1,9 +1,9 @@
 <?php
 	class Endereco{
-		private cep;
-		private rua;
-		private bairro;
-		private cidade;
+		private $cep;
+		private $rua;
+		private $bairro;
+		private $cidade;
 		
 		public function __construct($cep, $rua, $bairro, $cidade) {
 			$this->cep = $cep;

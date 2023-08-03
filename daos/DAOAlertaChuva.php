@@ -16,7 +16,7 @@
 			$insertion = $this->pdo->prepare("insert into AlertaChuva (id_pluviometro, status_chuva, data_chuva) values (:pluviometro, :status_chuva, :data_chuva)");
 			$insertion->bindValue(":pluviometro", $pluviometro->getId());
 			$insertion->bindValue(":status_chuva", $statusChuva);
-			$insertion->bindValue(":dataChuva", $dataChuva);
+			$insertion->bindValue(":data_chuva", $dataChuva);
 
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
@@ -52,7 +52,7 @@
 			return null;
 		}
 		
-		// Return all records of "Afetados"
+		// Return all records of "AlertaChuva"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from AlertaChuva");
@@ -69,7 +69,7 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "AlertaChuva" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($alertaChuva) {
 			$insertion = $this->pdo->prepare("update AlertaChuva set id_pluviometro = :id_pluviometro, status_chuva = :status_chuva, data_chuva = :data_chuva where id = :id");

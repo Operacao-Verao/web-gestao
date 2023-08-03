@@ -1,9 +1,9 @@
 <?php
 	class LocalAjuda{
-		private id;
-		private cep;
-		private tipo;
-		private conteudo;
+		private $id;
+		private $cep;
+		private $tipo;
+		private $conteudo;
 		
 		public function __construct($id, $cep, $tipo, $conteudo) {
 			$this->id = $id;
@@ -29,7 +29,7 @@
 		}
 		
 		public function setTipo($tipo) {
-			$this->tipo = tipo;
+			$this->tipo = $tipo;
 		}
 		
 		public function getConteudo() {
@@ -37,7 +37,7 @@
 		}
 		
 		public function setConteudo($conteudo) {
-			$this->conteudo = conteudo;
+			$this->conteudo = $conteudo;
 		}
 	}
 ?>

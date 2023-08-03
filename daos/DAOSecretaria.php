@@ -67,7 +67,7 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "Secretaria" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($secretaria) {
 			$insertion = $this->pdo->prepare("update Secretaria set nome_secretaria = :nome_secretaria where id = :id");

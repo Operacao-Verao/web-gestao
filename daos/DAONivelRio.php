@@ -51,7 +51,7 @@
 			return null;
 		}
 		
-		// Return all records of "Afetados"
+		// Return all records of "NivelRio"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from NivelRio");
@@ -68,7 +68,7 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "NivelRio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($nivelRio) {
 			$insertion = $this->pdo->prepare("update NivelRio set id_fluviometro = :id_fluviometro, nivel_rio = :nivel_rio, data_diario = :data_diario where id = :id");

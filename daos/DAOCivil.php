@@ -56,7 +56,7 @@
 			return null;
 		}
 		
-		// Return all records of "Afetados"
+		// Return all records of "Civil"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from Civil");
@@ -73,10 +73,11 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "Civil" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($civil) {
 			$insertion = $this->pdo->prepare("update Civil set cep = :cep, nome = :nome, email = :email, senha = :senha, cpf = :cpf, celular = :celular, telefone = :telefone where id = :id");
+			$insertion->bindValue(":id", $civil->getId());
 			$insertion->bindValue(":cep", $civil->getCep());
 			$insertion->bindValue(":nome", $civil->getNome());
 			$insertion->bindValue(":email", $civil->getEmail());

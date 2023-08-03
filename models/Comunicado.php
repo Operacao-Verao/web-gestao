@@ -26,7 +26,7 @@
         return $this->conteudo;
     }
     
-    public function setCounteudo($conteudo) {
+    public function setConteudo($conteudo) {
         $this->conteudo = $conteudo;
     }
 }

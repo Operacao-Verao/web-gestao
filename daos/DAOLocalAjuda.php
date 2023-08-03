@@ -13,7 +13,7 @@
 		// Returns a model if the insertion is successful, otherwise returns null
 		public function insert($cep, $tipo, $conteudo) {
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into LocalAjuda (cep, tipo, conteudo) values (cep, tipo, conteudo)");
+			$insertion = $this->pdo->prepare("insert into LocalAjuda (cep, tipo, conteudo) values (:cep, :tipo, :conteudo)");
 			$insertion->bindValue(":cep", $cep);
 			$insertion->bindValue(":tipo", $tipo);
 			$insertion->bindValue(":conteudo", $conteudo);
@@ -52,7 +52,7 @@
 			return null;
 		}
 		
-		// Return all records of "Afetados"
+		// Return all records of "LocalAjuda"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from LocalAjuda");
@@ -69,7 +69,7 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "LocalAjuda" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($localAjuda) {
 			$insertion = $this->pdo->prepare("update LocalAjuda set cep = :cep, tipo = :tipo, conteudo = :conteudo where id = :id");

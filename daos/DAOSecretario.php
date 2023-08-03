@@ -72,7 +72,7 @@
 		// Update the "Secretario" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($secretario) {
-			$insertion = $this->pdo->prepare("update Secretario set id_secretaria = :id_secretaria, id_cargo = :id_cargo, nome_secretario = :nome_secretario where id = :id");
+			$insertion = $this->pdo->prepare("update Secretario set id_secretaria = :id_secretaria, id_cargo = :id_cargo, nome_secretario = :nome where id = :id");
 			$insertion->bindValue(":id", $secretario->getId());
 			$insertion->bindValue(":id_secretaria", $secretario->getIdSecretaria());
 			$insertion->bindValue(":id_cargo", $secretario->getIdCargo());

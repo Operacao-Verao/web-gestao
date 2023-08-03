@@ -7,8 +7,8 @@
 	
 	enum AREA_AFETADA{
 		const INESPECIFICADO = 0;
-		const PUBLICA = 0;
-		const PARTICULAR = 0;
+		const PUBLICA = 1;
+		const PARTICULAR = 2;
 	};
 	
 	enum TIPO_CONSTRUCAO{

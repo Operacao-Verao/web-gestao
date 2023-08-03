@@ -11,10 +11,10 @@ class DAOAnimal {
 
     // Insert data of "Animal" into the table
     // Returns a model if the insertion is successful, otherwise returns null
-    public function insert($idRelatorio, $caes, $gatos, $aves, $equinos) {
+    public function insert($relatorio, $caes, $gatos, $aves, $equinos) {
         // Try to insert the provided data into the database
-        $insertion = $this->pdo->prepare("INSERT INTO Animal (idRelatorio, caes, gatos, aves, equinos) VALUES (:idRelatorio, :caes, :gatos, :aves, :equinos)");
-        $insertion->bindValue(":idRelatorio", $idRelatorio);
+        $insertion = $this->pdo->prepare("INSERT INTO Animal (id_relatorio, caes, gatos, aves, equinos) VALUES (:idRelatorio, :caes, :gatos, :aves, :equinos)");
+        $insertion->bindValue(":idRelatorio", $relatorio->getId());
         $insertion->bindValue(":caes", $caes);
         $insertion->bindValue(":gatos", $gatos);
         $insertion->bindValue(":aves", $aves);
@@ -24,7 +24,7 @@ class DAOAnimal {
         if ($insertion->execute()) {
             // Retrieve the ID of the last inserted instance and return a corresponding model for it
             $last_id = intval($this->pdo->lastInsertId());
-            return new Animal($last_id, $idRelatorio, $caes, $gatos, $aves, $equinos);
+            return new Animal($last_id, $relatorio->getId(), $caes, $gatos, $aves, $equinos);
         }
 
         // Otherwise, return null
@@ -48,7 +48,7 @@ class DAOAnimal {
         // Only one entry is needed, in this case, the first one
         if ($queries) {
             $query = $queries[0];
-            return new Animal($id, $query['idRelatorio'], $query['caes'], $query['gatos'], $query['aves'], $query['equinos']);
+            return new Animal($id, $query['id_relatorio'], $query['caes'], $query['gatos'], $query['aves'], $query['equinos']);
         }
         return null;
     }
@@ -63,7 +63,7 @@ class DAOAnimal {
         if ($queries) {
             $models = [];
             foreach ($queries as $query) {
-                $models[] = new Animal($query['id'], $query['idRelatorio'], $query['caes'], $query['gatos'], $query['aves'], $query['equinos']);
+                $models[] = new Animal($query['id'], $query['id_relatorio'], $query['caes'], $query['gatos'], $query['aves'], $query['equinos']);
             }
             return $models;
         }
@@ -73,7 +73,7 @@ class DAOAnimal {
     // Update the "Animal" entry in the table
     // Returns true if the update is successful, otherwise returns false
     public function update($animal) {
-        $update = $this->pdo->prepare("UPDATE Animal SET idRelatorio = :idRelatorio, caes = :caes, gatos = :gatos, aves = :aves, equinos = :equinos WHERE id = :id");
+        $update = $this->pdo->prepare("UPDATE Animal SET id_relatorio = :idRelatorio, caes = :caes, gatos = :gatos, aves = :aves, equinos = :equinos WHERE id = :id");
         $update->bindValue(":id", $animal->getId());
         $update->bindValue(":idRelatorio", $animal->getIdRelatorio());
         $update->bindValue(":caes", $animal->getCaes());

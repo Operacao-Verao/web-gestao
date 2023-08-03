@@ -9,40 +9,40 @@
 			$this->pdo = $pdo;
 		}
 		
-		// Insere dados de comunicado na tabela
-		// Retorna um modelo se for realizado com sucesso, retona null do contrário
+		// Insert data of "Comunicado" into the table
+		// Returns a model if the insertion is successful, otherwise returns null
 		public function insert($gestor, $conteudo) {
-			// Tenta inserir os dados fornecidos no banco de dados
+			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Comunicado (id_gestor, conteudo) values (:gestor, :conteudo)");
 			$insertion->bindValue(":gestor", $gestor->getId());
 			$insertion->bindValue(":conteudo", $conteudo);
 
-			// Tenta inserir, se for um sucesso, retorna o modelo correspondente
+			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
-				// Resgata a id da última instância inserida, e retorna um modelo correspondente á ela
+				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
 				return new Comunicado($last_id, $gestor->getId(), $conteudo);
 			}
 
-			// Do contrário retorna nulo
+			// Otherwise, return null
 			return null;
 		}
 		
-		// Remove a entrada de modelo Comunicado da tabela
-		// Retorna true se for realizado com sucesso, do contrário retorna false
+		// Remove the "Comunicado" model entry from the table
+		// Returns true if the removal is successful, otherwise returns false
 		public function remove($comunicado) {
 			$insertion = $this->pdo->prepare("delete from Comunicado where id = :id");
 			$insertion->bindValue(":id", $comunicado->getId());
 			return $insertion->execute();
 		}
 		
-		// Procura uma única entrada na tabela Comunicado
-		// Retorna um modelo se for encontrado, retorna null do contrário
+		// Find a single entry in the "Comunicado" table
+		// Returns a model if found, returns null otherwise
 		public function findById($id) {
 			$statement = $this->pdo->query("select * from Comunicado where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-			// Apenas uma entrada será necessária, no caso, a primeira
+			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query = $queries[0];
 				return new Comunicado($id, $query['id_gestor'], $query['conteudo']);
@@ -50,13 +50,13 @@
 			return null;
 		}
 		
-		// Retorna todos os cadastros de Comunicado
-		// Retorna um array com todos os modelos encontrados, retorna null em caso de erro
+		// Return all records of "Comunicado"
+		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from Comunicado");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
-			// Todas as entradas serão percorridas
+			// All entries will be traversed
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
@@ -67,8 +67,8 @@
 			return [];
 		}
 		
-		// Atualiza a entrada de Comunicado na tabela
-		// Retorna true se for realizado com sucesso, do contrário retorna false
+		// Update the "Comunicado" entry in the table
+		// Returns true if the update is successful, otherwise returns false
 		public function update($comunicado) {
 			$insertion = $this->pdo->prepare("update Comunicado set id_gestor = :gestor, conteudo = :conteudo where id = :id");
 			$insertion->bindValue(":id", $comunicado->getId());

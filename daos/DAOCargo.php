@@ -67,7 +67,7 @@
 			return [];
 		}
 		
-		// Update the "Afetados" entry in the table
+		// Update the "Cargo" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update($cargo) {
 			$insertion = $this->pdo->prepare("update Cargo set nome_cargo = :nome_cargo where id = :id");

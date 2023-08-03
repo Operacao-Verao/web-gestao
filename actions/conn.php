@@ -16,10 +16,13 @@
     // Configurações de Data e Hora
     date_default_timezone_set('America/Sao_Paulo');
     //date_default_timezone_set(date_default_timezone_get());
-    function getDatetime() {
-        return date('Y/d/m h:i:s', time());
+    function getCurrentDatetime() {
+        return date('Y/m/d h:i:s', time());
     }
-    function getDate() {
-        return date('Y/d/m', time());
+    function getCurrentDate() {
+        return date('Y/m/d', time());
+    }
+    function getCurrentTime() {
+        return date('h:i:s', time());
     }
 ?>

@@ -45,7 +45,6 @@
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 			// Only one entry is needed, in this case, the first one
-
 			if ($queries){
 				$query = $queries[0];
 				return new Funcionario($id, $query['nome'], $query['email'], $query['senha'], $query['tipo_usuario']);

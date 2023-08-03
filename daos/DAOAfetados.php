@@ -11,10 +11,10 @@ class DAOAfetados {
 
     // Insert data of "Afetados" into the table
     // Returns a model if the insertion is successful, otherwise returns null
-    public function insert($idRelatorio, $adultos, $criancas, $idosos, $especiais, $mortos, $feridos, $enfermos) {
+    public function insert($relatorio, $adultos, $criancas, $idosos, $especiais, $mortos, $feridos, $enfermos) {
         // Try to insert the provided data into the database
-        $insertion = $this->pdo->prepare("INSERT INTO Afetados (idRelatorio, adultos, criancas, idosos, especiais, mortos, feridos, enfermos) VALUES (:idRelatorio, :adultos, :criancas, :idosos, :especiais, :mortos, :feridos, :enfermos)");
-        $insertion->bindValue(":idRelatorio", $idRelatorio);
+        $insertion = $this->pdo->prepare("INSERT INTO Afetados (id_relatorio, adultos, criancas, idosos, especiais, mortos, feridos, enfermos) VALUES (:idRelatorio, :adultos, :criancas, :idosos, :especiais, :mortos, :feridos, :enfermos)");
+        $insertion->bindValue(":idRelatorio", $relatorio->getId());
         $insertion->bindValue(":adultos", $adultos);
         $insertion->bindValue(":criancas", $criancas);
         $insertion->bindValue(":idosos", $idosos);
@@ -27,7 +27,7 @@ class DAOAfetados {
         if ($insertion->execute()) {
             // Retrieve the ID of the last inserted instance and return a corresponding model for it
             $last_id = intval($this->pdo->lastInsertId());
-            return new Afetados($last_id, $idRelatorio, $adultos, $criancas, $idosos, $especiais, $mortos, $feridos, $enfermos);
+            return new Afetados($last_id, $relatorio->getId(), $adultos, $criancas, $idosos, $especiais, $mortos, $feridos, $enfermos);
         }
 
         // Otherwise, return null
@@ -51,7 +51,7 @@ class DAOAfetados {
         // Only one entry is needed, in this case, the first one
         if ($queries) {
             $query = $queries[0];
-            return new Afetados($id, $query['idRelatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
+            return new Afetados($id, $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
         }
         return null;
     }
@@ -66,7 +66,7 @@ class DAOAfetados {
         if ($queries) {
             $models = [];
             foreach ($queries as $query) {
-                $models[] = new Afetados($query['id'], $query['idRelatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
+                $models[] = new Afetados($query['id'], $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
             }
             return $models;
         }
@@ -76,7 +76,7 @@ class DAOAfetados {
     // Update the "Afetados" entry in the table
     // Returns true if the update is successful, otherwise returns false
     public function update($afetados) {
-        $update = $this->pdo->prepare("UPDATE Afetados SET idRelatorio = :idRelatorio, adultos = :adultos, criancas = :criancas, idosos = :idosos, especiais = :especiais, mortos = :mortos, feridos = :feridos, enfermos = :enfermos WHERE id = :id");
+        $update = $this->pdo->prepare("UPDATE Afetados SET id_relatorio = :idRelatorio, adultos = :adultos, criancas = :criancas, idosos = :idosos, especiais = :especiais, mortos = :mortos, feridos = :feridos, enfermos = :enfermos WHERE id = :id");
         $update->bindValue(":id", $afetados->getId());
         $update->bindValue(":idRelatorio", $afetados->getIdRelatorio());
         $update->bindValue(":adultos", $afetados->getAdultos());

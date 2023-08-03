@@ -9,39 +9,39 @@
 			$this->pdo = $pdo;
 		}
 		
-		// Insere dados de gestor na tabela
-		// Retorna um modelo se for realizado com sucesso, retona null do contrário
+		// Insert data of "Gestor" into the table
+		// Returns a model if the insertion is successful, otherwise returns null
 		public function insert($funcionario) {
-			// Tenta inserir os dados fornecidos no banco de dados
+			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Gestor (id_funcionario) values (:funcionario)");
 			$insertion->bindValue(":funcionario", $funcionario->getId());
 
-			// Tenta inserir, se for um sucesso, retorna o modelo correspondente
+			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
-				// Resgata a id da última instância inserida, e retorna um modelo correspondente á ela
+				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
 				return new Gestor($last_id, $funcionario->getId());
 			}
 
-			// Do contrário retorna nulo
+			// Otherwise, return null
 			return null;
 		}
 		
-		// Remove a entrada de modelo Gestor da tabela
-		// Retorna true se for realizado com sucesso, do contrário retorna false
+		// Remove the "Gestor" model entry from the table
+		// Returns true if the removal is successful, otherwise returns false
 		public function remove($gestor) {
 			$insertion = $this->pdo->prepare("delete from Gestor where id = :id");
 			$insertion->bindValue(":id", $gestor->getId());
 			return $insertion->execute();
 		}
 		
-		// Procura uma única entrada na tabela Gestor
-		// Retorna um modelo se for encontrado, retorna null do contrário
+		// Find a single entry in the "Gestor" table
+		// Returns a model if found, returns null otherwise
 		public function findById($id) {
 			$statement = $this->pdo->query("select * from Gestor where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-			// Apenas uma entrada será necessária, no caso, a primeira
+			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query = $queries[0];
 				return new Gestor($id, $query['id_funcionario']);
@@ -49,13 +49,13 @@
 			return null;
 		}
 		
-		// Retorna todos os cadastros de Gestor
-		// Retorna um array com todos os modelos encontrados, retorna null em caso de erro
+		// Return all records of "Gestor"
+		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll() {
 			$statement = $this->pdo->query("select * from Gestor");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
-			// Todas as entradas serão percorridas
+			// All entries will be traversed
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
@@ -66,8 +66,8 @@
 			return [];
 		}
 		
-		// Atualiza a entrada de Gestor na tabela
-		// Retorna true se for realizado com sucesso, do contrário retorna false
+		// Update the "Gestor" entry in the table
+		// Returns true if the update is successful, otherwise returns false
 		public function update($gestor) {
 			$insertion = $this->pdo->prepare("update Gestor set id_funcionario = :funcionario where id = :id");
 			$insertion->bindValue(":id", $gestor->getId());

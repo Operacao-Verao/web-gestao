@@ -1,27 +1,27 @@
-#*Comunicado
-#*Funcionario
-#*Gestor
-#*Tecnico
-#*Afetados
-#*Animal
-#*Ocorrencia
-#*Foto
-#*Memo
-#*Casa
-#*Secretario
-#*Secretaria
-#*Cargo
-#*Registro
-#*Relatorio
-#*Civil
-#*DadosDaVistoria
-#*Endereco
-#*Local_ajuda
-#*Pluviometro
-#*Fluviometro
-#*Alerta_chuva
-#*Alerta_rio
-#*Nivel_chuva
-#*Nivel_rio
+@ #*Funcionario
+@ #*Registro
+@ #*Gestor
+@ #*Tecnico
+@ #*Comunicado
+@ #*Endereco
+@ #*Civil
+@ #*Casa
+@ #*Ocorrencia
+@ #*Relatorio
+@ #*Afetados
+@ #*Animal
+@ #*Foto
+@ #*DadosDaVistoria
+@ #*Cargo
+@ #*Secretaria
+@ #*Secretario
+@ #*Memo
+@ #*LocalAjuda
+@ #*Pluviometro
+@ #*Fluviometro
+@ #*NivelChuva
+@ #*NivelRio
+@ #*AlertaChuva
+@ #*AlertaRio
 
 

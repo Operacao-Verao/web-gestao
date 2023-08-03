@@ -11,11 +11,11 @@ class DAOOcorrencia {
 
     // Insert data of "Ocorrencia" into the table
     // Returns a model if the insertion is successful, otherwise returns null
-    public function insert($idTecnico, $idCivil, $acionamento, $relatoCivil, $numCasas, $aprovado, $dataOcorrencia) {
+    public function insert($tecnico, $civil, $acionamento, $relatoCivil, $numCasas, $aprovado, $dataOcorrencia) {
         // Try to insert the provided data into the database
-        $insertion = $this->pdo->prepare("INSERT INTO Ocorrencia (idTecnico, idCivil, acionamento, relatoCivil, numCasas, aprovado, dataOcorrencia) VALUES (:idTecnico, :idCivil, :acionamento, :relatoCivil, :numCasas, :aprovado, :dataOcorrencia)");
-        $insertion->bindValue(":idTecnico", $idTecnico);
-        $insertion->bindValue(":idCivil", $idCivil);
+        $insertion = $this->pdo->prepare("INSERT INTO Ocorrencia (id_tecnico, id_civil, acionamento, relato_civil, num_casas, aprovado, data_ocorrencia) VALUES (:idTecnico, :idCivil, :acionamento, :relatoCivil, :numCasas, :aprovado, :dataOcorrencia)");
+        $insertion->bindValue(":idTecnico", $tecnico->getId());
+        $insertion->bindValue(":idCivil", $civil->getId());
         $insertion->bindValue(":acionamento", $acionamento);
         $insertion->bindValue(":relatoCivil", $relatoCivil);
         $insertion->bindValue(":numCasas", $numCasas);
@@ -26,7 +26,7 @@ class DAOOcorrencia {
         if ($insertion->execute()) {
             // Retrieve the ID of the last inserted instance and return a corresponding model for it
             $last_id = intval($this->pdo->lastInsertId());
-            return new Ocorrencia($last_id, $idTecnico, $idCivil, $acionamento, $relatoCivil, $numCasas, $aprovado, $dataOcorrencia);
+            return new Ocorrencia($last_id, $tecnico->getId(), $civil->getId(), $acionamento, $relatoCivil, $numCasas, $aprovado, $dataOcorrencia);
         }
 
         // Otherwise, return null
@@ -50,7 +50,7 @@ class DAOOcorrencia {
         // Only one entry is needed, in this case, the first one
         if ($queries) {
             $query = $queries[0];
-            return new Ocorrencia($id, $query['idTecnico'], $query['idCivil'], $query['acionamento'], $query['relatoCivil'], $query['numCasas'], $query['aprovado'], $query['dataOcorrencia']);
+            return new Ocorrencia($id, $query['id_tecnico'], $query['id_civil'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['data_ocorrencia']);
         }
         return null;
     }
@@ -65,7 +65,7 @@ class DAOOcorrencia {
         if ($queries) {
             $models = [];
             foreach ($queries as $query) {
-                $models[] = new Ocorrencia($query['id'], $query['idTecnico'], $query['idCivil'], $query['acionamento'], $query['relatoCivil'], $query['numCasas'], $query['aprovado'], $query['dataOcorrencia']);
+                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['data_ocorrencia']);
             }
             return $models;
         }
@@ -75,7 +75,7 @@ class DAOOcorrencia {
     // Update the "Ocorrencia" entry in the table
     // Returns true if the update is successful, otherwise returns false
     public function update($ocorrencia) {
-        $update = $this->pdo->prepare("UPDATE Ocorrencia SET idTecnico = :idTecnico, idCivil = :idCivil, acionamento = :acionamento, relatoCivil = :relatoCivil, numCasas = :numCasas, aprovado = :aprovado, dataOcorrencia = :dataOcorrencia WHERE id = :id");
+        $update = $this->pdo->prepare("UPDATE Ocorrencia SET id_tecnico = :idTecnico, id_civil = :idCivil, acionamento = :acionamento, relato_civil = :relatoCivil, num_casas = :numCasas, aprovado = :aprovado, data_ocorrencia = :dataOcorrencia WHERE id = :id");
         $update->bindValue(":id", $ocorrencia->getId());
         $update->bindValue(":idTecnico", $ocorrencia->getIdTecnico());
         $update->bindValue(":idCivil", $ocorrencia->getIdCivil());
