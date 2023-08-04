@@ -1,37 +1,36 @@
 <?php
-	class Registro{
-		private $id;
-		private $idFuncionario;
-		private $acao;
-		private $descricao;
-		private $momento;
-		
-		public function __construct($id, $idFuncionario, $acao, $descricao, $momento) {
-			$this->id = $id;
-			$this->idFuncionario = $idFuncionario;
-			$this->acao = $acao;
-			$this->descricao = $descricao;
-			$this->momento = $momento;
-		}
-		
-		public function getId() {
-			return $this->id;
-		}
-		
-		public function getIdFuncionario() {
-			return $this->idFuncionario;
-		}
-		
-		public function getAcao() {
-			return $this->acao;
-		}
-		
-		public function getDescricao() {
-			return $descricao;
-		}
-		
-		public function getMomento() {
-			return $momento;
-		}
-	}
-?>
+class Registro {
+    private int $id;
+    private int $idFuncionario;
+    private string $acao;
+    private string $descricao;
+    private string $momento;
+    
+    public function __construct(int $id, int $idFuncionario, string $acao, string $descricao, string $momento) {
+        $this->id = $id;
+        $this->idFuncionario = $idFuncionario;
+        $this->acao = $acao;
+        $this->descricao = $descricao;
+        $this->momento = $momento;
+    }
+    
+    public function getId(): int {
+        return $this->id;
+    }
+    
+    public function getIdFuncionario(): int {
+        return $this->idFuncionario;
+    }
+    
+    public function getAcao(): string {
+        return $this->acao;
+    }
+    
+    public function getDescricao(): string {
+        return $this->descricao;
+    }
+    
+    public function getMomento(): string {
+        return $this->momento;
+    }
+}

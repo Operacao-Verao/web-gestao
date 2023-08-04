@@ -1,23 +1,22 @@
 <?php
-	class Secretaria{
-		private $id;
-		private $nomeSecretaria;
-		
-		public function __construct($id, $nomeSecretaria) {
-			$this->id = $id;
-			$this->nomeSecretaria = $nomeSecretaria;
-		}
-		
-		public function getId() {
-			return $this->id;
-		}
-		
-		public function getNomeSecretaria() {
-			return $this->nomeSecretaria;
-		}
-		
-		public function setNomeSecretaria($nomeSecretaria) {
-			$this->nomeSecretaria = $nomeSecretaria;
-		}
-	}
-?>
+class Secretaria{
+    private int $id;
+    private string $nomeSecretaria;
+    
+    public function __construct(int $id, string $nomeSecretaria) {
+        $this->id = $id;
+        $this->nomeSecretaria = $nomeSecretaria;
+    }
+    
+    public function getId(): int {
+        return $this->id;
+    }
+    
+    public function getNomeSecretaria(): string {
+        return $this->nomeSecretaria;
+    }
+    
+    public function setNomeSecretaria(string $nomeSecretaria): void {
+        $this->nomeSecretaria = $nomeSecretaria;
+    }
+}
