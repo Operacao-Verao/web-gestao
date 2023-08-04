@@ -3,15 +3,15 @@
 	include_once("../models/Secretaria.php");
 	
 	class DAOSecretaria{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Secretaria" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($nomeSecretaria) {
+		public function insert(string $nomeSecretaria): ?Secretaria{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Secretaria (nome_secretaria) values (:nome)");
 			$insertion->bindValue(":nome", $nomeSecretaria);
@@ -29,7 +29,7 @@
 		
 		// Remove the "Secretaria" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($secretaria) {
+		public function remove(Secretaria $secretaria): bool{
 			$insertion = $this->pdo->prepare("delete from Secretaria where id = :id");
 			$insertion->bindValue(":id", $secretaria->getId());
 			return $insertion->execute();
@@ -37,7 +37,7 @@
 		
 		// Find a single entry in the "Secretaria" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById($id): ?Secretaria{
 			$statement = $this->pdo->query("select * from Secretaria where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -52,7 +52,7 @@
 		
 		// Return all records of "Secretaria"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Secretaria");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -69,7 +69,7 @@
 		
 		// Update the "Secretaria" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($secretaria) {
+		public function update(Secretaria $secretaria): bool{
 			$insertion = $this->pdo->prepare("update Secretaria set nome_secretaria = :nome_secretaria where id = :id");
 			$insertion->bindValue(":id", $secretaria->getId());
 			$insertion->bindValue(":nome_secretaria", $secretaria->getNomeSecretaria());

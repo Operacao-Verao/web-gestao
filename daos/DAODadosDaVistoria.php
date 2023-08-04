@@ -3,15 +3,15 @@
 	include_once("../models/DadosDaVistoria.php");
 	
 	class DAODadosDaVistoria{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "DadosDaVistoria" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($relatorio, $desmoronamento, $deslizamento, $esgotoEscoamento, $erosao, $inundacao, $incendio, $arvores, $infiltracaoTrinca, $judicial, $monitoramento, $transito, $outros) {
+		public function insert(Relatorio $relatorio, bool $desmoronamento, bool $deslizamento, bool $esgotoEscoamento, bool $erosao, bool $inundacao, bool $incendio, bool $arvores, bool $infiltracaoTrinca, bool $judicial, bool $monitoramento, bool $transito, string $outros): ?DadosDaVistoria{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into DadosDaVistoria (id_relatorio, desmoronamento, deslizamento, esgoto_escoamento, erosao, inundacao, incendio, arvores, infiltracao_trinca, judicial, monitoramento, transito, outros) values (:relatorio, :desmoronamento, :deslizamento, :esgoto_escoamento, :erosao, :inundacao, :incendio, :arvores, :infiltracao_trinca, :judicial, :monitoramento, :transito, :outros)");
 			$insertion->bindValue(":relatorio", $relatorio->getId());
@@ -41,7 +41,7 @@
 		
 		// Remove the "DadosDaVistoria" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($dadosDaVistoria) {
+		public function remove(DadosDaVistoria $dadosDaVistoria): bool{
 			$insertion = $this->pdo->prepare("delete from DadosDaVistoria where id = :id");
 			$insertion->bindValue(":id", $dadosDaVistoria->getId());
 			return $insertion->execute();
@@ -49,7 +49,7 @@
 		
 		// Find a single entry in the "DadosDaVistoria" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById($id): ?DadosDaVistoria{
 			$statement = $this->pdo->query("select * from DadosDaVistoria where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -63,7 +63,7 @@
 		
 		// Return all records of "DadosDaVistoria"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from DadosDaVistoria");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -80,7 +80,7 @@
 		
 		// Update the "DadosDaVistoria" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($dadosDaVistoria) {
+		public function update(DadosDaVistoria $dadosDaVistoria): bool{
 			$insertion = $this->pdo->prepare("update DadosDaVistoria set id_relatorio = :id_relatorio, desmoronamento = :desmoronamento, deslizamento = :deslizamento, esgoto_escoamento = :esgoto_escoamento, erosao = :erosao, inundacao = :inundacao, incendio = :incendio, arvores = :arvores, infiltracao_trinca = :infiltracao_trinca, judicial = :judicial, monitoramento = :monitoramento, transito = :transito, outros = :outros where id = :id");
 			$insertion->bindValue(":id", $dadosDaVistoria->getId());
 			$insertion->bindValue(":id_relatorio", $dadosDaVistoria->getIdRelatorio());

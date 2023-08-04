@@ -3,15 +3,15 @@
 	include_once("../models/Civil.php");
 	
 	class DAOCivil{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Civil" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($cep, $nome, $email, $senha, $cpf, $celular, $telefone) {
+		public function insert(string $cep, string $nome, string $email, string $senha, string $cpf, string $celular, string $telefone): ?Civil{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Civil (cep, nome, email, senha, cpf, celular, telefone) values (:cep, :nome, :email, :senha, :cpf, :celular, :telefone)");
 			$insertion->bindValue(":cep", $cep);
@@ -35,7 +35,7 @@
 		
 		// Remove the "Civil" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($civil) {
+		public function remove(Civil $civil): bool{
 			$insertion = $this->pdo->prepare("delete from Civil where id = :id");
 			$insertion->bindValue(":id", $civil->getId());
 			return $insertion->execute();
@@ -43,7 +43,7 @@
 		
 		// Find a single entry in the "Civil" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Civil{
 			$statement = $this->pdo->query("select * from Civil where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -58,7 +58,7 @@
 		
 		// Return all records of "Civil"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Civil");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -75,7 +75,7 @@
 		
 		// Update the "Civil" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($civil) {
+		public function update(Civil $civil): bool{
 			$insertion = $this->pdo->prepare("update Civil set cep = :cep, nome = :nome, email = :email, senha = :senha, cpf = :cpf, celular = :celular, telefone = :telefone where id = :id");
 			$insertion->bindValue(":id", $civil->getId());
 			$insertion->bindValue(":cep", $civil->getCep());

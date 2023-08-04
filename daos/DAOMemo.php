@@ -3,15 +3,15 @@
     include_once("../models/Memo.php");
     
     class DAOMemo {
-        private $pdo;
-
-        public function __construct($pdo) {
+        private PDO $pdo;
+        
+        public function __construct(PDO $pdo) {
             $this->pdo = $pdo;
         }
-
+        
         // Insert data of "Memo" into the table
         // Returns a model if the insertion is successful, otherwise returns null
-        public function insert($relatorio, $secretaria, $dataMemo, $statusMemo, $processo) {
+        public function insert(Relatorio $relatorio, Secretaria $secretaria, string $dataMemo, string $statusMemo, string $processo): ?Memo{
             $insertion = $this->pdo->prepare("INSERT INTO Memo (id_relatorio, id_secretaria, data_memo, status_memo, processo) VALUES (:idRelatorio, :idSecretaria, :dataMemo, :statusMemo, :processo)");
             $insertion->bindValue(":idRelatorio", $relatorio->getId());
             $insertion->bindValue(":idSecretaria", $secretaria->getId());
@@ -29,7 +29,7 @@
 
         // Remove the "Memo" model entry from the table
         // Returns true if the removal is successful, otherwise returns false
-        public function remove($memo) {
+        public function remove(Memo $memo): bool{
             $deletion = $this->pdo->prepare("DELETE FROM Memo WHERE id = :id");
             $deletion->bindValue(":id", $memo->getId());
             return $deletion->execute();
@@ -37,7 +37,7 @@
 
         // Find a single entry in the "Memo" table by ID
         // Returns a model if found, returns null otherwise
-        public function findById($id) {
+        public function findById(int $id): ?Memo{
             $statement = $this->pdo->query("SELECT * FROM Memo WHERE id = " . $id);
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -50,7 +50,7 @@
 
         // Return all records of "Memo"
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function listAll() {
+        public function listAll(): ?array{
             $statement = $this->pdo->query("SELECT * FROM Memo");
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -66,7 +66,7 @@
 
         // Update the "Memo" entry in the table
         // Returns true if the update is successful, otherwise returns false
-        public function update($memo) {
+        public function update(Memo $memo): bool{
             $update = $this->pdo->prepare("UPDATE Memo SET id_relatorio = :idRelatorio, id_secretaria = :idSecretaria, data_memo = :dataMemo, status_memo = :statusMemo, processo = :processo WHERE id = :id");
             $update->bindValue(":id", $memo->getId());
             $update->bindValue(":idRelatorio", $memo->getIdRelatorio());

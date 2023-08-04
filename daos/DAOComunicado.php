@@ -3,15 +3,15 @@
 	include_once("../models/Comunicado.php");
 	
 	class DAOComunicado{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Comunicado" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($gestor, $conteudo) {
+		public function insert(Gestor $gestor, string $conteudo): ?Comunicado{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Comunicado (id_gestor, conteudo) values (:gestor, :conteudo)");
 			$insertion->bindValue(":gestor", $gestor->getId());
@@ -30,7 +30,7 @@
 		
 		// Remove the "Comunicado" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($comunicado) {
+		public function remove(Comunicado $comunicado): bool{
 			$insertion = $this->pdo->prepare("delete from Comunicado where id = :id");
 			$insertion->bindValue(":id", $comunicado->getId());
 			return $insertion->execute();
@@ -38,7 +38,7 @@
 		
 		// Find a single entry in the "Comunicado" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Comunicado{
 			$statement = $this->pdo->query("select * from Comunicado where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -52,7 +52,7 @@
 		
 		// Return all records of "Comunicado"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Comunicado");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -69,7 +69,7 @@
 		
 		// Update the "Comunicado" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($comunicado) {
+		public function update(Comunicado $comunicado): bool{
 			$insertion = $this->pdo->prepare("update Comunicado set id_gestor = :gestor, conteudo = :conteudo where id = :id");
 			$insertion->bindValue(":id", $comunicado->getId());
 			$insertion->bindValue(":gestor", $comunicado->getIdGestor());

@@ -3,15 +3,15 @@
 	include_once("../models/Secretario.php");
 	
 	class DAOSecretario{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Secretario" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($secretaria, $cargo, $nomeSecretario) {
+		public function insert(Secretaria $secretaria, Cargo $cargo, string $nomeSecretario): ?Secretario{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Secretario (id_secretaria, id_cargo, nome_secretario) values (:secretaria, :cargo, :nome)");
 			$insertion->bindValue(":secretaria", $secretaria->getId());
@@ -31,7 +31,7 @@
 		
 		// Remove the "Secretario" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($secretario) {
+		public function remove(Secretario $secretario): bool{
 			$insertion = $this->pdo->prepare("delete from Secretario where id = :id");
 			$insertion->bindValue(":id", $secretario->getId());
 			return $insertion->execute();
@@ -39,7 +39,7 @@
 		
 		// Find a single entry in the "Secretario" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Secretario{
 			$statement = $this->pdo->query("select * from Secretario where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Return all records of "Secretario"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Secretario");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -71,7 +71,7 @@
 		
 		// Update the "Secretario" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($secretario) {
+		public function update(Secretario $secretario): bool{
 			$insertion = $this->pdo->prepare("update Secretario set id_secretaria = :id_secretaria, id_cargo = :id_cargo, nome_secretario = :nome where id = :id");
 			$insertion->bindValue(":id", $secretario->getId());
 			$insertion->bindValue(":id_secretaria", $secretario->getIdSecretaria());

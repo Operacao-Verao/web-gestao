@@ -1,7 +1,7 @@
 <?php 
-    enum TIPO_USUARIO: int{
-        case GESTOR = 0;
-        case FUNCIONARIO = 1;
+    enum TIPO_USUARIO{
+        const GESTOR = 0;
+        const FUNCIONARIO = 1;
     };
     
     class Funcionario {
@@ -9,9 +9,9 @@
         private string $nome;
         private string $email;
         private string $senha;
-        private TIPO_USUARIO $tipoUsuario;
+        private int $tipoUsuario;
     
-        public function __construct(int $id, string $nome, string $email, string $senha, TIPO_USUARIO $tipoUsuario) {
+        public function __construct(int $id, string $nome, string $email, string $senha, int $tipoUsuario) {
             $this->id = $id;
             $this->nome = $nome;
             $this->email = $email;
@@ -47,11 +47,11 @@
             $this->senha = $senha;
         }
     
-        public function getTipoUsuario(): TIPO_USUARIO{
+        public function getTipoUsuario(): int{
             return $this->tipoUsuario;
         }
         
-        public function setTipoUsuario(TIPO_USUARIO $tipo): void{
+        public function setTipoUsuario(int $tipo): void{
             $this->tipo = $tipo;
         }
     }

@@ -3,15 +3,15 @@
 	include_once("../models/Fluviometro.php");
 	
 	class DAOFluviometro{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Fluviometro" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($cep, $latitude, $longitude) {
+		public function insert(string $cep, float $latitude, float $longitude): ?Fluviometro{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Fluviometro (cep, latitude, longitude) values (:cep, :latitude, :longitude)");
 			$insertion->bindValue(":cep", $cep);
@@ -31,7 +31,7 @@
 		
 		// Remove the "Fluviometro" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($fluviometro) {
+		public function remove(Fluviometro $fluviometro): bool{
 			$insertion = $this->pdo->prepare("delete from Fluviometro where id = :id");
 			$insertion->bindValue(":id", $fluviometro->getId());
 			return $insertion->execute();
@@ -39,7 +39,7 @@
 		
 		// Find a single entry in the "Fluviometro" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Fluviometro{
 			$statement = $this->pdo->query("select * from Fluviometro where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Return all records of "Fluviometro"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Fluviometro");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -71,7 +71,7 @@
 		
 		// Update the "Fluviometro" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($fluviometro) {
+		public function update(Fluviometro $fluviometro): bool{
 			$insertion = $this->pdo->prepare("update Fluviometro set cep = :cep, latitude = :latitude, longitude = :longitude where id = :id");
 			$insertion->bindValue(":id", $fluviometro->getId());
 			$insertion->bindValue(":cep", $fluviometro->getCep());

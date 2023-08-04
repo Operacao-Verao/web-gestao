@@ -3,15 +3,15 @@
 	include_once("../models/AlertaChuva.php");
 	
 	class DAOAlertaChuva{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "AlertaChuva" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($pluviometro, $statusChuva, $dataChuva) {
+		public function insert(int $pluviometro, string $statusChuva, string $dataChuva): ?AlertaChuva{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into AlertaChuva (id_pluviometro, status_chuva, data_chuva) values (:pluviometro, :status_chuva, :data_chuva)");
 			$insertion->bindValue(":pluviometro", $pluviometro->getId());
@@ -31,7 +31,7 @@
 		
 		// Remove the "AlertaChuva" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($alertaChuva) {
+		public function remove(AlertaChuva $alertaChuva): bool{
 			$insertion = $this->pdo->prepare("delete from AlertaChuva where id = :id");
 			$insertion->bindValue(":id", $alertaChuva->getId());
 			return $insertion->execute();
@@ -39,7 +39,7 @@
 		
 		// Find a single entry in the "AlertaChuva" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?AlertaChuva{
 			$statement = $this->pdo->query("select * from AlertaChuva where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Return all records of "AlertaChuva"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from AlertaChuva");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -71,7 +71,7 @@
 		
 		// Update the "AlertaChuva" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($alertaChuva) {
+		public function update(AlertaChuva $alertaChuva): bool{
 			$insertion = $this->pdo->prepare("update AlertaChuva set id_pluviometro = :id_pluviometro, status_chuva = :status_chuva, data_chuva = :data_chuva where id = :id");
 			$insertion->bindValue(":id", $alertaChuva->getId());
 			$insertion->bindValue(":id_pluviometro", $alertaChuva->getIdPluviometro());

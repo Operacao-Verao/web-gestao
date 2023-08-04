@@ -3,15 +3,15 @@
 	include_once("../models/Endereco.php");
 	
 	class DAOEndereco{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Endereco" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($cep, $rua, $bairro, $cidade) {
+		public function insert(string $cep, string $rua, string $bairro, string $cidade): ?Endereco{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Endereco (cep, rua, bairro, cidade) values (:cep, :rua, :bairro, :cidade)");
 			$insertion->bindValue(":cep", $cep);
@@ -30,7 +30,7 @@
 		
 		// Remove the "Endereco" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($endereco) {
+		public function remove(Endereco $endereco): bool{
 			$insertion = $this->pdo->prepare("delete from Endereco where cep = :cep");
 			$insertion->bindValue(":cep", $endereco->getCep());
 			return $insertion->execute();
@@ -38,7 +38,7 @@
 		
 		// Find a single entry in the "Endereco" table
 		// Returns a model if found, returns null otherwise
-		public function findByCep($cep) {
+		public function findByCep(string $cep): ?Endereco{
 			$statement = $this->pdo->query("select * from Endereco where cep = ".$cep);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -53,7 +53,7 @@
 		
 		// Return all records of "Endereco"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Endereco");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -70,7 +70,7 @@
 		
 		// Update the "Endereco" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($endereco) {
+		public function update(Endereco $endereco): bool{
 			$insertion = $this->pdo->prepare("update Endereco set cep = :cep, rua = :rua, bairro = :bairro, cidade = :cidade where cep = :cep");
 			$insertion->bindValue(":cep", $endereco->getCep());
 			$insertion->bindValue(":rua", $endereco->getRua());

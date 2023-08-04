@@ -3,15 +3,15 @@
 	include_once("../models/Funcionario.php");
 	
 	class DAOFuncionario{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Funcionario" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(string $nome, string $email, string $senha, TIPO_USUARIO $tipoUsuario): Funcionario{
+		public function insert(string $nome, string $email, string $senha, int $tipoUsuario): ?Funcionario{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Funcionario (nome, email, senha, tipo_usuario) values (:nome, :email, :senha, :tipo)");
 			$insertion->bindValue(":nome", $nome);
@@ -23,7 +23,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Funcionario($last_id, $nome, $email, $senha, $tipoUsuario);
+				return new Funcionario($last_id, $nome, $email, $senha, $tipoUsuario->value);
 			}
 
 			// Otherwise, return null
@@ -40,7 +40,7 @@
 		
 		// Find a single entry in the "Funcionario" table
 		// Returns a model if found, returns null otherwise
-		public function findById(int $id): Funcionario{
+		public function findById(int $id): ?Funcionario{
 			$statement = $this->pdo->query("select * from Funcionario where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Return all records of "Funcionario"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll(): array{
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Funcionario");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -71,7 +71,7 @@
 		
 		// Update the "Funcionario" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($funcionario): bool{
+		public function update(Funcionario $funcionario): bool{
 			$insertion = $this->pdo->prepare("update Funcionario set nome = :nome, email = :email, senha = :senha, tipo_usuario = :tipo where id = :id");
 			$insertion->bindValue(":id", $funcionario->getId());
 			$insertion->bindValue(":nome", $funcionario->getNome());

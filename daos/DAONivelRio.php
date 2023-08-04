@@ -3,15 +3,15 @@
 	include_once("../models/NivelRio.php");
 	
 	class DAONivelRio{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "NivelRio" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($fluviometro, $nivelRio, $dataDiario) {
+		public function insert(Fluviometro $fluviometro, float $nivelRio, string $dataDiario): ?NivelRio{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into NivelRio (id_fluviometro, nivel_rio, data_diario) values (:fluviometro, :nivel_rio, :data_diario)");
 			$insertion->bindValue(":fluviometro", $fluviometro->getId());
@@ -31,7 +31,7 @@
 		
 		// Remove the "NivelRio" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($nivelRio) {
+		public function remove(NivelRio $nivelRio): bool{
 			$insertion = $this->pdo->prepare("delete from NivelRio where id = :id");
 			$insertion->bindValue(":id", $nivelRio->getId());
 			return $insertion->execute();
@@ -39,7 +39,7 @@
 		
 		// Find a single entry in the "NivelRio" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?NivelRio{
 			$statement = $this->pdo->query("select * from NivelRio where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -53,7 +53,7 @@
 		
 		// Return all records of "NivelRio"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from NivelRio");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -70,7 +70,7 @@
 		
 		// Update the "NivelRio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($nivelRio) {
+		public function update(NivelRio $nivelRio): bool{
 			$insertion = $this->pdo->prepare("update NivelRio set id_fluviometro = :id_fluviometro, nivel_rio = :nivel_rio, data_diario = :data_diario where id = :id");
 			$insertion->bindValue(":id", $nivelRio->getId());
 			$insertion->bindValue(":id_fluviometro", $nivelRio->getIdFluviometro());

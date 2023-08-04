@@ -3,15 +3,15 @@
 	include_once("../models/Registro.php");
 	
 	class DAORegistro{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insere dados de registro na tabela
 		// Retorna um modelo se for realizado com sucesso, retona null do contrário
-		public function insert($funcionario, $acao, $descricao, $momento) {
+		public function insert(Funcionario $funcionario, int $acao, string $descricao, string $momento): ?Registro{
 			// Tenta inserir os dados fornecidos no banco de dados
 			$insertion = $this->pdo->prepare("insert into Registro (id_funcionario, acao, descricao, momento) values (:funcionario, :acao, :descricao, :momento)");
 			$insertion->bindValue(":funcionario", $funcionario->getId());
@@ -32,7 +32,7 @@
 		
 		// Remove a entrada de modelo Registro da tabela
 		// Retorna true se for realizado com sucesso, do contrário retorna false
-		public function remove($registro) {
+		public function remove(Registro $registro): bool{
 			$insertion = $this->pdo->prepare("delete from Registro where id = :id");
 			$insertion->bindValue(":id", $registro->getId());
 			return $insertion->execute();
@@ -40,7 +40,7 @@
 		
 		// Procura uma única entrada na tabela Registro
 		// Retorna um modelo se for encontrado, retorna null do contrário
-		public function findById($id) {
+		public function findById(int $id): ?Registro{
 			$statement = $this->pdo->query("select * from Registro where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Retorna todos os cadastros de Registro
 		// Retorna um array com todos os modelos encontrados, retorna null em caso de erro
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Registro");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			

@@ -3,15 +3,15 @@
 	include_once("../models/Tecnico.php");
 	
 	class DAOTecnico{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Tecnico" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($funcionario) {
+		public function insert(Funcionario $funcionario): ?Tecnico{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Tecnico (id_funcionario) values (:funcionario)");
 			$insertion->bindValue(":funcionario", $funcionario->getId());
@@ -29,7 +29,7 @@
 		
 		// Remove the "Tecnico" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($tecnico) {
+		public function remove(Tecnico $tecnico): bool{
 			$insertion = $this->pdo->prepare("delete from Tecnico where id = :id");
 			$insertion->bindValue(":id", $tecnico->getId());
 			return $insertion->execute();
@@ -37,7 +37,7 @@
 		
 		// Find a single entry in the "Tecnico" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Tecnico{
 			$statement = $this->pdo->query("select * from Tecnico where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -51,7 +51,7 @@
 		
 		// Return all records of "Tecnico"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Tecnico");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -68,7 +68,7 @@
 		
 		// Update the "Tecnico" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($tecnico) {
+		public function update(Tecnico $tecnico): bool{
 			$insertion = $this->pdo->prepare("update Tecnico set id_funcionario = :funcionario where id = :id");
 			$insertion->bindValue(":id", $tecnico->getId());
 			$insertion->bindValue(":funcionario", $tecnico->getIdFuncionario());

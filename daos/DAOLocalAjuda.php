@@ -3,15 +3,15 @@
 	include_once("../models/LocalAjuda.php");
 	
 	class DAOLocalAjuda{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "LocalAjuda" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($cep, $tipo, $conteudo) {
+		public function insert(string $cep, string $tipo, string $conteudo): ?LocalAjuda{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into LocalAjuda (cep, tipo, conteudo) values (:cep, :tipo, :conteudo)");
 			$insertion->bindValue(":cep", $cep);
@@ -31,7 +31,7 @@
 		
 		// Remove the "LocalAjuda" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($localAjuda) {
+		public function remove(LocalAjuda $localAjuda): bool{
 			$insertion = $this->pdo->prepare("delete from LocalAjuda where id = :id");
 			$insertion->bindValue(":id", $localAjuda->getId());
 			return $insertion->execute();
@@ -39,7 +39,7 @@
 		
 		// Find a single entry in the "LocalAjuda" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?LocalAjuda{
 			$statement = $this->pdo->query("select * from LocalAjuda where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@
 		
 		// Return all records of "LocalAjuda"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from LocalAjuda");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -71,7 +71,7 @@
 		
 		// Update the "LocalAjuda" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($localAjuda) {
+		public function update(LocalAjuda $localAjuda): bool{
 			$insertion = $this->pdo->prepare("update LocalAjuda set cep = :cep, tipo = :tipo, conteudo = :conteudo where id = :id");
 			$insertion->bindValue(":id", $localAjuda->getId());
 			$insertion->bindValue(":cep", $localAjuda->getCep());

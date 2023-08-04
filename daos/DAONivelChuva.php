@@ -3,15 +3,15 @@
 	include_once("../models/NivelChuva.php");
 	
 	class DAONivelChuva{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "NivelChuva" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($pluviometro, $chuvaEmMm, $dataChuva) {
+		public function insert(Pluviometro $pluviometro, float $chuvaEmMm, string $dataChuva): ?NivelChuva{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into NivelChuva (id_pluviometro, chuva_em_mm, data_chuva) values (:pluviometro, :chuva_em_mm, :data_chuva)");
 			$insertion->bindValue(":pluviometro", $pluviometro->getId());
@@ -31,7 +31,7 @@
 		
 		// Remove the "NivelChuva" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($nivelChuva) {
+		public function remove(NivelChuva $nivelChuva): bool{
 			$insertion = $this->pdo->prepare("delete from NivelChuva where id = :id");
 			$insertion->bindValue(":id", $nivelChuva->getId());
 			return $insertion->execute();
@@ -39,7 +39,7 @@
 		
 		// Find a single entry in the "NivelChuva" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?NivelChuva{
 			$statement = $this->pdo->query("select * from NivelChuva where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -53,7 +53,7 @@
 		
 		// Return all records of "NivelChuva"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from NivelChuva");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -70,7 +70,7 @@
 		
 		// Update the "NivelChuva" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($nivelChuva) {
+		public function update(NivelChuva $nivelChuva): bool{
 			$insertion = $this->pdo->prepare("update NivelChuva set id_pluviometro = :id_pluviometro, chuva_em_mm = :chuva_em_mm, data_chuva = :data_chuva where id = :id");
 			$insertion->bindValue(":id", $nivelChuva->getId());
 			$insertion->bindValue(":id_pluviometro", $nivelChuva->getIdPluviometro());

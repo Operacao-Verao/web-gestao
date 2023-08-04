@@ -3,15 +3,15 @@
 	include_once("../models/Gestor.php");
 	
 	class DAOGestor{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Gestor" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($funcionario) {
+		public function insert(Funcionario $funcionario): ?Gestor{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Gestor (id_funcionario) values (:funcionario)");
 			$insertion->bindValue(":funcionario", $funcionario->getId());
@@ -29,7 +29,7 @@
 		
 		// Remove the "Gestor" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($gestor) {
+		public function remove(Gestor $gestor): bool{
 			$insertion = $this->pdo->prepare("delete from Gestor where id = :id");
 			$insertion->bindValue(":id", $gestor->getId());
 			return $insertion->execute();
@@ -37,7 +37,7 @@
 		
 		// Find a single entry in the "Gestor" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Gestor{
 			$statement = $this->pdo->query("select * from Gestor where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -51,7 +51,7 @@
 		
 		// Return all records of "Gestor"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Gestor");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -68,7 +68,7 @@
 		
 		// Update the "Gestor" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($gestor) {
+		public function update(Gestor $gestor): bool{
 			$insertion = $this->pdo->prepare("update Gestor set id_funcionario = :funcionario where id = :id");
 			$insertion->bindValue(":id", $gestor->getId());
 			$insertion->bindValue(":funcionario", $gestor->getIdFuncionario());

@@ -3,16 +3,16 @@
 	include_once("../models/Relatorio.php");
 	
 	class DAORelatorio{
-		private $pdo;
+		private PDO $pdo;
 		
-		public function __construct($pdo) {
+		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
 		
 		// Insert data of "Relatorio" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert($ocorrencia, $casa, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
-			$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento) {
+		public function insert(Ocorrencia $ocorrencia, Casa $casa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
+			$tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento): ?Relatorio{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) values (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
 			$insertion->bindValue(":ocorrencia", $ocorrencia->getId());
@@ -49,7 +49,7 @@
 		
 		// Remove the "Relatorio" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
-		public function remove($relatorio) {
+		public function remove(Relatorio $relatorio): bool{
 			$insertion = $this->pdo->prepare("delete from Relatorio where id = :id");
 			$insertion->bindValue(":id", $relatorio->getId());
 			return $insertion->execute();
@@ -57,7 +57,7 @@
 		
 		// Find a single entry in the "Funcionario" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id) {
+		public function findById(int $id): ?Relatorio{
 			$statement = $this->pdo->query("select * from Relatorio where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -72,7 +72,7 @@
 		
 		// Return all records of "Relatorio"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll() {
+		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from Relatorio");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
@@ -90,7 +90,7 @@
 		
 		// Update the "Relatorio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
-		public function update($relatorio) {
+		public function update(Relatorio $relatorio): bool{
 			$insertion = $this->pdo->prepare("update Relatorio set id_ocorrencia = :id_ocorrencia, id_casa = :id_casa, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, memorando = :memorando, oficio = :oficio, processo = :processo, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento where id = :id");
 			$insertion->bindValue(":id", $relatorio->getId());
 			$insertion->bindValue(":id_ocorrencia", $relatorio->getIdOcorrencia());
