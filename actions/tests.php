@@ -51,7 +51,7 @@
 	$daoAlertaChuva = new DAOAlertaChuva($pdo);
 	$daoAlertaRio = new DAOAlertaRio($pdo);
 	
-	$fun = $daoFuncionario->findById(2);
+	$fun = $daoFuncionario->findById(1);
 	var_dump($fun); echo '<br/><br/>';
 	$reg = $daoRegistro->listAll()[0];
 	var_dump($reg); echo '<br/><br/>';

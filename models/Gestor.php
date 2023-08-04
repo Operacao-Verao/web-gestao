@@ -1,22 +1,23 @@
 <?php
-class Gestor {
-    private int $id;
-    private int $idFuncionario;
+    class Gestor {
+        private int $id;
+        private int $idFuncionario;
 
-    public function __construct(int $id, int $idFuncionario) {
-        $this->id = $id;
-        $this->idFuncionario = $idFuncionario;
-    }
+        public function __construct(int $id, int $idFuncionario) {
+            $this->id = $id;
+            $this->idFuncionario = $idFuncionario;
+        }
 
-    public function getId(): int {
-        return $this->id;
-    }
+        public function getId(): int {
+            return $this->id;
+        }
 
-    public function getIdFuncionario(): int {
-        return $this->idFuncionario;
+        public function getIdFuncionario(): int {
+            return $this->idFuncionario;
+        }
+        
+        public function setFuncionario(Funcionario $funcionario): void {
+            $this->idFuncionario = $funcionario->getId();
+        }
     }
-    
-    public function setFuncionario(Funcionario $funcionario): void {
-        $this->idFuncionario = $funcionario->getId();
-    }
-}
+?>
