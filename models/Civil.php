@@ -1,7 +1,7 @@
 <?php
     class Civil {
         private int $id;
-        private string $cep;
+        private int $idCasa;
         private string $nome;
         private string $email;
         private string $senha;
@@ -10,11 +10,11 @@
         private string $telefone;
         
         public function __construct(
-            int $id, string $cep, string $nome, string $email, string $senha,
+            int $id, int $idCasa, string $nome, string $email, string $senha,
             string $cpf, string $celular, string $telefone
         ) {
             $this->id = $id;
-            $this->cep = $cep;
+            $this->idCasa = $idCasa;
             $this->nome = $nome;
             $this->email = $email;
             $this->senha = $senha;
@@ -27,12 +27,12 @@
             return $this->id;
         }
         
-        public function getCep(): string {
-            return $this->cep;
+        public function getIdCasa(): int {
+            return $this->idCasa;
         }
         
-        public function setCep(string $cep): void {
-            $this->cep = $cep;
+        public function setCasa(Casa $casa): void {
+            $this->idCasa = $casa->getId();
         }
         
         public function getNome(): string {

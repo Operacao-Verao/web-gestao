@@ -11,10 +11,10 @@
 		
 		// Insert data of "Civil" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(string $cep, string $nome, string $email, string $senha, string $cpf, string $celular, string $telefone): ?Civil{
+		public function insert(Casa $casa, string $nome, string $email, string $senha, string $cpf, string $celular, string $telefone): ?Civil{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into Civil (cep, nome, email, senha, cpf, celular, telefone) values (:cep, :nome, :email, :senha, :cpf, :celular, :telefone)");
-			$insertion->bindValue(":cep", $cep);
+			$insertion = $this->pdo->prepare("insert into Civil (id_casa, nome, email, senha, cpf, celular, telefone) values (:id_casa, :nome, :email, :senha, :cpf, :celular, :telefone)");
+			$insertion->bindValue(":id_casa", $casa->getId());
 			$insertion->bindValue(":nome", $nome);
 			$insertion->bindValue(":email", $email);
 			$insertion->bindValue(":senha", $senha);
@@ -26,7 +26,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Civil($last_id, $cep, $nome, $email, $senha, $cpf, $celular, $telefone);
+				return new Civil($last_id, $casa->getId(), $nome, $email, $senha, $cpf, $celular, $telefone);
 			}
 
 			// Otherwise, return null
@@ -51,7 +51,7 @@
 
 			if ($queries){
 				$query = $queries[0];
-				return new Civil($id, $query['cep'], $query['nome'], $query['email'], $query['senha'], $query['cpf'], $query['celular'], $query['telefone']);
+				return new Civil($id, $query['id_casa'], $query['nome'], $query['email'], $query['senha'], $query['cpf'], $query['celular'], $query['telefone']);
 			}
 			return null;
 		}
@@ -66,7 +66,7 @@
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
-					$modelos[] = new Civil($query['id'], $query['cep'], $query['nome'], $query['email'], $query['senha'], $query['cpf'], $query['celular'], $query['telefone']);
+					$modelos[] = new Civil($query['id'], $query['id_casa'], $query['nome'], $query['email'], $query['senha'], $query['cpf'], $query['celular'], $query['telefone']);
 				}
 				return $modelos;
 			}
@@ -76,9 +76,9 @@
 		// Update the "Civil" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Civil $civil): bool{
-			$insertion = $this->pdo->prepare("update Civil set cep = :cep, nome = :nome, email = :email, senha = :senha, cpf = :cpf, celular = :celular, telefone = :telefone where id = :id");
+			$insertion = $this->pdo->prepare("update Civil set id_casa = :id_casa, nome = :nome, email = :email, senha = :senha, cpf = :cpf, celular = :celular, telefone = :telefone where id = :id");
 			$insertion->bindValue(":id", $civil->getId());
-			$insertion->bindValue(":cep", $civil->getCep());
+			$insertion->bindValue(":id_casa", $civil->getIdCasa());
 			$insertion->bindValue(":nome", $civil->getNome());
 			$insertion->bindValue(":email", $civil->getEmail());
 			$insertion->bindValue(":senha", $civil->getSenha());
