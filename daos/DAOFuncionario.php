@@ -55,8 +55,8 @@
 		// Find a single entry in the "Funcionario" table using login
 		// Returns a model if found, returns null otherwise
 		public function findWithLogin(string $email, string $senha): ?Funcionario{
-			$email = addslashes($email);
-			$senha = addslashes($senha);
+			//$email = addslashes($email);
+			//$senha = addslashes($senha);
 			$statement = $this->pdo->query("select * from Funcionario where email = \"".$email."\" and senha = \"".$senha."\"");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -68,10 +68,10 @@
 			return null;
 		}
 		
-		// Find a single entry in the "Funcionario" table through email (useful for checking account existency)
+		// Find a single entry in the "Funcionario" table through email (useful for checking account existency or password changing)
 		// Returns a model if found, returns null otherwise
 		public function findByEmail(string $email): ?Funcionario{
-			$email = addslashes($email);
+			//$email = addslashes($email);
 			$statement = $this->pdo->query("select * from Funcionario where email = \"".$email."\"");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
