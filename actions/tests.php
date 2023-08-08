@@ -50,7 +50,7 @@
 	$daoNivelRio = new DAONivelRio($pdo);
 	$daoAlertaChuva = new DAOAlertaChuva($pdo);
 	$daoAlertaRio = new DAOAlertaRio($pdo);
-	
+	/*
 	$fun = $daoFuncionario->findById(1);
 	var_dump($fun); echo '<br/><br/>';
 	$reg = $daoRegistro->listAll()[0];
@@ -101,7 +101,10 @@
 	var_dump($ac); echo '<br/><br/>';
 	$ar = $daoAlertaRio->listAll()[0];
 	var_dump($ar); echo '<br/><br/>';
+	*/
 	
+	$fun = $daoFuncionario->findByEmail("admin@gmail.com");
+	var_dump($fun); echo '<br/><br/>';
 	
 	// Inserindo funcionário administrador
 	//$daoFuncionario->insert("admin", "admin@gmail.com", "1234", TIPO_USUARIO::GESTOR);

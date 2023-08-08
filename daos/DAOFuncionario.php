@@ -52,6 +52,37 @@
 			return null;
 		}
 		
+		// Find a single entry in the "Funcionario" table using login
+		// Returns a model if found, returns null otherwise
+		public function findWithLogin(string $email, string $senha): ?Funcionario{
+			$email = addslashes($email);
+			$senha = addslashes($senha);
+			$statement = $this->pdo->query("select * from Funcionario where email = \"".$email."\" and senha = \"".$senha."\"");
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// Only one entry is needed, in this case, the first one
+			if ($queries){
+				$query = $queries[0];
+				return new Funcionario($query['id'], $query['nome'], $query['email'], $query['senha'], $query['tipo_usuario']);
+			}
+			return null;
+		}
+		
+		// Find a single entry in the "Funcionario" table through email (useful for checking account existency)
+		// Returns a model if found, returns null otherwise
+		public function findByEmail(string $email): ?Funcionario{
+			$email = addslashes($email);
+			$statement = $this->pdo->query("select * from Funcionario where email = \"".$email."\"");
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// Only one entry is needed, in this case, the first one
+			if ($queries){
+				$query = $queries[0];
+				return new Funcionario($query['id'], $query['nome'], $query['email'], $query['senha'], $query['tipo_usuario']);
+			}
+			return null;
+		}
+		
 		// Return all records of "Funcionario"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): ?array{
