@@ -1,46 +1,46 @@
 <?php
-session_start();
+    session_start();
+    
+    include_once("../actions/conn.php");
+    include_once("../models/Funcionario.php");
+    include_once("../daos/DAOFuncionario.php");
+    
+    class LoginAction {
+        private $pdo;
+        private $daoFuncionario;
 
-include_once("../actions/conn.php");
-include_once("../models/Funcionario.php");
-include_once("../daos/DAOFuncionario.php");
+        public function __construct(PDO $pdo) {
+            $this->pdo = $pdo;
+            $this->daoFuncionario = new DAOFuncionario($this->pdo);
+        }
 
-class LoginAction {
-    private $pdo;
-    private $daoFuncionario;
+        public function execute() {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $email = $_POST["edtemail"];
+                $senha = $_POST["edtsenha"];
 
-    public function __construct(PDO $pdo) {
-        $this->pdo = $pdo;
-        $this->daoFuncionario = new DAOFuncionario($this->pdo);
-    }
+                if (empty($email) || empty($senha)) {
+                    header("Location: login.php?error=Campos não preenchidos");
+                    exit();
+                }
 
-    public function execute() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $email = $_POST["email"];
-            $senha = $_POST["senha"];
+                $funcionario = $this->daoFuncionario->findWithLogin($email, $senha);
 
-            if (empty($email) || empty($senha)) {
-                header("Location: login.php?error=Campos não preenchidos");
-                exit();
-            }
+                if ($funcionario) {
+                    $_SESSION["usuario_id"] = $funcionario->getId();
+                    $_SESSION["usuario_nome"] = $funcionario->getNome();
+                    $_SESSION["usuario_tipo"] = $funcionario->getTipoUsuario();
 
-            $funcionario = $this->daoFuncionario->findWithLogin($email, $senha);
-
-            if ($funcionario) {
-                $_SESSION["usuario_id"] = $funcionario->getId();
-                $_SESSION["usuario_nome"] = $funcionario->getNome();
-                $_SESSION["usuario_tipo"] = $funcionario->getTipoUsuario();
-
-                header("Location: home.php");
-                exit();
-            } else {
-                header("Location: login.php?error=Login incorreto");
-                exit();
+                    header("Location: ../views/home.php");
+                    exit();
+                } else {
+                    header("Location: ../views/login.php?error=Login incorreto");
+                    exit();
+                }
             }
         }
     }
-}
-
-$loginAction = new LoginAction($pdo);
-$loginAction->execute();
+    
+    $loginAction = new LoginAction($pdo);
+    $loginAction->execute();
 ?>
