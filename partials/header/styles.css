@@ -6,12 +6,11 @@
 	box-sizing: border-box;
 }
 :root {
-	--primary-color: #0e4bf1;
 	--bg-primary-color: #cccccc;
 	--nav-primary-color: #2b3743;
-	--panel-color: #f9fafc;
+	--panel-color: #fff;
 	--text-color: #000;
-	--light-color: #fff;
+	--black-light-color: #fff;
 	--border-color: #e6e5e5;
 	--toggle-color: #aaa;
 	--box-color: #fff;
@@ -20,11 +19,15 @@
 	--blue-color: #e0e7ff;
 	--purple-color: #f5d0fe;
 	--gray-color: #e2e8f0;
+	--blue: #023b7e;
+
+	--tran-05: all 0.5s ease;
+	--tran-03: all 0.3s ease;
+	--tran-02: all 0.2s ease;
 
 	font-size: 62.5%;
 }
 body {
-	display: flex;
 	min-height: 100vh;
 	font-size: 1.6rem;
 	font-family: 'Poppins', sans-serif;
@@ -44,6 +47,7 @@ nav {
 	border-top-right-radius: 2rem;
 	border-bottom-right-radius: 2rem;
 	border: 1px solid var(--border-color);
+	transition: var(--tran-05);
 }
 nav .logo-name {
 	display: flex;
@@ -62,11 +66,15 @@ nav .logo-image img {
 nav .logo-name .logo_name {
 	font-size: 2rem;
 	font-weight: 600;
-	color: var(--light-color);
+	color: var(--black-light-color);
 	text-decoration: none;
 
 	margin-left: 1.4rem;
 	transition: var(--tran-05);
+}
+nav.close .logo_name {
+	opacity: 0;
+	pointer-events: none;
 }
 nav .menu-items {
 	display: flex;
@@ -102,20 +110,24 @@ nav .menu-items {
 	height: 100%;
 
 	font-size: 24px;
-	color: var(--light-color);
+	color: var(--black-light-color);
 }
 .menu-items li a .link-name {
 	font-size: 1.8rem;
 	font-weight: 400;
-	color: var(--light-color);
+	color: var(--black-light-color);
 }
 .nav-links li a:hover i,
 .nav-links li a:hover .link-name {
-	color: var(--light-color);
+	color: var(--black-light-color);
 }
-body .nav-links li a:hover i,
-body .nav-links li a:hover .link-name {
-	color: var(--light-color);
+.nav-links li a:hover::before {
+	content: '';
+	position: absolute;
+	left: 10px;
+	width: 2px;
+	height: 50px;
+	background-color: #fff;
 }
 .logout-mode {
 	padding-top: 1rem;
@@ -126,101 +138,76 @@ body .nav-links li a:hover .link-name {
 }
 .dashboard {
 	position: relative;
-	left: 350px;
+	left: 300px;
 
-	min-height: 95vh;
-	width: calc(95% - 300px);
+	min-height: 100vh;
+	width: calc(100% - 300px);
 
-	border-radius: 10px;
-	background-color: var(--panel-color);
-	margin: 2rem 0;
+	background-color: var(--bg-primary-color);
 	padding: 1rem 3rem;
+	transition: var(--tran-05);
 }
-.search-space {
-	width: 100%;
+@media (max-width: 1000px) {
+	nav {
+		width: 73px;
+	}
+	nav.close {
+		width: 250px;
+	}
+	nav .logo_name {
+		opacity: 0;
+		pointer-events: none;
+	}
+	nav.close .logo_name {
+		opacity: 1;
+		pointer-events: auto;
+	}
+	nav li a .link-name {
+		opacity: 0;
+		pointer-events: none;
+	}
+	nav.close li a .link-name {
+		opacity: 1;
+		pointer-events: auto;
+	}
+	nav ~ .dashboard {
+		left: 73px;
+		width: calc(100% - 73px);
+	}
+	nav.close ~ .dashboard {
+		left: 250px;
+		width: calc(100% - 250px);
+	}
 }
-.search-div {
-	position: relative;
-	display: flex;
-	width: 50%;
-	height: min-content;
-
-	margin: 15px auto;
-}
-.search-div input {
-	width: 100%;
-	font-size: 1.6rem;
-
-	border: 2px solid #ccc;
-	border-radius: 1.5rem;
-	padding: 15px;
-	outline: 0;
-}
-.search-div i {
-	position: absolute;
-	right: 20px;
-	top: 13px;
-	font-size: 22px;
-	color: #aaa;
-}
-
-.wrapper {
-	flex: 1;
-	padding: 1rem 3rem;
-}
-.wrapper .status {
-	display: flex;
-	font-weight: 600;
-	gap: 3rem;
-}
-.wrapper button {
-	background: transparent;
-	border: 0;
-	font-weight: 500;
-	font-size: 2rem;
-	cursor: pointer;
-}
-.wrapper button:hover {
-	text-decoration: underline;
-}
-.ocorrencias {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	gap: 5rem;
-	margin-top: 5rem;
-}
-.ocorrencias .ocorrencia-item {
-	display: flex;
-	gap: 3rem;
-}
-.ocorrencias .ocorrencia-date {
-	display: flex;
-	flex-direction: column;
-	color: #71717a;
-	padding-right: 3rem;
-	border-right: 2px solid #9ca3af;
-}
-.ocorrencias .ocorrencia-date::after {
-	content: '';
-	width: 2px;
-	min-height: 80px;
-}
-.ocorrencias .ocorrencia-info {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
-}
-.ocorrencia-info .ocorrencia-title {
-	display: flex;
-	align-items: center;
-	font-size: 1.8rem;
-	font-weight: 500;
-	gap: 1.5rem;
-}
-.ocorrencia-info .ocorrencia-title i {
-	font-size: 2rem;
-}
-.ocorrencia-info .ocorrencia-subtitle {
-	color: #71717a;
+@media (max-width: 500px) {
+	nav {
+		width: 73px;
+	}
+	nav.close {
+		width: 73px;
+	}
+	nav .logo_name {
+		opacity: 0;
+		pointer-events: none;
+	}
+	nav.close .logo_name {
+		opacity: 0;
+		pointer-events: none;
+	}
+	nav li a .link-name {
+		opacity: 0;
+		pointer-events: none;
+	}
+	nav.close li a .link-name {
+		opacity: 0;
+		pointer-events: none;
+	}
+	nav ~ .dashboard {
+		left: 73px;
+		width: calc(100% - 73px);
+	}
+	nav.close ~ .dashboard {
+		left: 73px;
+		width: calc(100% - 73px);
+	}
 }

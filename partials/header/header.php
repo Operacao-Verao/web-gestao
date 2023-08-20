@@ -6,8 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="https://unpkg.com/@phosphor-icons/web"></script>
-	<link rel="stylesheet" href="./assets/ocorrencias.css" />
-	<title>Defesa Civil - Home</title>
+	<link rel="stylesheet" href="../../partials/header/styles.css" />
+	<title>Defesa Civil</title>
 </head>
 
 <body>
@@ -20,13 +20,13 @@
 		<div class="menu-items">
 			<ul class="nav-links">
 				<li>
-					<a href="home.php"><i class="ph-bold ph-house"></i><span class="link-name">Home</span></a>
+					<a href="../../views/home/home.php"><i class="ph-bold ph-house"></i><span class="link-name">Home</span></a>
 				</li>
 				<li>
-					<a href="tecnico.php"><i class="ph-bold ph-files"></i><span class="link-name">Técnicos</span></a>
+					<a href="../../views/tecnicos/tecnicos.php"><i class="ph-bold ph-files"></i><span class="link-name">Técnicos</span></a>
 				</li>
 				<li>
-					<a href="ocorrencias.php"><i class="ph-bold ph-users"></i><span class="link-name">Ocorrências</span></a>
+					<a href="../../views/ocorrencias/ocorrencias.php"><i class="ph-bold ph-users"></i><span class="link-name">Ocorrências</span></a>
 				</li>
 				<li>
 					<a href="#"><i class="ph-bold ph-warning-octagon"></i><span class="link-name">Relatórios</span></a>
@@ -53,9 +53,6 @@
 			</ul>
 		</div>
 	</nav>
-	<section class="dashboard">
-		
-	</section>
+	<main class="dashboard">
 </body>
-
 </html>

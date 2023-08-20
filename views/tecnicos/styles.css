@@ -1,0 +1,61 @@
+.dash-content .activity-data {
+	display: flex;
+	justify-content: space-between;
+	background-color: var(--box-color);
+	border-radius: 1rem;
+	padding: 2rem;
+
+	height: 95vh;
+	width: 100%;
+}
+.activity-data .data {
+	display: flex;
+	flex-direction: column;
+
+	margin: 0 1.5rem;
+}
+.activity-data .data-title {
+	font-size: 1.7rem;
+	font-weight: 500;
+	color: var(--text-color);
+}
+.activity-data .data .data-list {
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: var(--text-color);
+	white-space: nowrap;
+
+	margin-top: 2rem;
+}
+
+.ativo {
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: green;
+	white-space: nowrap;
+	margin-top: 2rem;
+}
+
+.inativo {
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: red;
+	white-space: nowrap;
+	margin-top: 2rem;
+}
+
+.data.ver {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.data.ver i {
+	font-size: 1.7rem;
+}
+@media (max-width: 1000px) {
+	.activity .activity-data {
+		overflow-x: scroll;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+	}
+}

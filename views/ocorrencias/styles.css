@@ -1,0 +1,96 @@
+.wrapper-main {
+	width: 100%;
+	min-height: 95vh;
+	margin-top: 1rem;
+	background-color: #fff;
+	border-radius: 1rem;
+	padding: 2rem;
+}
+.search-space {
+	width: 100%;
+}
+.search-div {
+	position: relative;
+	display: flex;
+	width: 50%;
+	height: min-content;
+
+	margin: 15px auto;
+}
+.search-div input {
+	width: 100%;
+	font-size: 1.6rem;
+
+	border: 2px solid #ccc;
+	border-radius: 1.5rem;
+	padding: 15px;
+	outline: 0;
+}
+.search-div i {
+	position: absolute;
+	right: 20px;
+	top: 13px;
+	font-size: 22px;
+	color: #aaa;
+}
+
+.wrapper {
+	flex: 1;
+	padding: 1rem 3rem;
+}
+.wrapper .status {
+	display: flex;
+	font-weight: 600;
+	gap: 3rem;
+}
+.wrapper button {
+	background: transparent;
+	border: 0;
+	font-weight: 500;
+	font-size: 2rem;
+	cursor: pointer;
+}
+.wrapper button:hover {
+	text-decoration: underline;
+}
+.ocorrencias {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 5rem;
+	margin-top: 5rem;
+}
+.ocorrencias .ocorrencia-item {
+	display: flex;
+	gap: 3rem;
+}
+.ocorrencias .ocorrencia-date {
+	display: flex;
+	flex-direction: column;
+	color: #71717a;
+	padding-right: 3rem;
+	border-right: 2px solid #9ca3af;
+}
+.ocorrencias .ocorrencia-date::after {
+	content: '';
+	width: 2px;
+	min-height: 80px;
+}
+.ocorrencias .ocorrencia-info {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+.ocorrencia-info .ocorrencia-title {
+	display: flex;
+	align-items: center;
+	font-size: 1.8rem;
+	font-weight: 500;
+	gap: 1.5rem;
+}
+.ocorrencia-info .ocorrencia-title i {
+	font-size: 2rem;
+}
+.ocorrencia-info .ocorrencia-subtitle {
+	color: #71717a;
+}
