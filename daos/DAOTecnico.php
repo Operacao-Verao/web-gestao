@@ -1,6 +1,6 @@
 <?php
-	include_once("../actions/conn.php");
-	include_once("../models/Tecnico.php");
+	include_once("../../actions/conn.php");
+	include_once("../../models/Tecnico.php");
 	
 	class DAOTecnico{
 		private PDO $pdo;
@@ -11,16 +11,17 @@
 		
 		// Insert data of "Tecnico" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(Funcionario $funcionario): ?Tecnico{
+		public function insert(Funcionario $funcionario, bool $ativo): ?Tecnico{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into Tecnico (id_funcionario) values (:funcionario)");
+			$insertion = $this->pdo->prepare("insert into Tecnico (id_funcionario, ativo) values (:funcionario, :ativo)");
 			$insertion->bindValue(":funcionario", $funcionario->getId());
+			$insertion->bindValue(":ativo", $ativo);
 
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Tecnico($last_id, $funcionario->getId());
+				return new Tecnico($last_id, $funcionario->getId(), $ativo);
 			}
 
 			// Otherwise, return null
@@ -44,7 +45,7 @@
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query = $queries[0];
-				return new Tecnico($id, $query['id_funcionario']);
+				return new Tecnico($id, $query['id_funcionario'], $query['ativo']);
 			}
 			return null;
 		}
@@ -59,7 +60,7 @@
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
-					$modelos[] = new Tecnico($query['id'], $query['id_funcionario']);
+					$modelos[] = new Tecnico($query['id'], $query['id_funcionario'], $query['ativo']);
 				}
 				return $modelos;
 			}
@@ -72,6 +73,7 @@
 			$insertion = $this->pdo->prepare("update Tecnico set id_funcionario = :funcionario where id = :id");
 			$insertion->bindValue(":id", $tecnico->getId());
 			$insertion->bindValue(":funcionario", $tecnico->getIdFuncionario());
+			$insertion->bindValue(":ativo", $tecnico->getAtivo());
 			return $insertion->execute();
 		}
 	}

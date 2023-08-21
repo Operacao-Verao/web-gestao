@@ -16,7 +16,7 @@
           
           <h1>Login</h1>
 
-          <form method="post" action="../actions/login.php">
+          <form method="post" action="../../actions/login.php">
                 Email
                 <input type="text" id="email" name="edtemail" autofocus><br>
                 Senha

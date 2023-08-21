@@ -31,10 +31,10 @@
                     $_SESSION["usuario_nome"] = $funcionario->getNome();
                     $_SESSION["usuario_tipo"] = $funcionario->getTipoUsuario();
 
-                    header("Location: ../views/home.php");
+                    header("Location: ../views/home/home.php");
                     exit();
                 } else {
-                    header("Location: ../views/login.php?error=Login incorreto");
+                    header("Location: ../views/login/login.php?error=Login incorreto");
                     exit();
                 }
             }

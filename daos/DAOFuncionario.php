@@ -1,6 +1,6 @@
 <?php
-	include_once("../actions/conn.php");
-	include_once("../models/Funcionario.php");
+	include_once("../../actions/conn.php");
+	include_once("../../models/Funcionario.php");
 	
 	class DAOFuncionario{
 		private PDO $pdo;
@@ -17,13 +17,13 @@
 			$insertion->bindValue(":nome", $nome);
 			$insertion->bindValue(":email", $email);
 			$insertion->bindValue(":senha", $senha);
-			$insertion->bindValue(":tipo", $tipoUsuario->value);
+			$insertion->bindValue(":tipo", $tipoUsuario);
 
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Funcionario($last_id, $nome, $email, $senha, $tipoUsuario->value);
+				return new Funcionario($last_id, $nome, $email, $senha, $tipoUsuario);
 			}
 
 			// Otherwise, return null
