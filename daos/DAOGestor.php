@@ -1,7 +1,4 @@
 <?php
-	include_once("../actions/conn.php");
-	include_once("../models/Gestor.php");
-	
 	class DAOGestor{
 		private PDO $pdo;
 		
@@ -45,6 +42,20 @@
 			if ($queries){
 				$query = $queries[0];
 				return new Gestor($id, $query['id_funcionario']);
+			}
+			return null;
+		}
+		
+		// Find a single entry in the "Gestor" table by its 'Funcionario' attribute
+		// Returns a model if found, returns null otherwise
+		public function findByFuncionario(Funcionario $funcionario): ?Gestor{
+			$statement = $this->pdo->query("select * from Gestor where id_funcionario = ".$funcionario->getId());
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// Only one entry is needed, in this case, the first one
+			if ($queries){
+				$query = $queries[0];
+				return new Gestor($query['id'], $query['id_funcionario']);
 			}
 			return null;
 		}

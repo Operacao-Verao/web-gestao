@@ -13,7 +13,10 @@
 	<?php
 		require '../../partials/header/header.php';
 		
+	    include_once("../../actions/conn.php");
+		require '../../models/Tecnico.php';
 		require '../../daos/DAOTecnico.php';
+		require '../../models/Funcionario.php';
 		require '../../daos/DAOFuncionario.php';
 		
 		$daoFuncionario = new DAOFuncionario($pdo);

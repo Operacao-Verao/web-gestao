@@ -1,7 +1,4 @@
 <?php
-    include_once("../actions/conn.php");
-    include_once("../models/Ocorrencia.php");
-
     class DAOOcorrencia {
         private PDO $pdo;
         

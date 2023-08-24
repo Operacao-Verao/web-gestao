@@ -1,7 +1,4 @@
 <?php
-	include_once("../actions/conn.php");
-	include_once("../models/Civil.php");
-	
 	class DAOCivil{
 		private PDO $pdo;
 		

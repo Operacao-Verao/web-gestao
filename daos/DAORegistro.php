@@ -1,7 +1,4 @@
 <?php
-	include_once("../actions/conn.php");
-	include_once("../models/Registro.php");
-	
 	class DAORegistro{
 		private PDO $pdo;
 		
