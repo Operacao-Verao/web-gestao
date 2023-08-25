@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+:root {
+	--bg-primary-color: #cccccc;
+	--box-background: #fefefe;
+	--blue: #023b7e;
+	font-size: 62.5%;
+}
+body {
+	background-color: var(--bg-primary-color);
+	font-family: 'Poppins', sans-serif;
+	font-size: 1.6rem;
+}
+main {
+	width: 30%;
+	margin: auto;
+	margin-top: 5rem;
+	background-color: var(--box-background);
+	border: 1px solid #ccc;
+	border-radius: 2rem;
+	padding: 2rem;
+}
+h1 {
+	text-align: center;
+}
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	padding: 2.5rem;
+	margin-top: 2rem;
+}
+.inputArea {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.inputAreaRow {
+	display: flex;
+	justify-content: space-between;
+}
+.inputArea label {
+	font-size: 1.7rem;
+}
+.inputArea input {
+	width: 100%;
+	font-size: 1.5rem;
+	border: 1px solid #303030;
+	border-radius: 1.2rem;
+	padding: 1.4rem 2rem;
+}
+.btnCadastrar {
+	background-color: var(--blue);
+	cursor: pointer;
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: 600;
+	padding: 1.4rem;
+	margin-top: 3rem;
+	border-radius: 0.8rem;
+	border: 0;
+}

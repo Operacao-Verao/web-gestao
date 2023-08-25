@@ -23,10 +23,12 @@
 					<a href="../../views/home/home.php"><i class="ph-bold ph-house"></i><span class="link-name">Home</span></a>
 				</li>
 				<li>
-					<a href="../../views/tecnicos/tecnicos.php"><i class="ph-bold ph-files"></i><span class="link-name">Técnicos</span></a>
+					<a href="../../views/tecnicos/tecnicos.php"><i class="ph-bold ph-files"></i><span
+							class="link-name">Técnicos</span></a>
 				</li>
 				<li>
-					<a href="../../views/ocorrencias/ocorrencias.php"><i class="ph-bold ph-users"></i><span class="link-name">Ocorrências</span></a>
+					<a href="../../views/ocorrencias/ocorrencias.php"><i class="ph-bold ph-users"></i><span
+							class="link-name">Ocorrências</span></a>
 				</li>
 				<li>
 					<a href="#"><i class="ph-bold ph-warning-octagon"></i><span class="link-name">Relatórios</span></a>
@@ -35,12 +37,12 @@
 					<a href="#"><i class="ph-bold ph-user-list"></i><span class="link-name">Secretários</span></a>
 				</li>
 				<li>
-					<a href="#"><i class="ph-bold ph-users-three"></i><span class="link-name">Civil</span></a>
+					<a href="../../views/civil/civil.php"><i class="ph-bold ph-users-three"></i><span
+							class="link-name">Civil</span></a>
 				</li>
 				<li></li>
 				<li>
-					<a href="#"><i class="ph-bold ph-cloud-rain"></i><span
-							class="link-name">Pluviômetro/Fluviômetro</span></a>
+					<a href="#"><i class="ph-bold ph-cloud-rain"></i><span class="link-name">Pluviômetro/Fluviômetro</span></a>
 				</li>
 			</ul>
 			<ul class="logout-mode">
@@ -55,4 +57,5 @@
 	</nav>
 	<main class="dashboard">
 </body>
+
 </html>
