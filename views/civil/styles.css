@@ -98,15 +98,15 @@ button.data-list {
 	top: 7%;
 	left: 5%;
 	display: none;
-	&.open {
-		display: block;
-	}
 	width: 75%;
 	height: 720px;
 	background-color: var(--panel-color);
 	padding: 3.5rem;
 	border: 2px solid #ccc;
 	border-radius: 2rem;
+}
+.viewCivil.open {
+	display: block;
 }
 body.viewCivil-open {
 	overflow: hidden;

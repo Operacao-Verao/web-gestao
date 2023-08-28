@@ -11,7 +11,7 @@
 <body>
   <main>
     <h1>Cadastrar Civil</h1>
-    <form action="">
+    <form method="post" action="../../../actions/cad_civil.php">
       <div class="inputArea">
         <label for="inputName">Nome*</label>
         <input type="text" name="inputName" placeholder="Ex.: Samantha" required>

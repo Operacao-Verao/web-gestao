@@ -6,48 +6,55 @@
   <title>Defesa Civil - Civil</title>
 </head>
 <?php
-require '../../partials/header/header.php';
+  require '../../partials/header/header.php';
+  
+  require '../../actions/conn.php';
+  require '../../models/Civil.php';
+  require '../../daos/DAOCivil.php';
+  
+  $daoCivil = new DAOCivil($pdo);
+  $civis = $daoCivil->listAll();
 ?>
 <div id="body">
   <div class="wrapper-main">
     <section class="search-space">
       <div class="search-div">
-        <input type="search" placeholder="Procurar Ocorrencias..." />
+        <input type="search" placeholder="Procurar Civis..." />
         <i class="ph ph-magnifying-glass"></i>
       </div>
     </section>
     <section class="activity-data">
       <div class="data name">
         <span class="data-title">Nome</span>
-        <span class="data-list">Samantha Zduniak</span>
-        <span class="data-list">Samantha Zduniak</span>
-        <span class="data-list">Samantha Zduniak</span>
-        <span class="data-list">Samantha Zduniak</span>
-        <span class="data-list">Samantha Zduniak</span>
+        <?php
+          foreach ($civis as $civil){
+            echo '<span class="data-list">'.$civil->getNome().'</span>';
+          }
+        ?>
       </div>
       <div class="data email">
         <span class="data-title">Email</span>
-        <span class="data-list">samanthazduniak@gmail.com</span>
-        <span class="data-list">samanthazduniak@gmail.com</span>
-        <span class="data-list">samanthazduniak@gmail.com</span>
-        <span class="data-list">samanthazduniak@gmail.com</span>
-        <span class="data-list">samanthazduniak@gmail.com</span>
+        <?php
+          foreach ($civis as $civil){
+            echo '<span class="data-list">'.$civil->getEmail().'</span>';
+          }
+        ?>
       </div>
       <div class="data cpf">
         <span class="data-title">CPF</span>
-        <span class="data-list">541.024.030-10</span>
-        <span class="data-list">541.024.030-10</span>
-        <span class="data-list">541.024.030-10</span>
-        <span class="data-list">541.024.030-10</span>
-        <span class="data-list">541.024.030-10</span>
+        <?php
+          foreach ($civis as $civil){
+            echo '<span class="data-list">'.$civil->getCpf().'</span>';
+          }
+        ?>
       </div>
       <div class="data ver">
         <span class="data-title">Ver</span>
-        <button class="data-list" onclick="openModal('viewCivil')"><i class="ph-bold ph-eye"></i></button>
-        <button class="data-list" onclick="openModal('viewCivil')"><i class="ph-bold ph-eye"></i></button>
-        <button class="data-list" onclick="openModal('viewCivil')"><i class="ph-bold ph-eye"></i></button>
-        <button class="data-list" onclick="openModal('viewCivil')"><i class="ph-bold ph-eye"></i></button>
-        <button class="data-list" onclick="openModal('viewCivil')"><i class="ph-bold ph-eye"></i></button>
+        <?php
+          foreach ($civis as $civil){
+            echo '<button class="data-list" onclick="openModal(\'viewCivil\')"><i class="ph-bold ph-eye"></i></button>';
+          }
+        ?>
       </div>
     </section>
     <a href="./cad_civil/cad_civil.php"><button class="btnCadastrar">Cadastrar Civil</button></a>

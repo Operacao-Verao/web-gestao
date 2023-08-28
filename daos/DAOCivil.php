@@ -8,10 +8,10 @@
 		
 		// Insert data of "Civil" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(Casa $casa, string $nome, string $email, string $senha, string $cpf, string $celular, string $telefone): ?Civil{
+		public function insert(Casa|null $casa, string $nome, string $email, string $senha, string $cpf, string $celular, string $telefone): ?Civil{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("insert into Civil (id_casa, nome, email, senha, cpf, celular, telefone) values (:id_casa, :nome, :email, :senha, :cpf, :celular, :telefone)");
-			$insertion->bindValue(":id_casa", $casa->getId());
+			$insertion->bindValue(":id_casa", $casa? $casa->getId(): null);
 			$insertion->bindValue(":nome", $nome);
 			$insertion->bindValue(":email", $email);
 			$insertion->bindValue(":senha", $senha);
@@ -23,7 +23,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Civil($last_id, $casa->getId(), $nome, $email, $senha, $cpf, $celular, $telefone);
+				return new Civil($last_id, $casa? $casa->getId(): null, $nome, $email, $senha, $cpf, $celular, $telefone);
 			}
 
 			// Otherwise, return null
