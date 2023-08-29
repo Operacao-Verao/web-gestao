@@ -1,4 +1,5 @@
 .wrapper-main {
+	position: relative;
 	width: 100%;
 	min-height: 95vh;
 	margin-top: 1rem;
@@ -6,9 +7,11 @@
 	border-radius: 1rem;
 	padding: 2rem;
 }
+
 .search-space {
 	width: 100%;
 }
+
 .search-div {
 	position: relative;
 	display: flex;
@@ -17,19 +20,21 @@
 
 	margin: 15px auto;
 }
+
 .search-div input {
 	width: 100%;
 	font-size: 1.6rem;
 
 	border: 2px solid #ccc;
 	border-radius: 1.5rem;
-	padding: 15px;
+	padding: 15px 40px;
 	outline: 0;
 }
+
 .search-div i {
 	position: absolute;
-	right: 20px;
-	top: 13px;
+	left: 10px;
+	top: 14px;
 	font-size: 22px;
 	color: #aaa;
 }
@@ -38,21 +43,25 @@
 	flex: 1;
 	padding: 1rem 3rem;
 }
+
 .wrapper .status {
 	display: flex;
 	font-weight: 600;
 	gap: 3rem;
 }
-.wrapper button {
+
+.wrapper .btnStatus {
 	background: transparent;
 	border: 0;
 	font-weight: 500;
 	font-size: 2rem;
 	cursor: pointer;
 }
-.wrapper button:hover {
+
+.wrapper .btnStatus:hover {
 	text-decoration: underline;
 }
+
 .ocorrencias {
 	display: flex;
 	flex-direction: column;
@@ -60,10 +69,12 @@
 	gap: 5rem;
 	margin-top: 5rem;
 }
+
 .ocorrencias .ocorrencia-item {
 	display: flex;
 	gap: 3rem;
 }
+
 .ocorrencias .ocorrencia-date {
 	display: flex;
 	flex-direction: column;
@@ -71,16 +82,19 @@
 	padding-right: 3rem;
 	border-right: 2px solid #9ca3af;
 }
+
 .ocorrencias .ocorrencia-date::after {
 	content: '';
 	width: 2px;
 	min-height: 80px;
 }
+
 .ocorrencias .ocorrencia-info {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
 }
+
 .ocorrencia-info .ocorrencia-title {
 	display: flex;
 	align-items: center;
@@ -88,9 +102,159 @@
 	font-weight: 500;
 	gap: 1.5rem;
 }
+
+.ocorrencia-title button {
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
 .ocorrencia-info .ocorrencia-title i {
 	font-size: 2rem;
 }
+
 .ocorrencia-info .ocorrencia-subtitle {
 	color: #71717a;
+}
+
+.btnCriar {
+	position: absolute;
+	right: 60px;
+	bottom: 60px;
+	font-size: 1.7rem;
+	font-weight: 500;
+	padding: 1.5rem 2.5rem;
+	cursor: pointer;
+	background: var(--blue);
+	color: #fff;
+	border: 0;
+	border-radius: 0.5rem;
+}
+
+/* MODAL */
+
+.viewOcorrencia {
+	position: absolute;
+	top: 7%;
+	left: 5%;
+	display: none;
+	width: 75%;
+	height: 720px;
+	background-color: var(--panel-color);
+	padding: 3.5rem;
+	border: 2px solid #ccc;
+	border-radius: 2rem;
+}
+
+.viewOcorrencia.open {
+	display: block;
+}
+
+body.viewOcorrencia-open {
+	overflow: hidden;
+}
+
+.viewOcorrencia .topRow {
+	position: relative;
+}
+.topRow{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.topRow button {
+	border: 0;
+	background: transparent;
+}
+
+.viewOcorrencia .topRow h2 {
+	text-align: center;
+}
+
+.viewOcorrencia .topRow i {
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	font-size: 2.8rem;
+	cursor: pointer;
+}
+
+.civil-content {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas:
+		'civil acionamento relato'
+		'endereco casas relato'
+	;
+	padding-bottom: 3rem;
+	border-bottom: 2px solid #9ca3af;
+}
+
+.grid-civil {
+	grid-area: civil;
+}
+
+.grid-acionamento {
+	grid-area: acionamento;
+}
+
+.grid-relato {
+	grid-area: relato;
+}
+
+.grid-endereco {
+	grid-area: endereco;
+}
+
+.grid-casas {
+	grid-area: casas;
+}
+
+.item-column {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	margin-top: 1.5rem;
+}
+
+.item-column .item-title {
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+
+.item-column .item-content {
+	font-size: 1.5rem;
+}
+
+.ocorrencias-content {
+	margin-top: 3rem;
+}
+
+.ocorrencias {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 5rem;
+	margin-top: 5rem;
+}
+.topRow span{
+	font-weight: 400;
+}
+
+.inputTecnico {
+	width: fit-content;
+	margin-top: 1rem;
+	padding: 1rem 2rem;
+	border-radius: .5rem;
+}
+
+option:checked{
+	color: var(--blue);
+}
+.inputAprovar{
+	height: fit-content;
+	width: fit-content;
+	border: 1px solid #ccc;
+	padding: 1rem 2rem;
+	border-radius: .5rem;
 }

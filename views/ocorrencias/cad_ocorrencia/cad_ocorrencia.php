@@ -1,67 +1,69 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title></title>
-	</head>
-	<body>
-		
-		<fieldset>
-			
-			<legend>Cadastro de ocorrência</legend>
-			
-			<form method="post" action="../../../actions/cad_ocorrencia.php">
-				
-				<label>Civil:</label><br/>
-				<select name="inputCivil" <?php echo 'value="'.($_POST['civilid']?$_POST['civilid']:0).'"'; ?>>
-					<?php
-						require '../../../actions/conn.php';
-						
-						require '../../../models/Civil.php';
-						require '../../../daos/DAOCivil.php';
-						
-						$daoCivil = new DAOCivil($pdo);
-						$civis = $daoCivil->listAll();
-						
-						foreach ($civis as $civil){
-							echo '<option value="'.$civil->getId().'">'.$civil->getNome().'</option>';
-						}
-					?>
-				</select><br/><br/>
-				
-				<label>Acionamento:</label><br/>
-				<input type="text" name="inputAcionamento"><br/><br/>
-				
-				<label>Relato:</label><br/>
-				<input type="text" name="inputRelato"><br/><br/>
-				
-				<label>Quantidade de casas:</label><br/>
-				<input type="number" name="inputNumCasas"><br/><br/>
-				
-				<label>CEP:</label><br/>
-				<input type="text" name="inputCep"><br/><br/>
-				
-				<label>Rua:</label><br/>
-				<input type="text" name="inputRua"><br/><br/>
-				
-				<label>Bairro:</label><br/>
-				<input type="text" name="inputBairro"><br/><br/>
-				
-				<label>Cidade:</label><br/>
-				<input type="text" name="inputCidade"><br/><br/>
-				
-				<label>Numero da Casa:</label><br/>
-				<input type="text" name="inputNumero"><br/><br/>
-				
-				<label>Complemento:</label><br/>
-				<input type="text" name="inputComplemento"><br/><br/>
-				
-				<input type="submit" value="Cadastrar"><br/>
-				
-			</form>
-			
-		</fieldset>
-		
-	</body>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Criar Ocorrência</title>
+</head>
+
+<body>
+  <main>
+    <h1>Criar Ocorrência</h1>
+    <form method="post" action="../../../actions/cad_civil.php">
+      <div class="inputArea">
+        <label for="inputEmail">Email do Civil*</label>
+        <input list="email" type="text" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" required>
+      </div>
+      <div class="inputAreaRow">
+        <div class="inputArea">
+          <label for="inputAcionamento">Acionamento*</label>
+          <select name="inputAcionamento">
+            <option selected disabled hidden>Ver acionameno...</option>
+            <option value="web">Formulário do Site</option>
+            <option value="telefone">Telefone</option>
+            <option value="presencial">Presencial</option>
+          </select>
+        </div>
+        <div class="inputArea">
+          <label for="inputCasas">Casas Envolvidas*</label>
+          <input type="number" name="inputCasas" placeholder="Ex.: 3" required>
+        </div>
+      </div>
+      <div class="inputArea">
+        <label for="inputRelato">Relato do Civil*</label>
+        <textarea name="inputRelato" rows="5"></textarea>
+      </div>
+      <div class="inputAreaRow">
+        <div class="inputArea">
+          <label for="inputCep">CEP*</label>
+          <input type="number" name="inputCep" placeholder="Ex.: 07584030" required>
+        </div>
+        <div class="inputArea">
+          <label for="inputRua">Rua*</label>
+          <input type="text" name="inputRua" placeholder="Ex.: Av. dos Expedicionários" required>
+        </div>
+      </div>
+      <div class="inputAreaRow">
+        <div class="inputArea">
+          <label for="inputBairro">Bairro*</label>
+          <input type="text" name="inputBairro" placeholder="Ex.: Centro" required>
+        </div>
+        <div class="inputArea">
+          <label for="inputCidade">Cidade*</label>
+          <select name="inputCidade">
+            <option selected disabled hidden>Ver cidade...</option>
+            <option value="Franco da Rocha">Franco da Rocha</option>
+            <option value="Caieiras">Caieiras</option>
+            <option value="Francisco Morato">Francisco Morato</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btnCadastrar">Criar</button>
+    </form>
+  </main>
+</body>
+
 </html>
