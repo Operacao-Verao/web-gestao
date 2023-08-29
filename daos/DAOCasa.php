@@ -43,6 +43,19 @@
             return null;
         }
 
+        // Find a single entry in the "Casa" table by cep and numero
+        // Returns a model if found, returns null otherwise
+        public function findByCepNumero(string $cep, string $numero): ?Casa{
+            $statement = $this->pdo->query("SELECT * FROM Casa WHERE cep = " . $cep." and numero = ".$numero);
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($queries) {
+                $query = $queries[0];
+                return new Casa($query['id'], $query['cep'], $query['numero'], $query['complemento']);
+            }
+            return null;
+        }
+
         // Return all records of "Casa"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{

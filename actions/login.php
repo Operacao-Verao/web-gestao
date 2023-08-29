@@ -31,6 +31,8 @@
                 $acesso_permitido = true;
 
                 $funcionario = $this->daoFuncionario->findWithLogin($email, $senha);
+                $acesso_permitido = $funcionario != null;
+                /*
                 $gestor = null;
                 
                 if ($funcionario == null){
@@ -42,7 +44,7 @@
                         $acesso_permitido = false;
                     }
                 }
-                
+                */
                 if ($acesso_permitido) {
                     $_SESSION["usuario_id"] = $funcionario->getId();
                     $_SESSION["usuario_nome"] = $funcionario->getNome();

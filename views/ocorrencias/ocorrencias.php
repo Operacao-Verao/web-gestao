@@ -56,7 +56,7 @@ require '../../partials/header/header.php';
 						<i class="ph ph-eye"></i>
 					</div>
 					<div class="ocorrencia-subtitle">
-						<p>'.$ocorrencia->getRelatoCivil().'</p>
+						<p>'.$relatorio->getObservacoes().'</p>
 					</div>
 				</div>
 			</div>';
@@ -64,36 +64,6 @@ require '../../partials/header/header.php';
 				
 			?>
 			
-			<div class="ocorrencia-item">
-				<div class="ocorrencia-date">
-					<p>20/05</p>
-					<p>14:20</p>
-				</div>
-				<div class="ocorrencia-info">
-					<div class="ocorrencia-title">
-						<p>Rua - Número da Casa (Bairro)</p>
-						<i class="ph ph-eye"></i>
-					</div>
-					<div class="ocorrencia-subtitle">
-						<p>Observação da ocorrência</p>
-					</div>
-				</div>
-			</div>
-			<div class="ocorrencia-item">
-				<div class="ocorrencia-date">
-					<p>20/05</p>
-					<p>14:20</p>
-				</div>
-				<div class="ocorrencia-info">
-					<div class="ocorrencia-title">
-						<p>Rua - Número da Casa (Bairro)</p>
-						<i class="ph ph-eye"></i>
-					</div>
-					<div class="ocorrencia-subtitle">
-						<p>Observação da ocorrência</p>
-					</div>
-				</div>
-			</div>
 		</div>
 	</section>
 </div>

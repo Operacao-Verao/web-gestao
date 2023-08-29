@@ -8,10 +8,10 @@
         
         // Insert data of "Ocorrencia" into the table
         // Returns a model if the insertion is successful, otherwise returns null
-        public function insert(Tecnico $tecnico, Civil $civil, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, string $dataOcorrencia): ?Ocorrencia{
+        public function insert(Tecnico|null $tecnico, Civil $civil, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, string $dataOcorrencia): ?Ocorrencia{
             // Try to insert the provided data into the database
             $insertion = $this->pdo->prepare("INSERT INTO Ocorrencia (id_tecnico, id_civil, acionamento, relato_civil, num_casas, aprovado, data_ocorrencia) VALUES (:idTecnico, :idCivil, :acionamento, :relatoCivil, :numCasas, :aprovado, :dataOcorrencia)");
-            $insertion->bindValue(":idTecnico", $tecnico->getId());
+            $insertion->bindValue(":idTecnico", $tecnico? $tecnico->getId(): null);
             $insertion->bindValue(":idCivil", $civil->getId());
             $insertion->bindValue(":acionamento", $acionamento);
             $insertion->bindValue(":relatoCivil", $relatoCivil);
@@ -23,7 +23,7 @@
             if ($insertion->execute()) {
                 // Retrieve the ID of the last inserted instance and return a corresponding model for it
                 $last_id = intval($this->pdo->lastInsertId());
-                return new Ocorrencia($last_id, $tecnico->getId(), $civil->getId(), $acionamento, $relatoCivil, $numCasas, $aprovado, $dataOcorrencia);
+                return new Ocorrencia($last_id, $tecnico? $tecnico->getId(): null, $civil->getId(), $acionamento, $relatoCivil, $numCasas, $aprovado, $dataOcorrencia);
             }
 
             // Otherwise, return null
