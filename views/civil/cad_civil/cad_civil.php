@@ -24,15 +24,9 @@
         <label for="inputPassword">Senha*</label>
         <input type="password" name="inputPassword" placeholder="Ex.: ********" required>
       </div>
-      <div class="inputAreaRow">
-        <div class="inputArea">
-          <label for="inputCep">CEP*</label>
-          <input type="number" name="inputCep" placeholder="Ex.: 07584030" required>
-        </div>
-        <div class="inputArea">
-          <label for="inputCpf">CPF*</label>
-          <input type="text" name="inputCpf" placeholder="Ex.: 53903904920" required>
-        </div>
+      <div class="inputArea">
+        <label for="inputCpf">CPF*</label>
+        <input type="text" name="inputCpf" placeholder="Ex.: 53903904920" required>
       </div>
       <div class="inputAreaRow">
         <div class="inputArea">

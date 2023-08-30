@@ -18,7 +18,7 @@
 	$daoCasa = new DAOCasa($pdo);
 	$daoCivil = new DAOCivil($pdo);
 	
-	$civil_id = $_POST['inputCivil']? $_POST['inputCivil']: null;
+	$civil_email = $_POST['inputEmail'];
 	$acionamento = $_POST['inputAcionamento'];
 	$relato = $_POST['inputRelato'];
 	$numCasas = $_POST['inputNumCasas'];
@@ -48,8 +48,8 @@
 	}
 	
 	$civil = null;
-	if ($civil_id == null){
-		$nome = $_POST["inputName"];
+	if ($civil_email == null){
+		/*$nome = $_POST["inputName"];
         $email = $_POST["inputEmail"];
         $senha = $_POST["inputPassword"];
         $cpf = $_POST["inputCpf"];
@@ -61,10 +61,12 @@
         if ($civil == null) {
             header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
             exit();
-        }
+        }*/
+	    header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+	    exit();
 	}
 	else{
-		$civil = $daoCivil->findById($civil_id);
+		$civil = $daoCivil->findByEmail($civil_email);
 		$civil->setCasa($casa);
 		$daoCivil->update($civil);
 	}

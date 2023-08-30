@@ -53,7 +53,7 @@ require '../../partials/header/header.php';
 				<div class="ocorrencia-info">
 					<div class="ocorrencia-title">
 						<p>' . $endereco->getRua() . ' - ' . $casa->getNumero() . ' (' . $endereco->getBairro() . ')</p>
-						<i class="ph ph-eye"></i>
+						<button onclick="openModal(\'viewOcorrencia\')"><i class="ph-bold ph-eye"></i></button>
 					</div>
 					<div class="ocorrencia-subtitle">
 						<p>' . $ocorrencia->getRelatoCivil() . '</p>
@@ -63,38 +63,7 @@ require '../../partials/header/header.php';
 			}
 
 			?>
-
-			<div class="ocorrencia-item">
-				<div class="ocorrencia-date">
-					<p>20/05</p>
-					<p>14:20</p>
-				</div>
-				<div class="ocorrencia-info">
-					<div class="ocorrencia-title">
-						<p>Rua - Número da Casa (Bairro)</p>
-						<button onclick="openModal('viewOcorrencia')"><i class="ph-bold ph-eye"></i></button>
-					</div>
-					<div class="ocorrencia-subtitle">
-						<p>Observação da ocorrência</p>
-					</div>
-				</div>
-			</div>
-			<div class="ocorrencia-item">
-				<div class="ocorrencia-date">
-					<p>20/05</p>
-					<p>14:20</p>
-				</div>
-				<div class="ocorrencia-info">
-					<div class="ocorrencia-title">
-						<p>Rua - Número da Casa (Bairro)</p>
-						<button onclick="openModal('viewOcorrencia')"><i class="ph-bold ph-eye"></i></button>
-					</div>
-					<div class="ocorrencia-subtitle">
-						<p>Observação da ocorrência</p>
-					</div>
-				</div>
-			</div>
-
+			
 			<a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a>
 		</div>
 	</section>
