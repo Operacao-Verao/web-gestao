@@ -70,36 +70,7 @@
           foreach ($civis as $civil){
             $casa = $civil->getIdCasa()!=null? $daoCasa->findById($civil->getIdCasa()): null;
             
-            $data = array(
-              'id' => $civil->getId(),
-              'nome' => $civil->getNome(),
-              'cep' => $casa? $casa->getCep(): '-Não Cadastrado-',
-              'celular' => $civil->getCelular(),
-              'email' => $civil->getEmail(),
-              'cpf' => $civil->getCpf(),
-              'telefone' => $civil->getTelefone(),
-              'ocorrencias' => array()
-            );
-            
-            $ocorrencias = array();
-            
-            foreach ($relatorios as $relatorio){
-              $ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
-              $casa = $daoCasa->findById($relatorio->getIdCasa());
-              $endereco = $daoEndereco->findByCep($casa->getCep());
-              if ($ocorrencia->getIdCivil() == $civil->getId()){
-                
-                $data['ocorrencias'][] = array(
-                  'data' => $ocorrencia->getDataOcorrencia(),
-                  'rua' => $endereco->getRua(),
-                  'numero' => $casa->getNumero(),
-                  'bairro' => $endereco->getBairro(),
-                  'observacoes' => $ocorrencia->getRelatoCivil()
-                );
-              }
-            }
-            
-            echo '<button class="data-list" onclick=\'openModal("viewCivil", '.json_encode($data).')\'><i class="ph-bold ph-eye"></i></button>';
+            echo '<button class="data-list" onclick=\'openModal("viewCivil", '.$civil->getId().')\'><i class="ph-bold ph-eye"></i></button>';
           }
         ?>
       </div>
@@ -185,42 +156,53 @@
     form.remove();
   }
   
-  function openModal(id, data={}) {
-    document.getElementById(id).classList.add('open');
-    
+  function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+    fetch(action, {
+      "method": "PUT",
+      "headers": {"Content-Type": "application/json"},
+      "body": JSON.stringify(data)
+    }).then(
+      onSuccess, onError
+    );
+  }
+  
+  function openModal(id, civil_id) {
     // Data Filling
-    selected_email = data.email;
-    view_nome.textContent = data.nome;
-    view_cep.textContent = data.cep;
-    view_celular.textContent = data.celular;
-    view_email.textContent = data.email;
-    view_cpf.textContent = data.cpf;
-    view_telefone.textContent = data.telefone;
     
-    console.log(data.ocorrencias);
+    requestFromAction("../../actions/fetch/get_civil.php", function(r){
+      r.json().then(function(json){
+        document.getElementById(id).classList.add('open');
+        
+        selected_email = json.email;
+        view_nome.textContent = json.nome;
+        view_cep.textContent = json.cep;
+        view_celular.textContent = json.celular;
+        view_email.textContent = json.email;
+        view_cpf.textContent = json.cpf;
+        view_telefone.textContent = json.telefone;
+        let ocorrencias_conteudo = '';
+        for (let i=0; i<json.ocorrencias.length; i++){
+          let ocorrencia = json.ocorrencias[i];
+          ocorrencias_conteudo += `<div class="ocorrencia-item">
+                  <div class="ocorrencia-date">
+                    <p>`+ocorrencia.data+`</p>
+                    <p>14:20</p>
+                  </div>
+                  <div class="ocorrencia-info">
+                    <div class="ocorrencia-title">
+                      <p>`+ocorrencia.rua+` - `+ocorrencia.numero+` (`+ocorrencia.bairro+`)</p>
+                      <i class="ph ph-eye"></i>
+                    </div>
+                    <div class="ocorrencia-subtitle">
+                      <p>`+ocorrencia.observacoes+`</p>
+                    </div>
+                  </div>
+                </div>`;
+        }
+        lista_ocorrencias.innerHTML = ocorrencias_conteudo;
+      });
+    }, function(){}, {"id":civil_id});
     
-    let ocorrencias_conteudo = '';
-    for (let i=0; i<data.ocorrencias.length; i++){
-      let ocorrencia = data.ocorrencias[i];
-      ocorrencias_conteudo += `<div class="ocorrencia-item">
-              <div class="ocorrencia-date">
-                <p>`+ocorrencia.data+`</p>
-                <p>14:20</p>
-              </div>
-              <div class="ocorrencia-info">
-                <div class="ocorrencia-title">
-                  <p>`+ocorrencia.rua+` - `+ocorrencia.numero+` (`+ocorrencia.bairro+`)</p>
-                  <i class="ph ph-eye"></i>
-                </div>
-                <div class="ocorrencia-subtitle">
-                  <p>`+ocorrencia.observacoes+`</p>
-                </div>
-              </div>
-            </div>`;
-    }
-    lista_ocorrencias.innerHTML = ocorrencias_conteudo;
-    
-    console.log("teste");
   }
 
   function closeModal() {

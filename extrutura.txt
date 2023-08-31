@@ -1,5 +1,6 @@
-
+﻿
 - actions => Ações do sistema
+	* fetch => Provê uma api para acesso ao banco por meio do Client-side
 
 - assets => Recursos e mídia do Client-Side
 	* css => Folhas de estilos utilizados pelas páginas

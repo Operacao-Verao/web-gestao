@@ -32,6 +32,10 @@
             $this->idTecnico = $tecnico? $tecnico->getId(): null;
         }
         
+        public function setIdTecnico(int|null $id): void {
+            $this->idTecnico = $id;
+        }
+        
         public function getIdCivil(): int {
             return $this->idCivil;
         }
