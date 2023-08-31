@@ -54,14 +54,17 @@
 		public function findWithLogin(string $email, string $senha): ?Funcionario{
 			//$email = addslashes($email);
 			//$senha = addslashes($senha);
-			$statement = $this->pdo->query("select * from Funcionario where email = \"".$email."\" and senha = \"".$senha."\"");
+			$statement = $this->pdo->query("select *, Gestor.id as id_gestor from Funcionario join Gestor on Funcionario.id = Gestor.id_funcionario where email = \"".$email."\"");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
-				$query = $queries[0];
-				return new Funcionario($query['id'], $query['nome'], $query['email'], $query['senha'], $query['tipo_usuario']);
+				$query_gestor = $queries[0];
+				if(password_verify($senha, $query_gestor['senha'])) {
+					return new Funcionario($query_gestor['id_gestor'], $query_gestor['nome'], $query_gestor['email'], $query_gestor['senha'], $query_gestor['tipo_usuario']);
+				}
 			}
+
 			return null;
 		}
 		
