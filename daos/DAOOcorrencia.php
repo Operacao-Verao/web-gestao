@@ -55,7 +55,7 @@
         // Return all records of "Ocorrencia"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{
-            $statement = $this->pdo->query("SELECT * FROM Ocorrencia");
+            $statement = $this->pdo->query("SELECT * FROM Ocorrencia order by data_ocorrencia desc");
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             // All entries will be traversed
@@ -73,7 +73,7 @@
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByText(string $text, bool $status): ?array{
             $text = addslashes($text);
-            $statement = $this->pdo->query('select * from Ocorrencia, Relatorio, Casa, Endereco where (Ocorrencia.id=Relatorio.id and Relatorio.id_casa=Casa.id and Casa.cep=Endereco.cep) and (Ocorrencia.relato_civil like "%'.$text.'%" or Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Casa.numero like "'.$text.'%") and aprovado = '.($status?1:0));
+            $statement = $this->pdo->query('select * from Ocorrencia, Relatorio, Casa, Endereco where (Ocorrencia.id=Relatorio.id and Relatorio.id_casa=Casa.id and Casa.cep=Endereco.cep) and (Ocorrencia.relato_civil like "%'.$text.'%" or Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Casa.numero like "'.$text.'%") and aprovado = '.($status?1:0).' order by Ocorrencia.data_ocorrencia desc');
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             // All entries will be traversed
