@@ -188,6 +188,7 @@
     
   }
   
+  // Procura por civis
   function searchCivis(text){
     requestFromAction("../../actions/fetch/search_civil.php", function(r){
       r.json().then(function(json){

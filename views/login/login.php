@@ -33,6 +33,7 @@
                 
            <button type="submit">Logar</button>
            
+           <!-- De accesso facilitado para Devs -->
            <a href="../home/home.php">Fica sussa meu nobre, eu sou dev!</a>
           </form>
         </div>
