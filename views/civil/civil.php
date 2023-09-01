@@ -27,12 +27,6 @@
     header("Location: ../login/login.php");
   };
   
-  session_start();
-  if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    session_destroy();
-    header("Location: ../login/login.php");
-  };
-  
   $daoCivil = new DAOCivil($pdo);
   $civis = $daoCivil->listAll();
 ?>

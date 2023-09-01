@@ -17,57 +17,28 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 <div class="wrapper-main">
 	<section class="search-space">
 		<div class="search-div">
-			<input type="search" placeholder="Procurar Ocorrencias..." />
+			<input type="search" oninput="searchOcorrencias(this.value)" id="search_ocorrencia" placeholder="Procurar Ocorrencias..." />
 			<i class="ph ph-magnifying-glass"></i>
 		</div>
 	</section>
 	<section class="wrapper">
 		<div class="status">
-			<button class="btnStatus">Desaprovado</button>
-			<button class="btnStatus">Aprovado</button>
+			<button class="btnStatus" onclick="trocarAba(false)">Desaprovado</button>
+			<button class="btnStatus" onclick="trocarAba(true)">Aprovado</button>
 		</div>
-		<div class="ocorrencias">
+		<div class="ocorrencias" id="lista_ocorrencias">
 
 			<?php
-			require '../../actions/conn.php';
+				require '../../actions/conn.php';
 
-			require '../../models/Ocorrencia.php';
-			require '../../daos/DAOOcorrencia.php';
-			require '../../models/Relatorio.php';
-			require '../../daos/DAORelatorio.php';
-			require '../../models/Casa.php';
-			require '../../daos/DAOCasa.php';
-			require '../../models/Endereco.php';
-			require '../../daos/DAOEndereco.php';
-
-			$daoOcorrencia = new DAOOcorrencia($pdo);
-			$daoRelatorio = new DAORelatorio($pdo);
-			$daoCasa = new DAOCasa($pdo);
-			$daoEndereco = new DAOEndereco($pdo);
-
-			$relatorios = $daoRelatorio->listAll();
-
-			foreach ($relatorios as $relatorio) {
-				$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
-				$casa = $daoCasa->findById($relatorio->getIdCasa());
-				$endereco = $daoEndereco->findByCep($casa->getCep());
-				echo '<div class="ocorrencia-item">
-				<div class="ocorrencia-date">
-					<p>' . $ocorrencia->getDataOcorrencia() . '</p>
-					<p>00:00</p>
-				</div>
-				<div class="ocorrencia-info">
-					<div class="ocorrencia-title">
-						<p>' . $endereco->getRua() . ' - ' . $casa->getNumero() . ' (' . $endereco->getBairro() . ')</p>
-						<button onclick="openModal(\'viewOcorrencia\', '.$ocorrencia->getId().')"><i class="ph-bold ph-eye"></i></button>
-					</div>
-					<div class="ocorrencia-subtitle">
-						<p>' . $ocorrencia->getRelatoCivil() . '</p>
-					</div>
-				</div>
-			</div>';
-			}
-
+				require '../../models/Ocorrencia.php';
+				require '../../daos/DAOOcorrencia.php';
+				require '../../models/Relatorio.php';
+				require '../../daos/DAORelatorio.php';
+				require '../../models/Casa.php';
+				require '../../daos/DAOCasa.php';
+				require '../../models/Endereco.php';
+				require '../../daos/DAOEndereco.php';
 			?>
 			
 			<a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a>
@@ -141,6 +112,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 <!--MODAL VISUALIZAR OCORRÊNCIA-->
 </main>
 <script>
+	let aba_status_aprovado = false; // Seleciona entre aprovados e não aprovados
 	let ocorrencia_atual = null;
 	
 	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
@@ -170,7 +142,43 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	    }, function(){}, {"id":ocorrencia_id});
 	    ocorrencia_atual = ocorrencia_id;
 	}
-
+	
+	// Procura por ocorrencias
+	function searchOcorrencias(text) {
+		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
+	      r.json().then(function(json){
+	      	let content = "";
+	      	
+	      	for (let i=0; i<json.length; i++){
+	      		let oe = json[i]; // Entrada de ocorrência
+	      		content += `<div class="ocorrencia-item">
+				<div class="ocorrencia-date">
+					<p>`+oe.data+`</p>
+					<p>00:00</p>
+				</div>
+				<div class="ocorrencia-info">
+					<div class="ocorrencia-title">
+						<p>`+oe.rua+` - `+oe.numero+` (`+oe.bairro+`)</p>
+						<button onclick="openModal(\'viewOcorrencia\', `+oe.id+`)"><i class="ph-bold ph-eye"></i></button>
+					</div>
+					<div class="ocorrencia-subtitle">
+						<p>`+oe.relato+`</p>
+					</div>
+				</div>
+			</div>`
+	      	}
+			lista_ocorrencias.innerHTML = content;
+	      	//console.log(json);
+	      });
+	    }, function(){}, {"text": text, "aprovado": aba_status_aprovado});
+	}
+	searchOcorrencias("");
+	
+	function trocarAba(status_aprovado=aba_status_aprovado){
+		aba_status_aprovado = status_aprovado;
+		searchOcorrencias(search_ocorrencia.value);
+	}
+	
 	function closeModal() {
 		document.querySelector('.viewOcorrencia.open').classList.remove('open');
 	}
@@ -180,6 +188,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	      r.text().then(function(r){
 	      	console.log(r);
 	      });
+	      trocarAba();
 	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="true"?true:false)});
 	}
 </script>

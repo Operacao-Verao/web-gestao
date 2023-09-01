@@ -34,7 +34,7 @@
            <button type="submit">Logar</button>
            
            <!-- De accesso facilitado para Devs -->
-           <a href="../../actions/_dev_access.php">Fica sussa meu nobre, eu sou dev!</a>
+           <a href="../../actions/_dev_access.php">Fica sussa meu nobre, sou dev!</a>
           </form>
         </div>
       </section>

@@ -69,6 +69,24 @@
             return [];
         }
 
+        // Search for records of "Ocorrencia" by text and "aprovado" status
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function searchByText(string $text, bool $status): ?array{
+            $text = addslashes($text);
+            $statement = $this->pdo->query('select * from Ocorrencia, Relatorio, Casa, Endereco where (Ocorrencia.id=Relatorio.id and Relatorio.id_casa=Casa.id and Casa.cep=Endereco.cep) and (Ocorrencia.relato_civil like "%'.$text.'%" or Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Casa.numero like "'.$text.'%") and aprovado = '.($status?1:0));
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            // All entries will be traversed
+            if ($queries) {
+                $models = [];
+                foreach ($queries as $query) {
+                    $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['data_ocorrencia']);
+                }
+                return $models;
+            }
+            return [];
+        }
+
         // Update the "Ocorrencia" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Ocorrencia $ocorrencia): bool{

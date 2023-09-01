@@ -67,6 +67,21 @@
 			return null;
 		}
 		
+		// Find a single entry in the "Funcionario" table by its corresponding property "Ocorrencia"
+		// Returns a model if found, returns null otherwise
+		public function findByOcorrencia(Ocorrencia $ocorrencia): ?Relatorio{
+			$statement = $this->pdo->query("select * from Relatorio where id_ocorrencia = ".$ocorrencia->getId());
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// Only one entry is needed, in this case, the first one
+			if ($queries){
+				$query = $queries[0];
+				return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
+			}
+			return null;
+		}
+		
 		// Return all records of "Relatorio"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): ?array{
