@@ -26,14 +26,20 @@
                 $email = $_POST["edtemail"];
                 $senha = $_POST["edtsenha"];
                 $senhaconfirm = $_POST["edtsenhaconfirm"];
-    
-                if ($senha != $senhaconfirm){
-                    header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=senhaincorreta");
-                    exit();
-                }
-    
+                
+                $options = [
+                    'cost' => 12
+                ];
+
+                $senha_criptografada = password_hash($senha, $options);
+
                 if (empty($email) || empty($senha)) {
                     header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=camposobrigatorios");
+                    exit();
+                }
+
+                if ($senha != $senhaconfirm){
+                    header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=senhaincorreta");
                     exit();
                 }
     
@@ -45,7 +51,7 @@
                         // Atualizar os dados do funcionário
                         $funcionario->setNome($nome);
                         $funcionario->setEmail($email);
-                        $funcionario->setSenha($senha);
+                        $funcionario->setSenha($senha_criptografada);
     
                         // Atualizar o técnico
                         $tecnico->setIdFuncionario($funcionario->getId());

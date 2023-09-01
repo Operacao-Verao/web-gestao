@@ -25,19 +25,26 @@
                 $senha = $_POST["edtsenha"];
                 $senhaconfirm = $_POST["edtsenhaconfirm"];
                 
+                $options = [
+                    'cost' => 12
+                ];
+
+                $senha_criptografada = password_hash($senha, PASSWORD_BCRYPT, $options);
+
+                if (empty($email) || empty($senha)) {
+                    header("Location: ../views/cad_tecnico/cad_tecnico.php");
+                    exit();
+                }
+
                 if ($senha != $senhaconfirm){
                     header("Location: ../views/cad_tecnico/cad_tecnico.php");
                     exit();
                 }
                 
-                if (empty($email) || empty($senha)) {
-                    header("Location: ../views/cad_tecnico/cad_tecnico.php");
-                    exit();
-                }
-                
                 $funcionario = $this->daoFuncionario->findWithLogin($email, $senha);
+
                 if ($funcionario == null){
-                    $funcionario = $this->daoFuncionario->insert($nome, $email, $senha, TIPO_USUARIO::FUNCIONARIO);
+                    $funcionario = $this->daoFuncionario->insert($nome, $email, $senha_criptografada, TIPO_USUARIO::FUNCIONARIO);
                 }
                 $tecnico = $this->daoTecnico->insert($funcionario, true);
                 

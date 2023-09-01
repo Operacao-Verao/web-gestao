@@ -7,6 +7,12 @@
 
 <?php
 require '../../partials/header/header.php';
+
+session_start();
+if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+	session_destroy();
+	header("Location: ../login/login.php");
+};
 ?>
 <div class="wrapper-main">
 	<section class="search-space">

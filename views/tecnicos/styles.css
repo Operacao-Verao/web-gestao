@@ -47,6 +47,7 @@ button {
 	padding: 13px 6px;
 	margin-top: 2rem;
 	border: 0;
+	cursor: pointer;
 }
 
 @media (max-width: 1000px) {

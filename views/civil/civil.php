@@ -20,6 +20,12 @@
   require '../../daos/DAOCasa.php';
   require '../../models/Endereco.php';
   require '../../daos/DAOEndereco.php';
+
+  session_start();
+  if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    session_destroy();
+    header("Location: ../login/login.php");
+  };
   
   $daoCivil = new DAOCivil($pdo);
   $civis = $daoCivil->listAll();
