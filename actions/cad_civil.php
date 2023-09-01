@@ -18,6 +18,12 @@
                 $telefone = $_POST["inputTelefone"];
 
                 $cepCasa = $_POST["inputCep"];
+
+                $options = [
+                    'cost' => 12
+                ];
+
+                $senha_criptografada = password_hash($senha, PASSWORD_BCRYPT, $options);
                 //$numeroCasa = $_POST["numero"];
                 //$complementoCasa = $_POST["complemento"];
 
@@ -27,7 +33,7 @@
                 //$idCasa = $daoCasa->insert($novaCasa);
 
                 //if ($idCasa) {
-                    $novoCivil = $this->daoCivil->insert(null, $nome, $email, $senha, $cpf, $celular, $telefone);
+                    $novoCivil = $this->daoCivil->insert(null, $nome, $email, $senha_criptografada, $cpf, $celular, $telefone);
 
                     if ($novoCivil) {
                         header("Location: ../views/civil/civil.php");

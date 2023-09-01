@@ -15,6 +15,12 @@ require '../../daos/DAOTecnico.php';
 require '../../models/Funcionario.php';
 require '../../daos/DAOFuncionario.php';
 
+session_start();
+if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+	session_destroy();
+	header("Location: ../login/login.php");
+};
+
 $daoFuncionario = new DAOFuncionario($pdo);
 $daoTecnico = new DAOTecnico($pdo);
 $tecnicos = $daoTecnico->listAll();

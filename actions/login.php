@@ -53,7 +53,8 @@
                     header("Location: ../views/home/home.php");
                     exit();
                 } else {
-                    header("Location: ../views/login/login.php?error=Login incorreto");
+                    $_SESSION['erro'] = "E-mail e/ou senha incorretos";
+                    header("Location: ../views/login/login.php");
                     exit();
                 }
             }
