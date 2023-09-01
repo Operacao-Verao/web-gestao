@@ -21,6 +21,12 @@
   require '../../models/Endereco.php';
   require '../../daos/DAOEndereco.php';
   
+  session_start();
+  if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    session_destroy();
+    header("Location: ../login/login.php");
+  };
+  
   $daoCivil = new DAOCivil($pdo);
   $civis = $daoCivil->listAll();
 ?>
@@ -28,51 +34,22 @@
   <div class="wrapper-main">
     <section class="search-space">
       <div class="search-div">
-        <input type="search" placeholder="Procurar Civis..." />
+        <input type="search" oninput="searchCivis(this.value)" placeholder="Procurar Civis..." />
         <i class="ph ph-magnifying-glass"></i>
       </div>
     </section>
     <section class="activity-data">
-      <div class="data name">
+      <div class="data name" id="list_nomes">
         <span class="data-title">Nome</span>
-        <?php
-          foreach ($civis as $civil){
-            echo '<span class="data-list">'.$civil->getNome().'</span>';
-          }
-        ?>
       </div>
-      <div class="data email">
+      <div class="data email" id="list_emails">
         <span class="data-title">Email</span>
-        <?php
-          foreach ($civis as $civil){
-            echo '<span class="data-list">'.$civil->getEmail().'</span>';
-          }
-        ?>
       </div>
-      <div class="data cpf">
+      <div class="data cpf" id="list_cpfs">
         <span class="data-title">CPF</span>
-        <?php
-          foreach ($civis as $civil){
-            echo '<span class="data-list">'.$civil->getCpf().'</span>';
-          }
-        ?>
       </div>
-      <div class="data ver">
+      <div class="data ver" id="list_views">
         <span class="data-title">Ver</span>
-        <?php
-          $daoOcorrencia = new DAOOcorrencia($pdo);
-          $daoRelatorio = new DAORelatorio($pdo);
-          $daoCasa = new DAOCasa($pdo);
-          $daoEndereco = new DAOEndereco($pdo);
-          
-          $relatorios = $daoRelatorio->listAll();
-          
-          foreach ($civis as $civil){
-            $casa = $civil->getIdCasa()!=null? $daoCasa->findById($civil->getIdCasa()): null;
-            
-            echo '<button class="data-list" onclick=\'openModal("viewCivil", '.$civil->getId().')\'><i class="ph-bold ph-eye"></i></button>';
-          }
-        ?>
       </div>
     </section>
     <a href="./cad_civil/cad_civil.php"><button class="btnCadastrar">Cadastrar Civil</button></a>
@@ -204,6 +181,31 @@
     }, function(){}, {"id":civil_id});
     
   }
+  
+  function searchCivis(text){
+    requestFromAction("../../actions/fetch/search_civil.php", function(r){
+      r.json().then(function(json){
+        let nome_content = '<span class="data-title">Nome</span>';
+        let email_content = '<span class="data-title">Email</span>';
+        let cpf_content = '<span class="data-title">CPF</span>';
+        let view_content = '<span class="data-title">Ver</span>';
+        
+        // Gerando lista de elementos 
+        for (let i=0; i<json.length; i++){
+          let civil = json[i];
+          nome_content += '<span class="data-list">'+civil.nome+'</span>';
+          email_content += '<span class="data-list">'+civil.email+'</span>';
+          cpf_content += '<span class="data-list">'+civil.cpf+'</span>';
+          view_content += '<button class="data-list" onclick=\'openModal("viewCivil", '+civil.id+')\'><i class="ph-bold ph-eye"></i></button>';
+        }
+        list_nomes.innerHTML = nome_content;
+        list_emails.innerHTML = email_content;
+        list_cpfs.innerHTML = cpf_content;
+        list_views.innerHTML = view_content;
+      });
+    }, function(){}, {"text": text});
+  }
+  searchCivis('');
 
   function closeModal() {
     document.querySelector('.viewCivil.open').classList.remove('open');

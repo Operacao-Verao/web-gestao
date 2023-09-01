@@ -83,7 +83,25 @@
 		// Return all records of "Civil"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): ?array{
-			$statement = $this->pdo->query("select * from Civil");
+			$statement = $this->pdo->query("select * from Civil order by nome");
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+			
+			// All entries will be traversed
+			if ($queries){
+				$modelos = [];
+				foreach ($queries as $query){
+					$modelos[] = new Civil($query['id'], $query['id_casa'], $query['nome'], $query['email'], $query['senha'], $query['cpf'], $query['celular'], $query['telefone']);
+				}
+				return $modelos;
+			}
+			return [];
+		}
+		
+		// Search for all records of "Civil" corresponding to text searched
+		// Returns an array with all the found models, returns an empty array in case of an error
+		public function searchByNameEmailCpf(string $text): ?array{
+			$text = addslashes($text);
+			$statement = $this->pdo->query("select * from Civil where nome like '".$text."%' or email like '".$text."%' or cpf like '".$text."%' order by nome");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
 			// All entries will be traversed
