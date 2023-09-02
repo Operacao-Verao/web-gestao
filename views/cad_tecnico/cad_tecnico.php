@@ -22,7 +22,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	header("Location: ../login/login.php");
 };
 
-if($_GET['tecnico_id']) {
+if(array_key_exists('tecnico_id', $_GET)) {
   $daoFuncionario = new DAOFuncionario($pdo);
   $daoTecnico = new DAOTecnico($pdo);
 
