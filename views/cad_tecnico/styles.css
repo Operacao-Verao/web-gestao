@@ -99,3 +99,8 @@ a{
     color: #5568FE;
     text-decoration: none;
 }
+
+.error {
+	color: red;
+	font-size: smaller;
+}

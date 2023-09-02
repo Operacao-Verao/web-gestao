@@ -26,7 +26,7 @@
             return $this->ativo;
         }
             
-        public function setAtivo(bool $ativo): bool {
+        public function setAtivo(bool $ativo): void {
             $this->ativo = $ativo;
         }
     }

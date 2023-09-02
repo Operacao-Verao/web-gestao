@@ -31,7 +31,7 @@
 
                 $senha_criptografada = password_hash($senha, PASSWORD_BCRYPT, $options);
 
-                if (empty($email) || empty($senha)) {
+                if (empty($nome) || empty($email) || empty($senha) || empty($senha) || empty($senhaconfirm)) {
                     header("Location: ../views/cad_tecnico/cad_tecnico.php");
                     exit();
                 }
@@ -46,6 +46,7 @@
                 if ($funcionario == null){
                     $funcionario = $this->daoFuncionario->insert($nome, $email, $senha_criptografada, TIPO_USUARIO::FUNCIONARIO);
                 }
+                
                 $tecnico = $this->daoTecnico->insert($funcionario, true);
                 
                 header("Location: ../views/tecnicos/tecnicos.php");

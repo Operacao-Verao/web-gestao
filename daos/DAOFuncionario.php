@@ -109,7 +109,12 @@
 			$insertion->bindValue(":email", $funcionario->getEmail());
 			$insertion->bindValue(":senha", $funcionario->getSenha());
 			$insertion->bindValue(":tipo", $funcionario->getTipoUsuario());
-			return $insertion->execute();
+			
+			if($insertion->execute()) {
+				return true;
+			} 
+
+			return false;
 		}
 	}
 ?>

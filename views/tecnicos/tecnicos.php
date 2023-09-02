@@ -66,8 +66,8 @@ foreach ($tecnicos as $tecnico) {
 				<span class="data-title">Editar</span>
 				<?php
 				// Print Edits
-				foreach ($tecnicos_funcionarios as $tecnico) {
-					echo '<span class="data-list"><i class="ph-bold ph-pencil"></i></span>';
+				foreach ($tecnicos as $tecnico) {
+					echo '<span class="data-list"><a href="../cad_tecnico/cad_tecnico.php?tecnico_id='.$tecnico->getId().'"><i class="ph-bold ph-pencil"></i></a></span>';
 				}
 				?>
 			</div>

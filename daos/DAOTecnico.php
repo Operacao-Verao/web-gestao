@@ -67,11 +67,16 @@
 		// Update the "Tecnico" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Tecnico $tecnico): bool{
-			$insertion = $this->pdo->prepare("update Tecnico set id_funcionario = :funcionario where id = :id");
+			$insertion = $this->pdo->prepare("update Tecnico set id_funcionario = :funcionario, ativo = :ativo where id = :id");
 			$insertion->bindValue(":id", $tecnico->getId());
 			$insertion->bindValue(":funcionario", $tecnico->getIdFuncionario());
 			$insertion->bindValue(":ativo", $tecnico->getAtivo());
-			return $insertion->execute();
+			
+			if($insertion->execute()) {
+				return true;
+			} 
+
+			return false;
 		}
 	}
 ?>

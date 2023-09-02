@@ -31,9 +31,9 @@
                     'cost' => 12
                 ];
 
-                $senha_criptografada = password_hash($senha, $options);
+                $senha_criptografada = password_hash($senha, PASSWORD_BCRYPT, $options);
 
-                if (empty($email) || empty($senha)) {
+                if (empty($nome) || empty($email) || empty($senha) || empty($senha) || empty($senhaconfirm)) {
                     header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=camposobrigatorios");
                     exit();
                 }
@@ -45,6 +45,7 @@
     
                 // Atualizar o técnico
                 $tecnico = $this->daoTecnico->findById($tecnicoId);
+                
                 if ($tecnico) {
                     $funcionario = $this->daoFuncionario->findById($tecnico->getIdFuncionario());
                     if ($funcionario) {
@@ -52,20 +53,21 @@
                         $funcionario->setNome($nome);
                         $funcionario->setEmail($email);
                         $funcionario->setSenha($senha_criptografada);
-    
                         // Atualizar o técnico
-                        $tecnico->setIdFuncionario($funcionario->getId());
-    
-                        if ($this->daoFuncionario->update($funcionario) && $this->daoTecnico->update($tecnico)) {
+                        $tecnico->setFuncionario($funcionario);
+
+                        try {
+                            $this->daoFuncionario->update($funcionario);
+                            $this->daoTecnico->update($tecnico);
                             header("Location: ../views/tecnicos/tecnicos.php");
-                            exit();
-                        } else {
-                            header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=atualizacaofalhou");
-                            exit();
+                        } catch (PDOException $th) {
+                            echo $th->getMessage();
+                            header("Location: ../views/tecnicos/tecnicos.php");
                         }
                     }
                 } else {
-                    header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=naoencontrado");
+                    $_SESSION['erro'] = 'Id não encontrado';
+                    header("Location: ../views/tecnicos/tecnicos.php");
                     exit();
                 }
             }

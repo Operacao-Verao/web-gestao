@@ -9,6 +9,11 @@
 	<title>Defesa Civil - Cadastrar Técnico</title>
 </head>
 <?php
+require '../../actions/conn.php';
+require '../../models/Tecnico.php';
+require '../../daos/DAOTecnico.php';
+require '../../models/Funcionario.php';
+require '../../daos/DAOFuncionario.php';
 
 session_start();
 
@@ -17,25 +22,83 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	header("Location: ../login/login.php");
 };
 
+if($_GET['tecnico_id']) {
+  $daoFuncionario = new DAOFuncionario($pdo);
+  $daoTecnico = new DAOTecnico($pdo);
+
+  $tecnico = $daoTecnico->findById($_GET['tecnico_id']);
+
+  if($tecnico != null) $tecnico_funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
+  else $tecnico_funcionario = null;
+}
 ?>
 
 <body>
     <section class="area-cad">
         <div class="cad">
 
-          <h1>Cadastrar Técnico</h1>
+          <h1>
+            <?php
+              if(array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) echo 'Editar';
+              else echo 'Cadastrar';
+            ?>
+            Técnico
+          </h1>
 
-          <form method="post" action="../../actions/cad_tecnico.php">
+          <form method="post" action=<?php if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {echo '../../actions/alt_tecnico.php';} else {echo '../../actions/cad_tecnico.php';} ?>>
+                <?php
+                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                    echo '<input type="number" name="tecnico_id" id="tecnico_id" value="'.$_GET['tecnico_id'].'" hidden>';
+                    if(!empty($_SESSION['erro'])) {
+                      echo '<span class="error">'.$_SESSION['erro'].'</span><br>';
+                      $_SESSION['erro'] = ''; 
+                    }
+                  }
+                ?>
+
                 Nome
-                <input type="text" id="nome" name="edtnome" autofocus><br>
+                <?php
+                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                    echo '<input type="text" id="edtnome" name="edtnome" value="'.$tecnico_funcionario->getNome().'" autofocus required><br>';
+                  } else {
+                    echo '<input type="text" id="edtnome" name="edtnome" autofocus><br>';
+                  }
+                ?>
                 Email
-                <input type="text" id="email" name="edtemail"><br>
-                Senha
-                <input type="password" id="senha" name="edtsenha"><br>
-                Confirmar Senha
-                <input type="password" id="confirmarSenha" name="edtsenhaconfirm">
+                <?php
+                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                    echo '<input type="text" id="email" name="edtemail" value="'.$tecnico_funcionario->getEmail().'"><br>';
+                  } else {
+                    echo '<input type="text" id="email" name="edtemail" autofocus><br>';
+                  }
+                ?>
 
-           <button type="submit">Cadastrar</button>
+                <?php
+                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                    echo 'Nova senha';
+                  } else {
+                    echo 'Senha';
+                  }
+                ?>
+                <input type="password" id="senha" name="edtsenha" required><br>
+                <?php
+                  if (array_key_exists('tecnico_id', $_GET)) {
+                    echo 'Confirmar nova senha';
+                  } else {
+                    echo 'Confirmar senha';
+                  }
+                ?>
+                <input type="password" id="confirmarSenha" name="edtsenhaconfirm" required>
+
+           <button type="submit">
+            <?php
+              if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                echo 'Atualizar Técnico';
+              } else {
+                echo 'Cadastrar';
+              }
+            ?>
+           </button>
           </form>
         </div>
       </section>
