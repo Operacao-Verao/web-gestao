@@ -27,7 +27,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			<button class="btnStatus" onclick="trocarAba(true)">Aprovado</button>
 		</div>
 		<div class="ocorrencias" id="lista_ocorrencias">
-
 			<?php
 				require '../../actions/conn.php';
 
@@ -40,8 +39,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 				require '../../models/Endereco.php';
 				require '../../daos/DAOEndereco.php';
 			?>
-			
-			<a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a>
 		</div>
 	</section>
 	<!--MODAL VISUALIZAR OCORRÊNCIA-->
@@ -102,8 +99,8 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 				</div>
 				<select name="inputAprovar" class="inputAprovar" id="alter_aprovado">
 					<option selected disabled hidden>Aprovar</option>
-					<option value="true">Aprovado</option>
-					<option value="false">Desaprovado</option>
+					<option value="1">Aprovado</option>
+					<option value="0">Desaprovado</option>
 				</select>
 			</div>
 		</div>
@@ -137,6 +134,8 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			view_casas_envolvidas.textContent = json.numCasas;
 			alter_tecnico.value = json.tecnicoId;
 			alter_aprovado.value = json.aprovado;
+			
+	    	//console.log(ocorrencia_atual);
 			//console.log(json);
 	      });
 	    }, function(){}, {"id":ocorrencia_id});
@@ -147,6 +146,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	function searchOcorrencias(text) {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 	      r.json().then(function(json){
+	      	//console.log(json);
 	      	let content = "";
 	      	
 	      	for (let i=0; i<json.length; i++){
@@ -167,8 +167,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 				</div>
 			</div>`
 	      	}
-			lista_ocorrencias.innerHTML = content;
-	      	//console.log(json);
+			lista_ocorrencias.innerHTML = content+'<a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a>';
 	      });
 	    }, function(){}, {"text": text, "aprovado": aba_status_aprovado});
 	}
@@ -186,10 +185,10 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	alter_tecnico.onchange = alter_aprovado.onchange = function() {
 		requestFromAction("../../actions/fetch/alter_ocorrencia.php", function(r){
 	      r.text().then(function(r){
-	      	console.log(r);
+	      	//console.log(r);
 	      });
 	      trocarAba();
-	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="true"?true:false)});
+	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)});
 	}
 </script>
 

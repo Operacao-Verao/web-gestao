@@ -27,9 +27,8 @@
         <div class="inputArea">
           <label for="inputAcionamento">Acionamento*</label>
           <select name="inputAcionamento" required>
-            <option selected disabled hidden>Ver acionameno...</option>
             <option value="web">Formulário do Site</option>
-            <option value="telefone">Telefone</option>
+            <option value="telefone" selected>Telefone</option>
             <option value="presencial">Presencial</option>
           </select>
         </div>
@@ -73,8 +72,8 @@
           <input type="text" name="inputNumero" placeholder="Ex.: 25b" required>
         </div>
         <div class="inputArea">
-          <label for="inputComplemento">Complemento*</label>
-          <input type="text" name="inputComplemento" placeholder="Ex.: Fundos" required>
+          <label for="inputComplemento">Complemento</label>
+          <input type="text" name="inputComplemento" placeholder="Ex.: Fundos">
         </div>
       </div>
 

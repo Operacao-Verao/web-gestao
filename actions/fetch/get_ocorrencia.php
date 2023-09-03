@@ -40,7 +40,7 @@
 				"civil": "'.addslashes($civil->getNome()).'",
 				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'",
 				"tecnicoId": '.($ocorrencia->getIdTecnico()? $ocorrencia->getIdTecnico(): 'null').',
-				"aprovado": '.($ocorrencia->getAprovado()? 'true': 'false').'
+				"aprovado": '.($ocorrencia->getAprovado()? 1: 0).'
 			}';
 		}
 	}

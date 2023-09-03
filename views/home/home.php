@@ -7,6 +7,7 @@
 
 <?php
 require '../../partials/header/header.php';
+require '../../actions/conn.php';
 
 session_start();
 if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
@@ -25,21 +26,48 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 				<i class="ph-bold ph-basket"></i>
 				<div class="box-info">
 					<span class="text">Ocorrências</span>
-					<span class="number">32</span>
+					<span class="number">
+						<?php
+							require '../../models/Ocorrencia.php';
+							require '../../daos/DAOOcorrencia.php';
+							
+							$daoOcorrencia = new DAOOcorrencia($pdo);
+							
+							echo count($daoOcorrencia->listAll());
+						?>
+					</span>
 				</div>
 			</div>
 			<div class="box box2">
 				<i class="ph-bold ph-chart-line-up"></i>
 				<div class="box-info">
 					<span class="text">Relatórios</span>
-					<span class="number">126</span>
+					<span class="number">
+						<?php
+							require '../../models/Relatorio.php';
+							require '../../daos/DAORelatorio.php';
+							
+							$daoRelatorio = new DAORelatorio($pdo);
+							
+							echo count($daoRelatorio->listAll());
+						?>
+					</span>
 				</div>
 			</div>
 			<div class="box box3">
 				<i class="ph ph-coins"></i>
 				<div class="box-info">
 					<span class="text">Técnicos</span>
-					<span class="number">8</span>
+					<span class="number">
+						<?php
+							require '../../models/Tecnico.php';
+							require '../../daos/DAOTecnico.php';
+							
+							$daoTecnico = new DAOTecnico($pdo);
+							
+							echo count($daoTecnico->listAll());
+						?>
+					</span>
 				</div>
 			</div>
 			<div class="box box4">
@@ -70,7 +98,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			<span class="text">Ocorrências Recentes</span>
 		</div>
 
-		<div class="activity-data">
+		<div class="activity-data" id="lista_ocorrencias">
 			<div class="data address">
 				<span class="data-title">Endereço</span>
 				<span class="data-list">R. Heloísa Gomes Batista</span>
@@ -115,6 +143,52 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	</div>
 </div>
 </div>
+<script type="text/javascript">
+	
+	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+		fetch(action, {
+			"method": "PUT",
+			"headers": {"Content-Type": "application/json"},
+			"body": JSON.stringify(data)
+		}).then(
+			onSuccess, onError
+		);
+	}
+	
+	
+	// Rebuscar ocorrências
+	function refreshOcorrencias() {
+		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
+	      r.json().then(function(json){
+	      	//console.log(json);
+	      	let content_endereco = '<div class="data address"><span class="data-title">Endereço</span>';
+	      	let content_tecnico = '<div class="data names"><span class="data-title">Técnico</span>';
+	      	let content_data = '<div class="data request"><span class="data-title">Data</span>';
+	      	let content_status = '<div class="data status"><span class="data-title">Status</span>';
+	      	let content_ver = '<div class="data ver"><span class="data-title">Ver</span>';
+	      	
+	      	for (let i=0; i<json.length; i++){
+	      		let oe = json[i]; // Entrada de ocorrência
+	      		
+		      	content_endereco += '<span class="data-list">'+oe.rua+' - '+oe.numero+' ('+oe.bairro+')</span>';
+		      	content_tecnico += '<span class="data-list">'+oe.tecnico+'</span>';
+		      	content_data += '<span class="data-list">'+oe.data+'</span>';
+		      	content_status += '<span class="data-list">'+'Pendente'+'</span>';
+		      	content_ver += '<span class="data-list"><i class="ph-bold ph-eye"></i></span>';
+	      	}
+	      	content_endereco += '</div>';
+	      	content_tecnico += '</div>';
+	      	content_data += '</div>';
+	      	content_status += '</div>';
+	      	content_ver += '</div>';
+			lista_ocorrencias.innerHTML = content_endereco+content_tecnico+content_data+content_status+content_ver;
+	      });
+	    }, function(){}, {"text": "", "aprovado": true});
+	}
+	refreshOcorrencias();
+	
+
+</script>
 </main>
 
 </html>

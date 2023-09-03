@@ -28,8 +28,10 @@
 	
 	if ($ocorrencia){
 		echo $input['idTecnico'];
+		echo $input['aprovado'];
 		$ocorrencia->setIdTecnico($input['idTecnico']);
 		$ocorrencia->setAprovado($input['aprovado']);
+		var_dump($ocorrencia);
 		$daoOcorrencia->update($ocorrencia);
 	}
 ?>

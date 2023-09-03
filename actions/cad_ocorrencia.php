@@ -33,7 +33,7 @@
 	if ($endereco == null){
 		$endereco = $daoEndereco->insert($cep, $rua, $bairro, $cidade);
 		if ($endereco == null){
-            header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
             exit();
 		}
 	}
@@ -42,7 +42,7 @@
 	if ($casa == null){
 		$casa = $daoCasa->insert($cep, $numero, $complemento);
 		if ($casa == null){
-            header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
             exit();
 		}
 	}
@@ -62,25 +62,30 @@
             header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
             exit();
         }*/
-	    header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+	    header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
 	    exit();
 	}
 	else{
 		$civil = $daoCivil->findByEmail($civil_email);
+		
+		if ($civil == null){
+			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
+	    	exit();
+		}
 		$civil->setCasa($casa);
 		$daoCivil->update($civil);
 	}
 	
 	$ocorrencia = $daoOcorrencia->insert(null, $civil, $acionamento, $relato, $numCasas, false, getCurrentDate());
 	if ($ocorrencia == null){
-		header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
         exit();
 	}
 	
 	$relatorio = $daoRelatorio->insert($ocorrencia, $casa, GRAVIDADE::NENHUM, '', '', '', '', '', '', '', AREA_AFETADA::INESPECIFICADO, TIPO_CONSTRUCAO::INESPECIFICADO, TIPO_TALUDE::INESPECIFICADO, VEGETACAO::NENHUMA, SITUACAO_VITIMAS::INESPECIFICADO, INTERDICAO::NAO, false, getCurrentDate(), getCurrentDate());
 	if ($relatorio == null){
 		$daoOcorrencia->remove($ocorrencia);
-		header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
         exit();
 	}
 	
