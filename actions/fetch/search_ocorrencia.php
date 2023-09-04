@@ -5,8 +5,6 @@
 	
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
-	require '../../models/Relatorio.php';
-	require '../../daos/DAORelatorio.php';
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
@@ -17,7 +15,6 @@
 	require '../../daos/DAOFuncionario.php';
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoRelatorio = new DAORelatorio($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoTecnico = new DAOTecnico($pdo);
@@ -28,8 +25,7 @@
 	$first = true;
 	echo '[';
 	foreach ($ocorrencias as $ocorrencia){
-		$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
-		$casa = $daoCasa->findById($relatorio->getIdCasa());
+		$casa = $daoCasa->findById($ocorrencia->getIdCasa());
 		$endereco = $daoEndereco->findByCep($casa->getCep());
 		$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
 		$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;

@@ -155,6 +155,32 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		);
 	}
 	
+	function goToAction(action, values={}){
+		let form = document.createElement('form');
+		form.method = 'post';
+		form.action = action;
+		let submit = document.createElement('input');
+		submit.type = 'submit';
+		form.appendChild(submit);
+		for (let name in values){
+			let value = document.createElement('input');
+			value.name = name;
+			value.type = values[name].type || 'text';
+			value.value = values[name].value;
+			form.appendChild(value);
+		}
+		document.body.appendChild(form);
+		submit.click();
+		form.remove();
+	}
+	
+	function goToOcorrencia(id) {
+		goToAction('../ocorrencias/ocorrencias.php', {
+			'id_ocorrencia': {
+				'value':id
+			}
+		});
+	}
 	
 	// Rebuscar ocorrências
 	function refreshOcorrencias() {
@@ -171,10 +197,10 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	      		let oe = json[i]; // Entrada de ocorrência
 	      		
 		      	content_endereco += '<span class="data-list">'+oe.rua+' - '+oe.numero+' ('+oe.bairro+')</span>';
-		      	content_tecnico += '<span class="data-list">'+oe.tecnico+'</span>';
+		      	content_tecnico += '<span class="data-list">'+(oe.tecnico==null?"-Não atribuído-":oe.tecnico)+'</span>';
 		      	content_data += '<span class="data-list">'+oe.data+'</span>';
 		      	content_status += '<span class="data-list">'+'Pendente'+'</span>';
-		      	content_ver += '<span class="data-list"><i class="ph-bold ph-eye"></i></span>';
+		      	content_ver += '<span class="data-list" onclick="goToOcorrencia('+oe.id+')"><i class="ph-bold ph-eye"></i></span>';
 	      	}
 	      	content_endereco += '</div>';
 	      	content_tecnico += '</div>';
@@ -187,7 +213,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	}
 	refreshOcorrencias();
 	
-
 </script>
 </main>
 

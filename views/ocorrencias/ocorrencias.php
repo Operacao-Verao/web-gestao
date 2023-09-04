@@ -135,6 +135,9 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			alter_tecnico.value = json.tecnicoId;
 			alter_aprovado.value = json.aprovado;
 			
+			if (aba_status_aprovado != json.aprovado){
+				trocarAba(json.aprovado);
+			}
 	    	//console.log(ocorrencia_atual);
 			//console.log(json);
 	      });
@@ -191,5 +194,12 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)});
 	}
 </script>
+
+<?php
+	if ($_POST['id_ocorrencia'] != null){
+		echo '<script>openModal("viewOcorrencia", '.$_POST['id_ocorrencia'].')</script>';
+		$_POST['id_ocorrencia'] = null;
+	}
+?>
 
 </html>

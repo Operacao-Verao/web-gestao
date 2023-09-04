@@ -3,20 +3,24 @@
         private int $id;
         private int|null $idTecnico;
         private int $idCivil;
+        private int $idCasa;
         private string $acionamento;
         private string $relatoCivil;
         private int $numCasas;
         private bool $aprovado;
+        private bool $encerrado;
         private string $dataOcorrencia;
         
-        public function __construct(int $id, int|null $idTecnico, int $idCivil, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, string $dataOcorrencia) {
+        public function __construct(int $id, int|null $idTecnico, int $idCivil, int $idCasa, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, bool $encerrado, string $dataOcorrencia) {
             $this->id = $id;
             $this->idTecnico = $idTecnico;
             $this->idCivil = $idCivil;
+            $this->idCasa = $idCasa;
             $this->acionamento = $acionamento;
             $this->relatoCivil = $relatoCivil;
             $this->numCasas = $numCasas;
             $this->aprovado = $aprovado;
+            $this->encerrado = $encerrado;
             $this->dataOcorrencia = $dataOcorrencia;
         }
         
@@ -42,6 +46,14 @@
         
         public function setCivil(Civil $civil): void {
             $this->idCivil = $civil->getId();
+        }
+        
+        public function getIdCasa(): int{
+            return $this->idCasa;
+        }
+        
+        public function setCasa(Casa $casa): void{
+            $this->idCasa = $casa->getId();
         }
         
         public function getAcionamento(): string {
@@ -74,6 +86,14 @@
         
         public function setAprovado(bool $aprovado): void {
             $this->aprovado = $aprovado;
+        }
+        
+        public function getEncerrado(): bool {
+            return $this->encerrado;
+        }
+        
+        public function setEncerrado(bool $encerrado): void {
+            $this->encerrado = $encerrado;
         }
         
         public function getDataOcorrencia(): string {

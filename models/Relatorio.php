@@ -46,7 +46,6 @@
     class Relatorio {
         private int $id;
         private int $idOcorrencia;
-        private int $idCasa;
         private int $gravidade;
         private string $relatorio;
         private string $encaminhamento;
@@ -65,11 +64,10 @@
         private string $dataGeracao;
         private string $dataAtendimento;
 
-        public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
+        public function __construct(int $id, int $idOcorrencia, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
             $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento) {
             $this->id = $id;
             $this->idOcorrencia = $idOcorrencia;
-            $this->idCasa = $idCasa;
             $this->gravidade = $gravidade;
             $this->relatorio = $relatorio;
             $this->encaminhamento = $encaminhamento;
@@ -99,14 +97,6 @@
         
         public function setOcorrencia(int $ocorrencia): void{
             $this->idOcorrencia = $ocorrencia->getId();
-        }
-        
-        public function getIdCasa(): int{
-            return $this->idCasa;
-        }
-        
-        public function setCasa(int $casa): void{
-            $this->idCasa = $casa->getId();
         }
         
         public function getGravidade(): int{

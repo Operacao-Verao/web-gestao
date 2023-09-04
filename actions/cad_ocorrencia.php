@@ -3,8 +3,6 @@
 	
 	require '../models/Ocorrencia.php';
 	require '../daos/DAOOcorrencia.php';
-	require '../models/Relatorio.php';
-	require '../daos/DAORelatorio.php';
 	require '../models/Endereco.php';
 	require '../daos/DAOEndereco.php';
 	require '../models/Casa.php';
@@ -13,7 +11,6 @@
 	require '../daos/DAOCivil.php';
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoRelatorio = new DAORelatorio($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoCivil = new DAOCivil($pdo);
@@ -76,15 +73,9 @@
 		$daoCivil->update($civil);
 	}
 	
-	$ocorrencia = $daoOcorrencia->insert(null, $civil, $acionamento, $relato, $numCasas, false, getCurrentDate());
+	var_dump($casa); echo '<br/><br/>';
+	$ocorrencia = $daoOcorrencia->insert(null, $civil, $casa, $acionamento, $relato, $numCasas, false, false, getCurrentDate());
 	if ($ocorrencia == null){
-		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-        exit();
-	}
-	
-	$relatorio = $daoRelatorio->insert($ocorrencia, $casa, GRAVIDADE::NENHUM, '', '', '', '', '', '', '', AREA_AFETADA::INESPECIFICADO, TIPO_CONSTRUCAO::INESPECIFICADO, TIPO_TALUDE::INESPECIFICADO, VEGETACAO::NENHUMA, SITUACAO_VITIMAS::INESPECIFICADO, INTERDICAO::NAO, false, getCurrentDate(), getCurrentDate());
-	if ($relatorio == null){
-		$daoOcorrencia->remove($ocorrencia);
 		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
         exit();
 	}
