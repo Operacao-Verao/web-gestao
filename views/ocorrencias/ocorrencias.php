@@ -106,7 +106,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		</div>
 	</section>
 </div>
-<!--MODAL VISUALIZAR OCORRÊNCIA-->
 </main>
 <script>
 	let aba_status_aprovado = false; // Seleciona entre aprovados e não aprovados

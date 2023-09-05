@@ -99,6 +99,25 @@
 			return [];
 		}
 		
+        // Search for records of "Relatorio" by text
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function searchByText(string $text): ?array{
+            $text = addslashes($text);
+            $statement = $this->pdo->query('select * from Relatorio inner join Ocorrencia on Relatorio.id_ocorrencia = Ocorrencia.id inner join Casa on Ocorrencia.id_casa = Casa.id inner join Endereco on Casa.cep = Endereco.cep, Tecnico, Funcionario WHERE ((Ocorrencia.id_tecnico = Tecnico.id and Tecnico.id_funcionario = Funcionario.id) or Ocorrencia.id_tecnico is null) and (Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Casa.numero like "'.$text.'%" or ((not Ocorrencia.id_tecnico is null) and Funcionario.nome like "'.$text.'%")) group by Relatorio.id order by Relatorio.data_geracao desc');
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// All entries will be traversed
+			if ($queries){
+				$modelos = [];
+				foreach ($queries as $query){
+					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
+				}
+				return $modelos;
+			}
+			return [];
+        }
+
 		// Update the "Relatorio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Relatorio $relatorio): bool{
