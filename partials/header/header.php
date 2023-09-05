@@ -7,7 +7,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="https://unpkg.com/@phosphor-icons/web"></script>
 	<link rel="stylesheet" href="../../partials/header/styles.css" />
-	<title>Defesa Civil</title>
 </head>
 
 <body>
@@ -31,7 +30,8 @@
 							class="link-name">Ocorrências</span></a>
 				</li>
 				<li>
-					<a href="#"><i class="ph-bold ph-warning-octagon"></i><span class="link-name">Relatórios</span></a>
+					<a href="../../views/relatorios/relatorios.php"><i class="ph-bold ph-warning-octagon"></i><span
+							class="link-name">Relatórios</span></a>
 				</li>
 				<li>
 					<a href="#"><i class="ph-bold ph-user-list"></i><span class="link-name">Secretários</span></a>

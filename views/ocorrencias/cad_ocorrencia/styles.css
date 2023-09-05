@@ -19,7 +19,7 @@ body {
 main {
 	width: 30%;
 	margin: auto;
-	margin-top: 5rem;
+	margin-top: 2rem;
 	background-color: var(--box-background);
 	border: 1px solid #ccc;
 	border-radius: 2rem;
