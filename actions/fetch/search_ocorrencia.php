@@ -38,7 +38,8 @@
 		}
 		echo '{
 			"id": '.$ocorrencia->getId().',
-			"data": "'.addslashes($ocorrencia->getDataOcorrencia()).'",
+			"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
+			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
 			"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
 			"rua": "'.addslashes($endereco->getRua()).'",
 			"numero": "'.addslashes($casa->getNumero()).'",

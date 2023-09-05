@@ -74,7 +74,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		<div class="ocorrencias-content">
 			<div class="topRow">
 				<div class="item-column">
-					<label for="inputTecnico" class="item-title">Técnico Responsável - <span>Samantha Zduniak</span></label>
+					<label for="inputTecnico" class="item-title">Técnico Responsável</label>
 					<select name="inputTecnico" class="inputTecnico" id="alter_tecnico">
 						<option selected disabled hidden>Selecionar...</option>
 						<?php
@@ -156,7 +156,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	      		content += `<div class="ocorrencia-item">
 				<div class="ocorrencia-date">
 					<p>`+oe.data+`</p>
-					<p>00:00</p>
+					<p>`+oe.hora+`</p>
 				</div>
 				<div class="ocorrencia-info">
 					<div class="ocorrencia-title">

@@ -44,7 +44,8 @@
 		echo '{
 			"id": '.$relatorio->getId().',
 			"id_ocorrencia": '.$ocorrencia->getId().',
-			"data": "'.addslashes($relatorio->getDataGeracao()).'",
+			"data": "'.addslashes(formatDate($relatorio->getDataGeracao())).'",
+			"hora": "'.addslashes(formatTime($relatorio->getDataGeracao())).'",
 			"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
 			"rua": "'.addslashes($endereco->getRua()).'",
 			"numero": "'.addslashes($casa->getNumero()).'",

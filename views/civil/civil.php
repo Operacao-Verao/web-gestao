@@ -148,6 +148,7 @@
     
     requestFromAction("../../actions/fetch/get_civil.php", function(r){
       r.json().then(function(json){
+        //console.log(json);
         document.getElementById(id).classList.add('open');
         
         selected_email = json.email;
@@ -163,7 +164,7 @@
           ocorrencias_conteudo += `<div class="ocorrencia-item">
                   <div class="ocorrencia-date">
                     <p>`+ocorrencia.data+`</p>
-                    <p>14:20</p>
+                    <p>`+ocorrencia.hora+`</p>
                   </div>
                   <div class="ocorrencia-info">
                     <div class="ocorrencia-title">

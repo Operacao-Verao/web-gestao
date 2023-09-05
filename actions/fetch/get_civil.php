@@ -7,8 +7,6 @@
 	
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
-	require '../../models/Relatorio.php';
-	require '../../daos/DAORelatorio.php';
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
@@ -16,7 +14,6 @@
 	
 	$daoCivil = new DAOCivil($pdo);
 	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoRelatorio = new DAORelatorio($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	
@@ -39,11 +36,10 @@
 		"ocorrencias": [
 		';
 	
-	$relatorios = $daoRelatorio->listAll();
+	$ocorrencias = $daoOcorrencia->listAll();
 	$first = true;
-	foreach ($relatorios as $relatorio){
-	  $ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
-	  $casa = $daoCasa->findById($relatorio->getIdCasa());
+	foreach ($ocorrencias as $ocorrencia){
+	  $casa = $daoCasa->findById($ocorrencia->getIdCasa());
 	  $endereco = $daoEndereco->findByCep($casa->getCep());
 	  if ($ocorrencia->getIdCivil() == $civil->getId()){
 	    
@@ -54,7 +50,8 @@
 	    	echo ',';
 	    }
 	    echo '{
-			"data": "'.addslashes($ocorrencia->getDataOcorrencia()).'",
+			"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
+			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
 			"rua": "'.addslashes($endereco->getRua()).'",
 			"numero": "'.addslashes($casa->getNumero()).'",
 			"bairro": "'.addslashes($endereco->getBairro()).'",

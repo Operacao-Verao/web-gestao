@@ -74,7 +74,7 @@
 	}
 	
 	var_dump($casa); echo '<br/><br/>';
-	$ocorrencia = $daoOcorrencia->insert(null, $civil, $casa, $acionamento, $relato, $numCasas, false, false, getCurrentDate());
+	$ocorrencia = $daoOcorrencia->insert(null, $civil, $casa, $acionamento, $relato, $numCasas, false, false, getCurrentDatetime());
 	if ($ocorrencia == null){
 		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
         exit();
