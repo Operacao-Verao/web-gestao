@@ -58,6 +58,22 @@
             return [];
         }
 
+        // Return all records of "Foto" where references to a specific "Relatorio"
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function listByRelatorio(Relatorio $relatorio): ?array{
+            $statement = $this->pdo->query("SELECT * FROM Foto WHERE id_relatorio = ".$relatorio->getId());
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($queries) {
+                $models = [];
+                foreach ($queries as $query) {
+                    $models[] = new Foto($query['id'], $query['id_relatorio'], $query['codificado']);
+                }
+                return $models;
+            }
+            return [];
+        }
+
         // Update the "Foto" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Foto $foto): bool{

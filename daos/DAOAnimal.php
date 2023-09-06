@@ -38,7 +38,7 @@
 
         // Find a single entry in the "Animal" table
         // Returns a model if found, returns null otherwise
-        public function findById($id): ?Animal{
+        public function findById(int $id): ?Animal{
             $statement = $this->pdo->query("SELECT * FROM Animal WHERE id = " . $id);
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -46,6 +46,20 @@
             if ($queries) {
                 $query = $queries[0];
                 return new Animal($id, $query['id_relatorio'], $query['caes'], $query['gatos'], $query['aves'], $query['equinos']);
+            }
+            return null;
+        }
+
+        // Find a single entry in the "Animal" table by "Relatorio" reference
+        // Returns a model if found, returns null otherwise
+        public function findByRelatorio(Relatorio $relatorio): ?Animal{
+            $statement = $this->pdo->query("SELECT * FROM Animal WHERE id_relatorio = " . $relatorio->getId());
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            // Only one entry is needed, in this case, the first one
+            if ($queries) {
+                $query = $queries[0];
+                return new Animal($query['id'], $query['id_relatorio'], $query['caes'], $query['gatos'], $query['aves'], $query['equinos']);
             }
             return null;
         }

@@ -46,7 +46,7 @@
 		
 		// Find a single entry in the "DadosDaVistoria" table
 		// Returns a model if found, returns null otherwise
-		public function findById($id): ?DadosDaVistoria{
+		public function findById(int $id): ?DadosDaVistoria{
 			$statement = $this->pdo->query("select * from DadosDaVistoria where id = ".$id);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -54,6 +54,20 @@
 			if ($queries){
 				$query = $queries[0];
 				return new DadosDaVistoria($id, $query['id_relatorio'], $query['desmoronamento'], $query['deslizamento'], $query['esgoto_escoamento'], $query['erosao'], $query['inundacao'], $query['incendio'], $query['arvores'], $query['infiltracao_trinca'], $query['judicial'], $query['monitoramento'], $query['transito'], $query['outros']);
+			}
+			return null;
+		}
+		
+		// Find a single entry in the "DadosDaVistoria" table by "Relatorio" reference
+		// Returns a model if found, returns null otherwise
+		public function findByRelatorio(Relatorio $relatorio): ?DadosDaVistoria{
+			$statement = $this->pdo->query("select * from DadosDaVistoria WHERE id_relatorio = " . $relatorio->getId());
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// Only one entry is needed, in this case, the first one
+			if ($queries){
+				$query = $queries[0];
+				return new DadosDaVistoria($query['id'], $query['id_relatorio'], $query['desmoronamento'], $query['deslizamento'], $query['esgoto_escoamento'], $query['erosao'], $query['inundacao'], $query['incendio'], $query['arvores'], $query['infiltracao_trinca'], $query['judicial'], $query['monitoramento'], $query['transito'], $query['outros']);
 			}
 			return null;
 		}

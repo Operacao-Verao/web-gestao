@@ -195,7 +195,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 </script>
 
 <?php
-	if ($_POST['id_ocorrencia'] != null){
+	if (array_key_exists('id_ocorrencia', $_POST) && $_POST['id_ocorrencia'] != null){
 		echo '<script>openModal("viewOcorrencia", '.$_POST['id_ocorrencia'].')</script>';
 		$_POST['id_ocorrencia'] = null;
 	}

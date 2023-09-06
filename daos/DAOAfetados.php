@@ -52,7 +52,21 @@
             }
             return null;
         }
+        
+        // Find a single entry in the "Afetados" table by "Relatorio" reference
+        // Returns a model if found, returns null otherwise
+        public function findByRelatorio(Relatorio $relatorio): ?Afetados{
+            $statement = $this->pdo->query("SELECT * FROM Afetados WHERE id_relatorio = " . $relatorio->getId());
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+            // Only one entry is needed, in this case, the first one
+            if ($queries) {
+                $query = $queries[0];
+                return new Afetados($query['id'], $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
+            }
+            return null;
+        }
+        
         // Return all records of "Afetados"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{

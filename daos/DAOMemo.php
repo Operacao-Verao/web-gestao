@@ -45,6 +45,19 @@
             return null;
         }
 
+        // Find a single entry in the "Memo" table by "Relatorio" reference
+        // Returns a model if found, returns null otherwise
+        public function findByRelatorio(Relatorio $relatorio): ?Memo{
+            $statement = $this->pdo->query("SELECT * FROM Memo WHERE id_relatorio = " . $relatorio->getId());
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($queries) {
+                $query = $queries[0];
+                return new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['processo']);
+            }
+            return null;
+        }
+
         // Return all records of "Memo"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{
