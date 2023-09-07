@@ -1,0 +1,203 @@
+.wrapper-main {
+	position: relative;
+	width: 100%;
+	min-height: 95vh;
+	margin-top: 1rem;
+	background-color: #fff;
+	border-radius: 1rem;
+	padding: 2rem;
+}
+.search-space {
+	width: 100%;
+}
+.search-div {
+	position: relative;
+	display: flex;
+	width: 50%;
+	height: min-content;
+
+	margin: 15px auto;
+}
+.search-div input {
+	width: 100%;
+	font-size: 1.6rem;
+
+	border: 2px solid #ccc;
+	border-radius: 1.5rem;
+	padding: 15px;
+	outline: 0;
+}
+.search-div i {
+	position: absolute;
+	right: 20px;
+	top: 13px;
+	font-size: 22px;
+	color: #aaa;
+}
+.activity-data {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	width: 100%;
+	background-color: var(--box-color);
+	border-radius: 0.6rem;
+	padding: 4rem 2rem;
+}
+.activity-data .data {
+	display: flex;
+	flex-direction: column;
+
+	margin: 0 1.5rem;
+}
+.activity-data .data-title {
+	font-size: 2rem;
+	font-weight: 500;
+	color: var(--text-color);
+}
+.activity-data .data .data-list {
+	font-size: 1.6rem;
+	font-weight: 400;
+	color: var(--text-color);
+	white-space: nowrap;
+
+	margin-top: 2rem;
+}
+.data.ver {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.data.ver i {
+	font-size: 2rem;
+}
+button.data-list {
+	border: 0;
+	background: transparent;
+	font-size: 1.7rem;
+	cursor: pointer;
+}
+.btnCadastrar {
+	position: absolute;
+	right: 30px;
+	bottom: 30px;
+	font-size: 1.7rem;
+	font-weight: 500;
+	padding: 1.5rem 2.5rem;
+	cursor: pointer;
+	background-color: var(--blue);
+	color: #fff;
+	border: 0;
+	border-radius: 0.5rem;
+}
+
+/* MODAL */
+
+.viewCivil {
+	position: absolute;
+	top: 7%;
+	left: 5%;
+	display: none;
+	width: 75%;
+	height: 720px;
+	background-color: var(--panel-color);
+	padding: 3.5rem;
+	border: 2px solid #ccc;
+	border-radius: 2rem;
+}
+.viewCivil.open {
+	display: block;
+}
+body.viewCivil-open {
+	overflow: hidden;
+}
+.viewCivil .topRow {
+	position: relative;
+}
+.viewCivil .topRow h2 {
+	text-align: center;
+}
+.viewCivil .topRow i {
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	font-size: 2.8rem;
+	cursor: pointer;
+}
+.civil-content {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	padding-bottom: 3rem;
+	border-bottom: 2px solid #9ca3af;
+}
+.civil-content .civil-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	margin-top: 1.5rem;
+}
+.civil-item .item-title {
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+.civil-item .item-content {
+	font-size: 1.5rem;
+}
+.ocorrencias-content {
+	margin-top: 3rem;
+}
+.ocorrencias {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 5rem;
+	margin-top: 5rem;
+}
+.ocorrencias .ocorrencia-item {
+	display: flex;
+	gap: 3rem;
+}
+.ocorrencias .ocorrencia-date {
+	display: flex;
+	flex-direction: column;
+	color: #71717a;
+	padding-right: 3rem;
+	border-right: 2px solid #9ca3af;
+}
+.ocorrencias .ocorrencia-date::after {
+	content: '';
+	width: 2px;
+	min-height: 80px;
+}
+.ocorrencias .ocorrencia-info {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+.ocorrencia-info .ocorrencia-title {
+	display: flex;
+	align-items: center;
+	font-size: 1.8rem;
+	font-weight: 500;
+	gap: 1.5rem;
+}
+.ocorrencia-info .ocorrencia-title i {
+	font-size: 2rem;
+}
+.ocorrencia-info .ocorrencia-subtitle {
+	color: #71717a;
+}
+
+.btnCriarOcorrencia {
+	position: absolute;
+	right: 30px;
+	bottom: 30px;
+	font-size: 1.7rem;
+	font-weight: 500;
+	padding: 1.5rem 2.5rem;
+	cursor: pointer;
+	background-color: var(--blue);
+	color: #fff;
+	border: 0;
+	border-radius: 0.5rem;
+}

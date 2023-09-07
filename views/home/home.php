@@ -144,6 +144,19 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 </div>
 </div>
 <script type="text/javascript">
+	navigator.serviceWorker.register("sw.js");
+
+	function enableNotif() {
+		Notification.requestPermission().then((permission) => {
+			if(permission === 'granted') {
+				navigator.serviceWorker.ready.then((sw) => {
+					sw.pushManager.subscribe({
+						userVisibleOnly: true
+					})
+				})
+			}
+		})
+	}
 	
 	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
 		fetch(action, {
