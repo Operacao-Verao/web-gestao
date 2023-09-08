@@ -60,7 +60,7 @@
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query_gestor = $queries[0];
-				if($senha == $query_gestor['senha']) {
+				if(password_verify($senha, $query_gestor['senha'])) {
 					return new Funcionario($query_gestor['id_gestor'], $query_gestor['nome'], $query_gestor['email'], $query_gestor['senha'], $query_gestor['tipo_usuario']);
 				}
 			}

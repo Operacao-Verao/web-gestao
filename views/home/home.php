@@ -143,7 +143,17 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	</div>
 </div>
 </div>
-<script type="text/javascript">
+<script type="text/javascript"> 
+	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}, method){
+		fetch(action, {
+			"method": method,
+			"headers": {"Content-Type": "application/json"},
+			"body": JSON.stringify(data)
+		}).then(
+			onSuccess, onError
+		);
+	}
+
 	navigator.serviceWorker.register("sw.js");
 
 	function enableNotif() {
@@ -151,21 +161,25 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			if(permission === 'granted') {
 				navigator.serviceWorker.ready.then((sw) => {
 					sw.pushManager.subscribe({
-						userVisibleOnly: true
-					})
-				})
+						userVisibleOnly: true,
+						applicationServerKey: "BPwL7jbII3foRiJ180O05ZKwOo7AlAY7on_DLg5p_OuWMOPSDuD4716aWYtqNzIDwpDlONY0tH-hj2dJIktk_0s"
+					}).then((subscription) => {
+						registerNotificationOnDatabase(JSON.stringify(subscription));
+					});
+				});
 			}
 		})
 	}
-	
-	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
-		fetch(action, {
-			"method": "PUT",
-			"headers": {"Content-Type": "application/json"},
-			"body": JSON.stringify(data)
-		}).then(
-			onSuccess, onError
-		);
+
+	enableNotif();
+
+	function registerNotificationOnDatabase(subscription) {
+		requestFromAction("../../actions/fetch/registrar_service_worker.php", function(r){
+	      r.json().then(function(json){
+				});
+	    }, function(){
+				console.log('deu erro')
+			}, JSON.parse(subscription), "POST")
 	}
 	
 	function goToAction(action, values={}){
@@ -222,7 +236,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	      	content_ver += '</div>';
 			lista_ocorrencias.innerHTML = content_endereco+content_tecnico+content_data+content_status+content_ver;
 	      });
-	    }, function(){}, {"text": "", "aprovado": true});
+	    }, function(){}, {"text": "", "aprovado": true}, "PUT");
 	}
 	refreshOcorrencias();
 	
