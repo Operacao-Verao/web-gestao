@@ -33,7 +33,7 @@
         // Find a single entry in the "Casa" table by ID
         // Returns a model if found, returns null otherwise
         public function findById(int $id): ?Casa{
-            $statement = $this->pdo->query("SELECT * FROM Casa WHERE id = " . $id);
+            $statement = $this->pdo->query("SELECT * FROM Casa WHERE id = " .$id);
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             if ($queries) {
@@ -54,6 +54,20 @@
                 return new Casa($query['id'], $query['cep'], $query['numero'], $query['complemento']);
             }
             return null;
+        }
+
+        public function findBySearch(string $text): ?array{
+            $statement = $this->pdo->query("SELECT * FROM Casa WHERE cep like '".$text."%' or numero like '".$text."%' or complemento like '".$text."%'");
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($queries) {
+                $models = [];
+                foreach ($queries as $query) {
+                    $models[] = new Casa($query['id'], $query['cep'], $query['numero'], $query['complemento']);
+                }
+                return $models;
+            }
+            return [];
         }
 
         // Return all records of "Casa"

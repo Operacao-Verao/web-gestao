@@ -80,6 +80,22 @@
 			}
 			return null;
 		}
+
+		public function findByCasa(int $id_casa): ?array{
+			$statement = $this->pdo->query("select * from Relatorio JOIN Ocorrencia ON Ocorrencia.id = Relatorio.id_ocorrencia where Ocorrencia.id_casa = ".$id_casa);
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+			// Only one entry is needed, in this case, the first one
+			if ($queries){
+				$modelos = [];
+				foreach ($queries as $query){
+					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
+				}
+				return $modelos;
+			}
+			return [];
+		}
 		
 		// Return all records of "Relatorio"
 		// Returns an array with all the found models, returns an empty array in case of an error

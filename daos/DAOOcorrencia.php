@@ -53,7 +53,6 @@
             }
             return null;
         }
-
         // Return all records of "Ocorrencia"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{

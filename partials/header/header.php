@@ -40,6 +40,10 @@
 					<a href="../../views/civil/civil.php"><i class="ph-bold ph-users-three"></i><span
 							class="link-name">Civil</span></a>
 				</li>
+				<li>
+					<a href="../../views/casa/casa.php"><i class="ph-bold ph-buildings"></i><span
+							class="link-name">Casas</span></a>
+				</li>
 				<li></li>
 				<li>
 					<a href="#"><i class="ph-bold ph-cloud-rain"></i><span class="link-name">Pluviômetro/Fluviômetro</span></a>
