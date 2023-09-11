@@ -61,7 +61,7 @@
 	$json['civil_celular'] = $civil->getCelular();
 	
 	// Obtendo dados de Casa
-	$casa = $daoCasa->findById($ocorrencia->getIdCasa());
+	$casa = $daoCasa->findById($relatorio->getIdCasa());
 	$json['casa_numero'] = $casa->getNumero();
 	$json['casa_complemento'] = $casa->getComplemento();
 	

@@ -7,6 +7,8 @@
 	
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
+	require '../../models/Relatorio.php';
+	require '../../daos/DAORelatorio.php';
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
@@ -14,6 +16,7 @@
 	
 	$daoCivil = new DAOCivil($pdo);
 	$daoOcorrencia = new DAOOcorrencia($pdo);
+	$daoRelatorio = new DAORelatorio($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	
@@ -39,7 +42,8 @@
 	$ocorrencias = $daoOcorrencia->listAll();
 	$first = true;
 	foreach ($ocorrencias as $ocorrencia){
-	  $casa = $daoCasa->findById($ocorrencia->getIdCasa());
+		$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
+	  $casa = $daoCasa->findById($relatorio->getIdCasa());
 	  $endereco = $daoEndereco->findByCep($casa->getCep());
 	  if ($ocorrencia->getIdCivil() == $civil->getId()){
 	    

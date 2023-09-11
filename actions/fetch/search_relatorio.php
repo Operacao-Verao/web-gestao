@@ -24,14 +24,16 @@
 	$daoTecnico = new DAOTecnico($pdo);
 	$daoFuncionario = new DAOFuncionario($pdo);
 	
-	$relatorios = $daoRelatorio->searchByText($input['text']);
+	
+	try {
+		$relatorios = $daoRelatorio->searchByText($input['text']);
 	
 	$first = true;
 	echo '[';
 	foreach ($relatorios as $relatorio){
-		$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
-		$casa = $daoCasa->findById($ocorrencia->getIdCasa());
+		$casa = $daoCasa->findById($relatorio->getIdCasa());
 		$endereco = $daoEndereco->findByCep($casa->getCep());
+		$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
 		$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
 		$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;
 		
@@ -54,6 +56,9 @@
 		}';
 	}
 	echo ']';
+	} catch (\Throwable $th) {
+		echo $th;
+	}
 	
 	
 ?>

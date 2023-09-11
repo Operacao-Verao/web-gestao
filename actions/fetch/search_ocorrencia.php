@@ -11,21 +11,26 @@
 	require '../../daos/DAOEndereco.php';
 	require '../../models/Tecnico.php';
 	require '../../daos/DAOTecnico.php';
+	require '../../models/Civil.php';
+	require '../../daos/DAOCivil.php';
 	require '../../models/Funcionario.php';
 	require '../../daos/DAOFuncionario.php';
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoCasa = new DAOCasa($pdo);
+	$daoCivil = new DAOCivil($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoTecnico = new DAOTecnico($pdo);
 	$daoFuncionario = new DAOFuncionario($pdo);
+	
 	
 	$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']?true:false);
 	
 	$first = true;
 	echo '[';
 	foreach ($ocorrencias as $ocorrencia){
-		$casa = $daoCasa->findById($ocorrencia->getIdCasa());
+		$civil = $daoCivil->findById($ocorrencia->getIdCivil());
+		$casa = $daoCasa->findById($civil->getIdCasa());
 		$endereco = $daoEndereco->findByCep($casa->getCep());
 		$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
 		$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;

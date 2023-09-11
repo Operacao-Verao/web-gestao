@@ -13,7 +13,7 @@
 	<nav>
 		<div class="logo-name">
 			<span>
-				<a href="home.php" class="logo_name">Defesa Civil</a>
+				<a href="../../views/home/home.php" class="logo_name">Defesa Civil</a>
 			</span>
 		</div>
 		<div class="menu-items">

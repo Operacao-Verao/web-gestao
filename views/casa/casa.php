@@ -77,7 +77,12 @@
     <div class="ocorrencias-content">
         <div class="ocorrencias">
           <div class="ocorrencias-items" id="lista_ocorrencias">
-            
+          <select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
+                    <option  value = "0" selected disabled hidden>Não</option>
+                    <option value="0">Não</option>
+                    <option value="1">Parcial</option>
+                    <option value="2">Sim</option>
+                  </select>
           </div>
         </div>
     </div>
@@ -87,37 +92,7 @@
 <!--MODAL VISUALIZAR CIVIL-->
 </main>
 <script>
-  let selected_email = null;
-  
-  function goToOcorrenciaCreation(){
-    goToAction('../ocorrencias/cad_ocorrencia/cad_ocorrencia.php', {
-      'selected_email': {
-        'type': 'text',
-        'value': selected_email
-      }
-    });
-  }
-  
-  function goToAction(action, values={}){
-    let form = document.createElement('form');
-    form.method = 'post';
-    form.action = action;
-    let submit = document.createElement('input');
-    submit.type = 'submit';
-    form.appendChild(submit);
-    
-    for (let name in values){
-      let value = document.createElement('input');
-      value.name = name;
-      value.type = values[name].type || 'text';
-      value.value = values[name].value;
-      form.appendChild(value);
-    }
-    
-    document.body.appendChild(form);
-    submit.click();
-    form.remove();
-  }
+  let casa_atual = null;
   
   function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}, method){
     fetch(action, {
@@ -130,10 +105,10 @@
   }
   
   function openModal(id, casa_id) {
+    casa_atual = casa_id;
     // Data Filling
     requestFromAction("../../actions/fetch/get_casa.php", function(r){
       r.json().then(function(json){
-        console.log(json)
         document.getElementById(id).classList.add('open');
 
         view_numero.textContent = json.numero;
@@ -142,7 +117,6 @@
 
         let relatorios_conteudo = '';
 
-        
         for (let i=0; i<json.relatorios.length; i++){
           let relatorio = json.relatorios[i];
           let status;
@@ -167,8 +141,25 @@
                         <p>`+status+`</p>
                       </div>
                   </div>
+                  <select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
+                    <option value="0" selected disabled hidden>Não</option>
+                    <option value="0">Não</option>
+                    <option value="1">Parcial</option>
+                    <option value="2">Sim</option>
+                  </select>
                 </div>
           `;
+        }
+        if(relatorios_conteudo.length === 0) {
+          relatorios_conteudo += `
+            <div class="ocorrencia-item">
+              <div class="ocorrencia-info">
+                <div class="ocorrencia-title">
+                  <p>Sem relatórios para essa residência</p>
+                </div>
+            </div>
+          </div>
+          `
         }
         lista_ocorrencias.innerHTML = relatorios_conteudo;
       });
@@ -205,6 +196,20 @@
   function closeModal() {
     document.querySelector('.viewCivil.open').classList.remove('open');
   }
+
+  function selectFunction() {
+    let interdicao;
+    
+    if(alter_aprovado.value=="0") interdicao = 0;
+    else if(alter_aprovado.value=="1") interdicao = 1;
+    else if(alter_aprovado.value=="2") interdicao = 2;
+
+		requestFromAction("../../actions/fetch/alter_casa.php", function(r){
+	      r.text().then(function(r){
+	      	console.log(r);
+	      });
+	    }, function(){}, {"idCasa":casa_atual, "interdicao":interdicao}, "POST");
+	}
 </script>
 </body>
 </html>

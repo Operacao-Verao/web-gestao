@@ -148,7 +148,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	function searchOcorrencias(text) {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 	      r.json().then(function(json){
-	      	//console.log(json);
+					console.log(json)
 	      	let content = "";
 	      	
 	      	for (let i=0; i<json.length; i++){
@@ -187,7 +187,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	alter_tecnico.onchange = alter_aprovado.onchange = function() {
 		requestFromAction("../../actions/fetch/alter_ocorrencia.php", function(r){
 	      r.text().then(function(r){
-	      	//console.log(r);
+	      	console.log(r);
 	      });
 	      trocarAba();
 	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)});

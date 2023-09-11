@@ -4,6 +4,8 @@
 	require '../conn.php';
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
+	require '../../models/Relatorio.php';
+	require '../../daos/DAORelatorio.php';
 	
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
@@ -14,14 +16,16 @@
 	
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
+	$daoRelatorio = new DAORelatorio($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoCivil = new DAOCivil($pdo);
 	
 	$ocorrencia = $daoOcorrencia->findById($input['id']);
+	$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
 	
 	if ($ocorrencia){
-		$casa = $daoCasa->findById($ocorrencia->getIdCasa());
+		$casa = $daoCasa->findById($relatorio->getIdCasa());
 		$endereco = $daoEndereco->findByCep($casa->getCep());
 		$civil = $daoCivil->findById($ocorrencia->getIdCivil());
 		echo '{

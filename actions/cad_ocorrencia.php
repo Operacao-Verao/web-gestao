@@ -26,7 +26,8 @@
 	$numero = $_POST['inputNumero'];
 	$complemento = $_POST['inputComplemento'];
 	
-	$endereco = $daoEndereco->findByCep($cep);
+	try {
+		$endereco = $daoEndereco->findByCep($cep);
 	if ($endereco == null){
 		$endereco = $daoEndereco->insert($cep, $rua, $bairro, $cidade);
 		if ($endereco == null){
@@ -73,13 +74,16 @@
 		$daoCivil->update($civil);
 	}
 	
-	var_dump($casa); echo '<br/><br/>';
-	$ocorrencia = $daoOcorrencia->insert(null, $civil, $casa, $acionamento, $relato, $numCasas, false, false, getCurrentDatetime());
+	
+	$ocorrencia = $daoOcorrencia->insert(null, $civil, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
 	if ($ocorrencia == null){
 		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
         exit();
 	}
 	
-    header("Location: ../views/ocorrencias/ocorrencias.php");
-    exit();
+  header("Location: ../views/ocorrencias/ocorrencias.php");
+  exit();
+	} catch (\Throwable $th) {
+		echo $th;
+	}
 ?>

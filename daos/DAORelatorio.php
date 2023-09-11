@@ -8,11 +8,12 @@
 		
 		// Insert data of "Relatorio" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(Ocorrencia $ocorrencia, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
+			public function insert(Ocorrencia $ocorrencia, int $casa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
 			$tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento): ?Relatorio{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into Relatorio (id_ocorrencia, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) values (:ocorrencia, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
+			$insertion = $this->pdo->prepare("insert into Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) values (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
 			$insertion->bindValue(":ocorrencia", $ocorrencia->getId());
+			$insertion->bindValue(":casa", $casa);
 			$insertion->bindValue(":gravidade", $gravidade);
 			$insertion->bindValue(":relatorio", $relatorio);
 			$insertion->bindValue(":encaminhamento", $encaminhamento);
@@ -35,7 +36,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Relatorio($last_id, $ocorrencia->getId(), $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
+				return new Relatorio($last_id, $ocorrencia->getId(), $casa, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
 					$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento);
 			}
 
@@ -60,7 +61,7 @@
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query = $queries[0];
-				return new Relatorio($id, $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+				return new Relatorio($id, $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 			}
 			return null;
@@ -75,21 +76,21 @@
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$query = $queries[0];
-				return new Relatorio($query['id'], $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+				return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 			}
 			return null;
 		}
 
 		public function findByCasa(int $id_casa): ?array{
-			$statement = $this->pdo->query("select * from Relatorio JOIN Ocorrencia ON Ocorrencia.id = Relatorio.id_ocorrencia where Ocorrencia.id_casa = ".$id_casa);
+			$statement = $this->pdo->query("select * from Relatorio WHERE id_casa = ".$id_casa);
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 			// Only one entry is needed, in this case, the first one
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 				}
 				return $modelos;
@@ -107,7 +108,7 @@
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 				}
 				return $modelos;
@@ -119,14 +120,14 @@
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByText(string $text): ?array{
             $text = addslashes($text);
-            $statement = $this->pdo->query('select * from Tecnico, Funcionario, Relatorio inner join Ocorrencia on Relatorio.id_ocorrencia = Ocorrencia.id inner join Casa on Ocorrencia.id_casa = Casa.id inner join Endereco on Casa.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id and Tecnico.id_funcionario = Funcionario.id) or Ocorrencia.id_tecnico is null) and (Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Casa.numero like "'.$text.'%" or ((not Ocorrencia.id_tecnico is null) and Funcionario.nome like "'.$text.'%")) group by Relatorio.id order by Relatorio.data_geracao desc');
+            $statement = $this->pdo->query('select * from Tecnico, Funcionario, Relatorio inner join Ocorrencia on Relatorio.id_ocorrencia = Ocorrencia.id inner join Casa on Relatorio.id_casa = Casa.id inner join Endereco on Casa.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id and Tecnico.id_funcionario = Funcionario.id) or Ocorrencia.id_tecnico is null) and (Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Casa.numero like "'.$text.'%" or ((not Ocorrencia.id_tecnico is null) and Funcionario.nome like "'.$text.'%")) group by Relatorio.id order by Relatorio.data_geracao desc');
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 			// All entries will be traversed
 			if ($queries){
 				$modelos = [];
 				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
 				}
 				return $modelos;

@@ -3,7 +3,6 @@
         private int $id;
         private int|null $idTecnico;
         private int $idCivil;
-        private int $idCasa;
         private string $acionamento;
         private string $relatoCivil;
         private int $numCasas;
@@ -11,11 +10,10 @@
         private bool $encerrado;
         private string $dataOcorrencia;
         
-        public function __construct(int $id, int|null $idTecnico, int $idCivil, int $idCasa, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, bool $encerrado, string $dataOcorrencia) {
+        public function __construct(int $id, int|null $idTecnico, int $idCivil, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, bool $encerrado, string $dataOcorrencia) {
             $this->id = $id;
             $this->idTecnico = $idTecnico;
             $this->idCivil = $idCivil;
-            $this->idCasa = $idCasa;
             $this->acionamento = $acionamento;
             $this->relatoCivil = $relatoCivil;
             $this->numCasas = $numCasas;
@@ -46,14 +44,6 @@
         
         public function setCivil(Civil $civil): void {
             $this->idCivil = $civil->getId();
-        }
-        
-        public function getIdCasa(): int{
-            return $this->idCasa;
-        }
-        
-        public function setCasa(Casa $casa): void{
-            $this->idCasa = $casa->getId();
         }
         
         public function getAcionamento(): string {
