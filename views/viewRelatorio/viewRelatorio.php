@@ -6,60 +6,154 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
+  require '../../partials/header/header.php';
+
+  session_start();
+  if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    session_destroy();
+    header("Location: ../login/login.php");
+  };
+
+
+  require '../../actions/conn.php';
+  
+  require '../../models/Relatorio.php';
+  require '../../daos/DAORelatorio.php';
+  require '../../models/Ocorrencia.php';
+  require '../../daos/DAOOcorrencia.php';
+  require '../../models/Civil.php';
+  require '../../daos/DAOCivil.php';
+  require '../../models/Local.php';
+  require '../../daos/DAOLocal.php';
+  require '../../models/Casa.php';
+  require '../../daos/DAOCasa.php';
+  require '../../models/Endereco.php';
+  require '../../daos/DAOEndereco.php';
+  require '../../models/Tecnico.php';
+  require '../../daos/DAOTecnico.php';
+  require '../../models/Funcionario.php';
+  require '../../daos/DAOFuncionario.php';
+  require '../../models/Foto.php';
+  require '../../daos/DAOFoto.php';
+  require '../../models/DadosDaVistoria.php';
+  require '../../daos/DAODadosDaVistoria.php';
+  require '../../models/Afetados.php';
+  require '../../daos/DAOAfetados.php';
+  require '../../models/Animal.php';
+  require '../../daos/DAOAnimal.php';
+  require '../../models/Memo.php';
+  require '../../daos/DAOMemo.php';
+
+  $daoRelatorio = new DAORelatorio($pdo);
+  $daoOcorrencia = new DAOOcorrencia($pdo);
+  $daoCivil = new DAOCivil($pdo);
+  $daoLocal = new DAOLocal($pdo);
+  $daoCasa = new DAOCasa($pdo);
+  $daoEndereco = new DAOEndereco($pdo);
+  $daoTecnico = new DAOTecnico($pdo);
+  $daoFuncionario = new DAOFuncionario($pdo);
+  $daoFoto = new DAOFoto($pdo);
+  $daoDadosDaVistoria = new DAODadosDaVistoria($pdo);
+  $daoAfetados = new DAOAfetados($pdo);
+  $daoAnimal = new DAOAnimal($pdo);
+  $daoMemo = new DAOMemo($pdo);
+
+  $relatorio = $daoRelatorio->findById($_POST['id']);
+  if ($relatorio == null){
+    echo '{}';
+    die();
+  }
+  $ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
+
+  // Obtendo dados de Civil
+  $civil = $daoCivil->findById($ocorrencia->getIdCivil());
+
+  // Obtendo dados de Casa
+  $casa = $daoCasa->findById($relatorio->getIdCasa());
+  $local = $daoLocal->findById($casa->getIdLocal());
+
+  // Obtendo dados de Endereco
+  $endereco = $daoEndereco->findByCep($local->getCep());
+
+  // Obtendo dados de Técnico e Funcionário
+  $tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
+  $funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
+
+  // Obtendo Fotos
+  $fotos = $daoFoto->listByRelatorio($relatorio);
+
+  // Obtendo Dados da Vistoria
+  $dadosDaVistoria = $daoDadosDaVistoria->findByRelatorio($relatorio);
+
+  // Obtendo Afetados
+  $afetados = $daoAfetados->findByRelatorio($relatorio);
+
+  // Obtendo Animais
+  $animal = $daoAnimal->findByRelatorio($relatorio);
+
+  // Obtendo Memorando
+  $memo = $daoMemo->findByRelatorio($relatorio);
 ?>
 <section class="dash-content">
   <article>
     <div class="topRowContent">
       <div class="item-row">
         <p class="item-row-title">Nome: </p>
-        <p class="item-row-content">Samantha</p>
+        <p class="item-row-content"><?php echo $civil->getNome();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Cidade: </p>
-        <p class="item-row-content">Franco da Rocha</p>
+        <p class="item-row-content"><?php echo $endereco->getCidade();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Telefone: </p>
-        <p class="item-row-content">11 4002-8922</p>
+        <p class="item-row-content"><?php echo $civil->getTelefone();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Data Atendimento: </p>
-        <p class="item-row-content">17/04/2021</p>
+        <p class="item-row-content"><?php echo formatDate($relatorio->getDataAtendimento());?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">CEP: </p>
-        <p class="item-row-content">07851-120</p>
+        <p class="item-row-content"><?php echo $local->getCep();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Bairro: </p>
-        <p class="item-row-content">Jonas</p>
+        <p class="item-row-content"><?php echo $endereco->getBairro();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Celular: </p>
-        <p class="item-row-content">Não possui</p>
+        <p class="item-row-content"><?php echo $civil->getCelular();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Data Geração: </p>
-        <p class="item-row-content">07/04/2021</p>
+        <p class="item-row-content"><?php echo formatDate($relatorio->getDataGeracao());?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">CPF: </p>
-        <p class="item-row-content">52603903920</p>
+        <p class="item-row-content"><?php echo $civil->getCpf();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Logradouro: </p>
-        <p class="item-row-content">Jonas</p>
+        <p class="item-row-content"><?php echo $endereco->getRua();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Nº: </p>
-        <p class="item-row-content">167</p>
+        <p class="item-row-content"><?php echo $local->getNumero();?></p>
       </div>
     </div>
 
     <!-- Só colocar se tiver alguma foto do relatório  -->
-    <img src="" alt="Foto do relatório">
+    <img src="" alt="Fotos do relatório">
     <!-- Só colocar se tiver alguma foto do relatório  -->
+    <center>
+      <?php
+        foreach ($fotos as $foto){
+          $data = $foto->getCodificado();
+          echo '<img src="'.$data.'" width="40%"/>';
+        }
+      ?>
+    </center>
   </article>
   <article>
     <div class="item-row">
@@ -76,93 +170,244 @@ require '../../partials/header/header.php';
       </div>
       <div class="gravidade row">
         <p class="item-row-title">Gravidade: </p>
+        <?php echo $relatorio->getGravidade()==GRAVIDADE::RISCO? '
+        <p class="item-row-content">(X) Risco</p>
+        <p class="item-row-content">() Desastre</p>':(
+        $relatorio->getGravidade()==GRAVIDADE::DESASTRE? '
         <p class="item-row-content">() Risco</p>
-        <p class="item-row-content">() Desastre</p>
+        <p class="item-row-content">(X) Desastre</p>': '
+        <p class="item-row-content">() Risco</p>
+        <p class="item-row-content">() Desastre</p>');?>
       </div>
       <div class="afetados row">
         <p class="item-row-title">Afetados: </p>
+        <?php
+          if ($afetados){
+            echo '
+        <p class="item-row-content">Adultos: '.$afetados->getAdultos().'</p>
+        <p class="item-row-content">Crianças: '.$afetados->getCriancas().'</p>
+        <p class="item-row-content">Idosos: '.$afetados->getIdosos().'</p>
+        <p class="item-row-content">Feridos: '.$afetados->getFeridos().'</p>
+        <p class="item-row-content">Deficientes: '.$afetados->getEspeciais().'</p>
+        <p class="item-row-content">Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getFeridos()+$afetados->getEspeciais()).'</p>';
+          }
+          else {
+            echo '
         <p class="item-row-content">Adultos: 0</p>
         <p class="item-row-content">Crianças: 0</p>
         <p class="item-row-content">Idosos: 0</p>
+        <p class="item-row-content">Feridos: 0</p>
         <p class="item-row-content">Deficientes: 0</p>
-        <p class="item-row-content">Total: 0</p>
+        <p class="item-row-content">Total: 0</p>';
+          }
+        ?>
       </div>
       <div class="animais row">
         <p class="item-row-title">Animais: </p>
+        <?php
+          if ($animal){
+            echo '
+        <p class="item-row-content">Cães: '.$animal->getCaes().'</p>
+        <p class="item-row-content">Gatos: '.$animal->getGatos().'</p>
+        <p class="item-row-content">Aves: '.$animal->getAves().'</p>
+        <p class="item-row-content">Equinos: '.$animal->getEquinos().'</p>
+        <p class="item-row-content">Total: '.($animal->getCaes()+$animal->getGatos()+$animal->getAves()+$animal->getEquinos()).'</p>';
+          }
+          else {
+            echo '
         <p class="item-row-content">Cães: 0</p>
         <p class="item-row-content">Gatos: 0</p>
         <p class="item-row-content">Aves: 0</p>
         <p class="item-row-content">Equinos: 0</p>
-        <p class="item-row-content">Total: 0</p>
+        <p class="item-row-content">Total: 0</p>';
+          }
+        ?>
       </div>
       <div class="tipos">
         <div>
           <p class="item-column-title">Área Afetada</p>
-          <p class="item-column-content">() Não especificado</p>
+          <?php 
+            switch($relatorio->getAreaAfetada()){
+              case AREA_AFETADA::INESPECIFICADO: {
+                echo '<p class="item-column-content">(X) Não especificado</p>
           <p class="item-column-content">() Pública</p>
-          <p class="item-column-content">() Particular</p>
+          <p class="item-column-content">() Particular</p>';
+              }
+              break;
+              case AREA_AFETADA::PUBLICA: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">(X) Pública</p>
+          <p class="item-column-content">() Particular</p>';
+              }
+              break;
+              case AREA_AFETADA::PARTICULAR: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Pública</p>
+          <p class="item-column-content">(X) Particular</p>';
+              }
+              break;
+            }
+          ?>
         </div>
         <div>
           <p class="item-column-title">Tipo de Construção</p>
-          <p class="item-column-content">() Não especificado</p>
+          <?php 
+            switch($relatorio->getTipoConstrucao()){
+              case TIPO_CONSTRUCAO::INESPECIFICADO: {
+                echo '<p class="item-column-content">(X) Não especificado</p>
           <p class="item-column-content">() Alvenaria</p>
           <p class="item-column-content">() Madeira</p>
-          <p class="item-column-content">() Mista</p>
+          <p class="item-column-content">() Mista</p>';
+              }
+              break;
+              case TIPO_CONSTRUCAO::ALVENARIA: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">(X) Alvenaria</p>
+          <p class="item-column-content">() Madeira</p>
+          <p class="item-column-content">() Mista</p>';
+              }
+              break;
+              case TIPO_CONSTRUCAO::MADEIRA: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Alvenaria</p>
+          <p class="item-column-content">(X) Madeira</p>
+          <p class="item-column-content">() Mista</p>';
+              }
+              break;
+              case TIPO_CONSTRUCAO::MISTA: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Alvenaria</p>
+          <p class="item-column-content">() Madeira</p>
+          <p class="item-column-content">(X) Mista</p>';
+              }
+              break;
+            }
+          ?>
         </div>
         <div>
           <p class="item-column-title">Tipo do Talude</p>
-          <p class="item-column-content">() Não especificado</p>
+          <?php 
+            switch($relatorio->getTipoTalude()){
+              case TIPO_TALUDE::INESPECIFICADO: {
+                echo '<p class="item-column-content">(X) Não especificado</p>
           <p class="item-column-content">() Natural</p>
           <p class="item-column-content">() De Corte</p>
-          <p class="item-column-content">() Aterro</p>
+          <p class="item-column-content">() Aterro</p>';
+              }
+              break;
+              case TIPO_TALUDE::NATURAL: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">(X) Natural</p>
+          <p class="item-column-content">() De Corte</p>
+          <p class="item-column-content">() Aterro</p>';
+              }
+              break;
+              case TIPO_TALUDE::DE_CORTE: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Natural</p>
+          <p class="item-column-content">(X) De Corte</p>
+          <p class="item-column-content">() Aterro</p>';
+              }
+              break;
+              case TIPO_TALUDE::ATERRO: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Natural</p>
+          <p class="item-column-content">() De Corte</p>
+          <p class="item-column-content">(X) Aterro</p>';
+              }
+              break;
+            }
+          ?>
         </div>
         <div>
           <p class="item-column-title">Vegetação</p>
-          <p class="item-column-content">() NÃO</p>
+          
+          <?php 
+            switch($relatorio->getVegetacao()){
+              case VEGETACAO::NENHUMA: {
+                echo '<p class="item-column-content">(X) NÃO</p>
           <p class="item-column-content">() Rasteira</p>
-          <p class="item-column-content">() Árvores</p>
+          <p class="item-column-content">() Árvores</p>';
+              }
+              break;
+              case VEGETACAO::RASTEIRA: {
+                echo '<p class="item-column-content">() NÃO</p>
+          <p class="item-column-content">(X) Rasteira</p>
+          <p class="item-column-content">() Árvores</p>';
+              }
+              break;
+              case VEGETACAO::ARVORES: {
+                echo '<p class="item-column-content">() NÃO</p>
+          <p class="item-column-content">() Rasteira</p>
+          <p class="item-column-content">(X) Árvores</p>';
+              }
+              break;
+            }
+          ?>
         </div>
       </div>
       <div class="interdicao-danos">
         <div class="interdicao">
           <p class="item-row-title">Interdição: </p>
-          <p class="item-row-content">() Não</p>
+          <?php 
+            switch($casa->getInterdicao()){
+              case INTERDICAO::NAO: {
+                echo '<p class="item-row-content">(X) Não</p>
           <p class="item-row-content">() Parcial</p>
-          <p class="item-row-content">() Total</p>
+          <p class="item-row-content">() Total</p>';
+              }
+              break;
+              case INTERDICAO::PARCIAL: {
+                echo '<p class="item-row-content">() Não</p>
+          <p class="item-row-content">(X) Parcial</p>
+          <p class="item-row-content">() Total</p>';
+              }
+              break;
+              case INTERDICAO::TOTAL: {
+                echo '<p class="item-row-content">() Não</p>
+          <p class="item-row-content">() Parcial</p>
+          <p class="item-row-content">(X) Total</p>';
+              }
+              break;
+            }
+          ?>
         </div>
         <div class="danos">
           <p class="item-row-title">Danos Materiais: </p>
+          <?php echo $relatorio->getDanosMateriais()? '
           <p class="item-row-content">() Parcial</p>
-          <p class="item-row-content">() Total</p>
+          <p class="item-row-content">(X) Total</p>':
+          '<p class="item-row-content">(X) Parcial</p>
+          <p class="item-row-content">() Total</p>';?>
         </div>
       </div>
       <div class="memorando-oficio-processo">
         <div>
           <p class="item-row-title">Memorando: </p>
-          <p class="item-row-content"></p>
+          <p class="item-row-content"><?php echo $relatorio->getMemorando();?></p>
         </div>
         <div>
           <p class="item-row-title">Ofício: </p>
-          <p class="item-row-content"></p>
+          <p class="item-row-content"><?php echo $relatorio->getOficio();?></p>
         </div>
         <div>
           <p class="item-row-title">Processo: </p>
-          <p class="item-row-content"></p>
+          <p class="item-row-content">¯\_(ツ)_/¯</p>
         </div>
       </div>
       <div class="setor-data">
         <div>
           <p class="item-row-title">Setor: </p>
-          <p class="item-row-content"></p>
+          <p class="item-row-content">¯\_(ツ)_/¯</p>
         </div>
         <div>
           <p class="item-row-title">Data: </p>
-          <p class="item-row-content"></p>
+          <p class="item-row-content">¯\_(ツ)_/¯</p>
         </div>
       </div>
       <div class="assunto">
         <p class="item-row-title">Assunto: </p>
-        <p class="item-row-content"></p>
+        <p class="item-row-content"><?php echo $relatorio->getAssunto();?></p>
       </div>
     </div>
   </article>
