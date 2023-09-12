@@ -34,7 +34,7 @@
   <div class="wrapper-main">
     <section class="search-space">
       <div class="search-div">
-        <input type="search" oninput="searchCivis(this.value)" placeholder="Procurar Casas..." />
+        <input type="search" oninput="searchCasas(this.value)" placeholder="Procurar Casas..." />
         <i class="ph ph-magnifying-glass"></i>
       </div>
     </section>
@@ -109,6 +109,7 @@
     // Data Filling
     requestFromAction("../../actions/fetch/get_casa.php", function(r){
       r.json().then(function(json){
+        console.log(json);
         document.getElementById(id).classList.add('open');
 
         view_numero.textContent = json.numero;
@@ -131,26 +132,9 @@
               status = 'Sim';
               break;
           }
-          relatorios_conteudo += `
-                <div class="ocorrencia-item">
-                  <div class="ocorrencia-info">
-                      <div class="ocorrencia-title">
-                        <p>Interdição</p>
-                      </div>
-                      <div class="ocorrencia-subtitle">
-                        <p>`+status+`</p>
-                      </div>
-                  </div>
-                  <select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
-                    <option value="0" selected disabled hidden>Não</option>
-                    <option value="0">Não</option>
-                    <option value="1">Parcial</option>
-                    <option value="2">Sim</option>
-                  </select>
-                </div>
-          `;
+          relatorios_conteudo += ``;
         }
-        if(relatorios_conteudo.length === 0) {
+        if(json.relatorios.length === 0) {
           relatorios_conteudo += `
             <div class="ocorrencia-item">
               <div class="ocorrencia-info">
@@ -161,16 +145,32 @@
           </div>
           `
         }
-        lista_ocorrencias.innerHTML = relatorios_conteudo;
+        lista_ocorrencias.innerHTML = `<div class="ocorrencia-item">
+                  <div class="ocorrencia-info">
+                      <div class="ocorrencia-title">
+                        <p>Interdição</p>
+                      </div>
+                      <div class="ocorrencia-subtitle">
+                        <p>`+status+`</p>
+                      </div>
+                  </div><select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
+                    <option value = "`+json.interdicao+`" selected disabled hidden>Não</option>
+                    <option value="0">Não</option>
+                    <option value="1">Parcial</option>
+                    <option value="2">Sim</option>
+                  </select>
+          </div>`+relatorios_conteudo;
       });
     }, function(){}, {"id":casa_id}, "POST");
     
   }
   
-  // Procura por civis
-  function searchCivis(text){
+  // Procura por casas
+  function searchCasas(text){
     requestFromAction("../../actions/fetch/search_casa.php", function(r){
       r.json().then(function(json){
+        //console.log(json);
+        
         let cep_content = '<span class="data-title">CEP</span>';
         let numero_content = '<span class="data-title">Número</span>';
         let complemento_content = '<span class="data-title">Complemento</span>';
@@ -191,7 +191,7 @@
       });
     }, function(){}, {"text": text}, "PUT");
   }
-  searchCivis('');
+  searchCasas('');
 
   function closeModal() {
     document.querySelector('.viewCivil.open').classList.remove('open');

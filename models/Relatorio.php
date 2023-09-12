@@ -37,12 +37,6 @@
         const DESALOJADOS = 2;
     };
 
-    enum INTERDICAO {
-        const NAO = 0;
-        const PARCIAL = 1;
-        const TOTAL = 2;
-    };
-
     class Relatorio {
         private int $id;
         private int $idOcorrencia;
@@ -60,13 +54,12 @@
         private int $tipoTalude;
         private int $vegetacao;
         private int $situacaoVitimas;
-        private int $interdicao;
         private bool $danosMateriais;
         private string $dataGeracao;
         private string $dataAtendimento;
 
         public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
-            $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento) {
+            $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, bool $danosMateriais, string $dataGeracao, string $dataAtendimento) {
             $this->id = $id;
             $this->idOcorrencia = $idOcorrencia;
             $this->idCasa = $idCasa;
@@ -83,7 +76,6 @@
             $this->tipoTalude = $tipoTalude;
             $this->vegetacao = $vegetacao;
             $this->situacaoVitimas = $situacaoVitimas;
-            $this->interdicao = $interdicao;
             $this->danosMateriais = $danosMateriais;
             $this->dataGeracao = $dataGeracao;
             $this->dataAtendimento = $dataAtendimento;
@@ -210,14 +202,6 @@
         
         public function setSituacaoVitimas(int $situacaoVitimas): void{
             $this->situacaoVitimas = $situacaoVitimas;
-        }
-        
-        public function getInterdicao(): int{
-            return $this->interdicao;
-        }
-        
-        public function setInterdicao(int $interdicao): void{
-            $this->interdicao = $interdicao;
         }
         
         public function getDanosMateriais(): bool{

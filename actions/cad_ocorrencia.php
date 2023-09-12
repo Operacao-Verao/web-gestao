@@ -5,6 +5,8 @@
 	require '../daos/DAOOcorrencia.php';
 	require '../models/Endereco.php';
 	require '../daos/DAOEndereco.php';
+	require '../models/Local.php';
+	require '../daos/DAOLocal.php';
 	require '../models/Casa.php';
 	require '../daos/DAOCasa.php';
 	require '../models/Civil.php';
@@ -12,6 +14,7 @@
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
+	$daoLocal = new DAOLocal($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoCivil = new DAOCivil($pdo);
 	
@@ -28,61 +31,66 @@
 	
 	try {
 		$endereco = $daoEndereco->findByCep($cep);
-	if ($endereco == null){
-		$endereco = $daoEndereco->insert($cep, $rua, $bairro, $cidade);
 		if ($endereco == null){
-            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-            exit();
+			$endereco = $daoEndereco->insert($cep, $rua, $bairro, $cidade);
+			if ($endereco == null){
+	            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
+	            exit();
+			}
 		}
-	}
-	
-	$casa = $daoCasa->findByCepNumero($cep, $numero);
-	if ($casa == null){
-		$casa = $daoCasa->insert($cep, $numero, $complemento);
-		if ($casa == null){
-            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-            exit();
-		}
-	}
-	
-	$civil = null;
-	if ($civil_email == null){
-		/*$nome = $_POST["inputName"];
-        $email = $_POST["inputEmail"];
-        $senha = $_POST["inputPassword"];
-        $cpf = $_POST["inputCpf"];
-        $celular = $_POST["inputCelular"];
-        $telefone = $_POST["inputTelefone"];
-        
-        $civil = $this->daoCivil->insert($casa, $nome, $email, $senha, $cpf, $celular, $telefone);
-
-        if ($civil == null) {
-            header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
-            exit();
-        }*/
-	    header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-	    exit();
-	}
-	else{
-		$civil = $daoCivil->findByEmail($civil_email);
 		
-		if ($civil == null){
-			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-	    	exit();
+		$local = null;
+		$casas = $daoCasa->listByCepNumero($cep, $numero);
+		if (count($casas) == 0){
+			$local = $daoLocal->findByCepNumero($cep, $numero);
+			if ($local == null){
+				$local = $daoLocal->insert($cep, $numero);
+			}
+			$casa = $daoCasa->insert($local, INTERDICAO::NAO, $complemento);
+			if ($casa == null){
+	            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
+	            exit();
+			}
 		}
-		$civil->setCasa($casa);
-		$daoCivil->update($civil);
-	}
-	
-	
-	$ocorrencia = $daoOcorrencia->insert(null, $civil, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
-	if ($ocorrencia == null){
-		header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-        exit();
-	}
-	
-  header("Location: ../views/ocorrencias/ocorrencias.php");
-  exit();
+		
+		$civil = null;
+		if ($civil_email == null){
+			/*$nome = $_POST["inputName"];
+	        $email = $_POST["inputEmail"];
+	        $senha = $_POST["inputPassword"];
+	        $cpf = $_POST["inputCpf"];
+	        $celular = $_POST["inputCelular"];
+	        $telefone = $_POST["inputTelefone"];
+	        
+	        $civil = $this->daoCivil->insert($casa, $nome, $email, $senha, $cpf, $celular, $telefone);
+
+	        if ($civil == null) {
+	            header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+	            exit();
+	        }*/
+		    header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
+		    exit();
+		}
+		else{
+			$civil = $daoCivil->findByEmail($civil_email);
+			
+			if ($civil == null){
+				header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
+		    	exit();
+			}
+			$civil->setCasa($casa);
+			$daoCivil->update($civil);
+		}
+		
+		
+		$ocorrencia = $daoOcorrencia->insert(null, $civil, $local, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
+		if ($ocorrencia == null){
+			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
+	        exit();
+		}
+		
+	  header("Location: ../views/ocorrencias/ocorrencias.php");
+	  exit();
 	} catch (\Throwable $th) {
 		echo $th;
 	}

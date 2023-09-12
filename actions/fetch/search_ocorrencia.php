@@ -5,10 +5,10 @@
 	
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
-	require '../../models/Casa.php';
-	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
 	require '../../daos/DAOEndereco.php';
+	require '../../models/Local.php';
+	require '../../daos/DAOLocal.php';
 	require '../../models/Tecnico.php';
 	require '../../daos/DAOTecnico.php';
 	require '../../models/Civil.php';
@@ -17,8 +17,8 @@
 	require '../../daos/DAOFuncionario.php';
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoCasa = new DAOCasa($pdo);
 	$daoCivil = new DAOCivil($pdo);
+	$daoLocal = new DAOLocal($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoTecnico = new DAOTecnico($pdo);
 	$daoFuncionario = new DAOFuncionario($pdo);
@@ -30,8 +30,8 @@
 	echo '[';
 	foreach ($ocorrencias as $ocorrencia){
 		$civil = $daoCivil->findById($ocorrencia->getIdCivil());
-		$casa = $daoCasa->findById($civil->getIdCasa());
-		$endereco = $daoEndereco->findByCep($casa->getCep());
+		$local = $daoLocal->findById($ocorrencia->getIdLocal());
+		$endereco = $daoEndereco->findByCep($local->getCep());
 		$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
 		$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;
 		
@@ -47,7 +47,7 @@
 			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
 			"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
 			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($casa->getNumero()).'",
+			"numero": "'.addslashes($local->getNumero()).'",
 			"bairro": "'.addslashes($endereco->getBairro()).'",
 			"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
 		}';

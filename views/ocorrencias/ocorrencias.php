@@ -124,6 +124,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	function openModal(id, ocorrencia_id) {
 		requestFromAction("../../actions/fetch/get_ocorrencia.php", function(r){
 	      r.json().then(function(json){
+			console.log(json);
 			document.getElementById(id).classList.add('open');
 			
 			view_civil.textContent = json.civil;
@@ -138,7 +139,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 				trocarAba(json.aprovado);
 			}
 	    	//console.log(ocorrencia_atual);
-			//console.log(json);
 	      });
 	    }, function(){}, {"id":ocorrencia_id});
 	    ocorrencia_atual = ocorrencia_id;
@@ -148,7 +148,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	function searchOcorrencias(text) {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 	      r.json().then(function(json){
-					console.log(json)
+			//console.log(json)
 	      	let content = "";
 	      	
 	      	for (let i=0; i<json.length; i++){

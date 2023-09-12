@@ -9,6 +9,8 @@
 	require '../../daos/DAOOcorrencia.php';
 	require '../../models/Relatorio.php';
 	require '../../daos/DAORelatorio.php';
+	require '../../models/Local.php';
+	require '../../daos/DAOLocal.php';
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
@@ -17,6 +19,7 @@
 	$daoCivil = new DAOCivil($pdo);
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoRelatorio = new DAORelatorio($pdo);
+	$daoLocal = new DAOLocal($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	
@@ -27,11 +30,12 @@
 	}
 	
 	$casa = $civil->getIdCasa()!=null? $daoCasa->findById($civil->getIdCasa()): null;
+	$local = $casa!=null? $daoLocal->findById($casa->getIdLocal()): null;
 	
 	echo '{
 		"id": '.$civil->getId().',
 		"nome": "'.addslashes($civil->getNome()).'",
-		"cep": "'.($casa? addslashes($casa->getCep()): '-Não Cadastrado-').'",
+		"cep": "'.($local? addslashes($local->getCep()): '-Não Cadastrado-').'",
 		"celular": "'.addslashes($civil->getCelular()).'",
 		"email": "'.addslashes($civil->getEmail()).'",
 		"cpf": "'.addslashes($civil->getCpf()).'",
@@ -44,7 +48,8 @@
 	foreach ($ocorrencias as $ocorrencia){
 		$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
 	  $casa = $daoCasa->findById($relatorio->getIdCasa());
-	  $endereco = $daoEndereco->findByCep($casa->getCep());
+	  $local = $daoLocal->findById($casa->getIdLocal());
+	  $endereco = $daoEndereco->findByCep($local->getCep());
 	  if ($ocorrencia->getIdCivil() == $civil->getId()){
 	    
 	    if ($first){
@@ -57,7 +62,7 @@
 			"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
 			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
 			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($casa->getNumero()).'",
+			"numero": "'.addslashes($local->getNumero()).'",
 			"bairro": "'.addslashes($endereco->getBairro()).'",
 			"observacoes": "'.addslashes($ocorrencia->getRelatoCivil()).'"
 	  	}';

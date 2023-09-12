@@ -1,14 +1,21 @@
 <?php
+    
+    enum INTERDICAO {
+        const NAO = 0;
+        const PARCIAL = 1;
+        const TOTAL = 2;
+    };
+    
     class Casa {
         private int $id;
-        private string $cep;
-        private string $numero;
+        private int $id_local;
+        private int $interdicao;
         private string $complemento;
         
-        public function __construct(int $id, string $cep, string $numero, string $complemento) {
+        public function __construct(int $id, int $id_local, int $interdicao, string $complemento) {
             $this->id = $id;
-            $this->cep = $cep;
-            $this->numero = $numero;
+            $this->id_local = $id_local;
+            $this->interdicao = $interdicao;
             $this->complemento = $complemento;
         }
         
@@ -16,20 +23,20 @@
             return $this->id;
         }
         
-        public function getCep(): string {
-            return $this->cep;
+        public function getIdLocal(): int {
+            return $this->id_local;
         }
         
-        public function setCep(string $cep): void {
-            $this->cep = $cep;
+        public function setLocal(Local $local): void {
+            $this->id_local = $local->getId();
         }
         
-        public function getNumero(): string {
-            return $this->numero;
+        public function getInterdicao(): int {
+            return $this->interdicao;
         }
         
-        public function setNumero(string $numero): void {
-            $this->numero = $numero;
+        public function setInterdicao(int $interdicao): void {
+            $this->interdicao = $interdicao;
         }
         
         public function getComplemento(): string {

@@ -234,6 +234,7 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
   function searchRelatorios(text) {
     requestFromAction("../../actions/fetch/search_relatorio.php", function(r){
         r.json().then(function(json){
+          //console.log(json);
           let content_enderecos = '<div class="data address"><span class="data-title">Endereço</span>';
           let content_tecnicos = '<div class="data names"><span class="data-title">Técnico</span>';
           let content_datas = '<div class="data request"><span class="data-title">Data</span>';
@@ -248,7 +249,6 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
           }
           
           relatorios_list.innerHTML = content_enderecos+"</div>"+content_tecnicos+"</div>"+content_datas+"</div>"+content_vers+"</div>";
-          //console.log(json);
         });
       }, function(){}, {"text": text});
   }
@@ -257,6 +257,7 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
   function openModal(relatorio_id) {
     requestFromAction("../../actions/fetch/get_relatorio.php", function(r){
         r.json().then(function(json){
+          //console.log(json);
           viewRelatorio.hidden = false;
           
           view_nome.textContent = json.civil_nome;
@@ -278,8 +279,6 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
           view_setor.textContent = json.setor;
           view_data.textContent = json.data;
           view_assunto.textContent = json.assunto;
-          
-          console.log(json);
         });
       }, function(){}, {"id": relatorio_id});
     relatorio_atual = relatorio_id;

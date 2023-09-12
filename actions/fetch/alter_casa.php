@@ -11,12 +11,19 @@
   $daoRelatorio = new DAORelatorio($pdo);
 
   $casa = $daoCasa->findById($input['idCasa']); 
-  $relatorios = $daoRelatorio->findByCasa($casa->getId());
+  $relatorios = $daoRelatorio->findByCasa($casa);
   
+  if ($casa){
+    echo $input['interdicao'];
+    $casa->setInterdicao(intval($input['interdicao']));
+    $daoCasa->update($casa);
+  }
+  /*
   if($casa && $relatorios) {    
     foreach($relatorios as $relatorio_) {
       $relatorio_->setInterdicao(intval($input['interdicao']));
       $daoRelatorio->update($relatorio_);
     }
   }
+  */
 ?>
