@@ -8,15 +8,15 @@
         
         // Insert data of "Casa" into the table
         // Returns a model if the insertion is successful, otherwise returns null
-        public function insert(Local $local, int $interdicao, string $complemento): ?Casa{
-            $insertion = $this->pdo->prepare("INSERT INTO Casa (id_local, interdicao, complemento) VALUES (:id_local, :interdicao, :complemento)");
-            $insertion->bindValue(":id_local", $local->getId());
+        public function insert(Residencial $residencial, int $interdicao, string $complemento): ?Casa{
+            $insertion = $this->pdo->prepare("INSERT INTO Casa (id_residencial, interdicao, complemento) VALUES (:id_residencial, :interdicao, :complemento)");
+            $insertion->bindValue(":id_residencial", $residencial->getId());
             $insertion->bindValue(":interdicao", $interdicao);
             $insertion->bindValue(":complemento", $complemento);
 
             if ($insertion->execute()) {
                 $last_id = intval($this->pdo->lastInsertId());
-                return new Casa($last_id, $local->getId(), $interdicao, $complemento);
+                return new Casa($last_id, $residencial->getId(), $interdicao, $complemento);
             }
 
             return null;
@@ -38,7 +38,7 @@
 
             if ($queries) {
                 $query = $queries[0];
-                return new Casa($id, $query['id_local'], $query['interdicao'], $query['complemento']);
+                return new Casa($id, $query['id_residencial'], $query['interdicao'], $query['complemento']);
             }
             return null;
         }
@@ -52,7 +52,7 @@
             if ($queries) {
                 $models = [];
                 foreach ($queries as $query) {
-                    $models[] = new Casa($query['id'], $query['id_local'], $query['interdicao'], $query['complemento']);
+                    $models[] = new Casa($query['id'], $query['id_residencial'], $query['interdicao'], $query['complemento']);
                 }
                 return $models;
             }
@@ -62,13 +62,13 @@
         // Search for all entries of "Casa" that matches the searched text
         // Returns an array with all the found models, returns an empty array in case of not
         public function listBySearch(string $text): ?array{
-            $statement = $this->pdo->query("SELECT * FROM Casa INNER JOIN Local on Casa.id_local = Local.id WHERE cep like '".$text."%' or numero like '".$text."%' or complemento like '".$text."%'");
+            $statement = $this->pdo->query("SELECT * FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE cep like '".$text."%' or numero like '".$text."%' or complemento like '".$text."%'");
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             if ($queries) {
                 $models = [];
                 foreach ($queries as $query) {
-                    $models[] = new Casa($query['id'], $query['id_local'], $query['interdicao'], $query['complemento']);
+                    $models[] = new Casa($query['id'], $query['id_residencial'], $query['interdicao'], $query['complemento']);
                 }
                 return $models;
             }
@@ -78,13 +78,15 @@
         // Find a single entry in the "Casa" table by cep and numero
         // Returns a model if found, returns null otherwise
         public function listByCepNumero(string $cep, string $numero): ?array{
-            $statement = $this->pdo->query("SELECT * FROM Casa INNER JOIN Local ON Casa.id_local = Local.id WHERE cep = " . $cep." and numero = ".$numero);
+            $cep = addslashes($cep);
+            $numero = addslashes($numero);
+            $statement = $this->pdo->query('SELECT * FROM Casa INNER JOIN Residencial ON Casa.id_residencial = Residencial.id WHERE cep = \'' . $cep.'\' and numero = \''.$numero.'\'');
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             if ($queries) {
                 $models = [];
                 foreach ($queries as $query) {
-                    $models[] = new Casa($query['id'], $query['id_local'], $query['interdicao'], $query['complemento']);
+                    $models[] = new Casa($query['id'], $query['id_residencial'], $query['interdicao'], $query['complemento']);
                 }
                 return $models;
             }
@@ -94,9 +96,9 @@
         // Update the "Casa" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Casa $casa): bool{
-            $update = $this->pdo->prepare("UPDATE Casa SET id_local = :id_local, interdicao = :interdicao, complemento = :complemento WHERE id = :id");
+            $update = $this->pdo->prepare("UPDATE Casa SET id_residencial = :id_residencial, interdicao = :interdicao, complemento = :complemento WHERE id = :id");
             $update->bindValue(":id", $casa->getId());
-            $update->bindValue(":id_local", $casa->getIdLocal());
+            $update->bindValue(":id_residencial", $casa->getIdResidencial());
             $update->bindValue(":interdicao", $casa->getInterdicao());
             $update->bindValue(":complemento", $casa->getComplemento());
             return $update->execute();

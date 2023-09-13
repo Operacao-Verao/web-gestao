@@ -5,8 +5,8 @@
 	require '../daos/DAOOcorrencia.php';
 	require '../models/Endereco.php';
 	require '../daos/DAOEndereco.php';
-	require '../models/Local.php';
-	require '../daos/DAOLocal.php';
+	require '../models/Residencial.php';
+	require '../daos/DAOResidencial.php';
 	require '../models/Casa.php';
 	require '../daos/DAOCasa.php';
 	require '../models/Civil.php';
@@ -14,7 +14,7 @@
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
-	$daoLocal = new DAOLocal($pdo);
+	$daoResidencial = new DAOResidencial($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoCivil = new DAOCivil($pdo);
 	
@@ -39,14 +39,14 @@
 			}
 		}
 		
-		$local = null;
+		$residencial = null;
 		$casas = $daoCasa->listByCepNumero($cep, $numero);
 		if (count($casas) == 0){
-			$local = $daoLocal->findByCepNumero($cep, $numero);
-			if ($local == null){
-				$local = $daoLocal->insert($cep, $numero);
+			$residencial = $daoResidencial->findByCepNumero($cep, $numero);
+			if ($residencial == null){
+				$residencial = $daoResidencial->insert($cep, $numero);
 			}
-			$casa = $daoCasa->insert($local, INTERDICAO::NAO, $complemento);
+			$casa = $daoCasa->insert($residencial, INTERDICAO::NAO, $complemento);
 			if ($casa == null){
 	            header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
 	            exit();
@@ -78,12 +78,12 @@
 				header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
 		    	exit();
 			}
-			$civil->setCasa($casa);
+			$civil->setResidencial($residencial);
 			$daoCivil->update($civil);
 		}
 		
 		
-		$ocorrencia = $daoOcorrencia->insert(null, $civil, $local, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
+		$ocorrencia = $daoOcorrencia->insert(null, $civil, $residencial, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
 		if ($ocorrencia == null){
 			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
 	        exit();

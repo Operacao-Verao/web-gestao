@@ -23,8 +23,8 @@
   require '../../daos/DAOOcorrencia.php';
   require '../../models/Civil.php';
   require '../../daos/DAOCivil.php';
-  require '../../models/Local.php';
-  require '../../daos/DAOLocal.php';
+  require '../../models/Residencial.php';
+  require '../../daos/DAOResidencial.php';
   require '../../models/Casa.php';
   require '../../daos/DAOCasa.php';
   require '../../models/Endereco.php';
@@ -47,7 +47,7 @@
   $daoRelatorio = new DAORelatorio($pdo);
   $daoOcorrencia = new DAOOcorrencia($pdo);
   $daoCivil = new DAOCivil($pdo);
-  $daoLocal = new DAOLocal($pdo);
+  $daoResidencial = new DAOResidencial($pdo);
   $daoCasa = new DAOCasa($pdo);
   $daoEndereco = new DAOEndereco($pdo);
   $daoTecnico = new DAOTecnico($pdo);
@@ -70,10 +70,10 @@
 
   // Obtendo dados de Casa
   $casa = $daoCasa->findById($relatorio->getIdCasa());
-  $local = $daoLocal->findById($casa->getIdLocal());
+  $residencial = $daoResidencial->findById($casa->getIdLocal());
 
   // Obtendo dados de Endereco
-  $endereco = $daoEndereco->findByCep($local->getCep());
+  $endereco = $daoEndereco->findByCep($residencial->getCep());
 
   // Obtendo dados de Técnico e Funcionário
   $tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
@@ -115,7 +115,7 @@
       </div>
       <div class="item-row">
         <p class="item-row-title">CEP: </p>
-        <p class="item-row-content"><?php echo $local->getCep();?></p>
+        <p class="item-row-content"><?php echo $residencial->getCep();?></p>
       </div>
       <div class="item-row">
         <p class="item-row-title">Bairro: </p>
@@ -139,7 +139,7 @@
       </div>
       <div class="item-row">
         <p class="item-row-title">Nº: </p>
-        <p class="item-row-content"><?php echo $local->getNumero();?></p>
+        <p class="item-row-content"><?php echo $residencial->getNumero();?></p>
       </div>
     </div>
 

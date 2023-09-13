@@ -2,12 +2,12 @@
     $input = json_decode(file_get_contents('php://input'), true);
 
   	require '../conn.php';
-    require '../../models/Local.php';
-    require '../../daos/DAOLocal.php';
+    require '../../models/Residencial.php';
+    require '../../daos/DAOResidencial.php';
     require '../../models/Casa.php';
     require '../../daos/DAOCasa.php';
 
-    $daoLocal = new DAOLocal($pdo);
+    $daoResidencial = new DAOResidencial($pdo);
     $daoCasa = new DAOCasa($pdo);
 
     $casas = $daoCasa->listBySearch($input['text']);
@@ -21,7 +21,7 @@
     
     echo '[';
       foreach($casas as $casa) {
-        $local = $daoLocal->findById($casa->getIdLocal());
+        $residencial = $daoResidencial->findById($casa->getIdResidencial());
         if ($first){
           $first = false;
         }
@@ -30,8 +30,8 @@
         }
         echo '{
           "id": "'.$casa->getId().'",
-          "cep": "'.$local->getCep().'",
-          "numero": "'.$local->getNumero().'",
+          "cep": "'.$residencial->getCep().'",
+          "numero": "'.$residencial->getNumero().'",
           "complemento": "'.$casa->getComplemento().'"
         }';
       }

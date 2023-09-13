@@ -121,7 +121,7 @@
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByText(string $text): ?array{
             $text = addslashes($text);
-            $statement = $this->pdo->query('select * from Tecnico, Funcionario, Relatorio inner join Ocorrencia on Relatorio.id_ocorrencia = Ocorrencia.id inner join Casa on Relatorio.id_casa = Casa.id inner join Local on Casa.id_local = Local.id inner join Endereco on Local.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id and Tecnico.id_funcionario = Funcionario.id) or Ocorrencia.id_tecnico is null) and (Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Local.numero like "'.$text.'%" or ((not Ocorrencia.id_tecnico is null) and Funcionario.nome like "'.$text.'%")) group by Relatorio.id order by Relatorio.data_geracao desc');
+            $statement = $this->pdo->query('select * from Tecnico, Funcionario, Relatorio inner join Ocorrencia on Relatorio.id_ocorrencia = Ocorrencia.id inner join Casa on Relatorio.id_casa = Casa.id inner join Residencial on Casa.id_residencial = Residencial.id inner join Endereco on Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id and Tecnico.id_funcionario = Funcionario.id) or Ocorrencia.id_tecnico is null) and (Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Residencial.numero like "'.$text.'%" or ((not Ocorrencia.id_tecnico is null) and Funcionario.nome like "'.$text.'%")) group by Relatorio.id order by Relatorio.data_geracao desc');
             $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 			// All entries will be traversed

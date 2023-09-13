@@ -7,8 +7,8 @@
 	require '../../models/Relatorio.php';
 	require '../../daos/DAORelatorio.php';
 	
-	require '../../models/Local.php';
-	require '../../daos/DAOLocal.php';
+	require '../../models/Residencial.php';
+	require '../../daos/DAOResidencial.php';
 	require '../../models/Endereco.php';
 	require '../../daos/DAOEndereco.php';
 	require '../../models/Civil.php';
@@ -17,7 +17,7 @@
 	
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoRelatorio = new DAORelatorio($pdo);
-	$daoLocal = new DAOLocal($pdo);
+	$daoResidencial = new DAOResidencial($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoCivil = new DAOCivil($pdo);
 	
@@ -25,13 +25,13 @@
 	$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
 	
 	if ($ocorrencia){
-		$local = $daoLocal->findById($ocorrencia->getIdLocal());
-		$endereco = $daoEndereco->findByCep($local->getCep());
+		$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
+		$endereco = $daoEndereco->findByCep($residencial->getCep());
 		$civil = $daoCivil->findById($ocorrencia->getIdCivil());
 		echo '{
 			"data": "'.addslashes($ocorrencia->getDataOcorrencia()).'",
 			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($local->getNumero()).'",
+			"numero": "'.addslashes($residencial->getNumero()).'",
 			"bairro": "'.addslashes($endereco->getBairro()).'",
 			"numCasas": '.$ocorrencia->getNumCasas().',
 			"acionamento": "'.addslashes($ocorrencia->getAcionamento()).'",

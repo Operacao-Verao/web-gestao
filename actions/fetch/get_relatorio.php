@@ -10,8 +10,8 @@
 	require '../../daos/DAOOcorrencia.php';
 	require '../../models/Civil.php';
 	require '../../daos/DAOCivil.php';
-	require '../../models/Local.php';
-	require '../../daos/DAOLocal.php';
+	require '../../models/Residencial.php';
+	require '../../daos/DAOResidencial.php';
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
@@ -34,7 +34,7 @@
 	$daoRelatorio = new DAORelatorio($pdo);
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoCivil = new DAOCivil($pdo);
-	$daoLocal = new DAOLocal($pdo);
+	$daoResidencial = new DAOResidencial($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	$daoTecnico = new DAOTecnico($pdo);
@@ -65,12 +65,12 @@
 	
 	// Obtendo dados de Casa
 	$casa = $daoCasa->findById($relatorio->getIdCasa());
-	$local = $daoLocal->findById($casa->getIdLocal());
-	$json['casa_numero'] = $local->getNumero();
+	$residencial = $daoResidencial->findById($casa->getIdResidencial());
+	$json['casa_numero'] = $residencial->getNumero();
 	$json['casa_complemento'] = $casa->getComplemento();
 	
 	// Obtendo dados de Endereco
-	$endereco = $daoEndereco->findByCep($local->getCep());
+	$endereco = $daoEndereco->findByCep($residencial->getCep());
 	$json['endereco_cep'] = $endereco->getCep();
 	$json['endereco_rua'] = $endereco->getRua();
 	$json['endereco_bairro'] = $endereco->getBairro();

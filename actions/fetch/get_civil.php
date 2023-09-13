@@ -9,8 +9,8 @@
 	require '../../daos/DAOOcorrencia.php';
 	require '../../models/Relatorio.php';
 	require '../../daos/DAORelatorio.php';
-	require '../../models/Local.php';
-	require '../../daos/DAOLocal.php';
+	require '../../models/Residencial.php';
+	require '../../daos/DAOResidencial.php';
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Endereco.php';
@@ -19,7 +19,7 @@
 	$daoCivil = new DAOCivil($pdo);
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoRelatorio = new DAORelatorio($pdo);
-	$daoLocal = new DAOLocal($pdo);
+	$daoResidencial = new DAOResidencial($pdo);
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	
@@ -29,13 +29,12 @@
 		exit();
 	}
 	
-	$casa = $civil->getIdCasa()!=null? $daoCasa->findById($civil->getIdCasa()): null;
-	$local = $casa!=null? $daoLocal->findById($casa->getIdLocal()): null;
+	$residencial = $civil->getIdResidencial()!=null? $daoResidencial->findById($civil->getIdResidencial()): null;
 	
 	echo '{
 		"id": '.$civil->getId().',
 		"nome": "'.addslashes($civil->getNome()).'",
-		"cep": "'.($local? addslashes($local->getCep()): '-Não Cadastrado-').'",
+		"cep": "'.($residencial? addslashes($residencial->getCep()): '-Não Cadastrado-').'",
 		"celular": "'.addslashes($civil->getCelular()).'",
 		"email": "'.addslashes($civil->getEmail()).'",
 		"cpf": "'.addslashes($civil->getCpf()).'",
@@ -46,27 +45,25 @@
 	$ocorrencias = $daoOcorrencia->listAll();
 	$first = true;
 	foreach ($ocorrencias as $ocorrencia){
-		$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
-	  $casa = $daoCasa->findById($relatorio->getIdCasa());
-	  $local = $daoLocal->findById($casa->getIdLocal());
-	  $endereco = $daoEndereco->findByCep($local->getCep());
-	  if ($ocorrencia->getIdCivil() == $civil->getId()){
-	    
-	    if ($first){
-	    	$first = false;
-	    }
-	    else {
-	    	echo ',';
-	    }
-	    echo '{
+		$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
+		$endereco = $daoEndereco->findByCep($residencial->getCep());
+		if ($ocorrencia->getIdCivil() == $civil->getId()){
+
+		if ($first){
+			$first = false;
+		}
+		else {
+			echo ',';
+		}
+		echo '{
 			"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
 			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
 			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($local->getNumero()).'",
+			"numero": "'.addslashes($residencial->getNumero()).'",
 			"bairro": "'.addslashes($endereco->getBairro()).'",
 			"observacoes": "'.addslashes($ocorrencia->getRelatoCivil()).'"
-	  	}';
-	  }
+			}';
+		}
 	}
 	
 	echo ']}';

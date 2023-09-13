@@ -33,7 +33,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 							
 							$daoOcorrencia = new DAOOcorrencia($pdo);
 							
-							echo count($daoOcorrencia->listAll());
+							echo count($daoOcorrencia->searchByText('', false));
 						?>
 					</span>
 				</div>

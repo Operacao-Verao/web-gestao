@@ -1,6 +1,6 @@
 <?php
 	
-	class Local{
+	class Residencial{
 		private int $id;
 		private string $cep;
 		private string $numero;

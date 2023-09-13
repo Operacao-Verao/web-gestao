@@ -8,13 +8,13 @@
     
     class Casa {
         private int $id;
-        private int $id_local;
+        private int $idResidencial;
         private int $interdicao;
         private string $complemento;
         
-        public function __construct(int $id, int $id_local, int $interdicao, string $complemento) {
+        public function __construct(int $id, int $idResidencial, int $interdicao, string $complemento) {
             $this->id = $id;
-            $this->id_local = $id_local;
+            $this->idResidencial = $idResidencial;
             $this->interdicao = $interdicao;
             $this->complemento = $complemento;
         }
@@ -23,12 +23,12 @@
             return $this->id;
         }
         
-        public function getIdLocal(): int {
-            return $this->id_local;
+        public function getIdResidencial(): int {
+            return $this->idResidencial;
         }
         
-        public function setLocal(Local $local): void {
-            $this->id_local = $local->getId();
+        public function setResidencial(Residencial $residencial): void {
+            $this->idResidencial = $residencial->getId();
         }
         
         public function getInterdicao(): int {
