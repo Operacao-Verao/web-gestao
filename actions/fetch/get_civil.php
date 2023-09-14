@@ -23,7 +23,17 @@
 	$daoCasa = new DAOCasa($pdo);
 	$daoEndereco = new DAOEndereco($pdo);
 	
-	$civil = $daoCivil->findById($input['id']);
+	$civil = null;
+	if (array_key_exists('id', $input)){
+		$civil = $daoCivil->findById($input['id']);
+	}
+	else if (array_key_exists('cpf', $input)){
+		$civil = $daoCivil->findByCpf($input['cpf']);
+	}
+	else{
+		echo '{}';
+		exit();
+	}
 	if ($civil == null){
 		echo '{}';
 		exit();
@@ -35,6 +45,7 @@
 		"id": '.$civil->getId().',
 		"nome": "'.addslashes($civil->getNome()).'",
 		"cep": "'.($residencial? addslashes($residencial->getCep()): '-Não Cadastrado-').'",
+		"senha": "'.addslashes($civil->getSenha()).'",
 		"celular": "'.addslashes($civil->getCelular()).'",
 		"email": "'.addslashes($civil->getEmail()).'",
 		"cpf": "'.addslashes($civil->getCpf()).'",

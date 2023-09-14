@@ -17,8 +17,8 @@
         <input type="text" name="inputName" placeholder="Ex.: Samantha" required>
       </div>
       <div class="inputArea">
-        <label for="inputEmail">Email*</label>
-        <input type="email" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" required>
+        <label for="inputEmail">Email</label>
+        <input type="email" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com">
       </div>
       <div class="inputArea">
         <label for="inputPassword">Senha*</label>
@@ -31,7 +31,7 @@
       <div class="inputAreaRow">
         <div class="inputArea">
           <label for="inputCelular">Celular</label>
-          <input type="tel" name="inputCelular" placeholder="Ex.: 11974764830">
+          <input type="tel" name="inputCelular" placeholder="Ex.: 11974764830" required>
         </div>
         <div class="inputArea">
           <label for="inputTelefone">Telefone</label>

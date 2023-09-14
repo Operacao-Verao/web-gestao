@@ -55,7 +55,7 @@
 		// Find a single entry in the "Civil" table by her CPF
 		// Returns a model if found, returns null otherwise
 		public function findByCpf(string $cpf): ?Civil{
-			$statement = $this->pdo->query("select * from Civil where cpf = \'".addslashes($cpf)."\'");
+			$statement = $this->pdo->query("select * from Civil where cpf = '".addslashes($cpf)."'");
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
 			// Only one entry is needed, in this case, the first one

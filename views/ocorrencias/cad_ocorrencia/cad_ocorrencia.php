@@ -8,20 +8,79 @@
   <title>Criar Ocorrência</title>
 </head>
 
+<?php
+  require '../../../actions/conn.php';
+  require '../../../models/Civil.php';
+  require '../../../daos/DAOCivil.php';
+  
+  $daoCivil = new DAOCivil($pdo);
+  
+  $civil = null;
+  if (array_key_exists('selected_id', $_POST)){
+    $civil = $daoCivil->findById($_POST['selected_id']);
+  }
+?>
+
 <body>
   <main>
     <h1>Criar Ocorrência</h1>
     <form method="post" action="../../../actions/cad_ocorrencia.php">
       <div class="inputArea">
-        <label for="inputEmail">Email do Civil*</label>
+        <label for="inputName">Nome*</label>
         <?php
-          if (array_key_exists('selected_email', $_POST)){
-            echo '<input list="email" type="text" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" value="'.$_POST['selected_email'].'" readonly required>';
+          if ($civil){
+            echo '<input type="text" name="inputName" placeholder="Ex.: Samantha" value="'.$civil->getNome().'" readonly required>';
           }
           else{
-            echo '<input list="email" type="text" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" required>';
+            echo '<input type="text" name="inputName" placeholder="Ex.: Samantha" required>';
           }
         ?>
+      </div>
+      <div class="inputArea">
+        <label for="inputEmail">Email</label>
+        <?php
+          if ($civil){
+            echo '<input type="email" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" value="'.$civil->getEmail().'" readonly>';
+          }
+          else{
+            echo '<input type="email" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com">';
+          }
+        ?>
+      </div>
+      <div class="inputArea">
+        <label for="inputCpf">CPF*</label>
+        <?php
+          if ($civil){
+            echo '<input type="text" name="inputCpf" placeholder="Ex.: 53903904920" value="'.$civil->getCpf().'" readonly required>';
+          }
+          else{
+            echo '<input type="text" name="inputCpf" placeholder="Ex.: 53903904920" oninput="getCivil(this.value)" required>';
+          }
+        ?>
+      </div>
+      <div class="inputAreaRow">
+        <div class="inputArea">
+          <label for="inputCelular">Celular</label>
+          <?php
+            if ($civil){
+              echo '<input type="tel" name="inputCelular" placeholder="Ex.: 11974764830" value="'.$civil->getCelular().'" readonly required>';
+            }
+            else{
+              echo '<input type="tel" name="inputCelular" placeholder="Ex.: 11974764830" required>';
+            }
+          ?>
+        </div>
+        <div class="inputArea">
+          <label for="inputTelefone">Telefone</label>
+          <?php
+            if ($civil){
+              echo '<input type="tel" name="inputTelefone" placeholder="Ex.: 1140028922" value="'.$civil->getCelular().'" readonly>';
+            }
+            else{
+              echo '<input type="tel" name="inputTelefone" placeholder="Ex.: 1140028922">';
+            }
+          ?>
+        </div>
       </div>
       <div class="inputAreaRow">
         <div class="inputArea">
@@ -44,7 +103,7 @@
       <div class="inputAreaRow">
         <div class="inputArea">
           <label for="inputCep">CEP*</label>
-          <input type="number" name="inputCep" placeholder="Ex.: 07584030" required>
+          <input type="text" name="inputCep" placeholder="Ex.: 07584030" required>
         </div>
         <div class="inputArea">
           <label for="inputRua">Rua*</label>
@@ -81,5 +140,57 @@
     </form>
   </main>
 </body>
+
+<script>
+  function goToAction(action, values={}){
+    let form = document.createElement('form');
+    form.method = 'post';
+    form.action = action;
+    let submit = document.createElement('input');
+    submit.type = 'submit';
+    form.appendChild(submit);
+    
+    for (let name in values){
+      let value = document.createElement('input');
+      value.name = name;
+      value.type = values[name].type || 'text';
+      value.value = values[name].value;
+      form.appendChild(value);
+    }
+    
+    document.body.appendChild(form);
+    submit.click();
+    form.remove();
+  }
+  
+  function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+    fetch(action, {
+      "method": "PUT",
+      "headers": {"Content-Type": "application/json"},
+      "body": JSON.stringify(data)
+    }).then(
+      onSuccess, onError
+    );
+  }
+  
+  function getCivil(cpf){
+    requestFromAction("../../../actions/fetch/get_civil.php", function(r){
+      r.json().then(function(json){
+        //console.log(json);
+        
+        if (Object.keys(json).length > 0){
+          document.getElementsByName("inputName")[0].value = json.nome;
+          document.getElementsByName("inputEmail")[0].value = json.email;
+          document.getElementsByName("inputCelular")[0].value = json.celular;
+          document.getElementsByName("inputTelefone")[0].value = json.telefone;
+          
+          if (json.cep){
+            document.getElementsByName("inputCep")[0].value = json.cep;
+          }
+        }
+      })
+    }, function(){}, {'cpf': cpf});
+  }
+</script>
 
 </html>

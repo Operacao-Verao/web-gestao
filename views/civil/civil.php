@@ -101,13 +101,13 @@
 <!--MODAL VISUALIZAR CIVIL-->
 </main>
 <script>
-  let selected_email = null;
+  let selected_id = null;
   
   function goToOcorrenciaCreation(){
     goToAction('../ocorrencias/cad_ocorrencia/cad_ocorrencia.php', {
-      'selected_email': {
+      'selected_id': {
         'type': 'text',
-        'value': selected_email
+        'value': selected_id
       }
     });
   }
@@ -151,7 +151,7 @@
         //console.log(json);
         document.getElementById(id).classList.add('open');
         
-        selected_email = json.email;
+        selected_id = json.id;
         view_nome.textContent = json.nome;
         view_cep.textContent = json.cep;
         view_celular.textContent = json.celular;

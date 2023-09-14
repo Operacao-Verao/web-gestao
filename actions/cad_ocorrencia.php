@@ -18,7 +18,7 @@
 	$daoCasa = new DAOCasa($pdo);
 	$daoCivil = new DAOCivil($pdo);
 	
-	$civil_email = $_POST['inputEmail'];
+	$cpf = $_POST['inputCpf'];
 	$acionamento = $_POST['inputAcionamento'];
 	$relato = $_POST['inputRelato'];
 	$numCasas = $_POST['inputNumCasas'];
@@ -52,36 +52,34 @@
 	            exit();
 			}
 		}
+		else{
+			$residencial = $daoResidencial->findByCepNumero($cep, $numero);
+		}
 		
 		$civil = null;
-		if ($civil_email == null){
-			/*$nome = $_POST["inputName"];
-	        $email = $_POST["inputEmail"];
-	        $senha = $_POST["inputPassword"];
-	        $cpf = $_POST["inputCpf"];
-	        $celular = $_POST["inputCelular"];
-	        $telefone = $_POST["inputTelefone"];
-	        
-	        $civil = $this->daoCivil->insert($casa, $nome, $email, $senha, $cpf, $celular, $telefone);
-
-	        if ($civil == null) {
-	            header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
-	            exit();
-	        }*/
+		if ($cpf == null){
 		    header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
 		    exit();
 		}
 		else{
-			$civil = $daoCivil->findByEmail($civil_email);
+			$civil = $daoCivil->findByCpf($cpf);
 			
 			if ($civil == null){
-				header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
-		    	exit();
+				$nome = $_POST["inputName"];
+		        $email = $_POST["inputEmail"];
+		        $cpf = $_POST["inputCpf"];
+		        $celular = $_POST["inputCelular"];
+		        $telefone = $_POST["inputTelefone"];
+		        
+		        $civil = $daoCivil->insert($residencial, $nome, $email, '', $cpf, $celular, $telefone);
 			}
+	        if ($civil == null) {
+	            header("Location: ../views/ocorrencias/cad_ocorrencias/cad_ocorrencias.php?error=cadastrofalhou");
+	            exit();
+	        }
 			$civil->setResidencial($residencial);
 			$daoCivil->update($civil);
 		}
-		
 		
 		$ocorrencia = $daoOcorrencia->insert(null, $civil, $residencial, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
 		if ($ocorrencia == null){
