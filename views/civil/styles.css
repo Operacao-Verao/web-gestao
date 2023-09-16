@@ -51,12 +51,12 @@
 	margin: 0 1.5rem;
 }
 .activity-data .data-title {
-	font-size: 2rem;
+	font-size: 1.8rem;
 	font-weight: 500;
 	color: var(--text-color);
 }
 .activity-data .data .data-list {
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 	font-weight: 400;
 	color: var(--text-color);
 	white-space: nowrap;

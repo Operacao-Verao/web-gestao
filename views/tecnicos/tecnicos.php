@@ -16,10 +16,11 @@ require '../../models/Funcionario.php';
 require '../../daos/DAOFuncionario.php';
 
 session_start();
-if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
 	session_destroy();
 	header("Location: ../login/login.php");
-};
+}
+;
 
 $daoFuncionario = new DAOFuncionario($pdo);
 $daoTecnico = new DAOTecnico($pdo);
@@ -58,8 +59,9 @@ foreach ($tecnicos as $tecnico) {
 				<?php
 				// Print Actives
 				foreach ($tecnicos as $tecnico) {
-					echo '<span class="data-list">' . ($tecnico->getAtivo() ? 'Ativo' : 'Inativo') . '</span>';
+					echo '<span class="data-list ' . ($tecnico->getAtivo() ? 'ativo' : 'inativo') . '">' . ($tecnico->getAtivo() ? 'Ativo' : 'Inativo') . '</span>';
 				}
+
 				?>
 			</div>
 			<div class="data ver">
@@ -67,7 +69,7 @@ foreach ($tecnicos as $tecnico) {
 				<?php
 				// Print Edits
 				foreach ($tecnicos as $tecnico) {
-					echo '<span class="data-list"><a href="../cad_tecnico/cad_tecnico.php?tecnico_id='.$tecnico->getId().'"><i class="ph-bold ph-pencil"></i></a></span>';
+					echo '<span class="data-list"><a href="../cad_tecnico/cad_tecnico.php?tecnico_id=' . $tecnico->getId() . '"><i class="ph-bold ph-pencil"></i></a></span>';
 				}
 				?>
 			</div>

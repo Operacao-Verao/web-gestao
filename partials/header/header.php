@@ -34,7 +34,8 @@
 							class="link-name">Relatórios</span></a>
 				</li>
 				<li>
-					<a href="#"><i class="ph-bold ph-user-list"></i><span class="link-name">Secretários</span></a>
+					<a href="../../views/secretarios/secretarios.php"><i class="ph-bold ph-user-list"></i><span
+							class="link-name">Secretários</span></a>
 				</li>
 				<li>
 					<a href="../../views/civil/civil.php"><i class="ph-bold ph-users-three"></i><span

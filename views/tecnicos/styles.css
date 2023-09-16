@@ -1,12 +1,13 @@
 .activity .activity-data {
+	position: relative;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
 
 	width: 100%;
+	min-height: 95vh;
 	background-color: var(--box-color);
 	border-radius: 0.6rem;
-	padding: 1rem;
+	padding: 4rem 2rem;
 }
 .activity-data .data {
 	display: flex;
@@ -15,7 +16,7 @@
 	margin: 0 1.5rem;
 }
 .activity-data .data-title {
-	font-size: 1.7rem;
+	font-size: 1.8rem;
 	font-weight: 500;
 	color: var(--text-color);
 }
@@ -25,7 +26,7 @@
 	color: var(--text-color);
 	white-space: nowrap;
 
-	margin-top: 2rem;
+	margin-top: 2.5rem;
 }
 .data.ver {
 	display: flex;
@@ -39,8 +40,23 @@ a {
 	text-decoration: none;
 	color: inherit;
 }
-
+.ativo,
+.inativo {
+	padding: 0rem 2rem;
+	border-radius: 0.8rem;
+}
+.ativo {
+	background-color: #dcfce7;
+	color: #1ead53 !important;
+}
+.inativo {
+	background-color: #fee2e2;
+	color: #ef4444 !important;
+}
 button {
+	position: absolute;
+	bottom: 70px;
+	right: 70px;
 	background-color: var(--blue);
 	color: #fff;
 	font-size: 18px;
