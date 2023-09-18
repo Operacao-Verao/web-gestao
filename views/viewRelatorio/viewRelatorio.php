@@ -70,7 +70,7 @@
 
   // Obtendo dados de Casa
   $casa = $daoCasa->findById($relatorio->getIdCasa());
-  $residencial = $daoResidencial->findById($casa->getIdLocal());
+  $residencial = $daoResidencial->findById($casa->getIdResidencial());
 
   // Obtendo dados de Endereco
   $endereco = $daoEndereco->findByCep($residencial->getCep());
@@ -144,8 +144,7 @@
     </div>
 
     <!-- Só colocar se tiver alguma foto do relatório  -->
-    <img src="" alt="Fotos do relatório">
-    <!-- Só colocar se tiver alguma foto do relatório  -->
+    <!--<img src="" alt="Fotos do relatório">-->
     <center>
       <?php
         foreach ($fotos as $foto){

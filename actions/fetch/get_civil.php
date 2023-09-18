@@ -16,6 +16,13 @@
 	require '../../models/Endereco.php';
 	require '../../daos/DAOEndereco.php';
 	
+	// Protective measures against ilegal data access
+	session_start();
+	if($_SESSION["usuario_tipo"] != 0){
+		echo '{}';
+		exit();
+	}
+	
 	$daoCivil = new DAOCivil($pdo);
 	$daoOcorrencia = new DAOOcorrencia($pdo);
 	$daoRelatorio = new DAORelatorio($pdo);
@@ -45,7 +52,6 @@
 		"id": '.$civil->getId().',
 		"nome": "'.addslashes($civil->getNome()).'",
 		"cep": "'.($residencial? addslashes($residencial->getCep()): '-Não Cadastrado-').'",
-		"senha": "'.addslashes($civil->getSenha()).'",
 		"celular": "'.addslashes($civil->getCelular()).'",
 		"email": "'.addslashes($civil->getEmail()).'",
 		"cpf": "'.addslashes($civil->getCpf()).'",

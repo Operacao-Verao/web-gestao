@@ -7,7 +7,7 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
+  require '../../partials/header/header.php';
 ?>
 <div id="body">
   <div class="wrapper-main">
@@ -26,7 +26,7 @@ require '../../partials/header/header.php';
       </div>
       <div class="data editar" id="list_edits">
         <span class="data-title">Editar</span>
-        <span class="data-list"><a href="#"><i class="ph-bold ph-pencil"></i></a></span>
+        <span class="data-list"><a href="#" onclick="openModal()"><i class="ph-bold ph-pencil"></i></a></span>
       </div>
     </section>
     <a href="#"><button class="btnCadastrar">Cadastrar Secretário</button></a>
@@ -63,4 +63,46 @@ require '../../partials/header/header.php';
 
 </main>
 
+<script>
+  
+  function goToAction(action, values={}){
+    let form = document.createElement('form');
+    form.method = 'post';
+    form.action = action;
+    let submit = document.createElement('input');
+    submit.type = 'submit';
+    form.appendChild(submit);
+    
+    for (let name in values){
+      let value = document.createElement('input');
+      value.name = name;
+      value.type = values[name].type || 'text';
+      value.value = values[name].value;
+      form.appendChild(value);
+    }
+    
+    document.body.appendChild(form);
+    submit.click();
+    form.remove();
+  }
+  
+  function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+    fetch(action, {
+      "method": "PUT",
+      "headers": {"Content-Type": "application/json"},
+      "body": JSON.stringify(data)
+    }).then(
+      onSuccess, onError
+    );
+  }
+  
+  function openModal() {
+    document.getElementById('viewSecretario').style.display = 'block';
+  }
+  
+  function closeModal() {
+    document.getElementById('viewSecretario').style.display = 'none';
+  }
+  closeModal();
+</script>
 </html>

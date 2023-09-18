@@ -103,25 +103,25 @@
       <div class="inputAreaRow">
         <div class="inputArea">
           <label for="inputCep">CEP*</label>
-          <input type="text" name="inputCep" placeholder="Ex.: 07584030" required>
+          <input type="text" name="inputCep" id="inputCep" placeholder="Ex.: 07584030" min="8" max="8" required>
         </div>
         <div class="inputArea">
           <label for="inputRua">Rua*</label>
-          <input type="text" name="inputRua" placeholder="Ex.: Av. dos Expedicionários" required>
+          <input type="text" name="inputRua" id="inputRua" placeholder="Ex.: Av. dos Expedicionários" required>
         </div>
       </div>
       <div class="inputAreaRow">
         <div class="inputArea">
           <label for="inputBairro">Bairro*</label>
-          <input type="text" name="inputBairro" placeholder="Ex.: Centro" required>
+          <input type="text" name="inputBairro" id="inputBairro" placeholder="Ex.: Centro" required>
         </div>
         <div class="inputArea">
           <label for="inputCidade">Cidade*</label>
-          <select name="inputCidade" required>
-            <option selected disabled hidden>Ver cidade...</option>
-            <option value="Franco da Rocha">Franco da Rocha</option>
+          <select name="inputCidade" id="inputCidade" required>
+            <option value="Franco da Rocha" selected>Franco da Rocha</option>
             <option value="Caieiras">Caieiras</option>
             <option value="Francisco Morato">Francisco Morato</option>
+            <option value="São Paulo">São Paulo</option>
           </select>
         </div>
       </div>
@@ -163,11 +163,11 @@
     form.remove();
   }
   
-  function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+  function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}, method="PUT"){
     fetch(action, {
-      "method": "PUT",
+      "method": method,
       "headers": {"Content-Type": "application/json"},
-      "body": JSON.stringify(data)
+      "body": method=="GET"?undefined:JSON.stringify(data)
     }).then(
       onSuccess, onError
     );
@@ -183,13 +183,28 @@
           document.getElementsByName("inputEmail")[0].value = json.email;
           document.getElementsByName("inputCelular")[0].value = json.celular;
           document.getElementsByName("inputTelefone")[0].value = json.telefone;
-          
-          if (json.cep){
+          /*
+          if (json.cep[0] != '-'){
             document.getElementsByName("inputCep")[0].value = json.cep;
           }
+          */
         }
       })
     }, function(){}, {'cpf': cpf});
+  }
+  
+  inputCep.oninput = function(){
+    if (inputCep.value.length == 8){
+      console.log(inputCep.value); // 01001000
+      requestFromAction("https://viacep.com.br/ws/"+inputCep.value+"/json/", function(r){
+        r.json().then(function(json){
+          console.log(json);
+          inputRua.value = json.logradouro||"";
+          inputBairro.value = json.bairro||"";
+          inputCidade.value = json.localidade||"";
+        });
+      }, function(r){throw r;}, {}, "GET");
+    }
   }
 </script>
 
