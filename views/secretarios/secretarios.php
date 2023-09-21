@@ -66,7 +66,8 @@
         <?php
           // Print Secretarias
           foreach ($secretarios as $secretario) {
-            echo '<span class="data-list"><a href="#" onclick=""><i class="ph-bold ph-pencil"></i></a></span>';
+            $cargo = $daoCargo->findById($secretario->getIdCargo());
+            echo '<span class="data-list"><a href="#" onclick="openModal(\''.$secretario->getId().'\', \''.$secretario->getNomeSecretario().'\', \''.$cargo->getNomeCargo().'\', '.$secretario->getIdSecretaria().')"><i class="ph-bold ph-pencil"></i></a></span>';
           }
         ?>
       </div>
@@ -77,22 +78,23 @@
   <!--MODAL CADASTRAR SECRETÁRIO-->
   <section id="viewSecretario" class="viewSecretario">
     <div class="topRow">
-      <h2>Cadastrar Secretário</h1>
+      <h2 id="cadWindowTitle">Cadastrar Secretário</h1>
         <button onclick="closeModal()"><i class="ph-bold ph-x"></i></button>
     </div>
-    <form class="secretario-content" method="post" action="../../actions/cad_secretario.php">
+    <form id="formCad" class="secretario-content" method="post" action="../../actions/cad_secretario.php">
+      <input type="hidden" name="inputId" id="inputId">
       <div>
         <div class="inputArea">
           <label for="">Nome</label>
-          <input type="text" name="inputNome" required>
+          <input type="text" name="inputNome" id="inputNome" required>
         </div>
         <div class="inputArea">
           <label for="">Cargo</label>
-          <input type="text" name="inputCargo" required>
+          <input type="text" name="inputCargo" id="inputCargo" required>
         </div>
         <div class="inputArea">
           <label for="">Secretaria</label>
-          <select name="inputSecretaria" required>
+          <select name="inputSecretaria" id="inputSecretaria" required>
             <?php
               $secretarias = $daoSecretaria->listAll();
               foreach ($secretarias as $secretaria){
@@ -102,7 +104,7 @@
           </select>
         </div>
       </div>
-      <button class="btnCadastrarSecretario">Cadastrar</button>
+      <button id="cadButton" class="btnCadastrarSecretario">Cadastrar</button>
     </form>
   </section>
 </div>
@@ -142,8 +144,25 @@
     );
   }
   
-  function openModal() {
+  function openModal(id_secretario=null, nome=null, cargo=null, secretaria=null) {
     document.getElementById('viewSecretario').style.display = 'block';
+    if (id_secretario == null){
+      cadWindowTitle.textContent = "Cadastrar Secretário";
+      cadButton.textContent = "Cadastrar";
+      inputNome.value = '';
+      inputCargo.value = '';
+      inputSecretaria.value = '';
+      formCad.action = "../../actions/cad_secretario.php";
+    }
+    else {
+      cadWindowTitle.textContent = "Atualizar Secretário";
+      cadButton.textContent = "Atualizar";
+      inputId.value = id_secretario;
+      inputNome.value = nome;
+      inputCargo.value = cargo;
+      inputSecretaria.value = secretaria;
+      formCad.action = "../../actions/alt_secretario.php";
+    }
   }
   
   function closeModal() {
