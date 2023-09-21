@@ -8,28 +8,70 @@
 
 <?php
   require '../../partials/header/header.php';
+  
+  require '../../actions/conn.php';
+  require '../../models/Cargo.php';
+  require '../../daos/DAOCargo.php';
+  require '../../models/Secretaria.php';
+  require '../../daos/DAOSecretaria.php';
+  require '../../models/Secretario.php';
+  require '../../daos/DAOSecretario.php';
+  
+  session_start();
+  if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    session_destroy();
+    header("Location: ../login/login.php");
+  };
+  
+  $daoCargo = new DAOCargo($pdo);
+  $daoSecretaria = new DAOSecretaria($pdo);
+  $daoSecretario = new DAOSecretario($pdo);
+  
+  $secretarios = $daoSecretario->listAll();
 ?>
 <div id="body">
   <div class="wrapper-main">
     <section class="activity-data">
       <div class="data name" id="list_nomes">
         <span class="data-title">Nome</span>
-        <span class="data-list">Luiz Fernando Rodrigues</span>
+        <?php
+          // Print Names
+          foreach ($secretarios as $secretario) {
+            echo '<span class="data-list">'.$secretario->getNomeSecretario().'</span>';
+          }
+        ?>
       </div>
       <div class="data cargo" id="list_cargos">
         <span class="data-title">Cargo</span>
-        <span class="data-list">Secretário de Governo e Segurança Pública</span>
+        <?php
+          // Print Cargos
+          foreach ($secretarios as $secretario) {
+            $cargo = $daoCargo->findById($secretario->getIdCargo());
+            echo '<span class="data-list">'.$cargo->getNomeCargo().'</span>';
+          }
+        ?>
       </div>
       <div class="data secretaria" id="list_secretaria">
         <span class="data-title">Secretaria</span>
-        <span class="data-list">Secretaria de Governo e Segurança Pública</span>
+        <?php
+          // Print Secretarias
+          foreach ($secretarios as $secretario) {
+            $secretaria = $daoSecretaria->findById($secretario->getIdSecretaria());
+            echo '<span class="data-list">'.$secretaria->getNomeSecretaria().'</span>';
+          }
+        ?>
       </div>
       <div class="data editar" id="list_edits">
         <span class="data-title">Editar</span>
-        <span class="data-list"><a href="#" onclick="openModal()"><i class="ph-bold ph-pencil"></i></a></span>
+        <?php
+          // Print Secretarias
+          foreach ($secretarios as $secretario) {
+            echo '<span class="data-list"><a href="#" onclick=""><i class="ph-bold ph-pencil"></i></a></span>';
+          }
+        ?>
       </div>
     </section>
-    <a href="#"><button class="btnCadastrar">Cadastrar Secretário</button></a>
+    <a href="#"><button class="btnCadastrar" onclick="openModal()">Cadastrar Secretário</button></a>
   </div>
 
   <!--MODAL CADASTRAR SECRETÁRIO-->
@@ -38,21 +80,25 @@
       <h2>Cadastrar Secretário</h1>
         <button onclick="closeModal()"><i class="ph-bold ph-x"></i></button>
     </div>
-    <form class="secretario-content">
+    <form class="secretario-content" method="post" action="../../actions/cad_secretario.php">
       <div>
         <div class="inputArea">
           <label for="">Nome</label>
-          <input type="text">
+          <input type="text" name="inputNome" required>
         </div>
         <div class="inputArea">
-          <label for="">Nome</label>
-          <input type="text">
+          <label for="">Cargo</label>
+          <input type="text" name="inputCargo" required>
         </div>
         <div class="inputArea">
           <label for="">Secretaria</label>
-          <select name="selectSecretaria" id="selectSecretaria">
-            <option selected disabled hidden>Selecionar</option>
-            <option value="1" disabled>Secretaria de Governo e Segurança Pública</option>
+          <select name="inputSecretaria" required>
+            <?php
+              $secretarias = $daoSecretaria->listAll();
+              foreach ($secretarias as $secretaria){
+                echo '<option value="'.$secretaria->getId().'">'.$secretaria->getNomeSecretaria().'</option>';
+              }
+            ?>
           </select>
         </div>
       </div>

@@ -19,7 +19,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$last_id = intval($this->pdo->lastInsertId());
-				return new Secretario($last_id, $secretaria, $cargo, $nomeSecretario);
+				return new Secretario($last_id, $secretaria->getId(), $cargo->getId(), $nomeSecretario);
 			}
 
 			// Otherwise, return null

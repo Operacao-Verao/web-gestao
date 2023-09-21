@@ -245,6 +245,11 @@
           <p class="item-column-content">(X) Particular</p>';
               }
               break;
+              default: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Pública</p>
+          <p class="item-column-content">() Particular</p>';
+              }
             }
           ?>
         </div>
@@ -280,6 +285,12 @@
           <p class="item-column-content">(X) Mista</p>';
               }
               break;
+              default: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Alvenaria</p>
+          <p class="item-column-content">() Madeira</p>
+          <p class="item-column-content">() Mista</p>';
+              }
             }
           ?>
         </div>
@@ -315,6 +326,12 @@
           <p class="item-column-content">(X) Aterro</p>';
               }
               break;
+              default: {
+                echo '<p class="item-column-content">() Não especificado</p>
+          <p class="item-column-content">() Natural</p>
+          <p class="item-column-content">() De Corte</p>
+          <p class="item-column-content">() Aterro</p>';
+              }
             }
           ?>
         </div>
@@ -341,6 +358,11 @@
           <p class="item-column-content">(X) Árvores</p>';
               }
               break;
+              default: {
+                echo '<p class="item-column-content">() NÃO</p>
+          <p class="item-column-content">() Rasteira</p>
+          <p class="item-column-content">() Árvores</p>';
+              }
             }
           ?>
         </div>
@@ -368,6 +390,11 @@
           <p class="item-row-content">(X) Total</p>';
               }
               break;
+              default: {
+                echo '<p class="item-row-content">() Não</p>
+          <p class="item-row-content">() Parcial</p>
+          <p class="item-row-content">() Total</p>';
+              }
             }
           ?>
         </div>

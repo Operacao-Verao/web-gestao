@@ -7,29 +7,28 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
+	require '../../partials/header/header.php';
 
-require '../../actions/conn.php';
-require '../../models/Tecnico.php';
-require '../../daos/DAOTecnico.php';
-require '../../models/Funcionario.php';
-require '../../daos/DAOFuncionario.php';
+	require '../../actions/conn.php';
+	require '../../models/Tecnico.php';
+	require '../../daos/DAOTecnico.php';
+	require '../../models/Funcionario.php';
+	require '../../daos/DAOFuncionario.php';
 
-session_start();
-if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-	session_destroy();
-	header("Location: ../login/login.php");
-}
-;
+	session_start();
+	if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+		session_destroy();
+		header("Location: ../login/login.php");
+	};
 
-$daoFuncionario = new DAOFuncionario($pdo);
-$daoTecnico = new DAOTecnico($pdo);
-$tecnicos = $daoTecnico->listAll();
+	$daoFuncionario = new DAOFuncionario($pdo);
+	$daoTecnico = new DAOTecnico($pdo);
+	$tecnicos = $daoTecnico->listAll();
 
-$tecnicos_funcionarios = [];
-foreach ($tecnicos as $tecnico) {
-	$tecnicos_funcionarios[] = $daoFuncionario->findById($tecnico->getIdFuncionario());
-}
+	$tecnicos_funcionarios = [];
+	foreach ($tecnicos as $tecnico) {
+		$tecnicos_funcionarios[] = $daoFuncionario->findById($tecnico->getIdFuncionario());
+	}
 ?>
 
 <div class="dash-content">
@@ -39,38 +38,38 @@ foreach ($tecnicos as $tecnico) {
 			<div class="data names">
 				<span class="data-title">Nome</span>
 				<?php
-				// Print Names
-				foreach ($tecnicos_funcionarios as $tecnico) {
-					echo '<span class="data-list">' . $tecnico->getNome() . '</span>';
-				}
+					// Print Names
+					foreach ($tecnicos_funcionarios as $tecnico) {
+						echo '<span class="data-list">' . $tecnico->getNome() . '</span>';
+					}
 				?>
 			</div>
 			<div class="data names">
 				<span class="data-title">Email</span>
 				<?php
-				// Print Emails
-				foreach ($tecnicos_funcionarios as $tecnico) {
-					echo '<span class="data-list">' . $tecnico->getEmail() . '</span>';
-				}
+					// Print Emails
+					foreach ($tecnicos_funcionarios as $tecnico) {
+						echo '<span class="data-list">' . $tecnico->getEmail() . '</span>';
+					}
 				?>
 			</div>
 			<div class="data status">
 				<span class="data-title">Status</span>
 				<?php
-				// Print Actives
-				foreach ($tecnicos as $tecnico) {
-					echo '<span class="data-list ' . ($tecnico->getAtivo() ? 'ativo' : 'inativo') . '">' . ($tecnico->getAtivo() ? 'Ativo' : 'Inativo') . '</span>';
-				}
+					// Print Actives
+					foreach ($tecnicos as $tecnico) {
+						echo '<span class="data-list ' . ($tecnico->getAtivo() ? 'ativo' : 'inativo') . '">' . ($tecnico->getAtivo() ? 'Ativo' : 'Inativo') . '</span>';
+					}
 
 				?>
 			</div>
 			<div class="data ver">
 				<span class="data-title">Editar</span>
 				<?php
-				// Print Edits
-				foreach ($tecnicos as $tecnico) {
-					echo '<span class="data-list"><a href="../cad_tecnico/cad_tecnico.php?tecnico_id=' . $tecnico->getId() . '"><i class="ph-bold ph-pencil"></i></a></span>';
-				}
+					// Print Edits
+					foreach ($tecnicos as $tecnico) {
+						echo '<span class="data-list"><a href="../cad_tecnico/cad_tecnico.php?tecnico_id=' . $tecnico->getId() . '"><i class="ph-bold ph-pencil"></i></a></span>';
+					}
 				?>
 			</div>
 		</div>
