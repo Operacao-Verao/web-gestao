@@ -47,7 +47,7 @@
 				</li>
 				<li></li>
 				<li>
-					<a href="#"><i class="ph-bold ph-cloud-rain"></i><span class="link-name">Pluviômetro/Fluviômetro</span></a>
+					<a href="../../views/pluv_fluv/pluv_fluv.php"><i class="ph-bold ph-cloud-rain"></i><span class="link-name">Pluviômetro/Fluviômetro</span></a>
 				</li>
 			</ul>
 			<ul class="logout-mode">

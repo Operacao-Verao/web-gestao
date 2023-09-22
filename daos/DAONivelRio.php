@@ -47,11 +47,25 @@
 			}
 			return null;
 		}
-		
 		// Return all records of "NivelRio"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): ?array{
 			$statement = $this->pdo->query("select * from NivelRio");
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+			
+			// All entries will be traversed
+			if ($queries){
+				$modelos = [];
+				foreach ($queries as $query){
+					$modelos[] = new NivelRio($query['id'], $query['id_fluviometro'], $query['nivel_rio'], $query['data_diario']);
+				}
+				return $modelos;
+			}
+			return [];
+		}
+
+		public function searchByText(string $text): ?array{
+			$statement = $this->pdo->query('select * from NivelRio join Fluviometro on NivelRio.id_fluviometro = Fluviometro.id join Endereco on Fluviometro.cep = Endereco.cep where Endereco.cep like "%'.$text.'%" or Endereco.rua like "%'.$text.'%" or Endereco.cidade like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or nivel_rio like "%'.$text.'%"');
 			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
 			
 			// All entries will be traversed

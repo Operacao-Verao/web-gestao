@@ -64,6 +64,21 @@
 			}
 			return [];
 		}
+
+		public function searchByText(string $text): ?array{
+			$statement = $this->pdo->query('select * from NivelChuva join Pluviometro on NivelChuva.id_pluviometro = Pluviometro.id join Endereco on Pluviometro.cep = Endereco.cep where Endereco.cep like "%'.$text.'%" or Endereco.rua like "%'.$text.'%" or Endereco.cidade like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or chuva_em_mm like "%'.$text.'%"');
+			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+			
+			// All entries will be traversed
+			if ($queries){
+				$modelos = [];
+				foreach ($queries as $query){
+					$modelos[] = new NivelChuva($query['id'], $query['id_pluviometro'], $query['chuva_em_mm'], $query['data_chuva']);
+				}
+				return $modelos;
+			}
+			return [];
+		}
 		
 		// Update the "NivelChuva" entry in the table
 		// Returns true if the update is successful, otherwise returns false
