@@ -79,13 +79,19 @@
       </div>
       <div class="ocorrencias-content">
         <div class="ocorrencias">
+          <div> <!-- Gabriel, arruma por favor o estilo desses elementos -->
+            <div class="ocorrencia-title">
+                <p>Interdição</p>
+              </div>
+              <select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
+                <option value="0" selected disabled hidden>Não</option>
+                <option value="0">Não</option>
+                <option value="1">Parcial</option>
+                <option value="2">Sim</option>
+              </select>
+          </div>
           <div class="ocorrencias-items" id="lista_ocorrencias">
-            <select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
-              <option value="0" selected disabled hidden>Não</option>
-              <option value="0">Não</option>
-              <option value="1">Parcial</option>
-              <option value="2">Sim</option>
-            </select>
+            
           </div>
         </div>
       </div>
@@ -118,7 +124,8 @@
           view_numero.textContent = json.numero;
           view_cep.textContent = json.cep;
           view_complemento.textContent = json.complemento;
-
+          alter_aprovado.value = json.interdicao;
+          
           let relatorios_conteudo = '';
 
           for (let i = 0; i < json.relatorios.length; i++) {
