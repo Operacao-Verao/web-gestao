@@ -44,7 +44,33 @@ article:first-child::after {
 .item-row-content {
 	font-size: 1.6rem;
 }
-
+.area-images{
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	align-items: center;
+	margin-top: 5rem;
+	gap: 1rem;
+}
+.area-images > img{
+	max-width: 320px;
+}
+.btnImprimir{
+	width: max-content;
+	padding: 1rem 2rem;
+	background-color: var(--blue);
+	cursor: pointer;
+	color: #fff;
+	font-size: 1.6rem;
+	font-weight: 500;
+	padding: 1.4rem;
+	margin-top: 3rem;
+	border-radius: 0.8rem;
+	border: 0;
+}
+.btnImprimir a{
+	color: #fff;
+	text-decoration: none;
+}
 article:last-child {
 	display: flex;
 	flex-direction: column;
@@ -111,9 +137,14 @@ article .row {
 	display: grid;
 	grid-template-columns: 2fr 1fr;
 }
+@media (width <= 1440px){
+	.topRowContent{
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
 @media (width <= 1120px) {
 	.topRowContent {
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 	}
 	.tipos {
 		grid-template-columns: repeat(2, 1fr);
@@ -122,11 +153,8 @@ article .row {
 		grid-template-columns: repeat(1, 1fr);
 		gap: 2rem;
 	}
-}
-
-@media (width <= 960px) {
-	.topRowContent {
-		grid-template-columns: repeat(2, 1fr);
+	.row{
+		flex-direction: column;
 	}
 }
 
@@ -135,4 +163,20 @@ article .row {
 		grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
 	}
+	.interdicao-danos .interdicao, .interdicao-danos .danos{
+		display: flex;
+		flex-direction: column;
+	}
+	.memorando-oficio-processo{
+		display: flex;
+		flex-direction: column;
+	}
+	.setor-data{
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+svg{
+	cursor: pointer;
 }

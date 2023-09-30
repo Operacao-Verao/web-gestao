@@ -4,6 +4,7 @@
 	min-height: 95vh;
 	background-color: #fff;
 	border-radius: 1rem;
+	margin-top: 1rem;
 }
 .activity-data {
 	display: flex;
@@ -12,7 +13,7 @@
 
 	width: 100%;
 	background-color: var(--box-color);
-	border-radius: 0.6rem;
+	border-radius: 1rem;
 	padding: 4rem 2rem;
 }
 .activity-data .data {

@@ -30,7 +30,7 @@
 }
 body {
 	min-height: 100vh;
-	font-size: 16px;
+	font-size: 1.6rem;
 	font-family: 'Poppins', sans-serif;
 	background-color: var(--bg-primary-color);
 }
@@ -50,7 +50,7 @@ body {
     background-color: var(--box-color);
     width: 500px;
     height: 650px;
-    padding: 35px;
+    padding: 2.5rem;
     border-radius: 10px;
 }
 
@@ -70,9 +70,21 @@ body {
     padding-left: 10px;
     font-size: 20px;
 }
-
-.cad h1{
-    height: auto;
+.topRow{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 2.4rem;
+}
+.topRow svg{
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    cursor: pointer;
+}
+.topRow h1{
     color: var(--text-color);
 }
 form button{
@@ -80,10 +92,10 @@ form button{
     background-color: var(--primary-color);
     color: var(--box-color);
     border: var(--box-color);
-    font-size: 22px;
+    font-size: 1.8rem;
     cursor: pointer;
     border-radius: 8px;
-    padding: 10px 5px;
+    padding: 1.2rem .5rem;
     margin-top: 8rem;
 }
 

@@ -25,6 +25,20 @@ main {
 	border-radius: 2rem;
 	padding: 2rem;
 }
+.topRow{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: -1.8rem;
+}
+.topRow svg{
+    position: absolute;
+    left: 24px;
+    top: 7px;
+    cursor: pointer;
+}
 h1 {
 	text-align: center;
 	font-size: 2.6rem;

@@ -1,4 +1,7 @@
-.activity .activity-data {
+.dash-content{
+	margin-top: 1rem;
+}
+.activity-data {
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -6,7 +9,7 @@
 	width: 100%;
 	min-height: 95vh;
 	background-color: var(--box-color);
-	border-radius: 0.6rem;
+	border-radius: 1rem;
 	padding: 4rem 2rem;
 }
 .activity-data .data {

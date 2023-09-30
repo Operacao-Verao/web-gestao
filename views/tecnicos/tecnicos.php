@@ -32,7 +32,6 @@
 ?>
 
 <div class="dash-content">
-	<div class="activity">
 		<div class="activity-data">
 
 			<div class="data names">
@@ -77,7 +76,6 @@
 			<button>Cadastrar Técnico</button>
 		</a>
 	</div>
-</div>
 </main>
 
 </html>
