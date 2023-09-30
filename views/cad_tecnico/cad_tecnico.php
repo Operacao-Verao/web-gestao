@@ -8,30 +8,31 @@
 	<link rel="stylesheet" href="./styles.css" />
 	<title>Defesa Civil - Cadastrar Técnico</title>
 </head>
-<?php
-require '../../actions/conn.php';
-require '../../models/Tecnico.php';
-require '../../daos/DAOTecnico.php';
-require '../../models/Funcionario.php';
-require '../../daos/DAOFuncionario.php';
 
-session_start();
+  <?php
+    require '../../actions/conn.php';
+    require '../../models/Tecnico.php';
+    require '../../daos/DAOTecnico.php';
+    require '../../models/Funcionario.php';
+    require '../../daos/DAOFuncionario.php';
 
-if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-	session_destroy();
-	header("Location: ../login/login.php");
-};
+    session_start();
 
-if(array_key_exists('tecnico_id', $_GET)) {
-  $daoFuncionario = new DAOFuncionario($pdo);
-  $daoTecnico = new DAOTecnico($pdo);
+    if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    	session_destroy();
+    	header("Location: ../login/login.php");
+    };
 
-  $tecnico = $daoTecnico->findById($_GET['tecnico_id']);
+    if(array_key_exists('tecnico_id', $_GET)) {
+      $daoFuncionario = new DAOFuncionario($pdo);
+      $daoTecnico = new DAOTecnico($pdo);
 
-  if($tecnico != null) $tecnico_funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
-  else $tecnico_funcionario = null;
-}
-?>
+      $tecnico = $daoTecnico->findById($_GET['tecnico_id']);
+
+      if($tecnico != null) $tecnico_funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
+      else $tecnico_funcionario = null;
+    }
+  ?>
 
 <body>
     <section class="area-cad">
@@ -93,7 +94,7 @@ if(array_key_exists('tecnico_id', $_GET)) {
                 ?>
                 <input type="password" id="confirmarSenha" name="edtsenhaconfirm" required>
 
-           <button type="submit">
+           <button type="submit" id="btnCadastro">
             <?php
               if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
                 echo 'Atualizar Técnico';
@@ -105,5 +106,21 @@ if(array_key_exists('tecnico_id', $_GET)) {
           </form>
         </div>
       </section>
+
+      <script type="text/javascript">
+        
+        let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
+        
+        btnCadastro.onclick = function(){
+          if (senha.value != confirmarSenha.value){
+            alert("As senhas precisam coincidir!");
+            return false;
+          }
+          else {
+            edtnome.value = edtnome.value.replace(exp_nome, '');
+          }
+        }
+        
+      </script>
 
 </body>

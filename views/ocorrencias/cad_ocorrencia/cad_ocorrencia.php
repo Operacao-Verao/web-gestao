@@ -100,7 +100,7 @@
         </div>
       </div>
       <div class="inputArea">
-        <label for="inputRelato">Relato do Civil*</label>
+        <label for="inputRelato">Assunto*</label>
         <textarea name="inputRelato" rows="5"></textarea>
       </div>
       <div class="inputAreaRow">

@@ -57,7 +57,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 				<p class="item-content" id="view_acionamento">07851-120</p>
 			</div>
 			<div class="item-column grid-relato">
-				<p class="item-title">Relato do Civil</p>
+				<p class="item-title">Descrição</p>
 				<p class="item-content" id="view_relato">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, tenetur
 					doloremque laboriosam sed soluta fugit facere consequuntur optio distinctio animi dolorem quaerat
 					ipsa vel reiciendis repelle</p>

@@ -33,6 +33,12 @@
                 //$idCasa = $daoCasa->insert($novaCasa);
 
                 //if ($idCasa) {
+                    $novoCivil = $this->daoCivil->findByCpf($cpf);
+                    if ($novoCivil != null){
+                        header("Location: ../views/civil/cad_civil/cad_civil.php?error=cadastrofalhou");
+                        exit();
+                    }
+                    
                     $novoCivil = $this->daoCivil->insert(null, $nome, $email, $senha_criptografada, $cpf, $celular, $telefone);
 
                     if ($novoCivil) {

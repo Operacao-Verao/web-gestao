@@ -186,17 +186,19 @@
         <p class="item-row-content">Adultos: '.$afetados->getAdultos().'</p>
         <p class="item-row-content">Crianças: '.$afetados->getCriancas().'</p>
         <p class="item-row-content">Idosos: '.$afetados->getIdosos().'</p>
-        <p class="item-row-content">Feridos: '.$afetados->getFeridos().'</p>
         <p class="item-row-content">Deficientes: '.$afetados->getEspeciais().'</p>
-        <p class="item-row-content">Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getFeridos()+$afetados->getEspeciais()).'</p>';
+        <p class="item-row-content">Feridos: '.$afetados->getFeridos().'</p>
+        <p class="item-row-content">Mortos: '.$afetados->getMortos().'</p>
+        <p class="item-row-content">Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getEspeciais()).'</p>';
           }
           else {
             echo '
         <p class="item-row-content">Adultos: 0</p>
         <p class="item-row-content">Crianças: 0</p>
         <p class="item-row-content">Idosos: 0</p>
-        <p class="item-row-content">Feridos: 0</p>
         <p class="item-row-content">Deficientes: 0</p>
+        <p class="item-row-content">Feridos: 0</p>
+        <p class="item-row-content">Mortos: 0</p>
         <p class="item-row-content">Total: 0</p>';
           }
         ?>
@@ -418,7 +420,8 @@
         </div>
         <div>
           <p class="item-row-title">Processo: </p>
-          <p class="item-row-content">¯\_(ツ)_/¯</p>
+          <p class="item-row-content"><?php echo $relatorio->getProcesso();?></p>
+          <!--<p class="item-row-content">¯\_(ツ)_/¯</p>-->
         </div>
       </div>
       <div class="setor-data">
@@ -428,7 +431,12 @@
         </div>
         <div>
           <p class="item-row-title">Data: </p>
-          <p class="item-row-content">¯\_(ツ)_/¯</p>
+          <p class="item-row-content"><?php
+            if ($memo){
+              $data = $memo->getDataMemo();
+              echo formatDate($data);
+            }
+          ?></p>
         </div>
       </div>
       <div class="assunto">
