@@ -29,6 +29,11 @@
         $date = date_create($datetime);
         return date_format($date, 'd/m/Y');
     }
+    function formatWeekDay($datetime, $full_name = true) {
+        $format = date_format(date_create($datetime), 'w');
+        $days = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
+        return $days[$format].($format>=1 && $format<=5 && $full_name? '-Feira': '');
+    }
     function formatTime($datetime, $include_seconds = false) {
         $date = date_create($datetime);
         return date_format($date, 'H:i'.($include_seconds? ':s': ''));

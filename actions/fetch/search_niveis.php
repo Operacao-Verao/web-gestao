@@ -30,10 +30,10 @@
 			echo '[';
 					$first = true;
 					foreach($niveis as $nivel) {
-						$fluviometro = $daoPluviometro->findById($nivel->getIdFluviometro());
+						$fluviometro = $daoFluviometro->findById($nivel->getIdFluviometro());
 	
 						$endereco = $daoEndereco->findByCep($fluviometro->getCep());
-	
+						
 						if ($first) {
 							$first = false;
 						}

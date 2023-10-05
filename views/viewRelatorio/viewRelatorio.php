@@ -58,7 +58,7 @@
   $daoAnimal = new DAOAnimal($pdo);
   $daoMemo = new DAOMemo($pdo);
 
-  $relatorio = $daoRelatorio->findById($_POST['id']);
+  $relatorio = $daoRelatorio->findById($_GET['id']);
   if ($relatorio == null){
     echo '{}';
     die();
@@ -152,7 +152,8 @@
         }
       ?>
     </div>
-    <button class="btnImprimir"><a href="../printRelatorio/index.php">Impressão Relatório</a></button>
+    <button class="btnImprimir"><a target="_Blank"
+      <?php echo 'href="../printRelatorio/index.php?id='.$relatorio->getId().'"'; ?>>Impressão Relatório</a></button>
   </article>
   <article>
     <div class="item-row">
@@ -163,8 +164,18 @@
       <div class="dadosVistoria">
         <p class="item-column-title">Dados da Vistoria: </p>
         <div class="item-content">
-          <p class="item-column-content">(X) Desmoronamento</p>
-          <p class="item-column-content">() Escorregamento</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getDesmoronamento()?'X':''; ?>) Desmoronamento</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getDeslizamento()?'X':''; ?>) Escorregamento</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getEsgotoEscoamento()?'X':''; ?>) Esgoto/Escoamentos</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getErosao()?'X':''; ?>) Erosão</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getInundacao()?'X':''; ?>) Inundação</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getIncendio()?'X':''; ?>) Incêndio</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getArvores()?'X':''; ?>) Árvores</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getInfiltracaoTrinca()?'X':''; ?>) Infiltrações/Trincas</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getJudicial()?'X':''; ?>) Judicial</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getMonitoramento()?'X':''; ?>) Monitoramento</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getTransito()?'X':''; ?>) Trânsito</p>
+          <p class="item-column-content">(<?php echo $dadosDaVistoria!=null && $dadosDaVistoria->getOutros()?'X':''; ?>) Outros</p>
         </div>
       </div>
       <div class="gravidade row">
@@ -339,7 +350,6 @@
         </div>
         <div>
           <p class="item-column-title">Vegetação</p>
-          
           <?php 
             switch($relatorio->getVegetacao()){
               case VEGETACAO::NENHUMA: {

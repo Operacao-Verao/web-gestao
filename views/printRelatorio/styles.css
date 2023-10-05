@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
+@media print {
+  @page { margin: 0; }
+  body { margin: 1.6cm; }
+}
+
 :root {
     font-size: 62.5%;
 }
@@ -13,7 +18,14 @@
 body {
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+}
+
+@media print {
+    .pagebreak {
+        height: 2cm;
+        page-break-before: always;
+    }
 }
 
 .wrapper {
