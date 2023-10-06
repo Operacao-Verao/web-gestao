@@ -53,6 +53,25 @@
             }
             return null;
         }
+        
+        
+        // Find a single entry in the "Ocorrencia" table by its corresponding property "Residencial"
+        // Returns a model if found, returns null otherwise
+        public function listByResidencial(Residencial $residencial): ?array{
+            $statement = $this->pdo->query("select * from Ocorrencia WHERE id_residencial = ".$residencial->getId());
+            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            // Only one entry is needed, in this case, the first one
+            if ($queries){
+                $modelos = [];
+                foreach ($queries as $query){
+                    $modelos[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+                }
+                return $modelos;
+            }
+            return [];
+        }
+        
         // Return all records of "Ocorrencia"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{
@@ -101,7 +120,7 @@
             $update->bindValue(":relatoCivil", $ocorrencia->getRelatoCivil());
             $update->bindValue(":numCasas", $ocorrencia->getNumCasas());
             $update->bindValue(":aprovado", intval($ocorrencia->getAprovado()));
-            $update->bindValue(":encerrado", intval($ocorrencia->getAprovado()));
+            $update->bindValue(":encerrado", intval($ocorrencia->getEncerrado()));
             $update->bindValue(":dataOcorrencia", $ocorrencia->getDataOcorrencia());
             return $update->execute();
         }

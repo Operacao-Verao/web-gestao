@@ -13,9 +13,10 @@
 	
 	$ocorrencia = $daoOcorrencia->findById($input['id']);
 	
-	if ($ocorrencia){
-		$ocorrencia->setIdTecnico($input['idTecnico']);
+	if ($ocorrencia && !$ocorrencia->getEncerrado()){
+		$ocorrencia->setIdTecnico($input['aprovado']? $input['idTecnico']: null);
 		$ocorrencia->setAprovado($input['aprovado']);
+		$ocorrencia->setEncerrado(true);
 		$daoOcorrencia->update($ocorrencia);
 	}
 ?>

@@ -143,9 +143,7 @@ body.viewCivil-open {
 .civil-item .item-content {
 	font-size: 1.5rem;
 }
-.ocorrencias-content {
-	margin-top: 3rem;
-}
+
 .ocorrencias {
 	display: flex;
 	flex-direction: column;
@@ -153,11 +151,13 @@ body.viewCivil-open {
 	gap: 5rem;
 	margin-top: 5rem;
 }
+
 .ocorrencias .ocorrencia-item {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	gap: 3rem;
 }
+
 .ocorrencias .ocorrencia-date {
 	display: flex;
 	flex-direction: column;
@@ -165,16 +165,20 @@ body.viewCivil-open {
 	padding-right: 3rem;
 	border-right: 2px solid #9ca3af;
 }
+
 .ocorrencias .ocorrencia-date::after {
 	content: '';
 	width: 2px;
 	min-height: 80px;
 }
+
 .ocorrencias .ocorrencia-info {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
+	width: 100%;
 }
+
 .ocorrencia-info .ocorrencia-title {
 	display: flex;
 	align-items: center;
@@ -182,9 +186,17 @@ body.viewCivil-open {
 	font-weight: 500;
 	gap: 1.5rem;
 }
+
+.ocorrencia-title button {
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+}
+
 .ocorrencia-info .ocorrencia-title i {
 	font-size: 2rem;
 }
+
 .ocorrencia-info .ocorrencia-subtitle {
 	color: #71717a;
 }

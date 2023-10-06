@@ -169,7 +169,7 @@
                   <div class="ocorrencia-info">
                     <div class="ocorrencia-title">
                       <p>`+ocorrencia.rua+` - `+ocorrencia.numero+` (`+ocorrencia.bairro+`)</p>
-                      <i class="ph ph-eye"></i>
+                      <i class="ph ph-eye" onclick="location = '../ocorrencias/ocorrencias.php?id=`+ocorrencia.id+`'"></i>
                     </div>
                     <div class="ocorrencia-subtitle">
                       <p>`+ocorrencia.observacoes+`</p>

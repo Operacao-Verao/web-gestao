@@ -87,7 +87,7 @@
 	        exit();
 		}
 		
-	  header("Location: ../views/ocorrencias/ocorrencias.php");
+	  header("Location: ../views/ocorrencias/ocorrencias.php?id=".$ocorrencia->getId());
 	  exit();
 	} catch (\Throwable $th) {
 		echo $th;

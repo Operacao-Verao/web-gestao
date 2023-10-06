@@ -73,6 +73,8 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		</div>
 		<div class="ocorrencias-content">
 			<div class="topRow">
+				<button class="btnTrancar" id="btnTrancar" onclick="trancarOcorrencia()">Trancar</button>
+				
 				<div class="item-column">
 					<label for="inputTecnico" class="item-title">Técnico Responsável</label>
 					<select name="inputTecnico" class="inputTecnico" id="alter_tecnico">
@@ -138,6 +140,16 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			if (aba_status_aprovado != json.aprovado){
 				trocarAba(json.aprovado);
 			}
+			if (json.encerrado){
+				alter_tecnico.disabled = true;
+	    		alter_aprovado.disabled = true;
+	    		btnTrancar.hidden = true;
+			}
+			else {
+				alter_tecnico.disabled = null;
+	    		alter_aprovado.disabled = null;
+	    		btnTrancar.hidden = null;
+			}
 	    	//console.log(ocorrencia_atual);
 	      });
 	    }, function(){}, {"id":ocorrencia_id});
@@ -185,19 +197,30 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	}
 	
 	alter_tecnico.onchange = alter_aprovado.onchange = function() {
-		requestFromAction("../../actions/fetch/alter_ocorrencia.php", function(r){
+		
+	}
+	
+	function trancarOcorrencia() {
+		if (!confirm("Deseja mesmo trancar esta ocorrência? Isto significa que não poderá ser alterada novamente.")){
+			return;
+		}
+		
+		requestFromAction("../../actions/fetch/tranca_ocorrencia.php", function(r){
 	      r.text().then(function(r){
 	      	console.log(r);
 	      });
 	      trocarAba();
 	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)});
+	    alter_tecnico.disabled = true;
+	    alter_aprovado.disabled = true;
+	    btnTrancar.hidden = true;
 	}
 </script>
 
 <?php
-	if (array_key_exists('id_ocorrencia', $_POST) && $_POST['id_ocorrencia'] != null){
-		echo '<script>openModal("viewOcorrencia", '.$_POST['id_ocorrencia'].')</script>';
-		$_POST['id_ocorrencia'] = null;
+	if (isset($_GET['id'])){
+		echo '<script>openModal("viewOcorrencia", '.$_GET['id'].')</script>';
+		$_GET['id'] = null;
 	}
 ?>
 

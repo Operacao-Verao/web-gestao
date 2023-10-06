@@ -65,6 +65,18 @@
       </div>
       <div class="civil-content">
         <div class="civil-item">
+          <p class="item-title">Logradouro</p>
+          <p class="item-content" id="view_rua">Logradouro</p>
+        </div>
+        <div class="civil-item">
+          <p class="item-title">Bairro</p>
+          <p class="item-content" id="view_bairro">Bairro</p>
+        </div>
+        <div class="civil-item">
+          <p class="item-title">Cidade</p>
+          <p class="item-content" id="view_cidade">Cidade</p>
+        </div>
+        <div class="civil-item">
           <p class="item-title">CEP</p>
           <p class="item-content" id="view_cep">Samantha Zduniak</p>
         </div>
@@ -91,7 +103,21 @@
               </select>
           </div>
           <div class="ocorrencias-items" id="lista_ocorrencias">
-            
+            <div class="ocorrencia-item">
+              <div class="ocorrencia-date">
+                <p>Data</p>
+                <p>Hora</p>
+              </div>
+              <div class="ocorrencia-info">
+                <div class="ocorrencia-subtitle">
+                  <p>Relato</p>
+                </div>
+                <div class="ocorrencia-title">
+                  <!--<p>Rua - Numero (Bairro)</p>-->
+                  <button onclick=""><i class="ph-bold ph-eye"></i></button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -121,55 +147,45 @@
           console.log(json);
           document.getElementById(id).classList.add('open');
 
+          view_rua.textContent = json.rua;
+          view_bairro.textContent = json.bairro;
+          view_cidade.textContent = json.cidade;
           view_numero.textContent = json.numero;
           view_cep.textContent = json.cep;
           view_complemento.textContent = json.complemento;
           alter_aprovado.value = json.interdicao;
           
-          let relatorios_conteudo = '';
+          let ocorrencias_conteudo = '';
 
-          for (let i = 0; i < json.relatorios.length; i++) {
-            let relatorio = json.relatorios[i];
-            let status;
-            switch (relatorio.interdicao) {
-              case '0':
-                status = 'Não'
-                break;
-              case '1':
-                status = 'Parcial'
-                break;
-              case '2':
-                status = 'Sim';
-                break;
-            }
-            relatorios_conteudo += ``;
+          for (let i = 0; i < json.ocorrencias.length; i++) {
+            let ocorrencia = json.ocorrencias[i];
+            ocorrencias_conteudo += `<div class="ocorrencia-item">
+              <div class="ocorrencia-date">
+                <p>`+ocorrencia.data+`</p>
+                <p>`+ocorrencia.hora+`</p>
+              </div>
+              <div class="ocorrencia-info">
+                <div class="ocorrencia-subtitle">
+                  <p>`+ocorrencia.relato+`</p>
+                </div>
+                <div class="ocorrencia-title">
+                  <button onclick="location = '../ocorrencias/ocorrencias.php?id=`+ocorrencia.id+`'"><i class="ph-bold ph-eye"></i></button>
+                </div>
+              </div>
+            </div>`;
           }
-          if (json.relatorios.length === 0) {
-            relatorios_conteudo += `
+          if (json.ocorrencias.length === 0) {
+            ocorrencias_conteudo += `
             <div class="ocorrencia-item">
               <div class="ocorrencia-info">
                 <div class="ocorrencia-title">
-                  <p>Sem relatórios para essa residência</p>
+                  <p>Sem ocorrências para essa residência</p>
                 </div>
             </div>
           </div>
           `
           }
-          lista_ocorrencias.innerHTML = `<div class="ocorrencia-item">
-                  <div class="ocorrencia-info">
-                      <div class="ocorrencia-title">
-                        <p>Interdição</p>
-                      </div>
-                      <div class="ocorrencia-subtitle">
-                        <p>`+ status + `</p>
-                      </div>
-                  </div><select name="inputAprovar" class="inputAprovar" id="alter_aprovado" onchange="selectFunction()">
-                    <option value = "`+ json.interdicao + `" selected disabled hidden>Não</option>
-                    <option value="0">Não</option>
-                    <option value="1">Parcial</option>
-                    <option value="2">Sim</option>
-                  </select>
-          </div>`+ relatorios_conteudo;
+          lista_ocorrencias.innerHTML = ocorrencias_conteudo;
         });
       }, function () { }, { "id": casa_id }, "POST");
 

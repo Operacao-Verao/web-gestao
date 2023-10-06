@@ -227,7 +227,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		      	content_tecnico += '<span class="data-list">'+(oe.tecnico==null?"-Não atribuído-":oe.tecnico)+'</span>';
 		      	content_data += '<span class="data-list">'+oe.data+'</span>';
 		      	content_status += '<span class="data-list">'+'Pendente'+'</span>';
-		      	content_ver += '<span class="data-list" onclick="goToOcorrencia('+oe.id+')"><i class="ph-bold ph-eye"></i></span>';
+		      	content_ver += '<span class="data-list" onclick="location = \'../ocorrencias/ocorrencias.php?id='+oe.id+'\'"><i class="ph-bold ph-eye"></i></span>';
 	      	}
 	      	content_endereco += '</div>';
 	      	content_tecnico += '</div>';

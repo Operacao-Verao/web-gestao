@@ -73,6 +73,7 @@
 			echo ',';
 		}
 		echo '{
+			"id": '.$ocorrencia->getId().',
 			"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
 			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
 			"rua": "'.addslashes($endereco->getRua()).'",

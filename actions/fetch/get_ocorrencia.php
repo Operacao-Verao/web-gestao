@@ -38,7 +38,8 @@
 			"civil": "'.addslashes($civil->getNome()).'",
 			"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'",
 			"tecnicoId": '.($ocorrencia->getIdTecnico()? $ocorrencia->getIdTecnico(): 'null').',
-			"aprovado": '.($ocorrencia->getAprovado()? 1: 0).'
+			"aprovado": '.($ocorrencia->getAprovado()? 1: 0).',
+			"encerrado": '.($ocorrencia->getEncerrado()? 1: 0).'
 		}';
 	}
 	else {

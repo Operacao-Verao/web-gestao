@@ -6,13 +6,16 @@
     require '../../daos/DAOResidencial.php';
     require '../../models/Casa.php';
     require '../../daos/DAOCasa.php';
-    require '../../models/Relatorio.php';
-    require '../../daos/DAORelatorio.php';
+    require '../../models/Endereco.php';
+    require '../../daos/DAOEndereco.php';
+    require '../../models/Ocorrencia.php';
+    require '../../daos/DAOOcorrencia.php';
 
     try {
       $daoResidencial = new DAOResidencial($pdo);
       $daoCasa = new DAOCasa($pdo);
-      $daoRelatorio = new DAORelatorio($pdo);
+      $daoEndereco = new DAOEndereco($pdo);
+      $daoOcorrencia = new DAOOcorrencia($pdo);
 
       $casa = $daoCasa->findById($input['id']);
 
@@ -22,26 +25,34 @@
       }
 
       $residencial = $daoResidencial->findById($casa->getIdResidencial());
-      $relatorios = $daoRelatorio->findByCasa($casa);
+      $endereco = $daoEndereco->findByCep($residencial->getCep());
 
       echo '{
         "cep": "'.$residencial->getCep().'",
+        "rua": "'.$endereco->getRua().'",
+        "bairro": "'.$endereco->getBairro().'",
+        "cidade": "'.$endereco->getCidade().'",
         "numero": "'.$residencial->getNumero().'",
         "complemento": "'.$casa->getComplemento().'",
         "interdicao": "'.addslashes($casa->getInterdicao()).'",
-        "relatorios": [
+        "ocorrencias": [
       ';
 
+      $ocorrencias = $daoOcorrencia->listByResidencial($residencial);
       $first = true;
-
-      foreach ($relatorios as $relatorio){
+      foreach ($ocorrencias as $ocorrencia){
           if ($first){
             $first = false;
           }
           else {
             echo ',';
           }
-          echo '{}';
+          echo '{
+            "id": '.$ocorrencia->getId().',
+            "data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
+            "hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
+            "relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
+          }';
       }
       echo ']}';
     } catch (\Throwable $th) {
