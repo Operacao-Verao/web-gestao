@@ -10,7 +10,7 @@
     $daoResidencial = new DAOResidencial($pdo);
     $daoCasa = new DAOCasa($pdo);
 
-    $casas = $daoCasa->listBySearch($input['text']);
+    $casas = $daoCasa->searchByText($input['text']);
 
     if($casas == null) {
       echo '{}';

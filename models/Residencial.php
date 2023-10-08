@@ -19,7 +19,7 @@
 			return $this->cep;
 		}
 		
-		public function setCep(string $cep): string{
+		public function setCep(string $cep): void{
 			$this->cep = $cep;
 		}
 		
@@ -27,7 +27,7 @@
 			return $this->numero;
 		}
 		
-		public function setNumero(string $numero): string{
+		public function setNumero(string $numero): void{
 			$this->numero = $numero;
 		}
 	};

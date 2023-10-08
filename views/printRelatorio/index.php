@@ -82,7 +82,7 @@
   $funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
 
   // Obtendo Fotos
-  $fotos = $daoFoto->listByRelatorio($relatorio);
+  $fotos = $daoFoto->searchByRelatorio($relatorio);
 
   // Obtendo Dados da Vistoria
   $dadosDaVistoria = $daoDadosDaVistoria->findByRelatorio($relatorio);

@@ -1,7 +1,7 @@
 <?php
     class Ocorrencia {
         private int $id;
-        private int|null $idTecnico;
+        private ?int $idTecnico;
         private int $idCivil;
         private int $idResidencial;
         private string $acionamento;
@@ -11,7 +11,7 @@
         private bool $encerrado;
         private string $dataOcorrencia;
         
-        public function __construct(int $id, int|null $idTecnico, int $idCivil, int $idResidencial, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, bool $encerrado, string $dataOcorrencia) {
+        public function __construct(int $id, ?int $idTecnico, int $idCivil, int $idResidencial, string $acionamento, string $relatoCivil, int $numCasas, bool $aprovado, bool $encerrado, string $dataOcorrencia) {
             $this->id = $id;
             $this->idTecnico = $idTecnico;
             $this->idCivil = $idCivil;
@@ -32,15 +32,15 @@
             return $this->idTecnico;
         }
         
-        public function setTecnico(Tecnico|null $tecnico): void {
+        public function setTecnico(?Tecnico $tecnico): void {
             $this->idTecnico = $tecnico? $tecnico->getId(): null;
         }
         
-        public function setIdTecnico(int|null $id): void {
+        public function setIdTecnico(?int $id): void {
             $this->idTecnico = $id;
         }
         
-        public function getIdCivil(): int {
+        public function getIdCivil(): ?int {
             return $this->idCivil;
         }
         

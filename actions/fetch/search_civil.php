@@ -7,7 +7,7 @@
 	
 	$daoCivil = new DAOCivil($pdo);
 	
-	$civis = $daoCivil->searchByNameEmailCpf($input['text']);
+	$civis = $daoCivil->searchByText($input['text']);
 	
 	$first = true;
 	echo '[';

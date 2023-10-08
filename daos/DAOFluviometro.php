@@ -10,7 +10,7 @@
 		// Returns a model if the insertion is successful, otherwise returns null
 		public function insert(string $cep, float $latitude, float $longitude): ?Fluviometro{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into Fluviometro (cep, latitude, longitude) values (:cep, :latitude, :longitude)");
+			$insertion = $this->pdo->prepare("INSERT INTO Fluviometro (cep, latitude, longitude) VALUES (:cep, :latitude, :longitude)");
 			$insertion->bindValue(":cep", $cep);
 			$insertion->bindValue(":latitude", $latitude);
 			$insertion->bindValue(":longitude", $longitude);
@@ -18,8 +18,8 @@
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
-				$last_id = intval($this->pdo->lastInsertId());
-				return new Fluviometro($last_id, $cep, $latitude, $longitude);
+				$lastId = intval($this->pdo->lastInsertId());
+				return new Fluviometro($lastId, $cep, $latitude, $longitude);
 			}
 
 			// Otherwise, return null
@@ -29,7 +29,7 @@
 		// Remove the "Fluviometro" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
 		public function remove(Fluviometro $fluviometro): bool{
-			$insertion = $this->pdo->prepare("delete from Fluviometro where id = :id");
+			$insertion = $this->pdo->prepare("DELETE FROM Fluviometro WHERE id = :id");
 			$insertion->bindValue(":id", $fluviometro->getId());
 			return $insertion->execute();
 		}
@@ -37,44 +37,50 @@
 		// Find a single entry in the "Fluviometro" table
 		// Returns a model if found, returns null otherwise
 		public function findById(int $id): ?Fluviometro{
-			$statement = $this->pdo->query("select * from Fluviometro where id = ".$id);
-			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-			// Only one entry is needed, in this case, the first one
-
-			if ($queries){
-				$query = $queries[0];
-				return new Fluviometro($id, $query['cep'], $query['latitude'], $query['longitude']);
-			}
-			return null;
+            $select = $this->pdo->prepare('SELECT * FROM Fluviometro WHERE id = :id');
+            $select->bindValue(':id', $id);
+            $select->execute();
+            
+            // Only one entry is needed, in this case, the first one
+            if ($select->rowCount()>0){
+                $query = $select->fetch();
+                return new Fluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
+            }
+            return null;
 		}
 		
 		// Return all records of "Fluviometro"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll(): ?array{
-			$statement = $this->pdo->query("select * from Fluviometro");
-			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-			
-			// All entries will be traversed
-			if ($queries){
-				$modelos = [];
-				foreach ($queries as $query){
-					$modelos[] = new Fluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
-				}
-				return $modelos;
-			}
-			return [];
+		public function listAll(): array{
+            $select = $this->pdo->prepare('SELECT * FROM Fluviometro');
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $modelos[] = new Fluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
+            }
+            return $models;
 		}
 		
 		// Update the "Fluviometro" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Fluviometro $fluviometro): bool{
-			$insertion = $this->pdo->prepare("update Fluviometro set cep = :cep, latitude = :latitude, longitude = :longitude where id = :id");
+			$insertion = $this->pdo->prepare("UPDATE Fluviometro SET cep = :cep, latitude = :latitude, longitude = :longitude WHERE id = :id");
 			$insertion->bindValue(":id", $fluviometro->getId());
 			$insertion->bindValue(":cep", $fluviometro->getCep());
 			$insertion->bindValue(":latitude", $fluviometro->getLatitude());
 			$insertion->bindValue(":longitude", $fluviometro->getLongitude());
 			return $insertion->execute();
 		}
+        
+        // Delete all entries from the table and resets all counters
+        public function clearEntire(): bool{
+            if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+                return false;
+            }
+            $deletion = $this->pdo->prepare("DELETE FROM Fluviometro; ALTER TABLE Fluviometro AUTO_INCREMENT = 1;");
+			return $deletion->execute();
+        }
 	}
 ?>

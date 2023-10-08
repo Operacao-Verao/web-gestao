@@ -1,5 +1,4 @@
 <?php
-    
     enum INTERDICAO {
         const NAO = 0;
         const PARCIAL = 1;

@@ -8,12 +8,12 @@
 		
 		// Insert data of "Relatorio" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-			public function insert(Ocorrencia $ocorrencia, int $casa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
-			$tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, bool $danosMateriais, string $dataGeracao, string $dataAtendimento): ?Relatorio{
+			public function insert(Ocorrencia $ocorrencia, Casa $casa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
+			$tipoConstrucao, int $tipoTalude, int $vegetacao, int $interdicao, int $situacaoVitimas, bool $danosMateriais, string $dataGeracao, string $dataAtendimento): ?Relatorio{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("insert into Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) values (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
+			$insertion = $this->pdo->prepare("INSERT INTO Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, memorando, oficio, processo, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento) VALUES (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :memorando, :oficio, :processo, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento)");
 			$insertion->bindValue(":ocorrencia", $ocorrencia->getId());
-			$insertion->bindValue(":casa", $casa);
+			$insertion->bindValue(":casa", $casa->getId());
 			$insertion->bindValue(":gravidade", $gravidade);
 			$insertion->bindValue(":relatorio", $relatorio);
 			$insertion->bindValue(":encaminhamento", $encaminhamento);
@@ -35,8 +35,8 @@
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
-				$last_id = intval($this->pdo->lastInsertId());
-				return new Relatorio($last_id, $ocorrencia->getId(), $casa, $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
+				$lastId = intval($this->pdo->lastInsertId());
+				return new Relatorio($lastId, $ocorrencia->getId(), $casa->getId(), $gravidade, $relatorio, $encaminhamento, $memorando, $oficio, $processo, $assunto, $observacoes, $areaAfetada,
 					$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento);
 			}
 
@@ -47,7 +47,7 @@
 		// Remove the "Relatorio" model entry from the table
 		// Returns true if the removal is successful, otherwise returns false
 		public function remove(Relatorio $relatorio): bool{
-			$insertion = $this->pdo->prepare("delete from Relatorio where id = :id");
+			$insertion = $this->pdo->prepare("DELETE FROM Relatorio WHERE id = :id");
 			$insertion->bindValue(":id", $relatorio->getId());
 			return $insertion->execute();
 		}
@@ -55,92 +55,86 @@
 		// Find a single entry in the "Relatorio" table
 		// Returns a model if found, returns null otherwise
 		public function findById(int $id): ?Relatorio{
-			$statement = $this->pdo->query("select * from Relatorio where id = ".$id);
-			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-			// Only one entry is needed, in this case, the first one
-			if ($queries){
-				$query = $queries[0];
-				return new Relatorio($id, $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+            $select = $this->pdo->prepare('SELECT * FROM Relatorio WHERE id = :id');
+            $select->bindValue(':id', $id);
+            $select->execute();
+            
+            // Only one entry is needed, in this case, the first one
+            if ($select->rowCount()>0){
+                $query = $select->fetch();
+                return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
-			}
-			return null;
+            }
+            return null;
 		}
 		
 		// Find a single entry in the "Relatorio" table by its corresponding property "Ocorrencia"
 		// Returns a model if found, returns null otherwise
 		public function findByOcorrencia(Ocorrencia $ocorrencia): ?Relatorio{
-			$statement = $this->pdo->query("select * from Relatorio where id_ocorrencia = ".$ocorrencia->getId());
-			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-			// Only one entry is needed, in this case, the first one
-			if ($queries){
-				$query = $queries[0];
-				return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+            $select = $this->pdo->prepare('SELECT * FROM Relatorio WHERE id_ocorrencia = :id_ocorrencia');
+            $select->bindValue(':id_ocorrencia', $ocorrencia->getId());
+            $select->execute();
+            
+            // Only one entry is needed, in this case, the first one
+            if ($select->rowCount()>0){
+                $query = $select->fetch();
+                return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
-			}
-			return null;
+            }
+            return null;
 		}
 
-		// Find a single entry in the "Relatorio" table by its corresponding property "Casa"
+		// Search for entry in the "Relatorio" table by its corresponding property "Casa"
 		// Returns a model if found, returns null otherwise
-		public function findByCasa(Casa $casa): ?array{
-			$statement = $this->pdo->query("select * from Relatorio WHERE id_casa = ".$casa->getId());
-			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-			// Only one entry is needed, in this case, the first one
-			if ($queries){
-				$modelos = [];
-				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+		public function searchByCasa(Casa $casa): array{
+            $select = $this->pdo->prepare('SELECT * FROM Relatorio WHERE id_casa = :id_casa');
+            $select->bindValue(':id_casa', $casa->getId());
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
-				}
-				return $modelos;
-			}
-			return [];
+            }
+            return $models;
 		}
 		
 		// Return all records of "Relatorio"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll(): ?array{
-			$statement = $this->pdo->query("select * from Relatorio");
-			$queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-			
-			// All entries will be traversed
-			if ($queries){
-				$modelos = [];
-				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+		public function listAll(): array{
+            $select = $this->pdo->prepare('SELECT * FROM Relatorio');
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
-				}
-				return $modelos;
-			}
-			return [];
+            }
+            return $models;
 		}
 		
         // Search for records of "Relatorio" by text
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function searchByText(string $text): ?array{
-            $text = addslashes($text);
-            $statement = $this->pdo->query('select * from Tecnico, Funcionario, Relatorio inner join Ocorrencia on Relatorio.id_ocorrencia = Ocorrencia.id inner join Casa on Relatorio.id_casa = Casa.id inner join Residencial on Casa.id_residencial = Residencial.id inner join Endereco on Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id and Tecnico.id_funcionario = Funcionario.id) or Ocorrencia.id_tecnico is null) and (Endereco.rua like "%'.$text.'%" or Endereco.bairro like "%'.$text.'%" or Residencial.numero like "'.$text.'%" or ((not Ocorrencia.id_tecnico is null) and Funcionario.nome like "'.$text.'%")) group by Relatorio.id order by Relatorio.data_geracao desc');
-            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-			// All entries will be traversed
-			if ($queries){
-				$modelos = [];
-				foreach ($queries as $query){
-					$modelos[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
+        public function searchByText(string $text): array{
+            $select = $this->pdo->prepare('SELECT Relatorio.id AS id, Relatorio.id_ocorrencia AS id_ocorrencia, Relatorio.id_casa AS id_casa, Relatorio.gravidade AS gravidade, Relatorio.relatorio AS relatorio, Relatorio.encaminhamento AS encaminhamento, Relatorio.memorando AS memorando, Relatorio.oficio AS oficio, Relatorio.processo AS processo, Relatorio.assunto AS assunto, Relatorio.observacoes AS observacoes, Relatorio.area_afetada AS area_afetada, Relatorio.tipo_construcao AS tipo_construcao, Relatorio.tipo_talude AS tipo_talude, Relatorio.vegetacao AS vegetacao, Relatorio.situacao_vitimas AS situacao_vitimas, Relatorio.interdicao AS interdicao, Relatorio.danos_materiais AS danos_materiais, Relatorio.data_geracao AS data_geracao, Relatorio.data_atendimento AS data_atendimento FROM Tecnico, Funcionario, Relatorio INNER JOIN Ocorrencia ON Relatorio.id_ocorrencia = Ocorrencia.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id AND Tecnico.id_funcionario = Funcionario.id) OR Ocorrencia.id_tecnico IS NULL) AND (Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR ((NOT Ocorrencia.id_tecnico IS NULL) AND Funcionario.nome LIKE :text)) GROUP BY Relatorio.id ORDER BY Relatorio.data_geracao DESC');
+            $select->bindValue(':text', '%'.$text.'%');
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['memorando'], $query['oficio'], $query['processo'],
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
-				}
-				return $modelos;
-			}
-			return [];
+            }
+            return $models;
         }
 
 		// Update the "Relatorio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Relatorio $relatorio): bool{
-			$insertion = $this->pdo->prepare("update Relatorio set id_ocorrencia = :id_ocorrencia, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, memorando = :memorando, oficio = :oficio, processo = :processo, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento where id = :id");
+			$insertion = $this->pdo->prepare("UPDATE Relatorio SET id_ocorrencia = :id_ocorrencia, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, memorando = :memorando, oficio = :oficio, processo = :processo, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento WHERE id = :id");
 			$insertion->bindValue(":id", $relatorio->getId());
 			$insertion->bindValue(":id_ocorrencia", $relatorio->getIdOcorrencia());
 			$insertion->bindValue(":gravidade", $relatorio->getGravidade());
@@ -162,5 +156,14 @@
 			$insertion->bindValue(":data_atendimento", $relatorio->getDataAtendimento());
 			return $insertion->execute();
 		}
+        
+        // Delete all entries from the table and resets all counters
+        public function clearEntire(): bool{
+            if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+                return false;
+            }
+            $deletion = $this->pdo->prepare("DELETE FROM Relatorio; ALTER TABLE Relatorio AUTO_INCREMENT = 1;");
+			return $deletion->execute();
+        }
 	}
 ?>

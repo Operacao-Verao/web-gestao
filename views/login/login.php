@@ -35,6 +35,8 @@
            
            <!-- De accesso facilitado para Devs -->
            <a href="../../actions/_dev_access.php">Fica sussa meu nobre, sou dev!</a>
+           <br/>
+           <a href="../../actions/tests/daos.php">Testar DAOS</a>
           </form>
         </div>
       </section>

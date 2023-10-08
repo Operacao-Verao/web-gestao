@@ -40,7 +40,7 @@
 		}
 		
 		$residencial = null;
-		$casas = $daoCasa->listByCepNumero($cep, $numero);
+		$casas = $daoCasa->searchByCepNumero($cep, $numero);
 		if (count($casas) == 0){
 			$residencial = $daoResidencial->findByCepNumero($cep, $numero);
 			if ($residencial == null){

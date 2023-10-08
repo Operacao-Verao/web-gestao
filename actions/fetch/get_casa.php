@@ -38,7 +38,7 @@
         "ocorrencias": [
       ';
 
-      $ocorrencias = $daoOcorrencia->listByResidencial($residencial);
+      $ocorrencias = $daoOcorrencia->searchByResidencial($residencial);
       $first = true;
       foreach ($ocorrencias as $ocorrencia){
           if ($first){

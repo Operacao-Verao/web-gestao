@@ -10,8 +10,8 @@
         // Returns a model if the insertion is successful, otherwise returns null
         public function insert(Relatorio $relatorio, int $adultos, int $criancas, int $idosos, int $especiais, int $mortos, int $feridos, int $enfermos): ?Afetados{
             // Try to insert the provided data into the database
-            $insertion = $this->pdo->prepare("INSERT INTO Afetados (id_relatorio, adultos, criancas, idosos, especiais, mortos, feridos, enfermos) VALUES (:idRelatorio, :adultos, :criancas, :idosos, :especiais, :mortos, :feridos, :enfermos)");
-            $insertion->bindValue(":idRelatorio", $relatorio->getId());
+            $insertion = $this->pdo->prepare("INSERT INTO Afetados (id_relatorio, adultos, criancas, idosos, especiais, mortos, feridos, enfermos) VALUES (:id_relatorio, :adultos, :criancas, :idosos, :especiais, :mortos, :feridos, :enfermos)");
+            $insertion->bindValue(":id_relatorio", $relatorio->getId());
             $insertion->bindValue(":adultos", $adultos);
             $insertion->bindValue(":criancas", $criancas);
             $insertion->bindValue(":idosos", $idosos);
@@ -23,8 +23,8 @@
             // Try to insert, if successful, return the corresponding model
             if ($insertion->execute()) {
                 // Retrieve the ID of the last inserted instance and return a corresponding model for it
-                $last_id = intval($this->pdo->lastInsertId());
-                return new Afetados($last_id, $relatorio->getId(), $adultos, $criancas, $idosos, $especiais, $mortos, $feridos, $enfermos);
+                $lastId = intval($this->pdo->lastInsertId());
+                return new Afetados($lastId, $relatorio->getId(), $adultos, $criancas, $idosos, $especiais, $mortos, $feridos, $enfermos);
             }
 
             // Otherwise, return null
@@ -42,13 +42,14 @@
         // Find a single entry in the "Afetados" table
         // Returns a model if found, returns null otherwise
         public function findById(int $id): ?Afetados{
-            $statement = $this->pdo->query("SELECT * FROM Afetados WHERE id = " . $id);
-            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+            $select = $this->pdo->prepare('SELECT Afetados.id AS id, Afetados.id_relatorio AS id_relatorio, Afetados.adultos AS adultos, Afetados.criancas AS criancas, Afetados.idosos AS idosos, Afetados.especiais AS especiais, Afetados.mortos AS mortos, Afetados.feridos AS feridos, Afetados.enfermos AS enfermos FROM Afetados WHERE id = :id');
+            $select->bindValue(':id', $id);
+            $select->execute();
+            
             // Only one entry is needed, in this case, the first one
-            if ($queries) {
-                $query = $queries[0];
-                return new Afetados($id, $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
+            if ($select->rowCount()>0){
+                $query = $select->fetch();
+                return new Afetados($query['id'], $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
             }
             return null;
         }
@@ -56,12 +57,13 @@
         // Find a single entry in the "Afetados" table by "Relatorio" reference
         // Returns a model if found, returns null otherwise
         public function findByRelatorio(Relatorio $relatorio): ?Afetados{
-            $statement = $this->pdo->query("SELECT * FROM Afetados WHERE id_relatorio = " . $relatorio->getId());
-            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+            $select = $this->pdo->prepare('SELECT Afetados.id AS id, Afetados.id_relatorio AS id_relatorio, Afetados.adultos AS adultos, Afetados.criancas AS criancas, Afetados.idosos AS idosos, Afetados.especiais AS especiais, Afetados.mortos AS mortos, Afetados.feridos AS feridos, Afetados.enfermos AS enfermos FROM Afetados WHERE id_relatorio = :id_relatorio');
+            $select->bindValue(':id_relatorio', $relatorio->getId());
+            $select->execute();
+            
             // Only one entry is needed, in this case, the first one
-            if ($queries) {
-                $query = $queries[0];
+            if ($select->rowCount()>0){
+                $query = $select->fetch();
                 return new Afetados($query['id'], $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
             }
             return null;
@@ -70,26 +72,23 @@
         // Return all records of "Afetados"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{
-            $statement = $this->pdo->query("SELECT * FROM Afetados");
-            $queries = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+            $select = $this->pdo->prepare('SELECT * FROM Afetados');
+            $select->execute();
+            
             // All entries will be traversed
-            if ($queries) {
-                $models = [];
-                foreach ($queries as $query) {
-                    $models[] = new Afetados($query['id'], $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
-                }
-                return $models;
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Afetados($query['id'], $query['id_relatorio'], $query['adultos'], $query['criancas'], $query['idosos'], $query['especiais'], $query['mortos'], $query['feridos'], $query['enfermos']);
             }
-            return [];
+            return $models;
         }
 
         // Update the "Afetados" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Afetados $afetados): bool{
-            $update = $this->pdo->prepare("UPDATE Afetados SET id_relatorio = :idRelatorio, adultos = :adultos, criancas = :criancas, idosos = :idosos, especiais = :especiais, mortos = :mortos, feridos = :feridos, enfermos = :enfermos WHERE id = :id");
+            $update = $this->pdo->prepare("UPDATE Afetados SET id_relatorio = :id_relatorio, adultos = :adultos, criancas = :criancas, idosos = :idosos, especiais = :especiais, mortos = :mortos, feridos = :feridos, enfermos = :enfermos WHERE id = :id");
             $update->bindValue(":id", $afetados->getId());
-            $update->bindValue(":idRelatorio", $afetados->getIdRelatorio());
+            $update->bindValue(":id_relatorio", $afetados->getIdRelatorio());
             $update->bindValue(":adultos", $afetados->getAdultos());
             $update->bindValue(":criancas", $afetados->getCriancas());
             $update->bindValue(":idosos", $afetados->getIdosos());
@@ -98,6 +97,15 @@
             $update->bindValue(":feridos", $afetados->getFeridos());
             $update->bindValue(":enfermos", $afetados->getEnfermos());
             return $update->execute();
+        }
+        
+        // Delete all entries from the table and resets all counters
+        public function clearEntire(): bool{
+            if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+                return false;
+            }
+            $deletion = $this->pdo->prepare("DELETE FROM Afetados; ALTER TABLE Afetados AUTO_INCREMENT = 1;");
+            return $deletion->execute();
         }
     }
 ?>

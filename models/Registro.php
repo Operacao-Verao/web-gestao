@@ -1,4 +1,6 @@
 <?php
+    // TODO: acao enumerator
+    
     class Registro {
         private int $id;
         private int $idFuncionario;
