@@ -8,17 +8,28 @@
 	require '../models/Secretario.php';
 	require '../daos/DAOSecretario.php';
 	
-	$nome = $_POST['inputNome'];
-	$cargo = $_POST['inputCargo'];
-	$secretaria_id = $_POST['inputSecretaria'];
+	require '../models/Funcionario.php';
+	require '../daos/DAOFuncionario.php';
+	require '../models/Registro.php';
+	require '../daos/DAORegistro.php';
 	
-	$daoCargo = new DAOCargo($pdo);
-	$daoSecretaria = new DAOSecretaria($pdo);
-	$daoSecretario = new DAOSecretario($pdo);
-	
-	$cargo = $daoCargo->insert($cargo);
-	$secretaria = $daoSecretaria->findById($secretaria_id);
-	$secretario = $daoSecretario->insert($secretaria, $cargo, $nome);
-	
-	header("Location: ../views/secretarios/secretarios.php");
+	try {
+		$nome = $_POST['inputNome'];
+		$cargo = $_POST['inputCargo'];
+		$secretaria_id = $_POST['inputSecretaria'];
+		
+		$daoCargo = new DAOCargo($pdo);
+		$daoSecretaria = new DAOSecretaria($pdo);
+		$daoSecretario = new DAOSecretario($pdo);
+		
+		$cargo = $daoCargo->insert($cargo);
+		$secretaria = $daoSecretaria->findById($secretaria_id);
+		$secretario = $daoSecretario->insert($secretaria, $cargo, $nome);
+		
+		header("Location: ../views/secretarios/secretarios.php");
+	}
+	catch (Throwable $error){
+		regError($error);
+		header("Location: ../views/secretarios/secretarios.php?error=500");
+	}
 ?>

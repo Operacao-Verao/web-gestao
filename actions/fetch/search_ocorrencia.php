@@ -16,42 +16,49 @@
 	require '../../models/Funcionario.php';
 	require '../../daos/DAOFuncionario.php';
 	
-	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoCivil = new DAOCivil($pdo);
-	$daoResidencial = new DAOResidencial($pdo);
-	$daoEndereco = new DAOEndereco($pdo);
-	$daoTecnico = new DAOTecnico($pdo);
-	$daoFuncionario = new DAOFuncionario($pdo);
+	require '../../models/Registro.php';
+	require '../../daos/DAORegistro.php';
 	
-	
-	$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']?true:false);
-	
-	$first = true;
-	echo '[';
-	foreach ($ocorrencias as $ocorrencia){
-		$civil = $daoCivil->findById($ocorrencia->getIdCivil());
-		$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
-		$endereco = $daoEndereco->findByCep($residencial->getCep());
-		$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
-		$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;
+	try {
+		$daoOcorrencia = new DAOOcorrencia($pdo);
+		$daoCivil = new DAOCivil($pdo);
+		$daoResidencial = new DAOResidencial($pdo);
+		$daoEndereco = new DAOEndereco($pdo);
+		$daoTecnico = new DAOTecnico($pdo);
+		$daoFuncionario = new DAOFuncionario($pdo);
 		
-		if ($first){
-			$first = false;
+		$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']?true:false);
+		
+		$first = true;
+		echo '[';
+		foreach ($ocorrencias as $ocorrencia){
+			$civil = $daoCivil->findById($ocorrencia->getIdCivil());
+			$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
+			$endereco = $daoEndereco->findByCep($residencial->getCep());
+			$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
+			$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;
+			
+			if ($first){
+				$first = false;
+			}
+			else{
+				echo ',';
+			}
+			echo '{
+				"id": '.$ocorrencia->getId().',
+				"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
+				"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
+				"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
+				"rua": "'.addslashes($endereco->getRua()).'",
+				"numero": "'.addslashes($residencial->getNumero()).'",
+				"bairro": "'.addslashes($endereco->getBairro()).'",
+				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
+			}';
 		}
-		else{
-			echo ',';
-		}
-		echo '{
-			"id": '.$ocorrencia->getId().',
-			"data": "'.addslashes(formatDate($ocorrencia->getDataOcorrencia())).'",
-			"hora": "'.addslashes(formatTime($ocorrencia->getDataOcorrencia())).'",
-			"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
-			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($residencial->getNumero()).'",
-			"bairro": "'.addslashes($endereco->getBairro()).'",
-			"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
-		}';
+		echo ']';
 	}
-	echo ']';
-	
+	catch (Throwable $error){
+		echo '[]';
+		regError($error);
+	}
 ?>

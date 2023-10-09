@@ -250,6 +250,10 @@
 	var_dump($tecnico2); echo ' - <b>COMPARATION OBJECT</b><br/>';
 	var_dump($tecnico3); echo ' - <b>GAVE CORRECT OBJECT</b><br/>';
 	
+	// Finding by funcionario
+	echo '<b>findByFuncionario</b><br/>';
+	var_dump($daoTecnico->findByFuncionario($funcionario1)); echo ' - <b>GAVE CORRECT PARAMETERS</b><br/>';
+	
 	// Listing
 	echo '<b>listAll</b><br/>';
 	var_dump($daoTecnico->listAll()); echo '- <b>LIST OF ENTRIES</b><br/>';

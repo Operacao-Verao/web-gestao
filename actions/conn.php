@@ -4,13 +4,14 @@
     $db_name = 'BDDEFESACIVIL';
     $db_user = 'root';
     $db_pass = '';
-    $pdo = null;
+    global $pdo;
     
     try {
         $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     } catch(PDOException $e) {
         echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();
+        die();
     }
     
     // Datetime Settings
@@ -37,6 +38,15 @@
     function formatTime($datetime, $include_seconds = false) {
         $date = date_create($datetime);
         return date_format($date, 'H:i'.($include_seconds? ':s': ''));
+    }
+    
+    // Errors regs
+    function regError(Throwable $error) {
+        global $pdo;
+        $daoRegistro = new DAORegistro($pdo);
+        $daoFuncionario = new DAOFuncionario($pdo);
+        $adm_funcionario = $daoFuncionario->findByEmail("admin");
+        $daoRegistro->insert($adm_funcionario, REG_ACAO::ERRO, $error->__toString(), getCurrentDatetime());
     }
     
     // Devlopment Properties

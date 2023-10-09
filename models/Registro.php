@@ -1,5 +1,7 @@
 <?php
-    // TODO: acao enumerator
+    enum REG_ACAO {
+        const ERRO = 1;
+    }
     
     class Registro {
         private int $id;

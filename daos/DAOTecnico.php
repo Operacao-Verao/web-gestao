@@ -48,6 +48,21 @@
             return null;
 		}
 		
+		// Find a single entry in the "Tecnico" table by its 'Funcionario' attribute
+		// Returns a model if found, returns null otherwise
+		public function findByFuncionario(Funcionario $funcionario): ?Tecnico{
+            $select = $this->pdo->prepare('SELECT * FROM Tecnico WHERE id_funcionario = :id_funcionario');
+            $select->bindValue(':id_funcionario', $funcionario->getId());
+            $select->execute();
+            
+            // Only one entry is needed, in this case, the first one
+            if ($select->rowCount()>0){
+                $query = $select->fetch();
+                return new Tecnico($query['id'], $query['id_funcionario'], $query['ativo']);
+            }
+            return null;
+		}
+		
 		// Return all records of "Tecnico"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{

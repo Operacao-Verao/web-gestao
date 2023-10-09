@@ -14,35 +14,45 @@
 	require '../../models/Civil.php';
 	require '../../daos/DAOCivil.php';
 	
+	require '../../models/Funcionario.php';
+	require '../../daos/DAOFuncionario.php';
+	require '../../models/Registro.php';
+	require '../../daos/DAORegistro.php';
 	
-	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoRelatorio = new DAORelatorio($pdo);
-	$daoResidencial = new DAOResidencial($pdo);
-	$daoEndereco = new DAOEndereco($pdo);
-	$daoCivil = new DAOCivil($pdo);
-	
-	$ocorrencia = $daoOcorrencia->findById($input['id']);
-	$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
-	
-	if ($ocorrencia){
-		$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
-		$endereco = $daoEndereco->findByCep($residencial->getCep());
-		$civil = $daoCivil->findById($ocorrencia->getIdCivil());
-		echo '{
-			"data": "'.addslashes($ocorrencia->getDataOcorrencia()).'",
-			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($residencial->getNumero()).'",
-			"bairro": "'.addslashes($endereco->getBairro()).'",
-			"numCasas": '.$ocorrencia->getNumCasas().',
-			"acionamento": "'.addslashes($ocorrencia->getAcionamento()).'",
-			"civil": "'.addslashes($civil->getNome()).'",
-			"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'",
-			"tecnicoId": '.($ocorrencia->getIdTecnico()? $ocorrencia->getIdTecnico(): 'null').',
-			"aprovado": '.($ocorrencia->getAprovado()? 1: 0).',
-			"encerrado": '.($ocorrencia->getEncerrado()? 1: 0).'
-		}';
+	try {
+		$daoOcorrencia = new DAOOcorrencia($pdo);
+		$daoRelatorio = new DAORelatorio($pdo);
+		$daoResidencial = new DAOResidencial($pdo);
+		$daoEndereco = new DAOEndereco($pdo);
+		$daoCivil = new DAOCivil($pdo);
+		
+		$ocorrencia = $daoOcorrencia->findById($input['id']);
+		$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
+		
+		if ($ocorrencia){
+			$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
+			$endereco = $daoEndereco->findByCep($residencial->getCep());
+			$civil = $daoCivil->findById($ocorrencia->getIdCivil());
+			echo '{
+				"data": "'.addslashes($ocorrencia->getDataOcorrencia()).'",
+				"rua": "'.addslashes($endereco->getRua()).'",
+				"numero": "'.addslashes($residencial->getNumero()).'",
+				"bairro": "'.addslashes($endereco->getBairro()).'",
+				"numCasas": '.$ocorrencia->getNumCasas().',
+				"acionamento": "'.addslashes($ocorrencia->getAcionamento()).'",
+				"civil": "'.addslashes($civil->getNome()).'",
+				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'",
+				"tecnicoId": '.($ocorrencia->getIdTecnico()? $ocorrencia->getIdTecnico(): 'null').',
+				"aprovado": '.($ocorrencia->getAprovado()? 1: 0).',
+				"encerrado": '.($ocorrencia->getEncerrado()? 1: 0).'
+			}';
+		}
+		else {
+			echo '{}';
+		}
 	}
-	else {
+	catch (Throwable $error){
 		echo '{}';
+		regError($error);
 	}
 ?>

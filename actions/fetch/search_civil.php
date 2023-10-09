@@ -5,25 +5,36 @@
 	require '../../models/Civil.php';
 	require '../../daos/DAOCivil.php';
 	
-	$daoCivil = new DAOCivil($pdo);
+	require '../../models/Funcionario.php';
+	require '../../daos/DAOFuncionario.php';
+	require '../../models/Registro.php';
+	require '../../daos/DAORegistro.php';
 	
-	$civis = $daoCivil->searchByText($input['text']);
-	
-	$first = true;
-	echo '[';
-	foreach ($civis as $civil){
-		if ($first){
-			$first = false;
+	try {
+		$daoCivil = new DAOCivil($pdo);
+		
+		$civis = $daoCivil->searchByText($input['text']);
+		
+		$first = true;
+		echo '[';
+		foreach ($civis as $civil){
+			if ($first){
+				$first = false;
+			}
+			else{
+				echo ',';
+			}
+			echo '{
+				"id": '.$civil->getId().',
+				"nome": "'.addslashes($civil->getNome()).'",
+				"email": "'.addslashes($civil->getEmail()).'",
+				"cpf": "'.addslashes($civil->getCpf()).'"
+				}';
 		}
-		else{
-			echo ',';
-		}
-		echo '{
-			"id": '.$civil->getId().',
-			"nome": "'.addslashes($civil->getNome()).'",
-			"email": "'.addslashes($civil->getEmail()).'",
-			"cpf": "'.addslashes($civil->getCpf()).'"
-			}';
+		echo ']';
 	}
-	echo ']';
+	catch (Throwable $error){
+		echo '[]';
+		regError($error);
+	}
 ?>

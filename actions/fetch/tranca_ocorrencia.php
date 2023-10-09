@@ -8,15 +8,25 @@
 	require '../../models/Tecnico.php';
 	require '../../daos/DAOTecnico.php';
 	
+	require '../../models/Funcionario.php';
+	require '../../daos/DAOFuncionario.php';
+	require '../../models/Registro.php';
+	require '../../daos/DAORegistro.php';
 	
-	$daoOcorrencia = new DAOOcorrencia($pdo);
-	
-	$ocorrencia = $daoOcorrencia->findById($input['id']);
-	
-	if ($ocorrencia && !$ocorrencia->getEncerrado()){
-		$ocorrencia->setIdTecnico($input['aprovado']? $input['idTecnico']: null);
-		$ocorrencia->setAprovado($input['aprovado']);
-		$ocorrencia->setEncerrado(true);
-		$daoOcorrencia->update($ocorrencia);
+	try {
+		$daoOcorrencia = new DAOOcorrencia($pdo);
+		
+		$ocorrencia = $daoOcorrencia->findById($input['id']);
+		
+		if ($ocorrencia && !$ocorrencia->getEncerrado()){
+			$ocorrencia->setIdTecnico($input['aprovado']? $input['idTecnico']: null);
+			$ocorrencia->setAprovado($input['aprovado']);
+			$ocorrencia->setEncerrado(true);
+			$daoOcorrencia->update($ocorrencia);
+		}
+	}
+	catch (Throwable $error){
+		echo 'Error';
+		regError($error);
 	}
 ?>

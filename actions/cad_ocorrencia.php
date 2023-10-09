@@ -12,25 +12,30 @@
 	require '../models/Civil.php';
 	require '../daos/DAOCivil.php';
 	
-	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoEndereco = new DAOEndereco($pdo);
-	$daoResidencial = new DAOResidencial($pdo);
-	$daoCasa = new DAOCasa($pdo);
-	$daoCivil = new DAOCivil($pdo);
-	
-	$cpf = $_POST['inputCpf'];
-	$acionamento = $_POST['inputAcionamento'];
-	$relato = $_POST['inputRelato'];
-	$numCasas = $_POST['inputNumCasas'];
-	$cep = $_POST['inputCep'];
-	$rua = $_POST['inputRua'];
-	$bairro = $_POST['inputBairro'];
-	$cidade = $_POST['inputCidade'];
-	$numero = $_POST['inputNumero'];
-	$complemento = $_POST['inputComplemento'];
+	require '../models/Funcionario.php';
+	require '../daos/DAOFuncionario.php';
+	require '../models/Registro.php';
+	require '../daos/DAORegistro.php';
 	
 	try {
+		$daoOcorrencia = new DAOOcorrencia($pdo);
+		$daoEndereco = new DAOEndereco($pdo);
+		$daoResidencial = new DAOResidencial($pdo);
+		$daoCasa = new DAOCasa($pdo);
+		$daoCivil = new DAOCivil($pdo);
+		
+		$cpf = $_POST['inputCpf'];
+		$acionamento = $_POST['inputAcionamento'];
+		$relato = $_POST['inputRelato'];
+		$numCasas = $_POST['inputNumCasas'];
+		$cep = $_POST['inputCep'];
+		$rua = $_POST['inputRua'];
+		$bairro = $_POST['inputBairro'];
+		$cidade = $_POST['inputCidade'];
+		$numero = $_POST['inputNumero'];
+		$complemento = $_POST['inputComplemento'];
 		$endereco = $daoEndereco->findByCep($cep);
+		
 		if ($endereco == null){
 			$endereco = $daoEndereco->insert($cep, $rua, $bairro, $cidade);
 			if ($endereco == null){
@@ -87,9 +92,10 @@
 	        exit();
 		}
 		
-	  header("Location: ../views/ocorrencias/ocorrencias.php?id=".$ocorrencia->getId());
-	  exit();
-	} catch (\Throwable $th) {
-		echo $th;
+		header("Location: ../views/ocorrencias/ocorrencias.php?id=".$ocorrencia->getId());
+		exit();
+	} catch (Throwable $error) {
+		regError($error);
+		header("Location: ../views/ocorrencias/ocorrencias.php?error=500");
 	}
 ?>

@@ -1,5 +1,4 @@
 <?php
-	
 	$input = json_decode(file_get_contents('php://input'), true);
 	
 	require '../conn.php';
@@ -19,50 +18,51 @@
 	require '../../models/Funcionario.php';
 	require '../../daos/DAOFuncionario.php';
 	
-	$daoRelatorio = new DAORelatorio($pdo);
-	$daoOcorrencia = new DAOOcorrencia($pdo);
-	$daoResidencial = new DAOResidencial($pdo);
-	$daoCasa = new DAOCasa($pdo);
-	$daoEndereco = new DAOEndereco($pdo);
-	$daoTecnico = new DAOTecnico($pdo);
-	$daoFuncionario = new DAOFuncionario($pdo);
-	
+	require '../../models/Registro.php';
+	require '../../daos/DAORegistro.php';
 	
 	try {
-		$relatorios = $daoRelatorio->searchByText($input['text']);
-	
-	$first = true;
-	echo '[';
-	foreach ($relatorios as $relatorio){
-		$casa = $daoCasa->findById($relatorio->getIdCasa());
-		$residencial = $daoResidencial->findById($casa->getIdResidencial());
-		$endereco = $daoEndereco->findByCep($residencial->getCep());
-		$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
-		$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
-		$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;
+		$daoRelatorio = new DAORelatorio($pdo);
+		$daoOcorrencia = new DAOOcorrencia($pdo);
+		$daoResidencial = new DAOResidencial($pdo);
+		$daoCasa = new DAOCasa($pdo);
+		$daoEndereco = new DAOEndereco($pdo);
+		$daoTecnico = new DAOTecnico($pdo);
+		$daoFuncionario = new DAOFuncionario($pdo);
 		
-		if ($first){
-			$first = false;
+		$relatorios = $daoRelatorio->searchByText($input['text']);
+		
+		$first = true;
+		echo '[';
+		foreach ($relatorios as $relatorio){
+			$casa = $daoCasa->findById($relatorio->getIdCasa());
+			$residencial = $daoResidencial->findById($casa->getIdResidencial());
+			$endereco = $daoEndereco->findByCep($residencial->getCep());
+			$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
+			$tecnico = $ocorrencia->getIdTecnico()==null? null: $daoTecnico->findById($ocorrencia->getIdTecnico());
+			$funcionario = $tecnico? $daoFuncionario->findById($tecnico->getIdFuncionario()): null;
+			
+			if ($first){
+				$first = false;
+			}
+			else{
+				echo ',';
+			}
+			echo '{
+				"id": '.$relatorio->getId().',
+				"id_ocorrencia": '.$ocorrencia->getId().',
+				"data": "'.addslashes(formatDate($relatorio->getDataGeracao())).'",
+				"hora": "'.addslashes(formatTime($relatorio->getDataGeracao())).'",
+				"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
+				"rua": "'.addslashes($endereco->getRua()).'",
+				"numero": "'.addslashes($residencial->getNumero()).'",
+				"bairro": "'.addslashes($endereco->getBairro()).'",
+				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
+			}';
 		}
-		else{
-			echo ',';
-		}
-		echo '{
-			"id": '.$relatorio->getId().',
-			"id_ocorrencia": '.$ocorrencia->getId().',
-			"data": "'.addslashes(formatDate($relatorio->getDataGeracao())).'",
-			"hora": "'.addslashes(formatTime($relatorio->getDataGeracao())).'",
-			"tecnico": '.($funcionario!=null?('"'.addslashes($funcionario->getNome()).'"'):'null').',
-			"rua": "'.addslashes($endereco->getRua()).'",
-			"numero": "'.addslashes($residencial->getNumero()).'",
-			"bairro": "'.addslashes($endereco->getBairro()).'",
-			"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
-		}';
+		echo ']';
+	} catch (Throwable $error) {
+		echo '[]';
+		regError($error);
 	}
-	echo ']';
-	} catch (\Throwable $th) {
-		echo $th;
-	}
-	
-	
 ?>

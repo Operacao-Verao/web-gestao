@@ -12,18 +12,23 @@
 	require '../../daos/DAONivelRio.php';
 	require '../../models/NivelChuva.php';
 	require '../../daos/DAONivelChuva.php';
-
-	$daoEndereco = new DAOEndereco($pdo);
-	$daoFluviometro = new DAOFluviometro($pdo);
-	$daoPluviometro = new DAOPluviometro($pdo);
-	$daoNivelRio = new DAONivelRio($pdo);
-	$daoNivelChuva = new DAONivelChuva($pdo);
-
-	$niveis;
-
-	$text = $input['text'];
-
+	
+	require '../../models/Funcionario.php';
+	require '../../daos/DAOFuncionario.php';
+	require '../../models/Registro.php';
+	require '../../daos/DAORegistro.php';
+	
 	try {
+		$daoEndereco = new DAOEndereco($pdo);
+		$daoFluviometro = new DAOFluviometro($pdo);
+		$daoPluviometro = new DAOPluviometro($pdo);
+		$daoNivelRio = new DAONivelRio($pdo);
+		$daoNivelChuva = new DAONivelChuva($pdo);
+
+		$niveis = null;
+
+		$text = $input['text'];
+		
 		if($input['nivel']) {
 			$niveis = $daoNivelRio->searchByText($text);
 	
@@ -86,8 +91,8 @@
 					}			
 			echo ']';
 		}
-	} catch (\Throwable $th) {
-		echo $th;
+	} catch (Throwable $error) {
+		echo '[]';
+		regError($error);
 	}
-	
 ?>
