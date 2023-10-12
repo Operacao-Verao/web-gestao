@@ -5,14 +5,16 @@
         private int $idSecretaria;
         private string $dataMemo;
         private string $statusMemo;
+        private string $setor;
         private string $processo;
         
-        public function __construct(int $id, int $idRelatorio, int $idSecretaria, string $dataMemo, string $statusMemo, string $processo) {
+        public function __construct(int $id, int $idRelatorio, int $idSecretaria, string $dataMemo, string $statusMemo, string $setor, string $processo) {
             $this->id = $id;
             $this->idRelatorio = $idRelatorio;
             $this->idSecretaria = $idSecretaria;
             $this->dataMemo = $dataMemo;
             $this->statusMemo = $statusMemo;
+            $this->setor = $setor;
             $this->processo = $processo;
         }
         
@@ -50,6 +52,14 @@
         
         public function setStatusMemo(string $statusMemo): void {
             $this->statusMemo = $statusMemo;
+        }
+        
+        public function getSetor(): string {
+            return $this->setor;
+        }
+        
+        public function setSetor(string $setor): void {
+            $this->setor = $setor;
         }
         
         public function getProcesso(): string {

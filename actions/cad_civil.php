@@ -12,7 +12,7 @@
     require '../daos/DAORegistro.php';
     
     try {
-        $this->daoCivil = new DAOCivil($this->pdo);
+        $daoCivil = new DAOCivil($pdo);
         
         $nome = $_POST["inputName"];
         $email = $_POST["inputEmail"];
@@ -32,13 +32,13 @@
         //$idCasa = $daoCasa->insert($novaCasa);
         
         //if ($idCasa) {
-            $novoCivil = $this->daoCivil->findByCpf($cpf);
+            $novoCivil = $daoCivil->findByCpf($cpf);
             if ($novoCivil != null){
                 header("Location: ../views/civil/cad_civil/cad_civil.php?error=cadastrofalhou");
                 exit();
             }
             
-            $novoCivil = $this->daoCivil->insert(null, $nome, $email, $senha_criptografada, $cpf, $celular, $telefone);
+            $novoCivil = $daoCivil->insert(null, $nome, $email, $senha_criptografada, $cpf, $celular, $telefone);
 
             if ($novoCivil) {
                 header("Location: ../views/civil/civil.php");

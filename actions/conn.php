@@ -45,8 +45,11 @@
         global $pdo;
         $daoRegistro = new DAORegistro($pdo);
         $daoFuncionario = new DAOFuncionario($pdo);
-        $adm_funcionario = $daoFuncionario->findByEmail("admin");
-        $daoRegistro->insert($adm_funcionario, REG_ACAO::ERRO, $error->__toString(), getCurrentDatetime());
+        $owner = $daoFuncionario->findByEmail("admin");
+        if (!$owner){
+            $owner = $daoFuncionario->findById($_SESSION['usuario_id']);
+        }
+        $daoRegistro->insert($owner, REG_ACAO::ERRO, $error->__toString(), getCurrentDatetime());
     }
     
     // Devlopment Properties

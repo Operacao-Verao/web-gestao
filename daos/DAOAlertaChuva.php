@@ -58,7 +58,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-				$modelos[] = new AlertaChuva($query['id'], $query['id_pluviometro'], $query['status_chuva'], $query['data_chuva']);
+				$models[] = new AlertaChuva($query['id'], $query['id_pluviometro'], $query['status_chuva'], $query['data_chuva']);
             }
             return $models;
 		}

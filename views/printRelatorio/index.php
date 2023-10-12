@@ -449,10 +449,12 @@
                                 }
                               ?>
                         </div>
+                        <!--
                         <div class="item-row">
                             <p class="item-title">Observação:</p>
-                            <p>¯\_(ツ)_/¯<?php echo $relatorio->getObservacoes(); ?></p>
+                            <p>¯\_(ツ)_/¯<?php /*echo $relatorio->getObservacoes();*/ ?></p>
                         </div>
+                        -->
                     </div>
                     <div class="item-row-2">
                         <div class="item-row">
@@ -517,7 +519,7 @@
                             <p class="item-title">
                                 Setor:
                             </p>
-                            <p>¯\_(ツ)_/¯</p>
+                            <p><?php if($memo) echo $memo->getSetor(); ?></p>
                         </div>
                         <div class="item-row">
                             <p class="item-title">Data: </p>
@@ -535,7 +537,7 @@
                     </div>
                     <div class="item-row">
                         <p class="item-title">Observações: </p>
-                        <p>¯\_(ツ)_/¯<?php echo $relatorio->getObservacoes();?></p>
+                        <p><?php echo $relatorio->getObservacoes();?></p>
                     </div>
                 </article>
                 <div class="footer">

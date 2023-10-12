@@ -474,7 +474,7 @@
 	
 	// Finding by id
 	echo '<b>findById</b><br/>';
-	$ocorrencia3 = $daoCasa->findById(2);
+	$ocorrencia3 = $daoOcorrencia->findById(2);
 	if ($ocorrencia2 == $ocorrencia3){
 		echo '<b>NO CHANGES in Entry (SUCCESS).</b><br/>';
 	}
@@ -541,7 +541,7 @@
 	
 	// Searching by text
 	echo '<b>searchByText</b><br/>';
-	var_dump($daoRelatorio->searchByText('undo')); echo '- <b>LIST OF ENTRIES</b><br/>';
+	var_dump($daoRelatorio->searchByText('arce')); echo '- <b>LIST OF ENTRIES</b><br/>';
 	
 	// Removing
 	echo '<b>Removing entry, status: '.$daoRelatorio->remove($relatorio2).'</b><br/>';
@@ -808,11 +808,12 @@
 	echo '<h1>Memo</h1>';
 	
 	// Inserting
-	$memo1 = $daoMemo->insert($relatorio1, $secretaria1, getCurrentDatetime(), 'Status 1', 'Processo primário');
-	$memo2 = $daoMemo->insert($relatorio4, $secretaria1, getCurrentDatetime(), 'Status 2', 'Processo Secundário');
+	$memo1 = $daoMemo->insert($relatorio1, $secretaria1, getCurrentDatetime(), 'Status 1', 'industrial', 'Primário');
+	$memo2 = $daoMemo->insert($relatorio4, $secretaria1, getCurrentDatetime(), 'Status 2', 'farmacêutico', 'Secundário');
 	
 	// Updating
 	$memo2->setStatusMemo('Status 3');
+	$memo2->setSetor('gastronômico');
 	$daoMemo->update($memo2);
 	
 	// Finding by id

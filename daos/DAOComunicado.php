@@ -57,7 +57,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $modelos[] = new Comunicado($query['id'], $query['id_gestor'], $query['conteudo']);
+                $models[] = new Comunicado($query['id'], $query['id_gestor'], $query['conteudo']);
             }
             return $models;
 		}

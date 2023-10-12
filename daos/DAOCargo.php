@@ -56,7 +56,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-				$modelos[] = new Cargo($query['id'], $query['nome_cargo']);
+				$models[] = new Cargo($query['id'], $query['nome_cargo']);
             }
             return $models;
 		}

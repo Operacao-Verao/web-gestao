@@ -437,7 +437,7 @@
       <div class="setor-data">
         <div>
           <p class="item-row-title">Setor: </p>
-          <p class="item-row-content">¯\_(ツ)_/¯</p>
+          <p class="item-row-content"><?php if($memo) echo $memo->getSetor(); ?></p>
         </div>
         <div>
           <p class="item-row-title">Data: </p>

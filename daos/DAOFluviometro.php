@@ -58,7 +58,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $modelos[] = new Fluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
+                $models[] = new Fluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
             }
             return $models;
 		}

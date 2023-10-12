@@ -170,17 +170,15 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			}
 		})
 	}
-
-	enableNotif();
-
 	function registerNotificationOnDatabase(subscription) {
 		requestFromAction("../../actions/fetch/registrar_service_worker.php", function(r){
-	      r.json().then(function(json){
-				});
-	    }, function(){
+				r.json().then(function(json){});
+			}, function(){
 				console.log('deu erro')
 			}, JSON.parse(subscription), "POST")
 	}
+
+	enableNotif();
 	
 	function goToAction(action, values={}){
 		let form = document.createElement('form');
