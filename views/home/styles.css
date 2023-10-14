@@ -102,13 +102,13 @@
 .graph {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	height: 300px;
+	min-height: 300px;
 	gap: 4rem;
 }
 
 .graph .big-graph {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 5fr 3fr;
 	grid-column: span 3;
 	height: 100%;
 	background-color: var(--box-color);
@@ -116,11 +116,13 @@
 }
 
 .graph .small-graph {
-	height: 100%;
+	height: 300px;
 	background-color: var(--box-color);
 	border-radius: 0.6rem;
 }
-
+.small-graph > div {
+	height: 100%;
+}
 .dash-content .activity .activity-data {
 	display: flex;
 	justify-content: space-between;
@@ -168,19 +170,29 @@
 	font-size: 1.7rem;
 }
 
-@media (max-width: 780px) {
+@media (width <= 968px) {
+	.graph .big-graph {
+		grid-template-columns: 1fr;
+		height: 400px
+	}
+	.dash-content .graph {
+		display: flex;
+		flex-direction: column;
+		height: 640px;
+	}
+	.graph .small-graph{
+		height: 200px;
+	}
+}
+
+@media (width <= 780px) {
 	.dash-content .boxes .box {
 		width: calc(100% / 2 - 15px);
 		margin-top: 1.5rem;
 	}
-
-	.dash-content .graph {
-		display: flex;
-		flex-direction: column;
-	}
 }
 
-@media (max-width: 560px) {
+@media (width <= 560px) {
 	.dash-content .boxes .box {
 		width: 100%;
 	}

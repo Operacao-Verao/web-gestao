@@ -10,10 +10,11 @@ require '../../partials/header/header.php';
 require '../../actions/conn.php';
 
 session_start();
-if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
 	session_destroy();
 	header("Location: ../login/login.php");
-};
+}
+;
 ?>
 <div class="dash-content">
 	<div class="overview">
@@ -28,12 +29,12 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 					<span class="text">Ocorrências</span>
 					<span class="number">
 						<?php
-							require '../../models/Ocorrencia.php';
-							require '../../daos/DAOOcorrencia.php';
-							
-							$daoOcorrencia = new DAOOcorrencia($pdo);
-							
-							echo count($daoOcorrencia->searchByText('', false));
+						require '../../models/Ocorrencia.php';
+						require '../../daos/DAOOcorrencia.php';
+
+						$daoOcorrencia = new DAOOcorrencia($pdo);
+
+						echo count($daoOcorrencia->searchByText('', false));
 						?>
 					</span>
 				</div>
@@ -44,12 +45,12 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 					<span class="text">Relatórios</span>
 					<span class="number">
 						<?php
-							require '../../models/Relatorio.php';
-							require '../../daos/DAORelatorio.php';
-							
-							$daoRelatorio = new DAORelatorio($pdo);
-							
-							echo count($daoRelatorio->listAll());
+						require '../../models/Relatorio.php';
+						require '../../daos/DAORelatorio.php';
+
+						$daoRelatorio = new DAORelatorio($pdo);
+
+						echo count($daoRelatorio->listAll());
 						?>
 					</span>
 				</div>
@@ -60,12 +61,12 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 					<span class="text">Técnicos</span>
 					<span class="number">
 						<?php
-							require '../../models/Tecnico.php';
-							require '../../daos/DAOTecnico.php';
-							
-							$daoTecnico = new DAOTecnico($pdo);
-							
-							echo count($daoTecnico->listAll());
+						require '../../models/Tecnico.php';
+						require '../../daos/DAOTecnico.php';
+
+						$daoTecnico = new DAOTecnico($pdo);
+
+						echo count($daoTecnico->listAll());
 						?>
 					</span>
 				</div>
@@ -87,8 +88,12 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		</div>
 		<div class="graph">
 			<div class="big-graph">
+				<div id="graph-1"></div>
+				<div id="graph-2"></div>
 			</div>
-			<div class="small-graph"></div>
+			<div class="small-graph">
+				<div id="graph-3"></div>
+			</div>
 		</div>
 	</div>
 
@@ -143,11 +148,11 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	</div>
 </div>
 </div>
-<script type="text/javascript"> 
-	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}, method){
+<script type="text/javascript">
+	function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}, method) {
 		fetch(action, {
 			"method": method,
-			"headers": {"Content-Type": "application/json"},
+			"headers": { "Content-Type": "application/json" },
 			"body": JSON.stringify(data)
 		}).then(
 			onSuccess, onError
@@ -158,7 +163,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 
 	function enableNotif() {
 		Notification.requestPermission().then((permission) => {
-			if(permission === 'granted') {
+			if (permission === 'granted') {
 				navigator.serviceWorker.ready.then((sw) => {
 					sw.pushManager.subscribe({
 						userVisibleOnly: true,
@@ -172,13 +177,12 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	}
 	function registerNotificationOnDatabase(subscription) {
 		requestFromAction("../../actions/fetch/registrar_service_worker.php", function(r){
-				r.json().then(function(json){});
-			}, function(){
+	      r.json().then(function(json){
+				});
+	    }, function(){
 				console.log('deu erro')
 			}, JSON.parse(subscription), "POST")
 	}
-
-	enableNotif();
 	
 	function goToAction(action, values={}){
 		let form = document.createElement('form');
@@ -187,7 +191,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		let submit = document.createElement('input');
 		submit.type = 'submit';
 		form.appendChild(submit);
-		for (let name in values){
+		for (let name in values) {
 			let value = document.createElement('input');
 			value.name = name;
 			value.type = values[name].type || 'text';
@@ -198,15 +202,15 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		submit.click();
 		form.remove();
 	}
-	
+
 	function goToOcorrencia(id) {
 		goToAction('../ocorrencias/ocorrencias.php', {
 			'id_ocorrencia': {
-				'value':id
+				'value': id
 			}
 		});
 	}
-	
+
 	// Rebuscar ocorrências
 	function refreshOcorrencias() {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
@@ -225,7 +229,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		      	content_tecnico += '<span class="data-list">'+(oe.tecnico==null?"-Não atribuído-":oe.tecnico)+'</span>';
 		      	content_data += '<span class="data-list">'+oe.data+'</span>';
 		      	content_status += '<span class="data-list">'+'Pendente'+'</span>';
-		      	content_ver += '<span class="data-list" onclick="location = \'../ocorrencias/ocorrencias.php?id='+oe.id+'\'"><i class="ph-bold ph-eye"></i></span>';
+		      	content_ver += '<span class="data-list" onclick="goToOcorrencia('+oe.id+')"><i class="ph-bold ph-eye"></i></span>';
 	      	}
 	      	content_endereco += '</div>';
 	      	content_tecnico += '</div>';
@@ -237,8 +241,13 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	    }, function(){}, {"text": "", "aprovado": true}, "PUT");
 	}
 	refreshOcorrencias();
-	
+
 </script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="./chart.js"></script>
 </main>
 
 </html>
