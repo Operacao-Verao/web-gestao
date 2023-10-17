@@ -160,11 +160,7 @@ body.viewOcorrencia-open {
 .topRow{
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
-}
-.topRow button {
-	border: 0;
-	background: transparent;
+	align-items: end;
 }
 
 .viewOcorrencia .topRow h2 {
@@ -257,4 +253,17 @@ option:checked{
 	border: 1px solid #ccc;
 	padding: 1rem 2rem;
 	border-radius: .5rem;
+}
+.btnTrancar{
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	font-size: 1.7rem;
+	font-weight: 500;
+	padding: 1.5rem 2.5rem;
+	cursor: pointer;
+	background: var(--blue);
+	color: #fff;
+	border: 0;
+	border-radius: 0.5rem;
 }

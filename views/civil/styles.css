@@ -183,6 +183,7 @@ body.viewCivil-open {
 }
 .ocorrencia-info .ocorrencia-title i {
 	font-size: 2rem;
+	cursor: pointer;
 }
 .ocorrencia-info .ocorrencia-subtitle {
 	color: #71717a;

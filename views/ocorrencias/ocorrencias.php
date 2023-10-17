@@ -50,35 +50,30 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		<div class="civil-content">
 			<div class="item-column grid-civil">
 				<p class="item-title">Civil</p>
-				<p class="item-content" id="view_civil">Samantha Zduniak</p>
+				<p class="item-content" id="view_civil"></p>
 			</div>
 			<div class="item-column grid-acionamento">
 				<p class="item-title">Acionamento</p>
-				<p class="item-content" id="view_acionamento">07851-120</p>
+				<p class="item-content" id="view_acionamento"></p>
 			</div>
 			<div class="item-column grid-relato">
 				<p class="item-title">Descrição</p>
-				<p class="item-content" id="view_relato">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, tenetur
-					doloremque laboriosam sed soluta fugit facere consequuntur optio distinctio animi dolorem quaerat
-					ipsa vel reiciendis repelle</p>
+				<p class="item-content" id="view_relato"></p>
 			</div>
 			<div class="item-column grid-endereço">
 				<p class="item-title">Endereço</p>
-				<p class="item-content" id="view_endereco">samanthazduniak@gmail.com</p>
+				<p class="item-content" id="view_endereco"></p>
 			</div>
 			<div class="item-column grid-casas">
 				<p class="item-title">Casas Envolvidas</p>
-				<p class="item-content" id="view_casas_envolvidas">642.024.030-10</p>
+				<p class="item-content" id="view_casas_envolvidas"></p>
 			</div>
 		</div>
 		<div class="ocorrencias-content">
 			<div class="topRow">
-				<button class="btnTrancar" id="btnTrancar" onclick="trancarOcorrencia()">Trancar</button>
-				
 				<div class="item-column">
 					<label for="inputTecnico" class="item-title">Técnico Responsável</label>
 					<select name="inputTecnico" class="inputTecnico" id="alter_tecnico">
-						<option selected disabled hidden>Selecionar...</option>
 						<?php
 							require '../../models/Tecnico.php';
 							require '../../daos/DAOTecnico.php';
@@ -103,9 +98,10 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 					<option selected disabled hidden>Aprovar</option>
 					<option value="1">Aprovado</option>
 					<option value="0">Desaprovado</option>
-				</select>
+						</select>
 			</div>
 		</div>
+		<button class="btnTrancar" id="btnTrancar" onclick="trancarOcorrencia()">Trancar</button>
 	</section>
 </div>
 </main>
@@ -150,7 +146,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	    		alter_aprovado.disabled = null;
 	    		btnTrancar.hidden = null;
 			}
-	    	//console.log(ocorrencia_atual);
 	      });
 	    }, function(){}, {"id":ocorrencia_id});
 	    ocorrencia_atual = ocorrencia_id;
@@ -160,7 +155,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	function searchOcorrencias(text) {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 	      r.json().then(function(json){
-			//console.log(json)
 	      	let content = "";
 	      	
 	      	for (let i=0; i<json.length; i++){

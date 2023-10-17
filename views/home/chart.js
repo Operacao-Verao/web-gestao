@@ -1,18 +1,18 @@
 // Gráfico 1 (Big Graph)
 Highcharts.chart('graph-1', {
-	colors: ['#38BDF8', '#E879F9'],
+	colors: ['#38BDF8', '#E879F9', '#FF3980', '#38BE28', '#E80399', '#ee1980'],
 	chart: {
 		type: 'column',
 	},
 	title: {
-		text: 'Ocorrências - Aprovadas/Desaprovadas',
+		text: 'Ocorrências - Bairros',
 	},
 	xAxis: {
-		categories: ['20/05', '21/05', '22/05', '23/05'],
+		categories: ['20/05', '25/05', '01/06'],
 		crosshair: true,
 	},
 	tooltip: {
-		headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		headerFormat: '<span style="font-size:14px">{point.key}</span><table>',
 		pointFormat:
 			'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
 			'<td style="padding:0"><b>{point.y}</b></td></tr>',
@@ -28,12 +28,16 @@ Highcharts.chart('graph-1', {
 	},
 	series: [
 		{
-			name: 'Aprovadas',
-			data: [50, 72, 107, 130],
+			name: 'Vila Humbelinda',
+			data: [50 , 60, 80],
 		},
 		{
-			name: 'Desaprovadas',
-			data: [83, 78, 98, 93],
+			name: 'Vila Santista',
+			data: [83 , 60, 80],
+		},
+		{
+			name: 'Jd União',
+			data: [50 , 60, 80],
 		},
 	],
 });

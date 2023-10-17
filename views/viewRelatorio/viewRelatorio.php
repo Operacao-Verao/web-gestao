@@ -158,7 +158,7 @@
   <article>
     <div class="item-row">
       <p class="item-row-title">Técnico Responsável - </p>
-      <p class="item-row-content">Jonas</p>
+      <p class="item-row-content"></p>
     </div>
     <div class="boxContent">
       <div class="dadosVistoria">
@@ -431,7 +431,6 @@
         <div>
           <p class="item-row-title">Processo: </p>
           <p class="item-row-content"><?php echo $relatorio->getProcesso();?></p>
-          <!--<p class="item-row-content">¯\_(ツ)_/¯</p>-->
         </div>
       </div>
       <div class="setor-data">

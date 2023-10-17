@@ -64,27 +64,27 @@
     <div class="civil-content">
       <div class="civil-item">
         <p class="item-title">Nome</p>
-        <p class="item-content" id="view_nome">Samantha Zduniak</p>
+        <p class="item-content" id="view_nome"></p>
       </div>
       <div class="civil-item">
         <p class="item-title">Cep</p>
-        <p class="item-content" id="view_cep">07851-120</p>
+        <p class="item-content" id="view_cep"></p>
       </div>
       <div class="civil-item">
         <p class="item-title">Celular</p>
-        <p class="item-content" id="view_celular">Não Cadastrado</p>
+        <p class="item-content" id="view_celular"></p>
       </div>
       <div class="civil-item">
         <p class="item-title">Email</p>
-        <p class="item-content" id="view_email">samanthazduniak@gmail.com</p>
+        <p class="item-content" id="view_email"></p>
       </div>
       <div class="civil-item">
         <p class="item-title">CPF</p>
-        <p class="item-content" id="view_cpf">642.024.030-10</p>
+        <p class="item-content" id="view_cpf"></p>
       </div>
       <div class="civil-item">
         <p class="item-title">Telefone</p>
-        <p class="item-content" id="view_telefone">1140028922</p>
+        <p class="item-content" id="view_telefone"></p>
       </div>
     </div>
     <div class="ocorrencias-content">
@@ -169,7 +169,7 @@
                   <div class="ocorrencia-info">
                     <div class="ocorrencia-title">
                       <p>`+ocorrencia.rua+` - `+ocorrencia.numero+` (`+ocorrencia.bairro+`)</p>
-                      <i class="ph ph-eye" onclick="location = '../ocorrencias/ocorrencias.php?id=`+ocorrencia.id+`'"></i>
+                      <i class="ph-bold ph-eye" onclick="location = '../ocorrencias/ocorrencias.php?id=`+ocorrencia.id+`'"></i>
                     </div>
                     <div class="ocorrencia-subtitle">
                       <p>`+ocorrencia.observacoes+`</p>

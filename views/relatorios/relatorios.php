@@ -29,21 +29,21 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
     <div class="activity-data" id="relatorios_list">
       <div class="data address">
         <span class="data-title">Endereço</span>
-        <span class="data-list">Rua Paulistana - 300 (Centro)</span>
-        <span class="data-list">Rua Paulistana - 300 (Centro)</span>
-        <span class="data-list">Rua Paulistana - 300 (Centro)</span>
+        <span class="data-list"></span>
+        <span class="data-list"></span>
+        <span class="data-list"></span>
       </div>
       <div class="data names">
         <span class="data-title">Técnico</span>
-        <span class="data-list">Malcolm Mello</span>
-        <span class="data-list">Malcolm Mello</span>
-        <span class="data-list">Malcolm Mello</span>
+        <span class="data-list"></span>
+        <span class="data-list"></span>
+        <span class="data-list"></span>
       </div>
       <div class="data request">
         <span class="data-title">Data</span>
-        <span class="data-list">20/05/2023</span>
-        <span class="data-list">20/05/2023</span>
-        <span class="data-list">20/05/2023</span>
+        <span class="data-list"></span>
+        <span class="data-list"></span>
+        <span class="data-list"></span>
       </div>
       <div class="data ver">
         <span class="data-title">Ver</span>
