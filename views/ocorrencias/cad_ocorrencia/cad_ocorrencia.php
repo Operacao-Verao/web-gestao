@@ -12,8 +12,11 @@
   require '../../../actions/conn.php';
   require '../../../models/Civil.php';
   require '../../../daos/DAOCivil.php';
+  require '../../../models/Residencial.php';
+  require '../../../daos/DAOResidencial.php';
   
   $daoCivil = new DAOCivil($pdo);
+  $daoResidencial = new DAOResidencial($pdo);
   
   $civil = null;
   if (array_key_exists('selected_id', $_POST)){
@@ -131,11 +134,11 @@
       <div class="inputAreaRow">
         <div class="inputArea">
           <label for="inputNumero">Número*</label>
-          <input type="text" name="inputNumero" placeholder="Ex.: 25b" required>
+          <input type="text" name="inputNumero" id="inputNumero" placeholder="Ex.: 25b" required>
         </div>
         <div class="inputArea">
           <label for="inputComplemento">Complemento</label>
-          <input type="text" name="inputComplemento" placeholder="Ex.: Fundos">
+          <input type="text" name="inputComplemento" id="inputComplemento" placeholder="Ex.: Fundos">
         </div>
       </div>
 
@@ -186,6 +189,9 @@
           document.getElementsByName("inputEmail")[0].value = json.email;
           document.getElementsByName("inputCelular")[0].value = json.celular;
           document.getElementsByName("inputTelefone")[0].value = json.telefone;
+          inputCep.value = json.cep;
+          inputCep.oninput();
+          inputNumero.value = json.numero;
           /*
           if (json.cep[0] != '-'){
             document.getElementsByName("inputCep")[0].value = json.cep;
@@ -209,6 +215,17 @@
       }, function(r){throw r;}, {}, "GET");
     }
   }
+  
+  <?php
+    if ($civil){
+      $residencial = $civil->getIdResidencial()!=null? $daoResidencial->findById($civil->getIdResidencial()): null;
+      if ($residencial){
+        echo 'inputCep.value = "'.$residencial->getCep().'";';
+        echo 'inputCep.oninput();';
+        echo 'inputNumero.value = "'.$residencial->getNumero().'";';
+      }
+    }
+  ?>
 </script>
 
 </html>

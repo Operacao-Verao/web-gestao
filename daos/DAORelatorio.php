@@ -131,6 +131,25 @@
             return $models;
         }
 
+        // Count and return the number of entries in "Relatorio" with the given 'interdicao' status
+        public function statisticsTotal(bool $interdicao): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Relatorio WHERE (:status AND (interdicao = 1 OR interdicao = 2)) OR (NOT :status AND interdicao = 0)');
+            $select->bindValue(':status', $interdicao);
+            $select->execute();
+            
+            // Return the quantity of references
+            return $query = $select->fetch()[0];
+        }
+        
+        // Count and return the number of entries in "Relatorio" with the given 'interdicao' status
+        public function statisticsRecent(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Relatorio');
+            $select->execute();
+            
+            // Return the quantity of references
+            return $query = $select->fetch()[0];
+        }
+        
 		// Update the "Relatorio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Relatorio $relatorio): bool{

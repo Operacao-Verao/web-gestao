@@ -1,4 +1,5 @@
 // Gráfico 1 (Big Graph)
+/*
 Highcharts.chart('graph-1', {
 	colors: ['#38BDF8', '#E879F9', '#FF3980', '#38BE28', '#E80399', '#ee1980'],
 	chart: {
@@ -39,8 +40,16 @@ Highcharts.chart('graph-1', {
 			name: 'Jd União',
 			data: [50 , 60, 80],
 		},
+		{
+			name: 'Vila Sésamo',
+			data: [null, 60, null],
+		},
+		{
+			name: 'Avenida Paulista',
+			data: [null, null, 15],
+		},
 	],
-});
+});*/
 // Gráfico 2 (Small Graph)
 Highcharts.chart('graph-2', {
   colors: ['#38BDF8', '#E879F9'],

@@ -101,6 +101,54 @@
             return $models;
         }
         
+        // Creates a statistics table with count of all entries "Ocorrencia" in a rank by his property "bairro"
+        // The parameters "far" and "near" specify the range in days to search relative today's date of entries, from far to near
+        // The parameter "uses_name" specify if the table will be returned as a dictionary wich key is the property (if true) or a listed rank (if false)
+        /*
+        SELECT Endereco.bairro, Endereco.cidade, (SELECT COUNT(*) FROM Ocorrencia AS Ocorrencia2 INNER JOIN Residencial AS Residencial2 ON Ocorrencia2.id_residencial = Residencial2.id INNER JOIN Endereco AS Endereco2 ON Residencial2.cep = Endereco2.cep WHERE Endereco2.bairro = Endereco.bairro) AS total FROM Ocorrencia INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep GROUP BY Endereco.bairro ORDER BY total DESC LIMIT .
+        */
+        public function statisticsGreaterByBairro(String $cur_data, int $far, int $near, int $rank, bool $uses_name=true): array{
+            $select = $this->pdo->prepare('SELECT Endereco.bairro, Endereco.cidade, (SELECT COUNT(*) FROM Ocorrencia AS Ocorrencia2 INNER JOIN Residencial AS Residencial2 ON Ocorrencia2.id_residencial = Residencial2.id INNER JOIN Endereco AS Endereco2 ON Residencial2.cep = Endereco2.cep WHERE Endereco2.bairro = Endereco.bairro AND (Ocorrencia2.data_ocorrencia BETWEEN SUBDATE(:cur_data, INTERVAL :days_far DAY) AND SUBDATE(:cur_data, INTERVAL :days_near DAY))) AS total FROM Ocorrencia INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep GROUP BY Endereco.bairro ORDER BY total DESC LIMIT '.$rank);
+            $select->bindValue(':cur_data', $cur_data);
+            $select->bindValue(':days_far', $far); // The most far day period to start searching from
+            $select->bindValue(':days_near', $near-1); // The most near day period to end searching to
+            $select->execute();
+            
+            // All entries will be traversed
+            $ranks = [];
+            while (($query = $select->fetch())) {
+                if ($query['total']==0){
+                    continue;
+                }
+                if ($uses_name){
+                    $ranks[$query['bairro']] = array('cidade' => $query['cidade'], 'total' => $query['total']);
+                }
+                else {
+                    $ranks[] = array('bairro' => $query['bairro'], 'cidade' => $query['cidade'], 'total' => $query['total']);
+                }
+            }
+            return $ranks;
+        }
+        
+        // Count and return the number of entries in "Ocorrencia" wiches are 'encerrado' and with the given 'aprovado' status
+        public function statisticsTotal(bool $aprovado): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Ocorrencia WHERE aprovado = :status AND encerrado');
+            $select->bindValue(':status', $aprovado);
+            $select->execute();
+            
+            // Return the quantity of references
+            return $query = $select->fetch()[0];
+        }
+        
+        // Count and return the number of entries in "Ocorrencia" wiches are not 'encerrado'
+        public function statisticsAbertas(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Ocorrencia WHERE NOT encerrado');
+            $select->execute();
+            
+            // Return the quantity of references
+            return $query = $select->fetch()[0];
+        }
+        
         // Update the "Ocorrencia" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Ocorrencia $ocorrencia): bool{

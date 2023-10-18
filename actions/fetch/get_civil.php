@@ -58,6 +58,7 @@
 			"id": '.$civil->getId().',
 			"nome": "'.addslashes($civil->getNome()).'",
 			"cep": "'.($residencial? addslashes($residencial->getCep()): '-Não Cadastrado-').'",
+			"numero": "'.($residencial? addslashes($residencial->getNumero()): '').'",
 			"celular": "'.addslashes($civil->getCelular()).'",
 			"email": "'.addslashes($civil->getEmail()).'",
 			"cpf": "'.addslashes($civil->getCpf()).'",
