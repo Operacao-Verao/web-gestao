@@ -6,16 +6,13 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
-require '../../actions/conn.php';
-
-session_start();
-if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-	session_destroy();
-	header("Location: ../login/login.php");
-}
-;
+	require '../../partials/header/header.php';
+	require '../../actions/conn.php';
+	
+	require '../../actions/session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
 ?>
+
 <div class="dash-content">
 	<div class="overview">
 		<div class="title">
@@ -184,15 +181,7 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
 		submit.click();
 		form.remove();
 	}
-
-	function goToOcorrencia(id) {
-		goToAction('../ocorrencias/ocorrencias.php', {
-			'id_ocorrencia': {
-				'value': id
-			}
-		});
-	}
-
+	
 	// Rebuscar ocorrências
 	function refreshOcorrencias() {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
@@ -206,12 +195,15 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
 	      	
 	      	for (let i=0; i<json.length; i++){
 	      		let oe = json[i]; // Entrada de ocorrência
+	      		if (oe.encerrado && !oe.aprovado){
+	      			continue;
+	      		}
 	      		
 		      	content_endereco += '<span class="data-list">'+oe.rua+' - '+oe.numero+' ('+oe.bairro+')</span>';
 		      	content_tecnico += '<span class="data-list">'+(oe.tecnico==null?"-Não atribuído-":oe.tecnico)+'</span>';
 		      	content_data += '<span class="data-list">'+oe.data+'</span>';
-		      	content_status += '<span class="data-list">'+'Pendente'+'</span>';
-		      	content_ver += '<span class="data-list" onclick="goToOcorrencia('+oe.id+')"><i class="ph-bold ph-eye"></i></span>';
+		      	content_status += '<span class="data-list">'+(oe.encerrado? oe.aprovado? oe.relatorio_id==null? 'Pendente': 'Relatado': 'Desaprovado': 'Em Aberto')+'</span>';
+		      	content_ver += '<span class="data-list" onclick="location = \'../ocorrencias/ocorrencias.php?id=\'+'+oe.id+';"><i class="ph-bold ph-eye"></i></span>';
 	      	}
 	      	content_endereco += '</div>';
 	      	content_tecnico += '</div>';
@@ -220,7 +212,7 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
 	      	content_ver += '</div>';
 			lista_ocorrencias.innerHTML = content_endereco+content_tecnico+content_data+content_status+content_ver;
 	      });
-	    }, function(){}, {"text": "", "aprovado": true}, "PUT");
+	    }, function(){}, {"text": "", "recente": 5, "tipo": 0x01|0x04}, "PUT");
 	}
 	refreshOcorrencias();
 	
@@ -263,7 +255,7 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
 			const MAX_PERIODS = 4;
 			let bairros = {};
 	      	for (let i=0; i<MAX_PERIODS; i++){
-	      		ocorrencia_bairro_graph.xAxis.categories[i] = ranges[i].data;
+	      		ocorrencia_bairro_graph.xAxis.categories[MAX_PERIODS-i-1] = ranges[i].data;
 	      		for (bairro in ranges[i].rank){
 	      			if (typeof bairros[bairro] === 'undefined'){
 	      				bairros[bairro] = (new Array(MAX_PERIODS)).fill(null);

@@ -5,6 +5,8 @@
 	
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
+	require '../../models/Relatorio.php';
+	require '../../daos/DAORelatorio.php';
 	require '../../models/Endereco.php';
 	require '../../daos/DAOEndereco.php';
 	require '../../models/Residencial.php';
@@ -21,17 +23,26 @@
 	
 	try {
 		$daoOcorrencia = new DAOOcorrencia($pdo);
+		$daoRelatorio = new DAORelatorio($pdo);
 		$daoCivil = new DAOCivil($pdo);
 		$daoResidencial = new DAOResidencial($pdo);
 		$daoEndereco = new DAOEndereco($pdo);
 		$daoTecnico = new DAOTecnico($pdo);
 		$daoFuncionario = new DAOFuncionario($pdo);
 		
-		$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']?true:false);
+		$ocorrencias = null;
+		if (isset($input['recente'])){
+			$ocorrencias = $daoOcorrencia->listRecents(getCurrentDate(), $input['recente']);
+		}
+		else {
+			//echo $input['aprovado'].'<br/>';
+			$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']=='true'? true: false, $input['aprovado']=='null');
+		}
 		
 		$first = true;
 		echo '[';
 		foreach ($ocorrencias as $ocorrencia){
+			$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
 			$civil = $daoCivil->findById($ocorrencia->getIdCivil());
 			$residencial = $daoResidencial->findById($ocorrencia->getIdResidencial());
 			$endereco = $daoEndereco->findByCep($residencial->getCep());
@@ -52,7 +63,10 @@
 				"rua": "'.addslashes($endereco->getRua()).'",
 				"numero": "'.addslashes($residencial->getNumero()).'",
 				"bairro": "'.addslashes($endereco->getBairro()).'",
-				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
+				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'",
+				"relatorio_id": '.($relatorio==null?'null':$relatorio->getId()).',
+				"encerrado": '.($ocorrencia->getEncerrado()? 'true': 'false').',
+				"aprovado": '.($ocorrencia->getAprovado()? 'true': 'false').'
 			}';
 		}
 		echo ']';

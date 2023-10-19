@@ -1,9 +1,4 @@
-<?php 
-    enum TIPO_USUARIO{
-        const GESTOR = 0;
-        const FUNCIONARIO = 1;
-    };
-    
+<?php
     class Funcionario {
         private int $id;
         private string $nome;

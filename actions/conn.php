@@ -40,6 +40,12 @@
         return date_format($date, 'H:i'.($include_seconds? ':s': ''));
     }
     
+    // User Properties
+    enum TIPO_USUARIO{
+        const GESTOR = 0;
+        const FUNCIONARIO = 1;
+    };
+    
     // Errors regs
     function regError(Throwable $error) {
         global $pdo;

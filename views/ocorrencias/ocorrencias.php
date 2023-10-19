@@ -23,8 +23,9 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	</section>
 	<section class="wrapper">
 		<div class="status">
-			<button class="btnStatus" onclick="trocarAba(false)">Desaprovado</button>
-			<button class="btnStatus" onclick="trocarAba(true)">Aprovado</button>
+			<button class="btnStatus" id="abaAberto" onclick="trocarAba(null)">Aberto</button>
+			<button class="btnStatus" id="abaDesaprovado" onclick="trocarAba(false)">Desaprovado</button>
+			<button class="btnStatus" id="abaAprovado" onclick="trocarAba(true)">Aprovado</button>
 		</div>
 		<div class="ocorrencias" id="lista_ocorrencias">
 			<?php
@@ -106,7 +107,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 </div>
 </main>
 <script>
-	let aba_status_aprovado = false; // Seleciona entre aprovados e não aprovados
+	let aba_status_aprovado = null; // Seleciona entre aprovados e não aprovados
 	let ocorrencia_atual = null;
 	
 	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
@@ -133,8 +134,8 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 			alter_tecnico.value = json.tecnicoId;
 			alter_aprovado.value = json.aprovado;
 			
-			if (aba_status_aprovado != json.aprovado){
-				trocarAba(json.aprovado);
+			if (json.encerrado? aba_status_aprovado != json.aprovado: aba_status_aprovado != null){
+				trocarAba(json.encerrado? json.aprovado: null);
 			}
 			if (json.encerrado){
 				alter_tecnico.disabled = true;
@@ -177,11 +178,27 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	      	}
 			lista_ocorrencias.innerHTML = content+'<a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a>';
 	      });
-	    }, function(){}, {"text": text, "aprovado": aba_status_aprovado});
+	    }, function(){}, {"text": text, "aprovado": aba_status_aprovado==null?'null':aba_status_aprovado?'true':'false'});
 	}
-	searchOcorrencias("");
 	
-	function trocarAba(status_aprovado=aba_status_aprovado){
+	function trocarAba(status_aprovado){
+		let stAba = abaAberto, ustAba1 = abaDesaprovado, ustAba2 = abaAprovado;
+		if (status_aprovado != null){
+			if (status_aprovado){
+				stAba = abaAprovado;
+				ustAba2 = abaAberto;
+			}
+			else {
+				stAba = abaDesaprovado;
+				ustAba1 = abaAberto;
+			}
+		}
+		stAba.style.backgroundColor = '#000';
+		stAba.style.color = '#FFF';
+		ustAba1.style.backgroundColor = '#FFF';
+		ustAba1.style.color = '#000';
+		ustAba2.style.backgroundColor = '#FFF';
+		ustAba2.style.color = '#000';
 		aba_status_aprovado = status_aprovado;
 		searchOcorrencias(search_ocorrencia.value);
 	}
@@ -195,6 +212,11 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	}
 	
 	function trancarOcorrencia() {
+		if (alter_tecnico.value=="" && alter_aprovado.value=="1"){
+			alert("Para realizar a aprovação é exigido que atribua um técnico á ocorrência!");
+			return;
+		}
+		
 		if (!confirm("Deseja mesmo trancar esta ocorrência? Isto significa que não poderá ser alterada novamente.")){
 			return;
 		}
@@ -203,7 +225,7 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 	      r.text().then(function(r){
 	      	console.log(r);
 	      });
-	      trocarAba();
+	      trocarAba(aba_status_aprovado);
 	    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)});
 	    alter_tecnico.disabled = true;
 	    alter_aprovado.disabled = true;
@@ -213,8 +235,11 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 
 <?php
 	if (isset($_GET['id'])){
-		echo '<script>openModal("viewOcorrencia", '.$_GET['id'].')</script>';
+		echo '<script>openModal("viewOcorrencia", '.$_GET['id'].');</script>';
 		$_GET['id'] = null;
+	}
+	else {
+		echo '<script>trocarAba(null);</script>';
 	}
 ?>
 
