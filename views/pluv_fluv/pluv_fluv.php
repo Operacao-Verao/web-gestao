@@ -6,13 +6,11 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
-
-session_start();
-if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-	session_destroy();
-	header("Location: ../login/login.php");
-};
+	require '../../partials/header/header.php';
+	require '../../actions/conn.php';
+	
+	require '../../actions/session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
 ?>
 <div class="wrapper-main">
 	<section class="search-space">
@@ -28,8 +26,6 @@ if(empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_S
 		</div>
 		<div class="ocorrencias" id="lista_ocorrencias">
 			<?php
-				require '../../actions/conn.php';
-
 				require '../../models/Ocorrencia.php';
 				require '../../daos/DAOOcorrencia.php';
 				require '../../models/Relatorio.php';

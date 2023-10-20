@@ -1,5 +1,11 @@
 <?php
-	include_once("../conn.php");
+    include_once('../conn.php');
+    
+    // Only allowed in DEV version
+    if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+        header("Location: ../../views/login/login.php");
+    }
+    
 	include_once("../../models/Ocorrencia.php");
 	include_once("../../daos/DAOOcorrencia.php");
 	include_once("../../models/Relatorio.php");

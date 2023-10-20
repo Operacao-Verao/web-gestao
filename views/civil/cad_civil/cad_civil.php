@@ -8,6 +8,12 @@
   <title>Cadastrar Civil</title>
 </head>
 
+<?php
+  require '../../../actions/conn.php';
+  require '../../../actions/session_auth.php';
+  authenticateSession(TIPO_USUARIO::GESTOR, '', '../../login/login.php');
+?>
+
 <body>
   <main>
   <div class="topRow">

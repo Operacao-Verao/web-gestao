@@ -1,7 +1,8 @@
 <?php
-	session_start();
-
 	require '../conn.php';
+	require '../session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, '{"error": 403}');
+	
 	require '../../models/ServiceWorker.php';
 	require '../../daos/DAOServiceWorker.php';
 	
@@ -18,7 +19,8 @@
 		$daoGestor = new DAOGestor($pdo);
 
 		$input = json_decode(file_get_contents('php://input'), true);
-
+		
+		session_start();
 		$swEndpoint = $input['endpoint'];
 		$auth = $input['keys']['auth'];
 		$p256dh = $input['keys']['p256dh'];

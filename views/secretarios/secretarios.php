@@ -8,20 +8,17 @@
 
 <?php
   require '../../partials/header/header.php';
-  
   require '../../actions/conn.php';
+  
+  require '../../actions/session_auth.php';
+  authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+  
   require '../../models/Cargo.php';
   require '../../daos/DAOCargo.php';
   require '../../models/Secretaria.php';
   require '../../daos/DAOSecretaria.php';
   require '../../models/Secretario.php';
   require '../../daos/DAOSecretario.php';
-  
-  session_start();
-  if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    session_destroy();
-    header("Location: ../login/login.php");
-  };
   
   $daoCargo = new DAOCargo($pdo);
   $daoSecretaria = new DAOSecretaria($pdo);

@@ -7,14 +7,11 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
-
-session_start();
-if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-  session_destroy();
-  header("Location: ../login/login.php");
-}
-;
+  require '../../partials/header/header.php';
+  require '../../actions/conn.php';
+  
+  require '../../actions/session_auth.php';
+  authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
 ?>
 
 <div class="dash-content">
@@ -103,7 +100,7 @@ if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_
             content_enderecos += '<span class="data-list">'+re.rua+' - '+re.numero+' ('+re.bairro+')</span>';
             content_tecnicos += '<span class="data-list">'+(re.tecnico==null?"-não atribuído (ISTO É UM BUG)-":re.tecnico)+'</span>';
             content_datas += '<span class="data-list">'+re.data+'</span>';
-            content_vers += '<span class="data-list" onclick="location = \'../viewRelatorio/viewRelatorio.php?id=\'+'+re.id+';"><i class="ph-bold ph-eye"></i></span>';
+            content_vers += '<span class="data-list" onclick="location = \'../view_relatorio/view_relatorio.php?id=\'+'+re.id+';"><i class="ph-bold ph-eye"></i></span>';
           }
           
           relatorios_list.innerHTML = content_enderecos+"</div>"+content_tecnicos+"</div>"+content_datas+"</div>"+content_vers+"</div>";

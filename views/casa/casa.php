@@ -7,10 +7,14 @@
 </head>
 
 <body>
+
   <?php
   require '../../partials/header/header.php';
-
   require '../../actions/conn.php';
+  
+  require '../../actions/session_auth.php';
+  authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+  
   require '../../models/Civil.php';
   require '../../daos/DAOCivil.php';
 
@@ -22,14 +26,7 @@
   require '../../daos/DAOCasa.php';
   require '../../models/Endereco.php';
   require '../../daos/DAOEndereco.php';
-
-  session_start();
-  if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    session_destroy();
-    header("Location: ../login/login.php");
-  }
-  ;
-
+  
   $daoCasa = new DAOCasa($pdo);
   $civis = $daoCasa->listAll();
   ?>
@@ -207,7 +204,7 @@
             let casa = json[i];
             cep_content += '<span class="data-list">' + casa.cep + '</span>';
             numero_content += '<span class="data-list">' + casa.numero + '</span>';
-            complemento_content += '<span class="data-list">' + casa.complemento + '</span>';
+            complemento_content += '<span class="data-list">' + (casa.complemento.trim()==''?'<br/>':casa.complemento) + '</span>';
             view_content += '<button class="data-list" onclick=\'openModal("viewCivil", ' + casa.id + ')\'><i class="ph-bold ph-eye"></i></button>';
           }
           list_ceps.innerHTML = cep_content;

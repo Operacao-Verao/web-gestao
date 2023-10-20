@@ -1,4 +1,11 @@
 <?php
+    include_once('../conn.php');
+    
+    // Only allowed in DEV version
+    if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+        header("Location: ../../views/login/login.php");
+    }
+    
 	include_once("../daos/DAOFuncionario.php");
 	include_once("../daos/DAORegistro.php");
 	include_once("../daos/DAOGestor.php");

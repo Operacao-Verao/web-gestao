@@ -1,7 +1,10 @@
 <?php
-	$input = json_decode(file_get_contents('php://input'), true);
-
 	require '../conn.php';
+	require '../session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, 'Error 403');
+	
+	$input = json_decode(file_get_contents('php://input'), true);
+	
 	require '../../models/Casa.php';
 	require '../../daos/DAOCasa.php';
 	require '../../models/Relatorio.php';

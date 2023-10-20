@@ -1,5 +1,7 @@
 <?php
-    include_once("../actions/conn.php");
+    require 'conn.php';
+    require 'session_auth.php';
+    authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
     
     include_once("../models/Casa.php"); 
     include_once("../daos/DAOCasa.php");

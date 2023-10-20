@@ -1,6 +1,11 @@
 <?php
-	require '../conn.php';
-	
+    include_once('../conn.php');
+    
+    // Only allowed in DEV version
+    if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+        header("Location: ../../views/login/login.php");
+    }
+    
 	require '../../models/Ocorrencia.php';
 	require '../../daos/DAOOcorrencia.php';
 	require '../../models/Relatorio.php';

@@ -8,19 +8,16 @@
 
 <?php
 	require '../../partials/header/header.php';
-
 	require '../../actions/conn.php';
+	
+	require '../../actions/session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+	
 	require '../../models/Tecnico.php';
 	require '../../daos/DAOTecnico.php';
 	require '../../models/Funcionario.php';
 	require '../../daos/DAOFuncionario.php';
-
-	session_start();
-	if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-		session_destroy();
-		header("Location: ../login/login.php");
-	};
-
+	
 	$daoFuncionario = new DAOFuncionario($pdo);
 	$daoTecnico = new DAOTecnico($pdo);
 	$tecnicos = $daoTecnico->listAll();
@@ -67,12 +64,12 @@
 				<?php
 					// Print Edits
 					foreach ($tecnicos as $tecnico) {
-						echo '<span class="data-list"><a href="../cad_tecnico/cad_tecnico.php?tecnico_id=' . $tecnico->getId() . '"><i class="ph-bold ph-pencil"></i></a></span>';
+						echo '<span class="data-list"><a href="cad_tecnico/cad_tecnico.php?tecnico_id=' . $tecnico->getId() . '"><i class="ph-bold ph-pencil"></i></a></span>';
 					}
 				?>
 			</div>
 		</div>
-		<a href="../cad_tecnico/cad_tecnico.php">
+		<a href="cad_tecnico/cad_tecnico.php">
 			<button>Cadastrar Técnico</button>
 		</a>
 	</div>

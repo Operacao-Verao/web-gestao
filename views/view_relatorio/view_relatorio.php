@@ -7,15 +7,11 @@
 
 <?php
   require '../../partials/header/header.php';
-
-  session_start();
-  if (empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    session_destroy();
-    header("Location: ../login/login.php");
-  };
-
-
   require '../../actions/conn.php';
+  
+  require '../../actions/session_auth.php';
+  authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+  
   
   require '../../models/Relatorio.php';
   require '../../daos/DAORelatorio.php';
@@ -153,7 +149,7 @@
       ?>
     </div>
     <button class="btnImprimir"><a target="_Blank"
-      <?php echo 'href="../printRelatorio/index.php?id='.$relatorio->getId().'"'; ?>>Impressão Relatório</a></button>
+      <?php echo 'href="print_relatorio/index.php?id='.$relatorio->getId().'"'; ?>>Impressão Relatório</a></button>
   </article>
   <article>
     <div class="item-row">

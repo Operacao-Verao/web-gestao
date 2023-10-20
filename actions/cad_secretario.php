@@ -1,5 +1,7 @@
 <?php
 	require 'conn.php';
+	require 'session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
 	
 	require '../models/Cargo.php';
 	require '../daos/DAOCargo.php';

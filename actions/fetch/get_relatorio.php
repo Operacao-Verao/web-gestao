@@ -1,8 +1,9 @@
 <?php
+	require '../conn.php';
+	require '../session_auth.php';
+	authenticateSession(TIPO_USUARIO::GESTOR, '{"error": 403}');
 	
 	$input = json_decode(file_get_contents('php://input'), true);
-	
-	require '../conn.php';
 	
 	require '../../models/Relatorio.php';
 	require '../../daos/DAORelatorio.php';
