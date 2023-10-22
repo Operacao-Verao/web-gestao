@@ -101,6 +101,10 @@
 		</section>
 	</div>
 	</main>
+	
+	<?php
+	  echoError();
+	?>
 	<script>
 		let aba_status_aprovado = -1; // Seleciona entre aprovados e não aprovados
 		let ocorrencia_atual = null;

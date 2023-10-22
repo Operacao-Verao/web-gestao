@@ -41,6 +41,10 @@
 	
 </div>
 </main>
+
+<?php
+  echoError();
+?>
 <script>
 	let aba_pluv_fluv = false; // Seleciona entre fluviômetro e pluviômetro
 	let ocorrencia_atual = null;

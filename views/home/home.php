@@ -127,6 +127,10 @@
 	</div>
 </div>
 </div>
+
+<?php
+  echoError();
+?>
 <script type="text/javascript">
 	function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}, method) {
 		fetch(action, {
@@ -384,7 +388,6 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script src="./chart.js"></script>
 </main>
 
 </html>

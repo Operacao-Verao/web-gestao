@@ -26,7 +26,6 @@
 	
 	try {
 		// Protective measures against ilegal data access
-		session_start();
 		if($_SESSION["usuario_tipo"] != 0){
 			echo '{}';
 			exit();

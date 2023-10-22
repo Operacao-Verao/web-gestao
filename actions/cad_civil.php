@@ -36,19 +36,14 @@
         //if ($idCasa) {
             $novoCivil = $daoCivil->findByCpf($cpf);
             if ($novoCivil != null){
-                header("Location: ../views/civil/cad_civil/cad_civil.php?error=cadastrofalhou");
+                header("Location: ../views/civil/cad_civil/cad_civil.php?error=existing_cpf");
                 exit();
             }
             
             $novoCivil = $daoCivil->insert(null, $nome, $email, $senha_criptografada, $cpf, $celular, $telefone);
-
-            if ($novoCivil) {
-                header("Location: ../views/civil/civil.php");
-                exit();
-            } else {
-                header("Location: ../views/civil/cad_civil/cad_civil.php?error=cadastrofalhou");
-                exit();
-            }
+            
+            header("Location: ../views/civil/civil.php");
+            exit();
         //} else {
         //    header("Location: ../views/cadastrar_civil.php?error=cadastrocasafalhou");
         //    exit();

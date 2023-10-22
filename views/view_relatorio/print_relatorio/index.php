@@ -240,9 +240,9 @@
                         <p>Crianças: '.$afetados->getCriancas().'</p>
                         <p>Idosos: '.$afetados->getIdosos().'</p>
                         <p>Deficientes: '.$afetados->getEspeciais().'</p>
+                        <p>Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getEspeciais()).'</p>&nbsp;|&nbsp;
                         <p>Feridos: '.$afetados->getFeridos().'</p>
-                        <p>Mortos: '.$afetados->getMortos().'</p>
-                        <p>Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getEspeciais()).'</p>';
+                        <p>Mortos: '.$afetados->getMortos().'</p>';
                           }
                           else {
                             echo '
@@ -250,9 +250,9 @@
                         <p>Crianças: 0</p>
                         <p>Idosos: 0</p>
                         <p>Deficientes: 0</p>
+                        <p>Total: 0</p>&nbsp;|&nbsp;
                         <p>Feridos: 0</p>
-                        <p>Mortos: 0</p>
-                        <p>Total: 0</p>';
+                        <p>Mortos: 0</p>';
                           }
                         ?>
                     </div>

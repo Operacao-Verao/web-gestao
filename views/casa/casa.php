@@ -123,6 +123,10 @@
   </div>
   <!--MODAL VISUALIZAR CIVIL-->
   </main>
+  
+  <?php
+    echoError();
+  ?>
   <script>
     let casa_atual = null;
 

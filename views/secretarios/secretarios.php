@@ -108,7 +108,11 @@
 
 </main>
 
+<?php
+  echoError();
+?>
 <script>
+  let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
   
   function goToAction(action, values={}){
     let form = document.createElement('form');
@@ -166,5 +170,14 @@
     document.getElementById('viewSecretario').style.display = 'none';
   }
   closeModal();
+  
+  inputNome.oninput = function(){
+    inputNome.value = inputNome.value.replace(exp_nome, '').substr(0, 100);
+  }
+  
+  inputCargo.oninput = function(){
+    inputCargo.value = inputCargo.value.replace(exp_nome, '').substr(0, 100);
+  }
+  
 </script>
 </html>

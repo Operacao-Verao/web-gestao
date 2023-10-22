@@ -74,5 +74,7 @@
 		</a>
 	</div>
 </main>
-
+      <?php
+        echoError();
+      ?>
 </html>

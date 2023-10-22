@@ -91,7 +91,7 @@
   $memo = $daoMemo->findByRelatorio($relatorio);
 ?>
 <section class="dash-content">
-<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256" onclick="history.back()"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256" onclick="location = '../relatorios/relatorios.php';"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
   <article>
     <div class="topRowContent">
       <div class="item-row">
@@ -194,9 +194,9 @@
         <p class="item-row-content">Crianças: '.$afetados->getCriancas().'</p>
         <p class="item-row-content">Idosos: '.$afetados->getIdosos().'</p>
         <p class="item-row-content">Deficientes: '.$afetados->getEspeciais().'</p>
+        <p class="item-row-content">Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getEspeciais()).'</p>|
         <p class="item-row-content">Feridos: '.$afetados->getFeridos().'</p>
-        <p class="item-row-content">Mortos: '.$afetados->getMortos().'</p>
-        <p class="item-row-content">Total: '.($afetados->getAdultos()+$afetados->getCriancas()+$afetados->getIdosos()+$afetados->getEspeciais()).'</p>';
+        <p class="item-row-content">Mortos: '.$afetados->getMortos().'</p>';
           }
           else {
             echo '
@@ -204,9 +204,9 @@
         <p class="item-row-content">Crianças: 0</p>
         <p class="item-row-content">Idosos: 0</p>
         <p class="item-row-content">Deficientes: 0</p>
+        <p class="item-row-content">Total: 0</p>|
         <p class="item-row-content">Feridos: 0</p>
-        <p class="item-row-content">Mortos: 0</p>
-        <p class="item-row-content">Total: 0</p>';
+        <p class="item-row-content">Mortos: 0</p>';
           }
         ?>
       </div>
@@ -379,7 +379,7 @@
         <div class="interdicao">
           <p class="item-row-title">Interdição: </p>
           <?php 
-            switch($casa->getInterdicao()){
+            switch($relatorio->getInterdicao()){
               case INTERDICAO::NAO: {
                 echo '<p class="item-row-content">(X) Não</p>
           <p class="item-row-content">() Parcial</p>
@@ -453,4 +453,7 @@
 </section>
 </main>
 
+<?php
+  echoError();
+?>
 </html>

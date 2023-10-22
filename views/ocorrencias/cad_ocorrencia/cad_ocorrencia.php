@@ -38,10 +38,10 @@
         <label for="inputName">Nome*</label>
         <?php
           if ($civil){
-            echo '<input type="text" name="inputName" placeholder="Ex.: Samantha" value="'.$civil->getNome().'" readonly required>';
+            echo '<input type="text" name="inputName" id="inputName" placeholder="Ex.: Samantha" value="'.$civil->getNome().'" readonly required>';
           }
           else{
-            echo '<input type="text" name="inputName" placeholder="Ex.: Samantha" required>';
+            echo '<input type="text" name="inputName" id="inputName" placeholder="Ex.: Samantha" required>';
           }
         ?>
       </div>
@@ -49,10 +49,10 @@
         <label for="inputEmail">Email</label>
         <?php
           if ($civil){
-            echo '<input type="email" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" value="'.$civil->getEmail().'" readonly>';
+            echo '<input type="email" name="inputEmail" id="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com" value="'.$civil->getEmail().'" readonly>';
           }
           else{
-            echo '<input type="email" name="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com">';
+            echo '<input type="email" name="inputEmail" id="inputEmail" placeholder="Ex.: samanthazduniak@gmail.com">';
           }
         ?>
       </div>
@@ -60,10 +60,10 @@
         <label for="inputCpf">CPF*</label>
         <?php
           if ($civil){
-            echo '<input type="text" name="inputCpf" placeholder="Ex.: 53903904920" value="'.$civil->getCpf().'" readonly required>';
+            echo '<input type="text" name="inputCpf" id="inputCpf" placeholder="Ex.: 53903904920" value="'.$civil->getCpf().'" readonly required>';
           }
           else{
-            echo '<input type="text" name="inputCpf" placeholder="Ex.: 53903904920" oninput="getCivil(this.value)" required>';
+            echo '<input type="text" name="inputCpf" id="inputCpf" placeholder="Ex.: 53903904920" oninput="getCivil(this.value)" required>';
           }
         ?>
       </div>
@@ -72,10 +72,10 @@
           <label for="inputCelular">Celular</label>
           <?php
             if ($civil){
-              echo '<input type="tel" name="inputCelular" placeholder="Ex.: 11974764830" value="'.$civil->getCelular().'" readonly required>';
+              echo '<input type="tel" name="inputCelular" id="inputCelular" placeholder="Ex.: 11974764830" value="'.$civil->getCelular().'" readonly>';
             }
             else{
-              echo '<input type="tel" name="inputCelular" placeholder="Ex.: 11974764830" required>';
+              echo '<input type="tel" name="inputCelular" id="inputCelular" placeholder="Ex.: 11974764830">';
             }
           ?>
         </div>
@@ -83,10 +83,10 @@
           <label for="inputTelefone">Telefone</label>
           <?php
             if ($civil){
-              echo '<input type="tel" name="inputTelefone" placeholder="Ex.: 1140028922" value="'.$civil->getCelular().'" readonly>';
+              echo '<input type="tel" name="inputTelefone" id="inputTelefone" placeholder="Ex.: 1140028922" value="'.$civil->getCelular().'" readonly>';
             }
             else{
-              echo '<input type="tel" name="inputTelefone" placeholder="Ex.: 1140028922">';
+              echo '<input type="tel" name="inputTelefone" id="inputTelefone" placeholder="Ex.: 1140028922">';
             }
           ?>
         </div>
@@ -145,12 +145,18 @@
         </div>
       </div>
 
-      <button class="btnCadastrar">Criar</button>
+      <button class="btnCadastrar" id="btnCadastrar">Criar</button>
     </form>
   </main>
 </body>
 
+<?php
+  echoError();
+?>
 <script>
+  let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
+  let valid_cep = false;
+  
   function goToAction(action, values={}){
     let form = document.createElement('form');
     form.method = 'post';
@@ -188,10 +194,10 @@
         //console.log(json);
         
         if (Object.keys(json).length > 0){
-          document.getElementsByName("inputName")[0].value = json.nome;
-          document.getElementsByName("inputEmail")[0].value = json.email;
-          document.getElementsByName("inputCelular")[0].value = json.celular;
-          document.getElementsByName("inputTelefone")[0].value = json.telefone;
+          inputName.value = json.nome;
+          inputEmail.value = json.email;
+          inputCelular.value = json.celular;
+          inputTelefone.value = json.telefone;
           inputCep.value = json.cep;
           inputCep.oninput();
           inputNumero.value = json.numero;
@@ -205,17 +211,62 @@
     }, function(){}, {'cpf': cpf});
   }
   
+  inputName.oninput = function(){
+    inputName.value = inputName.value.replace(exp_nome, '').substr(0, 100);
+  }
+  
+  inputEmail.oninput = function(){
+    inputEmail.value = inputEmail.value.substr(0, 70);
+  }
+  
+  inputCpf.oninput = function(){
+    inputCpf.value = inputCpf.value.replace(/[^0-9]/g, '').substr(0, 11);
+  }
+  
+  inputCelular.oninput = function(){
+    inputCelular.value = inputCelular.value.replace(/[^0-9]/g, '').substr(0, 11);
+  }
+  
+  inputTelefone.oninput = function(){
+    inputTelefone.value = inputTelefone.value.replace(/[^0-9]/g, '').substr(0, 10);
+  }
+  
   inputCep.oninput = function(){
+    inputRua.value = "";
+    inputBairro.value = "";
+    inputCidade.value = "";
+    inputCep.value = inputCep.value.replace(/[^0-9]/g, '').substr(0, 8);
+    valid_cep = false;
     if (inputCep.value.length == 8){
-      console.log(inputCep.value); // 01001000
+      inputRua.value = "...";
+      inputBairro.value = "...";
+      inputCidade.value = "...";
       requestFromAction("https://viacep.com.br/ws/"+inputCep.value+"/json/", function(r){
         r.json().then(function(json){
           console.log(json);
-          inputRua.value = json.logradouro||"";
-          inputBairro.value = json.bairro||"";
-          inputCidade.value = json.localidade||"";
+          if (!json.erro){
+            valid_cep = true;
+          }
+          inputRua.value = json.logradouro||"-";
+          inputBairro.value = json.bairro||"-";
+          inputCidade.value = json.localidade||"-";
         });
-      }, function(r){throw r;}, {}, "GET");
+      }, function(){}, {}, "GET");
+    }
+  }
+  
+  inputNumero.oninput = function(){
+    inputNumero.value = inputNumero.value.substr(0, 10);
+  }
+  
+  inputComplemento.oninput = function(){
+    inputComplemento.value = inputComplemento.value.substr(0, 50);
+  }
+  
+  btnCadastrar.onclick = function(){
+    if (!valid_cep){
+      alert("O CEP parece estar inválido");
+      return false;
     }
   }
   

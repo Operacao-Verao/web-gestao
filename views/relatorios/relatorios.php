@@ -53,6 +53,9 @@
 </div>
 </main>
 
+<?php
+  echoError();
+?>
 <script>
   let relatorio_atual = null;
   

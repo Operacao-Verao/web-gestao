@@ -22,12 +22,12 @@
         $senha_criptografada = hash('sha256', $senha);
 
         if (empty($nome) || empty($email) || empty($senha) || empty($senha) || empty($senhaconfirm)) {
-            header("Location: ../views/cad_tecnico/cad_tecnico.php");
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?error=empty_entries");
             exit();
         }
 
         if ($senha != $senhaconfirm){
-            header("Location: ../views/cad_tecnico/cad_tecnico.php");
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?error=unmatched_password");
             exit();
         }
         
