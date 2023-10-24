@@ -1,5 +1,6 @@
 <?php
     // Database Connection Properties
+    $server_location = 'http://localhost/web-gestao/';
     $db_host = 'localhost';
     $db_name = 'BDDEFESACIVIL';
     $db_user = 'root';

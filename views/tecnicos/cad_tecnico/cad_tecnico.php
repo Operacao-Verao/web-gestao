@@ -48,47 +48,62 @@
           <form method="post" action=<?php if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {echo '../../../actions/alt_tecnico.php';} else {echo '../../../actions/cad_tecnico.php';} ?>>
                 <?php
                   if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
-                    echo '<input type="number" name="tecnico_id" id="tecnico_id" value="'.$_GET['tecnico_id'].'" hidden>';
+                    echo '<input class="inputText" type="number" name="tecnico_id" id="tecnico_id" value="'.$_GET['tecnico_id'].'" hidden>';
                     if(!empty($_SESSION['erro'])) {
-                      echo '<span class="error">'.$_SESSION['erro'].'</span><br>';
+                      echo '<span class="error">'.$_SESSION['erro'].'</span>';
                       $_SESSION['erro'] = ''; 
                     }
                   }
                 ?>
 
-                Nome
-                <?php
-                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
-                    echo '<input type="text" id="edtnome" name="edtnome" value="'.$tecnico_funcionario->getNome().'" autofocus required><br>';
-                  } else {
-                    echo '<input type="text" id="edtnome" name="edtnome" autofocus><br>';
-                  }
-                ?>
-                Email
-                <?php
-                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
-                    echo '<input type="text" id="email" name="edtemail" value="'.$tecnico_funcionario->getEmail().'"><br>';
-                  } else {
-                    echo '<input type="text" id="email" name="edtemail" autofocus><br>';
-                  }
-                ?>
+                <div class="inputArea">
+                  <label for="edtnome">Nome</label>
+                  <?php
+                    if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                      echo '<input class="inputText" type="text" id="edtnome" name="edtnome" value="'.$tecnico_funcionario->getNome().'" autofocus required>';
+                    } else {
+                      echo '<input class="inputText" type="text" id="edtnome" name="edtnome" autofocus>';
+                    }
+                  ?>
+                </div>
+                <div class="inputArea">
+                  <label for="edtemail">Email</label>
+                  <?php
+                    if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                      echo '<input class="inputText" type="text" id="email" name="edtemail" value="'.$tecnico_funcionario->getEmail().'">';
+                    } else {
+                      echo '<input class="inputText" type="text" id="email" name="edtemail" autofocus>';
+                    }
+                  ?>
+                </div>
 
-                <?php
-                  if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
-                    echo 'Nova senha';
-                  } else {
-                    echo 'Senha';
-                  }
-                ?>
-                <input type="password" id="senha" name="edtsenha" required><br>
-                <?php
-                  if (array_key_exists('tecnico_id', $_GET)) {
-                    echo 'Confirmar nova senha';
-                  } else {
-                    echo 'Confirmar senha';
-                  }
-                ?>
-                <input type="password" id="confirmarSenha" name="edtsenhaconfirm" required>
+                <div class="inputArea">
+                  <?php
+                    if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                      echo '<label for="edtsenha">Nova senha</label>';
+                    } else {
+                      echo '<label for="edtsenha">Senha</label>';
+                    }
+                  ?>
+                  <input class="inputText" type="password" id="senha" name="edtsenha" required>
+                </div>
+                <div class="inputArea">
+                  <?php
+                    if (array_key_exists('tecnico_id', $_GET)) {
+                      echo '<label for="edtsenhaconfirm">Confirmar nova senha</label>';
+                    } else {
+                      echo '<label for="edtsenhaconfirm">Confirmar senha</label>';
+                    }
+                  ?>
+                  <input class="inputText" type="password" id="confirmarSenha" name="edtsenhaconfirm" required>
+                </div>
+                <div class="inputArea">
+                  <label for="selectAtivo">Status do Técnico</label>
+                  <select name="selectAtivo" id="">
+                    <option value="">Inativo</option>
+                    <option value="">Ativo</option>
+                  </select>
+                </div>
 
            <button type="submit" id="btnCadastro">
             <?php

@@ -23,7 +23,7 @@
     <form method="post" action="../../../actions/cad_civil.php">
       <div class="inputArea">
         <label for="inputName">Nome*</label>
-        <input type="text" name="inputName" id="inputName" placeholder="Ex.: Samantha" required>
+        <input type="text" name="inputName" id="inputName" placeholder="Ex.: malcolm" required>
       </div>
       <div class="inputArea">
         <label for="inputEmail">Email</label>
@@ -31,7 +31,7 @@
       </div>
       <div class="inputArea">
         <label for="inputPassword">Senha</label>
-        <input type="password" name="inputPassword" id="inputPassword" placeholder="Ex.: ********">
+        <input type="password" name="inputPassword" id="inputPassword" placeholder="Ex.: ●●●●●●●●">
       </div>
       <div class="inputArea">
         <label for="inputCpf">CPF*</label>

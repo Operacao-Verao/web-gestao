@@ -99,7 +99,7 @@ button.data-list {
 	left: 5%;
 	display: none;
 	width: 75%;
-	height: 720px;
+	height: 760px;
 	background-color: var(--panel-color);
 	padding: 3.5rem;
 	border: 2px solid #ccc;
@@ -152,6 +152,12 @@ body.viewCivil-open {
 	height: 100%;
 	gap: 5rem;
 	margin-top: 5rem;
+}
+.ocorrencias-items{
+	overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    max-height: 260px;
 }
 .ocorrencias .ocorrencia-item {
 	display: flex;

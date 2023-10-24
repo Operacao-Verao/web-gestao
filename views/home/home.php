@@ -85,43 +85,18 @@
 		<div class="activity-data" id="lista_ocorrencias">
 			<div class="data address">
 				<span class="data-title">Endereço</span>
-				<span class="data-list">R. Heloísa Gomes Batista</span>
-				<span class="data-list">R. Heloísa Gomes Batista</span>
-				<span class="data-list">R. Heloísa Gomes Batista</span>
-				<span class="data-list">R. Heloísa Gomes Batista</span>
-				<span class="data-list">R. Heloísa Gomes Batista</span>
 			</div>
 			<div class="data names">
 				<span class="data-title">Técnico</span>
-				<span class="data-list">Malcolm Lima</span>
-				<span class="data-list">Malcolm Lima</span>
-				<span class="data-list">Malcolm Lima</span>
-				<span class="data-list">Malcolm Lima</span>
-				<span class="data-list">Malcolm Lima</span>
 			</div>
 			<div class="data request">
 				<span class="data-title">Data</span>
-				<span class="data-list">07/04/2021</span>
-				<span class="data-list">07/04/2021</span>
-				<span class="data-list">07/04/2021</span>
-				<span class="data-list">07/04/2021</span>
-				<span class="data-list">07/04/2021</span>
 			</div>
 			<div class="data status">
 				<span class="data-title">Status</span>
-				<span class="data-list">Pendente</span>
-				<span class="data-list">Pendente</span>
-				<span class="data-list">Pendente</span>
-				<span class="data-list">Finalizado</span>
-				<span class="data-list">Finalizado</span>
 			</div>
 			<div class="data ver">
 				<span class="data-title">Ver</span>
-				<span class="data-list"><i class="ph-bold ph-eye"></i></span>
-				<span class="data-list"><i class="ph-bold ph-eye"></i></span>
-				<span class="data-list"><i class="ph-bold ph-eye"></i></span>
-				<span class="data-list"><i class="ph-bold ph-eye"></i></span>
-				<span class="data-list"><i class="ph-bold ph-eye"></i></span>
 			</div>
 		</div>
 	</div>
@@ -336,7 +311,7 @@
 					type: 'pie',
 				},
 				title: {
-					text: 'Relatórios - Interditados/Não Interditados',
+					text: 'Casas - Interditadas/Não Interditadas',
 					align: 'center',
 				},
 				tooltip: {

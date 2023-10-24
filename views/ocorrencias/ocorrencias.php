@@ -192,8 +192,8 @@
 					ustAba1 = abaAberto;
 				}
 			}
-			stAba.style.backgroundColor = '#000';
-			stAba.style.color = '#FFF';
+			stAba.style.backgroundColor = '#023b7e';
+			stAba.style.color = '#fff';
 			ustAba1.style.backgroundColor = '#FFF';
 			ustAba1.style.color = '#000';
 			ustAba2.style.backgroundColor = '#FFF';

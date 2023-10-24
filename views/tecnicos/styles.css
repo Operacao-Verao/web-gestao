@@ -1,6 +1,7 @@
-.dash-content{
+.dash-content {
 	margin-top: 1rem;
 }
+
 .activity-data {
 	position: relative;
 	display: flex;
@@ -11,18 +12,24 @@
 	background-color: var(--box-color);
 	border-radius: 1rem;
 	padding: 4rem 2rem;
+	overflow-x: scroll;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
 }
+
 .activity-data .data {
 	display: flex;
 	flex-direction: column;
 
 	margin: 0 1.5rem;
 }
+
 .activity-data .data-title {
 	font-size: 1.8rem;
 	font-weight: 500;
 	color: var(--text-color);
 }
+
 .activity-data .data .data-list {
 	font-size: 1.4rem;
 	font-weight: 400;
@@ -31,31 +38,38 @@
 
 	margin-top: 2.5rem;
 }
+
 .data.ver {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
+
 .data.ver i {
 	font-size: 1.7rem;
 }
+
 a {
 	text-decoration: none;
 	color: inherit;
 }
+
 .ativo,
 .inativo {
 	padding: 0rem 2rem;
 	border-radius: 0.8rem;
 }
+
 .ativo {
 	background-color: #dcfce7;
 	color: #1ead53 !important;
 }
+
 .inativo {
 	background-color: #fee2e2;
 	color: #ef4444 !important;
 }
+
 button {
 	position: absolute;
 	bottom: 70px;
@@ -77,20 +91,24 @@ button {
 		scroll-behavior: smooth;
 	}
 }
+
 @media (max-width: 780px) {
 	.dash-content .boxes .box {
 		width: calc(100% / 2 - 15px);
 		margin-top: 1.5rem;
 	}
+
 	.dash-content .graph {
 		display: flex;
 		flex-direction: column;
 	}
 }
+
 @media (max-width: 560px) {
 	.dash-content .boxes .box {
 		width: 100%;
 	}
+
 	.dashboard .top .sidebar-toggle {
 		display: none;
 	}

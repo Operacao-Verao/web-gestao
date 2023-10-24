@@ -63,32 +63,32 @@
       <div class="civil-content">
         <div class="civil-item">
           <p class="item-title">Logradouro</p>
-          <p class="item-content" id="view_rua">Logradouro</p>
+          <p class="item-content" id="view_rua"></p>
         </div>
         <div class="civil-item">
           <p class="item-title">Bairro</p>
-          <p class="item-content" id="view_bairro">Bairro</p>
+          <p class="item-content" id="view_bairro"></p>
         </div>
         <div class="civil-item">
           <p class="item-title">Cidade</p>
-          <p class="item-content" id="view_cidade">Cidade</p>
+          <p class="item-content" id="view_cidade"></p>
         </div>
         <div class="civil-item">
           <p class="item-title">CEP</p>
-          <p class="item-content" id="view_cep">Samantha Zduniak</p>
+          <p class="item-content" id="view_cep"></p>
         </div>
         <div class="civil-item">
           <p class="item-title">Número</p>
-          <p class="item-content" id="view_numero">07851-120</p>
+          <p class="item-content" id="view_numero"></p>
         </div>
         <div class="civil-item">
           <p class="item-title">Complemento</p>
-          <p class="item-content" id="view_complemento">Não Cadastrado</p>
+          <p class="item-content" id="view_complemento"></p>
         </div>
       </div>
       <div class="ocorrencias-content">
         <div class="ocorrencias">
-          <div> <!-- Gabriel, arruma por favor o estilo desses elementos -->
+          <div class="interdicao">
             <div class="ocorrencia-title">
                 <p>Interdição</p>
               </div>

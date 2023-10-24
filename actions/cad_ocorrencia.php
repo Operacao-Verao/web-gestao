@@ -30,12 +30,21 @@
 		$acionamento = $_POST['inputAcionamento'];
 		$relato = $_POST['inputRelato'];
 		$numCasas = $_POST['inputNumCasas'];
-		$cep = $_POST['inputCep'];
-		$rua = $_POST['inputRua'];
-		$bairro = $_POST['inputBairro'];
-		$cidade = $_POST['inputCidade'];
 		$numero = $_POST['inputNumero'];
 		$complemento = $_POST['inputComplemento'];
+		$cep = $_POST['inputCep'];
+		
+		// Validate and normalize cep
+		$endobj = json_decode(file_get_contents($server_location.'actions/fetch/get_endereco.php?cep='.$cep));
+		$rua = $endobj->rua;
+		$bairro = $endobj->bairro;
+		$cidade = $endobj->cidade;
+		
+		if ($endobj->error || $endobj->estado!='SP'){
+			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=500");
+	        exit();
+		}
+		
 		$endereco = $daoEndereco->findByCep($cep);
 		
 		if ($endereco == null){

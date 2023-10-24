@@ -30,7 +30,7 @@
 <body>
   <main>
   <div class="topRow">
-    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256" onclick="history.back()"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256" onclick="location = '../ocorrencias.php'"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
       <h1>Criar Ocorrência</h1>
   </div>
     <form method="post" action="../../../actions/cad_ocorrencia.php">
@@ -201,14 +201,23 @@
           inputCep.value = json.cep;
           inputCep.oninput();
           inputNumero.value = json.numero;
-          /*
-          if (json.cep[0] != '-'){
-            document.getElementsByName("inputCep")[0].value = json.cep;
-          }
-          */
         }
       })
     }, function(){}, {'cpf': cpf});
+  }
+  
+  function tryRequestAndValidateCep(cep){
+    requestFromAction("../../../actions/fetch/get_endereco.php?cep="+cep, function(r){
+      r.json().then(function(json){
+        console.log(json);
+        if (!json.error){
+          valid_cep = true;
+        }
+        inputRua.value = json.rua||"-";
+        inputBairro.value = json.bairro||"-";
+        inputCidade.value = json.cidade||"-";
+      });
+    }, function(){}, {}, "GET");
   }
   
   inputName.oninput = function(){
@@ -221,6 +230,7 @@
   
   inputCpf.oninput = function(){
     inputCpf.value = inputCpf.value.replace(/[^0-9]/g, '').substr(0, 11);
+    getCivil(inputCpf.value);
   }
   
   inputCelular.oninput = function(){
@@ -241,17 +251,7 @@
       inputRua.value = "...";
       inputBairro.value = "...";
       inputCidade.value = "...";
-      requestFromAction("https://viacep.com.br/ws/"+inputCep.value+"/json/", function(r){
-        r.json().then(function(json){
-          console.log(json);
-          if (!json.erro){
-            valid_cep = true;
-          }
-          inputRua.value = json.logradouro||"-";
-          inputBairro.value = json.bairro||"-";
-          inputCidade.value = json.localidade||"-";
-        });
-      }, function(){}, {}, "GET");
+      tryRequestAndValidateCep(inputCep.value);
     }
   }
   
