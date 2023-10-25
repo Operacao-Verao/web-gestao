@@ -1,5 +1,8 @@
 .wrapper-main {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	width: 100%;
 	min-height: 95vh;
 	margin-top: 1rem;
@@ -78,9 +81,6 @@ button.data-list {
 	cursor: pointer;
 }
 .btnCadastrar {
-	position: absolute;
-	right: 30px;
-	bottom: 30px;
 	font-size: 1.7rem;
 	font-weight: 500;
 	padding: 1.5rem 2.5rem;
@@ -207,4 +207,69 @@ body.viewCivil-open {
 	color: #fff;
 	border: 0;
 	border-radius: 0.5rem;
+}
+
+.pagination-button {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	align-items: center;
+	padding: 2rem;
+}
+
+.pagination-button>* {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}
+
+.pagination-button a {
+	text-decoration: none;
+}
+
+.pagination-button button {
+	background-color: var(--blue);
+	color: #fff;
+	font-size: 1.6rem;
+	border-radius: 8px;
+	padding: 1.5rem 1rem;
+	border: 0;
+	cursor: pointer;
+}
+
+.pagination {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.pagination a {
+	display: flex;
+	align-items: center;
+	color: #000;
+}
+
+.pagination :is(a:first-child, a:last-child) {
+	gap: .7rem;
+}
+
+.pagination a:first-child {
+	margin-right: .7rem;
+}
+
+.pagination a:last-child {
+	margin-left: .7rem;
+}
+
+.pagination .active {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
+}
+
+.pagination a:hover {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
 }

@@ -1,6 +1,6 @@
 <?php
     // Database Connection Properties
-    $server_location = 'http://localhost/web-gestao/';
+    $SERVER_LOCATION = $_SERVER['DOCUMENT_ROOT'].'/web-gestao';
     $db_host = 'localhost';
     $db_name = 'BDDEFESACIVIL';
     $db_user = 'root';
@@ -40,6 +40,11 @@
         $date = date_create($datetime);
         return date_format($date, 'H:i'.($include_seconds? ':s': ''));
     }
+    
+    // Server utilities
+    
+    // Pagining Settings
+    const ALL_REMAIN_ENTRIES = -1;
     
     // User Properties
     enum TIPO_USUARIO{

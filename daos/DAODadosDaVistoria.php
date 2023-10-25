@@ -12,17 +12,17 @@
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("INSERT INTO DadosDaVistoria (id_relatorio, desmoronamento, deslizamento, esgoto_escoamento, erosao, inundacao, incendio, arvores, infiltracao_trinca, judicial, monitoramento, transito, outros) VALUES (:relatorio, :desmoronamento, :deslizamento, :esgoto_escoamento, :erosao, :inundacao, :incendio, :arvores, :infiltracao_trinca, :judicial, :monitoramento, :transito, :outros)");
 			$insertion->bindValue(":relatorio", $relatorio->getId());
-			$insertion->bindValue(":desmoronamento", $desmoronamento);
-			$insertion->bindValue(":deslizamento", $deslizamento);
-			$insertion->bindValue(":esgoto_escoamento", $esgotoEscoamento);
-			$insertion->bindValue(":erosao", $erosao);
-			$insertion->bindValue(":inundacao", $inundacao);
-			$insertion->bindValue(":incendio", $incendio);
-			$insertion->bindValue(":arvores", $arvores);
-			$insertion->bindValue(":infiltracao_trinca", $infiltracaoTrinca);
-			$insertion->bindValue(":judicial", $judicial);
-			$insertion->bindValue(":monitoramento", $monitoramento);
-			$insertion->bindValue(":transito", $transito);
+			$insertion->bindValue(":desmoronamento", (int)$desmoronamento);
+			$insertion->bindValue(":deslizamento", (int)$deslizamento);
+			$insertion->bindValue(":esgoto_escoamento", (int)$esgotoEscoamento);
+			$insertion->bindValue(":erosao", (int)$erosao);
+			$insertion->bindValue(":inundacao", (int)$inundacao);
+			$insertion->bindValue(":incendio", (int)$incendio);
+			$insertion->bindValue(":arvores", (int)$arvores);
+			$insertion->bindValue(":infiltracao_trinca", (int)$infiltracaoTrinca);
+			$insertion->bindValue(":judicial", (int)$judicial);
+			$insertion->bindValue(":monitoramento", (int)$monitoramento);
+			$insertion->bindValue(":transito", (int)$transito);
 			$insertion->bindValue(":outros", $outros);
 
 			// Try to insert, if successful, return the corresponding model
@@ -94,17 +94,17 @@
 			$insertion = $this->pdo->prepare("UPDATE DadosDaVistoria SET id_relatorio = :id_relatorio, desmoronamento = :desmoronamento, deslizamento = :deslizamento, esgoto_escoamento = :esgoto_escoamento, erosao = :erosao, inundacao = :inundacao, incendio = :incendio, arvores = :arvores, infiltracao_trinca = :infiltracao_trinca, judicial = :judicial, monitoramento = :monitoramento, transito = :transito, outros = :outros WHERE id = :id");
 			$insertion->bindValue(":id", $dadosDaVistoria->getId());
 			$insertion->bindValue(":id_relatorio", $dadosDaVistoria->getIdRelatorio());
-			$insertion->bindValue(":desmoronamento", $dadosDaVistoria->getDesmoronamento());
-			$insertion->bindValue(":deslizamento", $dadosDaVistoria->getDeslizamento());
-			$insertion->bindValue(":esgoto_escoamento", $dadosDaVistoria->getEsgotoEscoamento());
-			$insertion->bindValue(":erosao", $dadosDaVistoria->getErosao());
-			$insertion->bindValue(":inundacao", $dadosDaVistoria->getInundacao());
-			$insertion->bindValue(":incendio", $dadosDaVistoria->getIncendio());
-			$insertion->bindValue(":arvores", $dadosDaVistoria->getArvores());
-			$insertion->bindValue(":infiltracao_trinca", $dadosDaVistoria->getInfiltracaoTrinca());
-			$insertion->bindValue(":judicial", $dadosDaVistoria->getJudicial());
-			$insertion->bindValue(":monitoramento", $dadosDaVistoria->getMonitoramento());
-			$insertion->bindValue(":transito", $dadosDaVistoria->getTransito());
+			$insertion->bindValue(":desmoronamento", (int)$dadosDaVistoria->getDesmoronamento());
+			$insertion->bindValue(":deslizamento", (int)$dadosDaVistoria->getDeslizamento());
+			$insertion->bindValue(":esgoto_escoamento", (int)$dadosDaVistoria->getEsgotoEscoamento());
+			$insertion->bindValue(":erosao", (int)$dadosDaVistoria->getErosao());
+			$insertion->bindValue(":inundacao", (int)$dadosDaVistoria->getInundacao());
+			$insertion->bindValue(":incendio", (int)$dadosDaVistoria->getIncendio());
+			$insertion->bindValue(":arvores", (int)$dadosDaVistoria->getArvores());
+			$insertion->bindValue(":infiltracao_trinca", (int)$dadosDaVistoria->getInfiltracaoTrinca());
+			$insertion->bindValue(":judicial", (int)$dadosDaVistoria->getJudicial());
+			$insertion->bindValue(":monitoramento", (int)$dadosDaVistoria->getMonitoramento());
+			$insertion->bindValue(":transito", (int)$dadosDaVistoria->getTransito());
 			$insertion->bindValue(":outros", $dadosDaVistoria->getOutros());
 			return $insertion->execute();
 		}

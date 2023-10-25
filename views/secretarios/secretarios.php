@@ -7,24 +7,24 @@
 </head>
 
 <?php
-  require '../../partials/header/header.php';
-  require '../../actions/conn.php';
-  
-  require '../../actions/session_auth.php';
-  authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
-  
-  require '../../models/Cargo.php';
-  require '../../daos/DAOCargo.php';
-  require '../../models/Secretaria.php';
-  require '../../daos/DAOSecretaria.php';
-  require '../../models/Secretario.php';
-  require '../../daos/DAOSecretario.php';
-  
-  $daoCargo = new DAOCargo($pdo);
-  $daoSecretaria = new DAOSecretaria($pdo);
-  $daoSecretario = new DAOSecretario($pdo);
-  
-  $secretarios = $daoSecretario->listAll();
+require '../../partials/header/header.php';
+require '../../actions/conn.php';
+
+require '../../actions/session_auth.php';
+authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+
+require '../../models/Cargo.php';
+require '../../daos/DAOCargo.php';
+require '../../models/Secretaria.php';
+require '../../daos/DAOSecretaria.php';
+require '../../models/Secretario.php';
+require '../../daos/DAOSecretario.php';
+
+$daoCargo = new DAOCargo($pdo);
+$daoSecretaria = new DAOSecretaria($pdo);
+$daoSecretario = new DAOSecretario($pdo);
+
+$secretarios = $daoSecretario->listAll();
 ?>
 <div id="body">
   <div class="wrapper-main">
@@ -32,44 +32,67 @@
       <div class="data name" id="list_nomes">
         <span class="data-title">Nome</span>
         <?php
-          // Print Names
-          foreach ($secretarios as $secretario) {
-            echo '<span class="data-list">'.$secretario->getNomeSecretario().'</span>';
-          }
+        // Print Names
+        foreach ($secretarios as $secretario) {
+          echo '<span class="data-list">' . $secretario->getNomeSecretario() . '</span>';
+        }
         ?>
       </div>
       <div class="data cargo" id="list_cargos">
         <span class="data-title">Cargo</span>
         <?php
-          // Print Cargos
-          foreach ($secretarios as $secretario) {
-            $cargo = $daoCargo->findById($secretario->getIdCargo());
-            echo '<span class="data-list">'.$cargo->getNomeCargo().'</span>';
-          }
+        // Print Cargos
+        foreach ($secretarios as $secretario) {
+          $cargo = $daoCargo->findById($secretario->getIdCargo());
+          echo '<span class="data-list">' . $cargo->getNomeCargo() . '</span>';
+        }
         ?>
       </div>
       <div class="data secretaria" id="list_secretaria">
         <span class="data-title">Secretaria</span>
         <?php
-          // Print Secretarias
-          foreach ($secretarios as $secretario) {
-            $secretaria = $daoSecretaria->findById($secretario->getIdSecretaria());
-            echo '<span class="data-list">'.$secretaria->getNomeSecretaria().'</span>';
-          }
+        // Print Secretarias
+        foreach ($secretarios as $secretario) {
+          $secretaria = $daoSecretaria->findById($secretario->getIdSecretaria());
+          echo '<span class="data-list">' . $secretaria->getNomeSecretaria() . '</span>';
+        }
         ?>
       </div>
       <div class="data editar" id="list_edits">
         <span class="data-title">Editar</span>
         <?php
-          // Print Secretarias
-          foreach ($secretarios as $secretario) {
-            $cargo = $daoCargo->findById($secretario->getIdCargo());
-            echo '<span class="data-list"><a href="#" onclick="openModal(\''.$secretario->getId().'\', \''.$secretario->getNomeSecretario().'\', \''.$cargo->getNomeCargo().'\', '.$secretario->getIdSecretaria().')"><i class="ph-bold ph-pencil"></i></a></span>';
-          }
+        // Print Secretarias
+        foreach ($secretarios as $secretario) {
+          $cargo = $daoCargo->findById($secretario->getIdCargo());
+          echo '<span class="data-list"><a href="#" onclick="openModal(\'' . $secretario->getId() . '\', \'' . $secretario->getNomeSecretario() . '\', \'' . $cargo->getNomeCargo() . '\', ' . $secretario->getIdSecretaria() . ')"><i class="ph-bold ph-pencil"></i></a></span>';
+        }
         ?>
       </div>
     </section>
-    <a href="#"><button class="btnCadastrar" onclick="openModal()">Cadastrar Secretário</button></a>
+    <div class="pagination-button">
+      <div class="pagination">
+        <a href="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
+            <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
+          </svg>
+        </a>
+        <a href="#">1</a>
+        <p>...</p>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#" class="active">6</a>
+        <a href="#">7</a>
+        <a href="#">8</a>
+        <p>...</p>
+        <a href="#">25</a>
+        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
+            <path
+              d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z">
+            </path>
+          </svg></a>
+      </div>
+      <a href="#"><button class="btnCadastrar" onclick="openModal()">Cadastrar Secretário</button></a>
+    </div>
   </div>
 
   <!--MODAL CADASTRAR SECRETÁRIO-->
@@ -93,10 +116,10 @@
           <label for="">Secretaria</label>
           <select name="inputSecretaria" id="inputSecretaria" required>
             <?php
-              $secretarias = $daoSecretaria->listAll();
-              foreach ($secretarias as $secretaria){
-                echo '<option value="'.$secretaria->getId().'">'.$secretaria->getNomeSecretaria().'</option>';
-              }
+            $secretarias = $daoSecretaria->listAll();
+            foreach ($secretarias as $secretaria) {
+              echo '<option value="' . $secretaria->getId() . '">' . $secretaria->getNomeSecretaria() . '</option>';
+            }
             ?>
           </select>
         </div>
@@ -109,45 +132,45 @@
 </main>
 
 <?php
-  echoError();
+echoError();
 ?>
 <script>
   let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
-  
-  function goToAction(action, values={}){
+
+  function goToAction(action, values = {}) {
     let form = document.createElement('form');
     form.method = 'post';
     form.action = action;
     let submit = document.createElement('input');
     submit.type = 'submit';
     form.appendChild(submit);
-    
-    for (let name in values){
+
+    for (let name in values) {
       let value = document.createElement('input');
       value.name = name;
       value.type = values[name].type || 'text';
       value.value = values[name].value;
       form.appendChild(value);
     }
-    
+
     document.body.appendChild(form);
     submit.click();
     form.remove();
   }
-  
-  function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+
+  function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}) {
     fetch(action, {
       "method": "PUT",
-      "headers": {"Content-Type": "application/json"},
+      "headers": { "Content-Type": "application/json" },
       "body": JSON.stringify(data)
     }).then(
       onSuccess, onError
     );
   }
-  
-  function openModal(id_secretario=null, nome=null, cargo=null, secretaria=null) {
+
+  function openModal(id_secretario = null, nome = null, cargo = null, secretaria = null) {
     document.getElementById('viewSecretario').style.display = 'block';
-    if (id_secretario == null){
+    if (id_secretario == null) {
       cadWindowTitle.textContent = "Cadastrar Secretário";
       cadButton.textContent = "Cadastrar";
       inputNome.value = '';
@@ -165,19 +188,20 @@
       formCad.action = "../../actions/alt_secretario.php";
     }
   }
-  
+
   function closeModal() {
     document.getElementById('viewSecretario').style.display = 'none';
   }
   closeModal();
-  
-  inputNome.oninput = function(){
+
+  inputNome.oninput = function () {
     inputNome.value = inputNome.value.replace(exp_nome, '').substr(0, 100);
   }
-  
-  inputCargo.oninput = function(){
+
+  inputCargo.oninput = function () {
     inputCargo.value = inputCargo.value.replace(exp_nome, '').substr(0, 100);
   }
-  
+
 </script>
+
 </html>

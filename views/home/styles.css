@@ -1,6 +1,7 @@
 .dash-content {
-	display: flex;
-	flex-direction: column;
+	display: grid;
+	grid-template-rows: 1fr 2fr 2fr;
+	height: 95vh;
 	gap: 2rem;
 }
 
@@ -135,7 +136,7 @@
 	border-radius: 0.6rem;
 	padding: 1rem;
 	width: 100%;
-	max-height: 280px;
+	height: 85%;
 }
 .activity-data .data {
 	display: flex;
@@ -186,6 +187,10 @@
 }
 
 @media (width <= 780px) {
+	.dash-content{
+		display: flex;
+		flex-direction: column;
+	}
 	.dash-content .boxes .box {
 		width: calc(100% / 2 - 15px);
 		margin-top: 1.5rem;

@@ -28,7 +28,7 @@
 			$insertion->bindValue(":vegetacao", $vegetacao);
 			$insertion->bindValue(":situacao_vitimas", $situacaoVitimas);
 			$insertion->bindValue(":interdicao", $interdicao);
-			$insertion->bindValue(":danos_materiais", $danosMateriais);
+			$insertion->bindValue(":danos_materiais", (int)$danosMateriais);
 			$insertion->bindValue(":data_geracao", $dataGeracao);
 			$insertion->bindValue(":data_atendimento", $dataAtendimento);
 
@@ -170,7 +170,7 @@
 			$insertion->bindValue(":vegetacao", $relatorio->getVegetacao());
 			$insertion->bindValue(":situacao_vitimas", $relatorio->getSituacaoVitimas());
 			$insertion->bindValue(":interdicao", $relatorio->getInterdicao());
-			$insertion->bindValue(":danos_materiais", $relatorio->getDanosMateriais());
+			$insertion->bindValue(":danos_materiais", (int)$relatorio->getDanosMateriais());
 			$insertion->bindValue(":data_geracao", $relatorio->getDataGeracao());
 			$insertion->bindValue(":data_atendimento", $relatorio->getDataAtendimento());
 			return $insertion->execute();

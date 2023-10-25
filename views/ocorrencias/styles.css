@@ -1,4 +1,6 @@
 .wrapper-main {
+	display: flex;
+	flex-direction: column;
 	position: relative;
 	width: 100%;
 	min-height: 95vh;
@@ -40,8 +42,11 @@
 }
 
 .wrapper {
+	display: flex;
+	flex-direction: column;
 	flex: 1;
 	padding: 1rem 3rem;
+	height: 100%;
 }
 
 .wrapper .status {
@@ -61,14 +66,6 @@
 
 .wrapper .btnStatus:hover {
 	text-decoration: underline;
-}
-
-.ocorrencias {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	gap: 5rem;
-	margin-top: 5rem;
 }
 
 .ocorrencias .ocorrencia-item {
@@ -119,9 +116,6 @@
 }
 
 .btnCriar {
-	position: absolute;
-	right: 60px;
-	bottom: 60px;
 	font-size: 1.7rem;
 	font-weight: 500;
 	padding: 1.5rem 2.5rem;
@@ -158,7 +152,8 @@ body.viewOcorrencia-open {
 .viewOcorrencia .topRow {
 	position: relative;
 }
-.topRow{
+
+.topRow {
 	display: flex;
 	justify-content: space-between;
 	align-items: end;
@@ -230,11 +225,14 @@ body.viewOcorrencia-open {
 .ocorrencias {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 	height: 100%;
+	flex: 1;
 	gap: 5rem;
 	margin-top: 5rem;
 }
-.topRow span{
+
+.topRow span {
 	font-weight: 400;
 }
 
@@ -245,17 +243,19 @@ body.viewOcorrencia-open {
 	border-radius: .5rem;
 }
 
-option:checked{
+option:checked {
 	color: var(--blue);
 }
-.inputAprovar{
+
+.inputAprovar {
 	height: fit-content;
 	width: fit-content;
 	border: 1px solid #ccc;
 	padding: 1rem 2rem;
 	border-radius: .5rem;
 }
-.btnTrancar{
+
+.btnTrancar {
 	position: absolute;
 	bottom: 30px;
 	right: 30px;
@@ -267,4 +267,83 @@ option:checked{
 	color: #fff;
 	border: 0;
 	border-radius: 0.5rem;
+}
+
+.pagination-button {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	align-items: center;
+}
+
+.pagination-button>* {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}
+
+.pagination-button a {
+	text-decoration: none;
+}
+
+.pagination-button button {
+	background-color: var(--blue);
+	color: #fff;
+	font-size: 1.6rem;
+	border-radius: 8px;
+	padding: 1.5rem 1rem;
+	border: 0;
+	cursor: pointer;
+}
+
+.pagination {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.pagination a {
+	display: flex;
+	align-items: center;
+	color: #000;
+}
+
+.pagination :is(a:first-child, a:last-child) {
+	gap: .7rem;
+}
+
+.pagination a:first-child {
+	margin-right: .7rem;
+}
+
+.pagination a:last-child {
+	margin-left: .7rem;
+}
+
+.pagination .active {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
+}
+
+.pagination a:hover {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
+}
+
+@media (max-width: 1000px) {
+	.wrapper-main {
+		overflow-x: scroll;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+	}
+
+	.pagination-button {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		gap: 2rem;
+	}
 }

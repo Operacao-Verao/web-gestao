@@ -32,26 +32,49 @@
   ?>
   <div id="body">
     <div class="wrapper-main">
-      <section class="search-space">
-        <div class="search-div">
-          <input type="search" oninput="searchCasas(this.value)" placeholder="Procurar Casas..." />
-          <i class="ph ph-magnifying-glass"></i>
-        </div>
-      </section>
-      <section class="activity-data">
-        <div class="data name" id="list_ceps">
-          <span class="data-title">CEP</span>
-        </div>
-        <div class="data email" id="list_numeros">
-          <span class="data-title">Número</span>
-        </div>
-        <div class="data cpf" id="list_complementos">
-          <span class="data-title">Complemento</span>
-        </div>
-        <div class="data ver" id="list_views">
-          <span class="data-title">Ver</span>
-        </div>
-      </section>
+      <div>
+        <section class="search-space">
+          <div class="search-div">
+            <input type="search" oninput="searchCasas(this.value)" placeholder="Procurar Casas..." />
+            <i class="ph ph-magnifying-glass"></i>
+          </div>
+        </section>
+        <section class="activity-data">
+          <div class="data name" id="list_ceps">
+            <span class="data-title">CEP</span>
+          </div>
+          <div class="data email" id="list_numeros">
+            <span class="data-title">Número</span>
+          </div>
+          <div class="data cpf" id="list_complementos">
+            <span class="data-title">Complemento</span>
+          </div>
+          <div class="data ver" id="list_views">
+            <span class="data-title">Ver</span>
+          </div>
+        </section>
+      </div>
+      <div class="pagination">
+      <a href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
+          <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
+        </svg>
+      </a>
+      <a href="#">1</a>
+      <p>...</p>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#" class="active">6</a>
+      <a href="#">7</a>
+      <a href="#">8</a>
+      <p>...</p>
+      <a href="#">25</a>
+      <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
+          <path
+            d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z">
+          </path>
+        </svg></a>
+    </div>
     </div>
 
     <!--MODAL VISUALIZAR CIVIL-->

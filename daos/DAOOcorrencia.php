@@ -87,7 +87,7 @@
         
         // Return all records of "Ocorrencia" wiches their property "data_ocorrencia" is greater or equal to gave
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function listRecents(string $today, int $days_far): array{
+        public function listRecents(string $today, int $days_far, int $offset=0, int $length=MAX_ENTRIES_PER_QUERY): array{
             $select = $this->pdo->prepare('SELECT * FROM Ocorrencia WHERE Ocorrencia.data_ocorrencia >= SUBDATE(:today_date, INTERVAL :days_far DAY) ORDER BY Ocorrencia.data_ocorrencia DESC');
             $select->bindValue(':today_date', $today);
             $select->bindValue(':days_far', $days_far);
@@ -101,12 +101,26 @@
             return $models;
         }
         
+        // Search for records of "Ocorrencia"
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function search(int $offset=0, int $length=MAX_ENTRIES_PER_QUERY): array{
+            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia ORDER BY Ocorrencia.data_ocorrencia DESC');
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+            }
+            return $models;
+        }
+        
         // Search for records of "Ocorrencia" by text and "aprovado" status
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function searchByText(string $text, bool $status, bool $encerrado=true): array{
+        public function searchByText(string $text, bool $status, bool $encerrado=true, int $offset=0, int $length=MAX_ENTRIES_PER_QUERY): array{
             $select = $this->pdo->prepare('SELECT Ocorrencia.id AS id, Ocorrencia.id_tecnico AS id_tecnico, Ocorrencia.id_civil AS id_civil, Ocorrencia.id_residencial AS id_residencial, Ocorrencia.acionamento AS acionamento, Ocorrencia.relato_civil AS relato_civil, Ocorrencia.num_casas AS num_casas, Ocorrencia.aprovado AS aprovado, Ocorrencia.encerrado AS encerrado, Ocorrencia.data_ocorrencia AS data_ocorrencia FROM Ocorrencia INNER JOIN Civil ON Ocorrencia.id_civil = Civil.id INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE (Ocorrencia.relato_civil LIKE :text OR Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text) AND '.($encerrado? 'encerrado = false': 'aprovado = :aprovado AND encerrado = true').' ORDER BY Ocorrencia.data_ocorrencia DESC');
             $select->bindValue(':text', "%".$text."%");
-            $select->bindValue(':aprovado', $status);
+            $select->bindValue(':aprovado', (int)$status);
             $select->execute();
             
             // All entries will be traversed

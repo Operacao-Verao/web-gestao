@@ -35,13 +35,15 @@
 		$cep = $_POST['inputCep'];
 		
 		// Validate and normalize cep
-		$endobj = json_decode(file_get_contents($server_location.'actions/fetch/get_endereco.php?cep='.$cep));
+		$in_get_endereco_cep = $cep;
+		include 'core/get_endereco.php';
+		$endobj = json_decode($get_endereco_out);
 		$rua = $endobj->rua;
 		$bairro = $endobj->bairro;
 		$cidade = $endobj->cidade;
 		
 		if ($endobj->error || $endobj->estado!='SP'){
-			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=500");
+	        header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=500");
 	        exit();
 		}
 		

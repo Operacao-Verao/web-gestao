@@ -55,7 +55,7 @@
 							"nivel":'.$nivel->getNivelRio().',
 							"data":"'.addslashes(formatdate($nivel->getDataDiario())).'",
 							"hora":"'.addslashes(formattime($nivel->getDataDiario())).'",
-							"cep": '.addslashes($endereco->getCep()).',
+							"cep": "'.addslashes($endereco->getCep()).'",
 							"rua": "'.addslashes($endereco->getRua()).'",
 							"bairro": "'.addslashes($endereco->getBairro()).'",
 							"cidade": "'.addslashes($endereco->getCidade()).'"
@@ -86,7 +86,7 @@
 							"nivel":'.$nivel->getChuvaEmMm().',
 							"data":"'.addslashes(formatdate($nivel->getDataChuva())).'",
 							"hora":"'.addslashes(formattime($nivel->getDataChuva())).'",
-							"cep": '.addslashes($endereco->getCep()).',
+							"cep": "'.addslashes($endereco->getCep()).'",
 							"rua": "'.addslashes($endereco->getRua()).'",
 							"bairro": "'.addslashes($endereco->getBairro()).'",
 							"cidade": "'.addslashes($endereco->getCidade()).'"

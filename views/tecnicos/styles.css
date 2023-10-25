@@ -5,6 +5,7 @@
 .activity-data {
 	position: relative;
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 
 	width: 100%;
@@ -12,9 +13,13 @@
 	background-color: var(--box-color);
 	border-radius: 1rem;
 	padding: 4rem 2rem;
-	overflow-x: scroll;
-	scroll-snap-type: x mandatory;
-	scroll-behavior: smooth;
+}
+
+.activity-data .wrapper {
+	display: flex;
+	justify-content: space-between;
+
+	width: 100%;
 }
 
 .activity-data .data {
@@ -70,22 +75,30 @@ a {
 	color: #ef4444 !important;
 }
 
-button {
-	position: absolute;
-	bottom: 70px;
-	right: 70px;
+.pagination-button {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	align-items: center;
+}
+
+.pagination-button>* {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}
+
+.pagination-button button {
 	background-color: var(--blue);
 	color: #fff;
-	font-size: 18px;
+	font-size: 1.6rem;
 	border-radius: 8px;
-	padding: 13px 6px;
-	margin-top: 2rem;
+	padding: 1.5rem 1rem;
 	border: 0;
 	cursor: pointer;
 }
 
 @media (max-width: 1000px) {
-	.activity .activity-data {
+	.activity-data {
 		overflow-x: scroll;
 		scroll-snap-type: x mandatory;
 		scroll-behavior: smooth;
@@ -112,4 +125,40 @@ button {
 	.dashboard .top .sidebar-toggle {
 		display: none;
 	}
+}
+
+.pagination {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.pagination a {
+	display: flex;
+	align-items: center;
+}
+
+.pagination :is(a:first-child, a:last-child) {
+	gap: .7rem;
+}
+
+.pagination a:first-child {
+	margin-right: .7rem;
+}
+
+.pagination a:last-child {
+	margin-left: .7rem;
+}
+
+.pagination .active {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
+}
+.pagination a:hover{
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
 }

@@ -1,7 +1,7 @@
 <?php
-	class DAOTecnico{
-		private PDO $pdo;
-		
+	include $SERVER_LOCATION.'/daos/DAO.php';
+	
+	class DAOTecnico extends DAO{
 		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
@@ -12,7 +12,7 @@
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("INSERT INTO Tecnico (id_funcionario, ativo) VALUES (:id_funcionario, :ativo)");
 			$insertion->bindValue(":id_funcionario", $funcionario->getId());
-			$insertion->bindValue(":ativo", $ativo);
+			$insertion->bindValue(":ativo", (int)$ativo);
 
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
@@ -63,10 +63,10 @@
             return null;
 		}
 		
-		// Return all records of "Tecnico"
+		// Search for records of "Tecnico"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Tecnico');
+            $select = $this->pdo->prepare('SELECT * FROM Tecnico'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -77,13 +77,22 @@
             return $models;
 		}
 		
+		// Search for records of "Tecnico"
+		// Returns an array with all the found models, returns an empty array in case of an error
+		public function countAll(): int{
+            $query = $this->pdo->prepare('SELECT COUNT(*) FROM Tecnico'.$this->sql_length.$this->sql_offset);
+            $query->execute();
+            
+            return $query->fetch()[0];
+		}
+		
 		// Update the "Tecnico" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Tecnico $tecnico): bool{
 			$insertion = $this->pdo->prepare("UPDATE Tecnico SET id_funcionario = :id_funcionario, ativo = :ativo WHERE id = :id");
 			$insertion->bindValue(":id", $tecnico->getId());
 			$insertion->bindValue(":id_funcionario", $tecnico->getIdFuncionario());
-			$insertion->bindValue(":ativo", $tecnico->getAtivo());
+			$insertion->bindValue(":ativo", (int)$tecnico->getAtivo());
 			return $insertion->execute();
 		}
         
