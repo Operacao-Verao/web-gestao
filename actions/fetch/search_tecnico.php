@@ -1,7 +1,7 @@
 <?php
 	require '../conn.php';
 	require '../session_auth.php';
-	authenticateSession(TIPO_USUARIO::GESTOR, '{"error:403"}');
+	authenticateSession(TIPO_USUARIO::GESTOR, '{"error":403}');
 	
 	$input = json_decode(file_get_contents('php://input'), true);
 	
@@ -17,10 +17,10 @@
 		$daoTecnico = new DAOTecnico($pdo);
 		$daoFuncionario = new DAOFuncionario($pdo);
 		
-		$total = $daoTecnico->countAll();
 		$daoTecnico->setListOffset($input['offset']);
 		$daoTecnico->setListLength($input['entries']);
 		$tecnicos = $daoTecnico->listAll();
+		$total = $daoTecnico->countAll();
 		
 		$first = true;
 		echo '{"entries": [';
@@ -43,7 +43,7 @@
 		}
 		echo '], "limit": '.$total.'}';
 	} catch (Throwable $error) {
-		echo '{"error:403"}';
+		echo '{"error":500}';
 		regError($error);
 	}
 ?>

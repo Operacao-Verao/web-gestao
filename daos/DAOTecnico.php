@@ -1,5 +1,5 @@
 <?php
-	include $SERVER_LOCATION.'/daos/DAO.php';
+	include_once $SERVER_LOCATION.'/daos/DAO.php';
 	
 	class DAOTecnico extends DAO{
 		public function __construct(PDO $pdo) {
@@ -80,7 +80,7 @@
 		// Search for records of "Tecnico"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function countAll(): int{
-            $query = $this->pdo->prepare('SELECT COUNT(*) FROM Tecnico'.$this->sql_length.$this->sql_offset);
+            $query = $this->pdo->prepare('SELECT COUNT(*) FROM Tecnico');
             $query->execute();
             
             return $query->fetch()[0];

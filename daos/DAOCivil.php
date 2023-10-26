@@ -1,7 +1,7 @@
 <?php
-	class DAOCivil{
-		private PDO $pdo;
-		
+    include_once $SERVER_LOCATION.'/daos/DAO.php';
+    
+	class DAOCivil extends DAO{
 		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
@@ -86,7 +86,7 @@
 		// Return all records of "Civil"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Civil');
+            $select = $this->pdo->prepare('SELECT * FROM Civil'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -97,10 +97,19 @@
             return $models;
 		}
 		
+		// Count all records of "Civil"
+		// Returns an array with all the found models, returns an empty array in case of an error
+		public function countAll(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Civil');
+            $select->execute();
+            
+            return $select->fetch()[0];
+		}
+		
 		// Search for all records of "Civil" corresponding to text searched
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function searchByText(string $text): array{
-            $select = $this->pdo->prepare('SELECT * FROM Civil WHERE nome LIKE :text OR email LIKE :text OR cpf LIKE :text ORDER BY nome');
+            $select = $this->pdo->prepare('SELECT * FROM Civil WHERE nome LIKE :text OR email LIKE :text OR cpf LIKE :text ORDER BY nome'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', $text."%");
             $select->execute();
             
@@ -110,6 +119,16 @@
                 $models[] = new Civil($query['id'], $query['id_residencial'], $query['nome'], $query['email'], $query['senha'], $query['cpf'], $query['celular'], $query['telefone']);
             }
             return $models;
+		}
+		
+		// Search for all records of "Civil" corresponding to text and count
+		// Returns an array with all the found models, returns an empty array in case of an error
+		public function countByText(string $text): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Civil WHERE nome LIKE :text OR email LIKE :text OR cpf LIKE :text ORDER BY nome');
+            $select->bindValue(':text', $text."%");
+            $select->execute();
+            
+            return $select->fetch()[0];
 		}
 		
 		// Update the "Civil" entry in the table

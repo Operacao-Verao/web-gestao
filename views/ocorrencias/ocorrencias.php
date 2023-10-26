@@ -105,13 +105,22 @@
 	<?php
 	  echoError();
 	?>
+    <script src="../../assets/js/pagination.js"></script>
 	<script>
+		pageIndex = 0;
+		pageCount = 1;
+		pageEntries = 4;
+		
+		pageChangeCallback = function(idx){
+			searchOcorrencias(search_ocorrencia.value);
+		};
+		
 		let aba_status_aprovado = -1; // Seleciona entre aprovados e não aprovados
 		let ocorrencia_atual = null;
 		
-		function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
+		function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}, method){
 			fetch(action, {
-				"method": "PUT",
+				"method": method,
 				"headers": {"Content-Type": "application/json"},
 				"body": JSON.stringify(data)
 			}).then(
@@ -147,7 +156,7 @@
 		    		btnTrancar.hidden = null;
 				}
 		      });
-		    }, function(){}, {"id":ocorrencia_id});
+		    }, function(){}, {"id":ocorrencia_id}, "PUT");
 		    ocorrencia_atual = ocorrencia_id;
 		}
 		
@@ -155,10 +164,11 @@
 		function searchOcorrencias(text) {
 			requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 		      r.json().then(function(json){
+		      	console.log(json);
 		      	let content = "";
 		      	
-		      	for (let i=0; i<json.length; i++){
-		      		let oe = json[i]; // Entrada de ocorrência
+		      	for (let i=0; i<json.entries.length; i++){
+		      		let oe = json.entries[i]; // Entrada de ocorrência
 		      		content += `<div class="ocorrencia-item">
 					<div class="ocorrencia-date">
 						<p>`+oe.data+`</p>
@@ -175,13 +185,16 @@
 					</div>
 				</div>`
 		      	}
-				<!-- OCORRENCIAS, PAGINAÇÃO, BOTÃO --!>
-				lista_ocorrencias.innerHTML = '<div class="all-ocorrencias">'+content+'</div>'+'<div class="pagination-button"><div class="pagination"><a href=""><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256"><path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path></svg></a><a href="#">1</a><p>...</p><a href="#">4</a><a href="#">5</a><a href="#" class="active">6</a><a href="#">7</a><a href="#">8</a><p>...</p><a href="#">25</a><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path></svg></a></div><a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a></div>';
+		      	
+		      	pageCount = Math.ceil(json.limit/pageEntries)||1;
+				lista_ocorrencias.innerHTML = `<div class="all-ocorrencias">`+content+`</div><div class="pagination-button"><div class="pagination" id="pagination_footer"></div><a href="./cad_ocorrencia/cad_ocorrencia.php"><button class="btnCriar">Criar Ocorrencia</button></a></div>`;
+				createPaginationFooter(pagination_footer);
 		      });
-		    }, function(){}, {"text": text, "aprovado": aba_status_aprovado==null?'null':aba_status_aprovado?'true':'false'});
+		    }, function(){}, {"text": text, "aprovado": aba_status_aprovado==null?'null':aba_status_aprovado?'true':'false', "offset": pageIndex*pageEntries, "entries": pageEntries}, "PUT");
 		}
 		
 		function trocarAba(status_aprovado){
+			pageIndex = 0;
 			let stAba = abaAberto, ustAba1 = abaDesaprovado, ustAba2 = abaAprovado;
 			if (status_aprovado != null){
 				if (status_aprovado){

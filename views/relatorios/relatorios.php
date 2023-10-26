@@ -51,35 +51,20 @@ authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
         </div>
       </div>
     </div>
-    <div class="pagination">
-      <a href="">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
-          <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
-        </svg>
-      </a>
-      <a href="#">1</a>
-      <p>...</p>
-      <a href="#">4</a>
-      <a href="#">5</a>
-      <a href="#" class="active">6</a>
-      <a href="#">7</a>
-      <a href="#">8</a>
-      <p>...</p>
-      <a href="#">25</a>
-      <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
-          <path
-            d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z">
-          </path>
-        </svg></a>
-    </div>
+    <div class="pagination" id="pagination_footer"></div>
   </section>
 </div>
 </main>
 
 <?php
-echoError();
+  echoError();
 ?>
+<script src="../../assets/js/pagination.js"></script>
 <script>
+  pageIndex = 0;
+  pageCount = 1;
+  pageEntries = 5;
+  createPaginationFooter(pagination_footer);
   let relatorio_atual = null;
 
   function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}) {
@@ -121,20 +106,28 @@ echoError();
         let content_datas = '<div class="data request"><span class="data-title">Data</span>';
         let content_vers = '<div class="data ver"><span class="data-title">Ver</span>';
 
-        for (let i = 0; i < json.length; i++) {
-          let re = json[i]; // Entrada de Relatório
+        for (let i = 0; i < json.entries.length; i++) {
+          let re = json.entries[i]; // Entrada de Relatório
           content_enderecos += '<span class="data-list">' + re.rua + ' - ' + re.numero + ' (' + re.bairro + ')</span>';
           content_tecnicos += '<span class="data-list">' + (re.tecnico == null ? "-não atribuído (ISTO É UM BUG)-" : re.tecnico) + '</span>';
           content_datas += '<span class="data-list">' + re.data + '</span>';
           content_vers += '<span class="data-list" onclick="location = \'../view_relatorio/view_relatorio.php?id=\'+' + re.id + ';"><i class="ph-bold ph-eye"></i></span>';
         }
-
+        
+        pageCount = Math.ceil(json.limit/pageEntries)||1;
+        
+        console.log(json);
         relatorios_list.innerHTML = content_enderecos + "</div>" + content_tecnicos + "</div>" + content_datas + "</div>" + content_vers + "</div>";
+        changePage(pageIndex);
       });
-    }, function () { }, { "text": text });
+    }, function () { }, { "text": text, "offset": pageIndex*pageEntries, "entries": pageEntries });
   }
   searchRelatorios("");
-
+  
+  pageChangeCallback = function(page){
+    searchRelatorios(search_relatorio.value);
+  }
+  
 </script>
 
 </html>

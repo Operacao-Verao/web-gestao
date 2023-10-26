@@ -1,7 +1,7 @@
 <?php
 	require '../conn.php';
 	require '../session_auth.php';
-	authenticateSession(TIPO_USUARIO::GESTOR, '["error:403"]');
+	authenticateSession(TIPO_USUARIO::GESTOR, '{"error:403"}');
 	
 	$input = json_decode(file_get_contents('php://input'), true);
 	
@@ -32,17 +32,29 @@
 		$daoTecnico = new DAOTecnico($pdo);
 		$daoFuncionario = new DAOFuncionario($pdo);
 		
-		$ocorrencias = null;
-		if (isset($input['recente'])){
-			$ocorrencias = $daoOcorrencia->listRecents(getCurrentDate(), $input['recente']);
+		$total = 0;
+		
+		if (isset($input['offset'])){
+			$daoOcorrencia->setListOffset($input['offset']);
 		}
-		else {
-			//echo $input['aprovado'].'<br/>';
-			$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']=='true'? true: false, $input['aprovado']=='null');
+		if (isset($input['entries'])){
+			$daoOcorrencia->setListLength($input['entries']);
 		}
 		
+		$ocorrencias = null;
+		if (isset($input['recente'])){
+			$date = getCurrentDate();
+			$ocorrencias = $daoOcorrencia->listRecents($date, $input['recente']);
+			$total = $daoOcorrencia->countAll($date, $input['recente']);
+		}
+		else {
+			$ocorrencias = $daoOcorrencia->searchByText($input['text'], $input['aprovado']=='true'? true: false, $input['aprovado']=='null');
+			$total = $daoOcorrencia->countByText($input['text'], $input['aprovado']=='true'? true: false, $input['aprovado']=='null');
+		}
+		
+		
 		$first = true;
-		echo '[';
+		echo '{"entries": [';
 		foreach ($ocorrencias as $ocorrencia){
 			$relatorio = $daoRelatorio->findByOcorrencia($ocorrencia);
 			$civil = $daoCivil->findById($ocorrencia->getIdCivil());
@@ -71,10 +83,10 @@
 				"aprovado": '.($ocorrencia->getAprovado()? 'true': 'false').'
 			}';
 		}
-		echo ']';
+		echo '], "limit": '.$total.'}';
 	}
 	catch (Throwable $error){
-		echo '[]';
+		echo '{"error":500}';
 		regError($error);
 	}
 ?>

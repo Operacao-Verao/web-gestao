@@ -70,27 +70,7 @@ $secretarios = $daoSecretario->listAll();
       </div>
     </section>
     <div class="pagination-button">
-      <div class="pagination">
-        <a href="">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
-            <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
-          </svg>
-        </a>
-        <a href="#">1</a>
-        <p>...</p>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#" class="active">6</a>
-        <a href="#">7</a>
-        <a href="#">8</a>
-        <p>...</p>
-        <a href="#">25</a>
-        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
-            <path
-              d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z">
-            </path>
-          </svg></a>
-      </div>
+      <div class="pagination" id="pagination_footer"></div>
       <a href="#"><button class="btnCadastrar" onclick="openModal()">Cadastrar Secretário</button></a>
     </div>
   </div>
@@ -134,7 +114,12 @@ $secretarios = $daoSecretario->listAll();
 <?php
 echoError();
 ?>
+<script src="../../assets/js/pagination.js"></script>
 <script>
+  // Setup pagination
+  pageCount = 1;
+  pageEntries = 15;
+  createPaginationFooter(pagination_footer);
   let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
 
   function goToAction(action, values = {}) {
@@ -193,6 +178,41 @@ echoError();
     document.getElementById('viewSecretario').style.display = 'none';
   }
   closeModal();
+
+  
+  function listSecretarios(page) {
+    requestFromAction("../../actions/fetch/search_secretario.php", function (r) {
+    r.json().then(function (json) {
+      //console.log(json);
+      let nome_content = '<span class="data-title">Nome</span>';
+      let cargo_content = '<span class="data-title">Cargo</span>';
+      let secretaria_content = '<span class="data-title">Secretaria</span>';
+      let editar_content = '<span class="data-title">Editar</span>';
+      
+      // Gerando lista de elementos 
+      for (let i = 0; i < json.entries.length; i++) {
+        let soe = json.entries[i];
+        nome_content += '<span class="data-list">' + soe.nome + '</span>';
+        cargo_content += '<span class="data-list">' + soe.cargo + '</span>';
+        secretaria_content += '<span class="data-list">' + soe.secretaria + '</span>';
+        editar_content += '<span class="data-list"><a href="#" onclick="openModal(\'' + soe.id + '\', \'' + soe.nome + '\', \'' + soe.cargo + '\', ' + soe.id_secretaria + ')"><i class="ph-bold ph-pencil"></i></a></span>';
+      }
+      list_nomes.innerHTML = nome_content;
+      list_cargos.innerHTML = cargo_content;
+      list_secretaria.innerHTML = secretaria_content;
+      list_edits.innerHTML = editar_content;
+      
+      pageCount = Math.ceil(json.limit/pageEntries);
+      changePage(page);
+    });
+  }, function () { }, { "offset": page*pageEntries, "entries": pageEntries }, "PUT");
+  }
+  listSecretarios(0);
+  
+  pageChangeCallback = function(page){
+    listSecretarios(page);
+  }
+  
 
   inputNome.oninput = function () {
     inputNome.value = inputNome.value.replace(exp_nome, '').substr(0, 100);

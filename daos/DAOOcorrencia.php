@@ -1,7 +1,7 @@
 <?php
-    class DAOOcorrencia {
-        private PDO $pdo;
-        
+    include_once $SERVER_LOCATION.'/daos/DAO.php';
+    
+    class DAOOcorrencia extends DAO{
         public function __construct(PDO $pdo) {
             $this->pdo = $pdo;
         }
@@ -59,7 +59,7 @@
         // Search for records of "Ocorrencia" by "residencial" property
         // Returns a model if found, returns null otherwise
         public function searchByResidencial(Residencial $residencial): array{
-            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia WHERE id_residencial = :id_residencial ORDER BY Ocorrencia.data_ocorrencia DESC');
+            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia WHERE id_residencial = :id_residencial ORDER BY Ocorrencia.data_ocorrencia DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':id_residencial', $residencial->getId());
             $select->execute();
             
@@ -74,7 +74,7 @@
         // Return all records of "Ocorrencia"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia ORDER BY Ocorrencia.data_ocorrencia DESC');
+            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia ORDER BY Ocorrencia.data_ocorrencia DESC'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -85,10 +85,19 @@
             return $models;
         }
         
+        // Count all records of "Ocorrencia"
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function countAll(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Ocorrencia ORDER BY Ocorrencia.data_ocorrencia DESC');
+            $select->execute();
+            
+            return $select->fetch()[0];
+        }
+        
         // Return all records of "Ocorrencia" wiches their property "data_ocorrencia" is greater or equal to gave
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function listRecents(string $today, int $days_far, int $offset=0, int $length=MAX_ENTRIES_PER_QUERY): array{
-            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia WHERE Ocorrencia.data_ocorrencia >= SUBDATE(:today_date, INTERVAL :days_far DAY) ORDER BY Ocorrencia.data_ocorrencia DESC');
+        public function listRecents(string $today, int $days_far): array{
+            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia WHERE Ocorrencia.data_ocorrencia >= SUBDATE(:today_date, INTERVAL :days_far DAY) ORDER BY Ocorrencia.data_ocorrencia DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':today_date', $today);
             $select->bindValue(':days_far', $days_far);
             $select->execute();
@@ -101,24 +110,21 @@
             return $models;
         }
         
-        // Search for records of "Ocorrencia"
+        // Return the count of all records of "Ocorrencia" wiches their property "data_ocorrencia" is greater or equal to gave
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function search(int $offset=0, int $length=MAX_ENTRIES_PER_QUERY): array{
-            $select = $this->pdo->prepare('SELECT * FROM Ocorrencia ORDER BY Ocorrencia.data_ocorrencia DESC');
+        public function countRecents(string $today, int $days_far): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Ocorrencia WHERE Ocorrencia.data_ocorrencia >= SUBDATE(:today_date, INTERVAL :days_far DAY) ORDER BY Ocorrencia.data_ocorrencia DESC');
+            $select->bindValue(':today_date', $today);
+            $select->bindValue(':days_far', $days_far);
             $select->execute();
             
-            // All entries will be traversed
-            $models = [];
-            while (($query = $select->fetch())) {
-                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
-            }
-            return $models;
+            return $select->fetch()[0];
         }
         
         // Search for records of "Ocorrencia" by text and "aprovado" status
         // Returns an array with all the found models, returns an empty array in case of an error
-        public function searchByText(string $text, bool $status, bool $encerrado=true, int $offset=0, int $length=MAX_ENTRIES_PER_QUERY): array{
-            $select = $this->pdo->prepare('SELECT Ocorrencia.id AS id, Ocorrencia.id_tecnico AS id_tecnico, Ocorrencia.id_civil AS id_civil, Ocorrencia.id_residencial AS id_residencial, Ocorrencia.acionamento AS acionamento, Ocorrencia.relato_civil AS relato_civil, Ocorrencia.num_casas AS num_casas, Ocorrencia.aprovado AS aprovado, Ocorrencia.encerrado AS encerrado, Ocorrencia.data_ocorrencia AS data_ocorrencia FROM Ocorrencia INNER JOIN Civil ON Ocorrencia.id_civil = Civil.id INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE (Ocorrencia.relato_civil LIKE :text OR Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text) AND '.($encerrado? 'encerrado = false': 'aprovado = :aprovado AND encerrado = true').' ORDER BY Ocorrencia.data_ocorrencia DESC');
+        public function searchByText(string $text, bool $status, bool $encerrado=true): array{
+            $select = $this->pdo->prepare('SELECT Ocorrencia.id AS id, Ocorrencia.id_tecnico AS id_tecnico, Ocorrencia.id_civil AS id_civil, Ocorrencia.id_residencial AS id_residencial, Ocorrencia.acionamento AS acionamento, Ocorrencia.relato_civil AS relato_civil, Ocorrencia.num_casas AS num_casas, Ocorrencia.aprovado AS aprovado, Ocorrencia.encerrado AS encerrado, Ocorrencia.data_ocorrencia AS data_ocorrencia FROM Ocorrencia INNER JOIN Civil ON Ocorrencia.id_civil = Civil.id INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE (Ocorrencia.relato_civil LIKE :text OR Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text) AND '.($encerrado? 'encerrado = false': 'aprovado = :aprovado AND encerrado = true').' ORDER BY Ocorrencia.data_ocorrencia DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', "%".$text."%");
             $select->bindValue(':aprovado', (int)$status);
             $select->execute();
@@ -131,12 +137,20 @@
             return $models;
         }
         
+        // Search for records of "Ocorrencia" and count by text and "aprovado" status
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function countByText(string $text, bool $status, bool $encerrado=true): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Ocorrencia INNER JOIN Civil ON Ocorrencia.id_civil = Civil.id INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE (Ocorrencia.relato_civil LIKE :text OR Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text) AND '.($encerrado? 'encerrado = false': 'aprovado = :aprovado AND encerrado = true').' ORDER BY Ocorrencia.data_ocorrencia DESC');
+            $select->bindValue(':text', "%".$text."%");
+            $select->bindValue(':aprovado', (int)$status);
+            $select->execute();
+            
+            return $select->fetch()[0];
+        }
+        
         // Creates a statistics table with count of all entries "Ocorrencia" in a rank by his property "bairro"
         // The parameters "far" and "near" specify the range in days to search relative today's date of entries, from far to near
         // The parameter "uses_name" specify if the table will be returned as a dictionary wich key is the property (if true) or a listed rank (if false)
-        /*
-        SELECT Endereco.bairro, Endereco.cidade, (SELECT COUNT(*) FROM Ocorrencia AS Ocorrencia2 INNER JOIN Residencial AS Residencial2 ON Ocorrencia2.id_residencial = Residencial2.id INNER JOIN Endereco AS Endereco2 ON Residencial2.cep = Endereco2.cep WHERE Endereco2.bairro = Endereco.bairro) AS total FROM Ocorrencia INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep GROUP BY Endereco.bairro ORDER BY total DESC LIMIT .
-        */
         public function statisticsGreaterByBairro(String $cur_data, int $far, int $near, int $rank, bool $uses_name=true): array{
             $select = $this->pdo->prepare('SELECT Endereco.bairro, Endereco.cidade, (SELECT COUNT(*) FROM Ocorrencia AS Ocorrencia2 INNER JOIN Residencial AS Residencial2 ON Ocorrencia2.id_residencial = Residencial2.id INNER JOIN Endereco AS Endereco2 ON Residencial2.cep = Endereco2.cep WHERE Endereco2.bairro = Endereco.bairro AND (Ocorrencia2.data_ocorrencia BETWEEN SUBDATE(:cur_data, INTERVAL :days_far DAY) AND SUBDATE(:cur_data, INTERVAL :days_near DAY))) AS total FROM Ocorrencia INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep GROUP BY Endereco.bairro ORDER BY total DESC LIMIT '.$rank);
             $select->bindValue(':cur_data', $cur_data);

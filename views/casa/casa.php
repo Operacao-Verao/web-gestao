@@ -35,7 +35,7 @@
       <div>
         <section class="search-space">
           <div class="search-div">
-            <input type="search" oninput="searchCasas(this.value)" placeholder="Procurar Casas..." />
+            <input type="search" oninput="searchCasas(this.value)" id="search_casa" placeholder="Procurar Casas..." />
             <i class="ph ph-magnifying-glass"></i>
           </div>
         </section>
@@ -54,27 +54,7 @@
           </div>
         </section>
       </div>
-      <div class="pagination">
-      <a href="">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
-          <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
-        </svg>
-      </a>
-      <a href="#">1</a>
-      <p>...</p>
-      <a href="#">4</a>
-      <a href="#">5</a>
-      <a href="#" class="active">6</a>
-      <a href="#">7</a>
-      <a href="#">8</a>
-      <p>...</p>
-      <a href="#">25</a>
-      <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#023b7e" viewBox="0 0 256 256">
-          <path
-            d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z">
-          </path>
-        </svg></a>
-    </div>
+      <div class="pagination" id="pagination_footer"></div>
     </div>
 
     <!--MODAL VISUALIZAR CIVIL-->
@@ -150,7 +130,12 @@
   <?php
     echoError();
   ?>
+<script src="../../assets/js/pagination.js"></script>
   <script>
+    pageIndex = 0;
+    pageCount = 1;
+    pageEntries = 10;
+    createPaginationFooter(pagination_footer);
     let casa_atual = null;
 
     function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}, method) {
@@ -227,8 +212,8 @@
           let view_content = '<span class="data-title">Ver</span>';
 
           // Gerando lista de elementos 
-          for (let i = 0; i < json.length; i++) {
-            let casa = json[i];
+          for (let i = 0; i < json.entries.length; i++) {
+            let casa = json.entries[i];
             cep_content += '<span class="data-list">' + casa.cep + '</span>';
             numero_content += '<span class="data-list">' + casa.numero + '</span>';
             complemento_content += '<span class="data-list">' + (casa.complemento.trim()==''?'<br/>':casa.complemento) + '</span>';
@@ -238,15 +223,18 @@
           list_numeros.innerHTML = numero_content;
           list_complementos.innerHTML = complemento_content;
           list_views.innerHTML = view_content;
+          
+          pageCount = Math.ceil(json.limit/pageEntries)||1;
+          changePage(pageIndex);
         });
-      }, function () { }, { "text": text }, "PUT");
+      }, function () { }, { "text": text, "offset": pageIndex*pageEntries, "entries": pageEntries }, "PUT");
     }
     searchCasas('');
 
     function closeModal() {
       document.querySelector('.viewCivil.open').classList.remove('open');
     }
-
+    
     function selectFunction() {
       let interdicao;
 
@@ -260,6 +248,11 @@
         });
       }, function () { }, { "idCasa": casa_atual, "interdicao": interdicao }, "POST");
     }
+    
+    pageChangeCallback = function(page){
+      searchCasas(search_casa.value);
+    }
+    
   </script>
 </body>
 

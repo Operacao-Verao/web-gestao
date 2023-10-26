@@ -172,8 +172,8 @@
 	      	let content_status = '<div class="data status"><span class="data-title">Status</span>';
 	      	let content_ver = '<div class="data ver"><span class="data-title">Ver</span>';
 	      	
-	      	for (let i=0; i<json.length; i++){
-	      		let oe = json[i]; // Entrada de ocorrência
+	      	for (let i=0; i<json.entries.length; i++){
+	      		let oe = json.entries[i]; // Entrada de ocorrência
 	      		if (oe.encerrado && !oe.aprovado){
 	      			continue;
 	      		}

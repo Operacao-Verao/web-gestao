@@ -1,7 +1,7 @@
 <?php
-    class DAOCasa {
-        private PDO $pdo;
-        
+    include_once $SERVER_LOCATION.'/daos/DAO.php';
+    
+    class DAOCasa extends DAO{
         public function __construct(PDO $pdo) {
             $this->pdo = $pdo;
         }
@@ -48,7 +48,7 @@
         // Return all records of "Casa"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Casa');
+            $select = $this->pdo->prepare('SELECT * FROM Casa'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -58,11 +58,20 @@
             }
             return $models;
         }
-
+        
+        // Count all records of "Casa"
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function countAll(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Casa');
+            $select->execute();
+            
+            return $select->fetch()[0];
+        }
+        
         // Search for all entries of "Casa" that matches the searched text
         // Returns an array with all the found models, returns an empty array in case of not
         public function searchByText(string $text): ?array{
-            $select = $this->pdo->prepare('SELECT Casa.id AS id, Casa.id_residencial AS id_residencial, Casa.interdicao AS interdicao, Casa.complemento AS complemento FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE cep LIKE :text OR numero LIKE :text OR complemento LIKE :text');
+            $select = $this->pdo->prepare('SELECT Casa.id AS id, Casa.id_residencial AS id_residencial, Casa.interdicao AS interdicao, Casa.complemento AS complemento FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE cep LIKE :text OR numero LIKE :text OR complemento LIKE :text'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', $text.'%');
             $select->execute();
             
@@ -74,10 +83,20 @@
             return $models;
         }
         
+        // Search for all entries of "Casa" that matches the searched text and count
+        // Returns an array with all the found models, returns an empty array in case of not
+        public function countByText(string $text): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE cep LIKE :text OR numero LIKE :text OR complemento LIKE :text');
+            $select->bindValue(':text', $text.'%');
+            $select->execute();
+            
+            return $select->fetch()[0];
+        }
+        
         // Search for all entries of "Casa" table by cep and numero
         // Returns a model if found, returns null otherwise
         public function searchByCepNumero(string $cep, string $numero): array{
-            $select = $this->pdo->prepare('SELECT Casa.id AS id, Casa.id_residencial AS id_residencial, Casa.interdicao AS interdicao, Casa.complemento AS complemento FROM Casa INNER JOIN Residencial ON Casa.id_residencial = Residencial.id WHERE cep = :cep AND numero = :numero');
+            $select = $this->pdo->prepare('SELECT Casa.id AS id, Casa.id_residencial AS id_residencial, Casa.interdicao AS interdicao, Casa.complemento AS complemento FROM Casa INNER JOIN Residencial ON Casa.id_residencial = Residencial.id WHERE cep = :cep AND numero = :numero'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':cep', $cep);
             $select->bindValue(':numero', $numero);
             $select->execute();

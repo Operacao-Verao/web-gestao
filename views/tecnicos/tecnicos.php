@@ -24,9 +24,7 @@
 			<div class="data ver" id="list_views"></div>
 		</div>
 		<div class="pagination-button">
-			<?php
-				require '../../partials/pagination/pagination.php';
-			?>
+			<div class="pagination" id="pagination_footer"></div>
 			<a href="cad_tecnico/cad_tecnico.php">
 				<button>Cadastrar Técnico</button>
 			</a>
@@ -38,10 +36,12 @@
 <?php
 	echoError();
 ?>
+<script src="../../assets/js/pagination.js"></script>
 <script type="text/javascript">
-	// Setup pagination
-	pageCount = 0;
-    pageEntries = 10;
+		// Setup pagination
+		pageCount = 1;
+    pageEntries = 15;
+    createPaginationFooter(pagination_footer);
 	
     function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}, method) {
       fetch(action, {
@@ -76,7 +76,7 @@
 				list_views.innerHTML = editar_content;
 				
 				pageCount = Math.ceil(json.limit/pageEntries);
-        		changePage(page);
+        changePage(page);
 			});
 		}, function () { }, { "offset": page*pageEntries, "entries": pageEntries }, "PUT");
     }
@@ -89,7 +89,6 @@
         changePage(0);
         listTecnicos(0);
     });
-    
 </script>
 
 </html>

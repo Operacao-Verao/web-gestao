@@ -1,7 +1,7 @@
 <?php
-	class DAORelatorio{
-		private PDO $pdo;
-		
+    include_once $SERVER_LOCATION.'/daos/DAO.php';
+    
+	class DAORelatorio extends DAO{
 		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
@@ -87,7 +87,7 @@
 		// Search for entry in the "Relatorio" table by its corresponding property "Casa"
 		// Returns a model if found, returns null otherwise
 		public function searchByCasa(Casa $casa): array{
-            $select = $this->pdo->prepare('SELECT * FROM Relatorio WHERE id_casa = :id_casa');
+            $select = $this->pdo->prepare('SELECT * FROM Relatorio WHERE id_casa = :id_casa'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':id_casa', $casa->getId());
             $select->execute();
             
@@ -103,7 +103,7 @@
 		// Return all records of "Relatorio"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Relatorio');
+            $select = $this->pdo->prepare('SELECT * FROM Relatorio'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -118,7 +118,7 @@
         // Search for records of "Relatorio" by text
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByText(string $text): array{
-            $select = $this->pdo->prepare('SELECT Relatorio.id AS id, Relatorio.id_ocorrencia AS id_ocorrencia, Relatorio.id_casa AS id_casa, Relatorio.gravidade AS gravidade, Relatorio.relatorio AS relatorio, Relatorio.encaminhamento AS encaminhamento, Relatorio.memorando AS memorando, Relatorio.oficio AS oficio, Relatorio.processo AS processo, Relatorio.assunto AS assunto, Relatorio.observacoes AS observacoes, Relatorio.area_afetada AS area_afetada, Relatorio.tipo_construcao AS tipo_construcao, Relatorio.tipo_talude AS tipo_talude, Relatorio.vegetacao AS vegetacao, Relatorio.situacao_vitimas AS situacao_vitimas, Relatorio.interdicao AS interdicao, Relatorio.danos_materiais AS danos_materiais, Relatorio.data_geracao AS data_geracao, Relatorio.data_atendimento AS data_atendimento FROM Tecnico, Funcionario, Relatorio INNER JOIN Ocorrencia ON Relatorio.id_ocorrencia = Ocorrencia.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id AND Tecnico.id_funcionario = Funcionario.id) OR Ocorrencia.id_tecnico IS NULL) AND (Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR ((NOT Ocorrencia.id_tecnico IS NULL) AND Funcionario.nome LIKE :text)) GROUP BY Relatorio.id ORDER BY Relatorio.data_geracao DESC');
+            $select = $this->pdo->prepare('SELECT Relatorio.id AS id, Relatorio.id_ocorrencia AS id_ocorrencia, Relatorio.id_casa AS id_casa, Relatorio.gravidade AS gravidade, Relatorio.relatorio AS relatorio, Relatorio.encaminhamento AS encaminhamento, Relatorio.memorando AS memorando, Relatorio.oficio AS oficio, Relatorio.processo AS processo, Relatorio.assunto AS assunto, Relatorio.observacoes AS observacoes, Relatorio.area_afetada AS area_afetada, Relatorio.tipo_construcao AS tipo_construcao, Relatorio.tipo_talude AS tipo_talude, Relatorio.vegetacao AS vegetacao, Relatorio.situacao_vitimas AS situacao_vitimas, Relatorio.interdicao AS interdicao, Relatorio.danos_materiais AS danos_materiais, Relatorio.data_geracao AS data_geracao, Relatorio.data_atendimento AS data_atendimento FROM Relatorio INNER JOIN Ocorrencia ON Relatorio.id_ocorrencia = Ocorrencia.id INNER JOIN Tecnico ON Ocorrencia.id_tecnico = Tecnico.id INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id AND Tecnico.id_funcionario = Funcionario.id) OR Ocorrencia.id_tecnico IS NULL) AND (Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR ((NOT Ocorrencia.id_tecnico IS NULL) AND Funcionario.nome LIKE :text)) /*GROUP BY Relatorio.id */ORDER BY Relatorio.data_geracao DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', '%'.$text.'%');
             $select->execute();
             
@@ -129,6 +129,16 @@
 					$query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento']);
             }
             return $models;
+        }
+
+        // Search for records of "Relatorio" and count by text
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function countByText(string $text): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Relatorio INNER JOIN Ocorrencia ON Relatorio.id_ocorrencia = Ocorrencia.id INNER JOIN Tecnico ON Ocorrencia.id_tecnico = Tecnico.id INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id AND Tecnico.id_funcionario = Funcionario.id) OR Ocorrencia.id_tecnico IS NULL) AND (Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR ((NOT Ocorrencia.id_tecnico IS NULL) AND Funcionario.nome LIKE :text)) /*GROUP BY Relatorio.id */');
+            $select->bindValue(':text', '%'.$text.'%');
+            $select->execute();
+            
+            return $select->fetch()[0];
         }
 
         // Count and return the number of entries in "Relatorio" with the given 'interdicao' status

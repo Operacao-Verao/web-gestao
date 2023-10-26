@@ -1,7 +1,7 @@
 <?php
 	require '../conn.php';
 	require '../session_auth.php';
-	authenticateSession(TIPO_USUARIO::GESTOR, '["error:403"]');
+	authenticateSession(TIPO_USUARIO::GESTOR, '{"error":403}');
 	
 	$input = json_decode(file_get_contents('php://input'), true);
 	
@@ -32,10 +32,14 @@
 		$daoTecnico = new DAOTecnico($pdo);
 		$daoFuncionario = new DAOFuncionario($pdo);
 		
+		$daoRelatorio->setListOffset($input['offset']);
+		$daoRelatorio->setListLength($input['entries']);
+		
 		$relatorios = $daoRelatorio->searchByText($input['text']);
+		$total = $daoRelatorio->countByText($input['text']);
 		
 		$first = true;
-		echo '[';
+		echo '{"entries": [';
 		foreach ($relatorios as $relatorio){
 			$casa = $daoCasa->findById($relatorio->getIdCasa());
 			$residencial = $daoResidencial->findById($casa->getIdResidencial());
@@ -62,9 +66,9 @@
 				"relato": "'.addslashes($ocorrencia->getRelatoCivil()).'"
 			}';
 		}
-		echo ']';
+		echo '], "limit": '.$total.'}';
 	} catch (Throwable $error) {
-		echo '[]';
+		echo '{"error":500}';
 		regError($error);
 	}
 ?>
