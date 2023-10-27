@@ -117,6 +117,7 @@ echoError();
 <script src="../../assets/js/pagination.js"></script>
 <script>
   // Setup pagination
+  pageIndex = 0;
   pageCount = 1;
   pageEntries = 15;
   createPaginationFooter(pagination_footer);
@@ -180,7 +181,7 @@ echoError();
   closeModal();
 
   
-  function listSecretarios(page) {
+  function listSecretarios() {
     requestFromAction("../../actions/fetch/search_secretario.php", function (r) {
     r.json().then(function (json) {
       //console.log(json);
@@ -203,14 +204,14 @@ echoError();
       list_edits.innerHTML = editar_content;
       
       pageCount = Math.ceil(json.limit/pageEntries);
-      changePage(page);
+      changePage(pageIndex);
     });
-  }, function () { }, { "offset": page*pageEntries, "entries": pageEntries }, "PUT");
+  }, function () { }, { "offset": pageIndex*pageEntries, "entries": pageEntries }, "PUT");
   }
   listSecretarios(0);
   
   pageChangeCallback = function(page){
-    listSecretarios(page);
+    listSecretarios();
   }
   
 

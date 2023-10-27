@@ -32,7 +32,7 @@ $civis = $daoCivil->listAll();
     <div>
       <section class="search-space">
         <div class="search-div">
-          <input type="search" oninput="searchCivis(this.value)" id="civil_search" placeholder="Procurar Civis..." />
+          <input type="search" oninput="pageIndex = 0; searchCivis(this.value);" id="civil_search" placeholder="Procurar Civis..." />
           <i class="ph ph-magnifying-glass"></i>
         </div>
       </section>

@@ -14,7 +14,7 @@
 	<div class="wrapper-main">
 		<section class="search-space">
 			<div class="search-div">
-				<input type="search" oninput="searchOcorrencias(this.value)" id="search_ocorrencia" placeholder="Procurar Ocorrencias..." />
+				<input type="search" oninput="pageIndex = 0; searchOcorrencias(this.value);" id="search_ocorrencia" placeholder="Procurar Ocorrencias..." />
 				<i class="ph ph-magnifying-glass"></i>
 			</div>
 		</section>

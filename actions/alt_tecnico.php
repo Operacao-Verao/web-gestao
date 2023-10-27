@@ -8,6 +8,9 @@
     include_once("../models/Tecnico.php");
     include_once("../daos/DAOTecnico.php");
     
+    require '../models/Registro.php';
+    require '../daos/DAORegistro.php';
+    
     try {
         $daoFuncionario = new DAOFuncionario($pdo);
         $daoTecnico = new DAOTecnico($pdo);
@@ -15,18 +18,21 @@
         $tecnicoId = $_POST["tecnico_id"];
         $nome = $_POST["edtnome"];
         $email = $_POST["edtemail"];
+        $alterSenha = isset($_POST["chksenha"])? $_POST["chksenha"]: 0;
         $senha = $_POST["edtsenha"];
         $senhaconfirm = $_POST["edtsenhaconfirm"];
+        $status = $_POST['selectAtivo'];
         
-        $senha_criptografada = hash('sha256', $senha);
-
-        if (empty($nome) || empty($email) || empty($senha) || empty($senha) || empty($senhaconfirm)) {
-            header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=camposobrigatorios");
+        var_dump($alterSenha);
+        var_dump($senha);
+        var_dump($senhaconfirm);
+        if (empty($nome) || empty($email) || ($alterSenha? empty($senha) || empty($senhaconfirm): 0)) {
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?tecnico_id=".$tecnicoId."&error=camposobrigatorios");
             exit();
         }
 
-        if ($senha != $senhaconfirm){
-            header("Location: ../views/edit_tecnico.php?id=$tecnicoId&error=senhaincorreta");
+        if ($alterSenha && $senha != $senhaconfirm){
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?tecnico_id=".$tecnicoId."&error=senhaincorreta");
             exit();
         }
 
@@ -39,9 +45,13 @@
                 // Atualizar os dados do funcionário
                 $funcionario->setNome($nome);
                 $funcionario->setEmail($email);
-                $funcionario->setSenha($senha_criptografada);
+                if ($alterSenha){
+                    $senha_criptografada = hash('sha256', $senha);
+                    $funcionario->setSenha($senha_criptografada);
+                }
                 // Atualizar o técnico
                 $tecnico->setFuncionario($funcionario);
+                $tecnico->setAtivo($status);
 
                 try {
                     $daoFuncionario->update($funcionario);

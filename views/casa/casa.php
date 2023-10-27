@@ -35,7 +35,7 @@
       <div>
         <section class="search-space">
           <div class="search-div">
-            <input type="search" oninput="searchCasas(this.value)" id="search_casa" placeholder="Procurar Casas..." />
+            <input type="search" oninput="pageIndex = 0; searchCasas(this.value)" id="search_casa" placeholder="Procurar Casas..." />
             <i class="ph ph-magnifying-glass"></i>
           </div>
         </section>

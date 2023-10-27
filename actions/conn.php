@@ -1,6 +1,8 @@
 <?php
     // Database Connection Properties
-    $SERVER_LOCATION = $_SERVER['DOCUMENT_ROOT'].'/web-gestao';
+    //$SERVER_LOCATION = $_SERVER['DOCUMENT_ROOT'].'/web-gestao';
+    //$SERVER_LOCATION = $_SERVER['DOCUMENT_ROOT'].'/web-gestao-main';
+    $SERVER_LOCATION = preg_replace('/(web-gestao{1}(-main)?).*/', '$1', __DIR__); // Only for debug purposes, I don't know exacly in wich machine and path the project will be keeped
     $db_host = 'localhost';
     $db_name = 'BDDEFESACIVIL';
     $db_user = 'root';
@@ -58,7 +60,7 @@
         $daoRegistro = new DAORegistro($pdo);
         $daoFuncionario = new DAOFuncionario($pdo);
         $owner = $daoFuncionario->findByEmail("admin");
-        if (!$owner){
+        if ($owner==null){
             $owner = $daoFuncionario->findById($_SESSION['usuario_id']);
         }
         $daoRegistro->insert($owner, REG_ACAO::ERRO, $error->__toString(), getCurrentDatetime());

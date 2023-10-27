@@ -49,10 +49,9 @@
 		"ocorrencias": [
 		';
 
-		$relatorios = $daoRelatorio->searchByCasa($casa);
+		$ocorrencias = $daoOcorrencia->searchByResidencial($residencial);
 		$first = true;
-		foreach ($relatorios as $relatorio){
-			$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
+		foreach ($ocorrencias as $ocorrencia){
 			if ($first){
 				$first = false;
 			}

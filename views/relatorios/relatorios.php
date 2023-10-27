@@ -19,7 +19,7 @@ authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
     <div>
       <div class="search-space">
         <div class="search-div">
-          <input type="search" oninput="searchRelatorios(this.value)" id="search_relatorio"
+          <input type="search" oninput="pageIndex = 0; searchRelatorios(this.value);" id="search_relatorio"
             placeholder="Procurar Relatórios..." />
           <i class="ph ph-magnifying-glass"></i>
         </div>

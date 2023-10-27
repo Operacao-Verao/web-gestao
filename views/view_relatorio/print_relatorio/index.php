@@ -124,7 +124,7 @@
                     <div class="item-row-2">
                         <div class="item-row">
                             <p class="item-title">Tel.: </p>
-                            <p><?php $civil->getTelefone(); ?></p>
+                            <p><?php echo $civil->getTelefone(); ?></p>
                         </div>
                         <div class="item-row">
                             <p class="item-title">Celular.: </p>

@@ -191,7 +191,7 @@
 	      	content_ver += '</div>';
 			lista_ocorrencias.innerHTML = content_endereco+content_tecnico+content_data+content_status+content_ver;
 	      });
-	    }, function(){}, {"text": "", "recente": 5, "tipo": 0x01|0x04}, "PUT");
+	    }, function(){}, {"text": "", "recente": 5, "tipo": 0x01|0x04, "entries": 5}, "PUT");
 	}
 	refreshOcorrencias();
 	

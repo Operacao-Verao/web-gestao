@@ -76,7 +76,15 @@
                     }
                   ?>
                 </div>
-
+                <?php
+                    if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
+                      echo '
+                        <div class="inputArea">
+                          <label for="edtsenha">Atualizar Senha</label>
+                          <input class="inputText" type="checkbox" id="chksenha" name="chksenha">
+                        </div>';
+                    }
+                  ?>
                 <div class="inputArea">
                   <?php
                     if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
@@ -97,13 +105,18 @@
                   ?>
                   <input class="inputText" type="password" id="confirmarSenha" name="edtsenhaconfirm" required>
                 </div>
-                <div class="inputArea">
-                  <label for="selectAtivo">Status do Técnico</label>
-                  <select name="selectAtivo" id="">
-                    <option value="">Inativo</option>
-                    <option value="">Ativo</option>
-                  </select>
-                </div>
+                <?php
+                    if (array_key_exists('tecnico_id', $_GET)) {
+                      echo '
+                      <div class="inputArea">
+                        <label for="selectAtivo">Status do Técnico</label>
+                        <select name="selectAtivo" id="">
+                          <option value="0"'.(!$tecnico->getAtivo()? ' selected': '').'>Inativo</option>
+                          <option value="1"'.($tecnico->getAtivo()? ' selected': '').'>Ativo</option>
+                        </select>
+                      </div>';
+                    }
+                ?>
 
            <button type="submit" id="btnCadastro">
             <?php
@@ -124,6 +137,24 @@
       <script type="text/javascript">
         
         let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
+        
+        if (typeof chksenha !== 'undefined'){
+          chksenha.oninput = function(){
+            senha.disabled = confirmarSenha.disabled = !chksenha.checked;
+            if (chksenha.checked){
+              senha.value = '';
+              confirmarSenha.value = '';
+            }
+            else {
+              senha.value = '00000000';
+              confirmarSenha.value = '00000000';
+            }
+            chksenha.value = chksenha.checked? 1: 0;
+            console.log(chksenha.checked);
+          }
+          chksenha.checked = false;
+          chksenha.oninput();
+        }
         
         btnCadastro.onclick = function(){
           if (senha.value != confirmarSenha.value){

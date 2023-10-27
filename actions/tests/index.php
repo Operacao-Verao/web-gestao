@@ -51,7 +51,7 @@
 			<li><a href="list_ocorrencia.php">list_ocorrencia.php</a></li>
 			<li><a href="listas.php">listas.php</a></li>
 			<li><a href="old.php">old.php</a></li>
-            <li><a href="populate.php">populate.php</a></li>
+            <li><a href="populate.php?base=100">populate.php</a></li>
 			<li><a href="search_ocorrencia.php">search_ocorrencia.php</a></li>
 		</ul>
 		

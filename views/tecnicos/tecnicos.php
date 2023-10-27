@@ -53,7 +53,7 @@
       );
     }
     
-    function listTecnicos(page) {
+    function listTecnicos() {
     	requestFromAction("../../actions/fetch/search_tecnico.php", function (r) {
 			r.json().then(function (json) {
 				//console.log(json);
@@ -76,13 +76,13 @@
 				list_views.innerHTML = editar_content;
 				
 				pageCount = Math.ceil(json.limit/pageEntries);
-        changePage(page);
+        changePage(pageIndex);
 			});
-		}, function () { }, { "offset": page*pageEntries, "entries": pageEntries }, "PUT");
+		}, function () { }, { "offset": pageIndex*pageEntries, "entries": pageEntries }, "PUT");
     }
     
     pageChangeCallback = function(page){
-    	listTecnicos(page);
+    	listTecnicos();
     }
     
     window.addEventListener('load', function(){
