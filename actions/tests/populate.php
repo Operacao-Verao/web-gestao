@@ -120,8 +120,8 @@
 	$daoFuncionario->clearEntire();
 	
 	$limit = isset($_GET['base'])? $_GET['base']: 100;
-	
-	echo 'Started!<br/><br/>';
+	try {
+		echo 'Started!<br/><br/>';
 	
 	$firstName = ["Ana", "Adriana", "Alice", "Andressa", "Alessando", "Alex", "Angela", "Beto",
 		"Bernado", "Bianca", "Bruno", "Bruna", "Carlos", "César", "Cassandra", "Camila", "Caio",
@@ -390,4 +390,8 @@
 	
 	
 	echo '<br/><br/><h1>DB populated with data!</h1>';
+	} catch (\Throwable $th) {
+		echo $th;
+	}
+	
 ?>

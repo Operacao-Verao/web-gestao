@@ -51,17 +51,18 @@
 		
 		// Return all records of "NivelChuva"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM NivelChuva');
-            $select->execute();
-            
-            // All entries will be traversed
-            $models = [];
-            while (($query = $select->fetch())) {
-                $models[] = new NivelChuva($query['id'], $query['id_pluviometro'], $query['chuva_em_mm'], $query['data_chuva']);
-            }
-            return $models;
-		}
+		public function listAllByPluv($id_pluviometro): array{
+			$select = $this->pdo->prepare('SELECT * FROM NivelChuva WHERE id_pluviometro = :id_pluviometro');
+$select->bindValue(':id_pluviometro', $id_pluviometro);
+			$select->execute();
+			
+			// All entries will be traversed
+			$models = [];
+			while (($query = $select->fetch())) {
+					$models[] = new NivelChuva($query['id'], $query['id_pluviometro'], $query['chuva_em_mm'], $query['data_chuva']);
+			}
+			return $models;
+}
 
 		// Search for all entries in "NivelChuva" by text
 		// Returns an array with all the found models, returns an empty array in case of an error

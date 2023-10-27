@@ -50,17 +50,18 @@
 		}
 		// Return all records of "NivelRio"
 		// Returns an array with all the found models, returns an empty array in case of an error
-		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM NivelRio');
-            $select->execute();
-            
-            // All entries will be traversed
-            $models = [];
-            while (($query = $select->fetch())) {
-                $models[] = new NivelRio($query['id'], $query['id_fluviometro'], $query['nivel_rio'], $query['data_diario']);
-            }
-            return $models;
-		}
+		public function listAllByFluv($id_fluviometro): array{
+			$select = $this->pdo->prepare('SELECT * FROM NivelRio WHERE id_fluviometro = :id_fluviometro');
+$select->bindValue(':id_fluviometro', $id_fluviometro);
+			$select->execute();
+			
+			// All entries will be traversed
+			$models = [];
+			while (($query = $select->fetch())) {
+					$models[] = new NivelRio($query['id'], $query['id_fluviometro'], $query['nivel_rio'], $query['data_diario']);
+			}
+			return $models;
+}
 
 		public function searchByText(string $text): array{
             $select = $this->pdo->prepare('SELECT NivelRio.id AS id, NivelRio.id_fluviometro AS id_fluviometro, NivelRio.nivel_rio AS nivel_rio, NivelRio.data_diario AS data_diario FROM NivelRio INNER JOIN Fluviometro ON NivelRio.id_fluviometro = Fluviometro.id INNER JOIN Endereco ON Fluviometro.cep = Endereco.cep WHERE Endereco.cep LIKE :text OR Endereco.rua LIKE :text OR Endereco.cidade LIKE :text OR Endereco.bairro LIKE :text OR NivelRio.nivel_rio LIKE :text');
