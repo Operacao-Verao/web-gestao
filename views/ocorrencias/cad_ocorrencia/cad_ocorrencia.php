@@ -153,8 +153,8 @@
 <?php
   echoError();
 ?>
+<script src="../../../assets/js/common.js"></script>
 <script>
-  let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
   let valid_cep = false;
   let validating_cep = false;
   
@@ -269,6 +269,10 @@
   }
   
   btnCadastrar.onclick = function(){
+    if (inputCpf.value.length!=11 || !validarCpf(inputCpf.value)){
+      alert("Informe um CPF válido!");
+      return false;
+    }
     if (validating_cep){
       alert("Aguarde o CEP ser avaliado pelo servidor");
       return false;

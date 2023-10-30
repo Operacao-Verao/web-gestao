@@ -47,7 +47,7 @@
           <input type="tel" name="inputTelefone" id="inputTelefone" placeholder="Ex.: 1140028922">
         </div>
       </div>
-      <button class="btnCadastrar">Cadastrar</button>
+      <button class="btnCadastrar" id="btnCadastrar">Cadastrar</button>
     </form>
   </main>
 </body>
@@ -55,29 +55,8 @@
 <?php
   echoError();
 ?>
+<script src="../../../assets/js/common.js"></script>
 <script type="text/javascript">
-  let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
-  
-  function validarCpf(cpf) {
-    let acu_v1 = 0;
-    for (let i=0; i<9; i++){
-      let digit = Number(cpf.charAt(i))||0;
-      acu_v1 += digit*(10-i);
-    }
-    let ver1 = (11 - (acu_v1%11));
-    ver1 = ver1>=10? 0: ver1;
-    
-    let acu_v2 = 0;
-    for (let i=0; i<10; i++){
-      let digit = Number(cpf.charAt(i))||0;
-      acu_v2 += digit*(11-i);
-    }
-    let ver2 = (11 - (acu_v2%11));
-    ver2 = ver2>=10? 0: ver2;
-    
-    return cpf.charAt(9)==ver1 && cpf.charAt(10)==ver2;
-  }
-  
   inputName.oninput = function(){
     inputName.value = inputName.value.replace(exp_nome, '').substr(0, 100);
   }
@@ -92,14 +71,6 @@
   
   inputCpf.oninput = function(){
     inputCpf.value = inputCpf.value.replace(/[^0-9]/g, '').substr(0, 11);
-    if (inputCpf.value.length==11){
-      if (validarCpf(inputCpf.value)){
-        console.log("Cpf válido!");
-      }
-      else {
-        console.log("Cpf inválido!");
-      }
-    }
   }
   
   inputCelular.oninput = function(){
@@ -108,6 +79,13 @@
   
   inputTelefone.oninput = function(){
     inputTelefone.value = inputTelefone.value.replace(/[^0-9]/g, '').substr(0, 10);
+  }
+  
+  btnCadastrar.onclick = function(){
+    if (inputCpf.value.length!=11 || !validarCpf(inputCpf.value)){
+      alert("Informe um CPF válido!");
+      return false;
+    }
   }
 </script>
 
