@@ -45,6 +45,16 @@
     
     // Server utilities
     
+    // Password encyption and verification
+    function encryptPassword($password) {
+        return password_hash($password, PASSWORD_BCRYPT, [
+            'cost' => 12
+        ]);
+    }
+    function verifyPassword($encrypted, $password){
+        return password_verify($password, $encrypted);
+    }
+    
     // Pagining Settings
     const ALL_REMAIN_ENTRIES = -1;
     
@@ -63,7 +73,7 @@
         if ($owner==null){
             $owner = $daoFuncionario->findById($_SESSION['usuario_id']);
         }
-        $daoRegistro->insert($owner, REG_ACAO::ERRO, $error->__toString(), getCurrentDatetime());
+        $daoRegistro->insert($owner, REG_ACAO::ERRO, substr($error->__toString(), 0, 355), getCurrentDatetime());
     }
     
     // Devlopment Properties

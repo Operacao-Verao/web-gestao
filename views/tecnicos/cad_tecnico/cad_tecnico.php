@@ -135,7 +135,6 @@
         echoError();
       ?>
       <script type="text/javascript">
-        
         let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
         
         if (typeof chksenha !== 'undefined'){
@@ -154,6 +153,14 @@
           }
           chksenha.checked = false;
           chksenha.oninput();
+        }
+        
+        edtnome.oninput = function(){
+          edtnome.value = edtnome.value.replace(exp_nome, '').substr(0, 100);
+        }
+        
+        email.oninput = function(){
+          email.value = email.value.substr(0, 100);
         }
         
         btnCadastro.onclick = function(){

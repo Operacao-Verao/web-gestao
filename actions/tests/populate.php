@@ -216,7 +216,7 @@
 	$funcionarios = array();
 	for ($i=0; $i<$limit; $i++){
 		$nome = genRandomPersonName();
-		$funcionarios[] = $daoFuncionario->insert($nome, genRandomEmail($nome), "1234", TIPO_USUARIO::GESTOR);
+		$funcionarios[] = $daoFuncionario->insert($nome, genRandomEmail($nome), encryptPassword("1234"), TIPO_USUARIO::GESTOR);
 	}
 	
 	echo '<h2>Gestores</h2>';
@@ -263,8 +263,8 @@
 	for ($i=0; $i<$limit; $i++){
 		$nome = genRandomPersonName();
 		$civis_casa[] = randomItem($casas);
-		$civis[] = $daoCivil->insert(randomItem($residenciais, true), $nome, genRandomEmail($nome), '', substr(hexdec(hash('sha256', 'cpf:'.$i)).'', 2, 11), '119'.substr(hexdec(hash('sha256', 'celular:'.$i)).'', 2, 8), '11'.substr(hexdec(hash('sha256', 'telefone:'.$i)).'', 2, 8));
 	}
+		$civis[] = $daoCivil->insert(randomItem($residenciais, true), $nome, genRandomEmail($nome), '', substr(hexdec(encrypt('sha256', 'cpf:'.$i)).'', 2, 11), '119'.substr(hexdec(hash('sha256', 'celular:'.$i)).'', 2, 8), '11'.substr(hexdec(hash('sha256', 'telefone:'.$i)).'', 2, 8));
 	
 	echo '<h2>Ocorrencias</h2>';
 	$ocorrencias = array();

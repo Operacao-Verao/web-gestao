@@ -20,23 +20,21 @@
             exit();
         }
         
-        $senha = hash('sha256', $senha);
+        //$senha = encryptPassword($senha);
         
-        $funcionario = $daoFuncionario->findWithLogin($email, $senha);
-        $acesso_permitido = $funcionario != null;
-        /*
+        $funcionario = $daoFuncionario->findByEmail($email);
+        $acesso_permitido = $funcionario != null && verifyPassword($funcionario->getSenha(), $senha);
+        
         $gestor = null;
         
-        if ($funcionario == null){
-            $acesso_permitido = false;
-        }
-        else {
+        if ($funcionario != null){
             $gestor = $daoGestor->findByFuncionario($funcionario);
             if ($gestor == null){
-                $acesso_permitido = false;
+                header("Location: ../views/login/login.php?error=gestor_only");
+                exit();
             }
         }
-        */
+        
         if ($acesso_permitido) {
             $_SESSION["usuario_id"] = $funcionario->getId();
             $_SESSION["usuario_nome"] = $funcionario->getNome();
@@ -45,9 +43,7 @@
             header("Location: ../views/home/home.php");
             exit();
         } else {
-            $_SESSION['erro'] = "E-mail e/ou senha incorretos";
-            echo $senha;
-            //header("Location: ../views/login/login.php");
+            header("Location: ../views/login/login.php?error=wrong_login");
             exit();
         }
     }

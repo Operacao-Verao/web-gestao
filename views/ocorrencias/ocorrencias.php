@@ -235,7 +235,7 @@
 		      	console.log(r);
 		      });
 		      trocarAba(aba_status_aprovado);
-		    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)});
+		    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)}, 'POST');
 		    alter_tecnico.disabled = true;
 		    alter_aprovado.disabled = true;
 		    btnTrancar.hidden = true;

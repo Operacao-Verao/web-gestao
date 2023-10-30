@@ -156,6 +156,7 @@
 <script>
   let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
   let valid_cep = false;
+  let validating_cep = false;
   
   function goToAction(action, values={}){
     let form = document.createElement('form');
@@ -207,6 +208,7 @@
   }
   
   function tryRequestAndValidateCep(cep){
+    validating_cep = true;
     requestFromAction("../../../actions/fetch/get_endereco.php?cep="+cep, function(r){
       r.json().then(function(json){
         console.log(json);
@@ -216,8 +218,11 @@
         inputRua.value = json.rua||"-";
         inputBairro.value = json.bairro||"-";
         inputCidade.value = json.cidade||"-";
+        validating_cep = false;
       });
-    }, function(){}, {}, "GET");
+    }, function(){
+      validating_cep = false;
+    }, {}, "GET");
   }
   
   inputName.oninput = function(){
@@ -264,8 +269,12 @@
   }
   
   btnCadastrar.onclick = function(){
-    if (!valid_cep){
-      alert("O CEP parece estar inválido");
+    if (validating_cep){
+      alert("Aguarde o CEP ser avaliado pelo servidor");
+      return false;
+    }
+    else if (!valid_cep){
+      alert("Informe um CEP válido!");
       return false;
     }
   }

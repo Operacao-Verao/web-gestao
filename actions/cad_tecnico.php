@@ -19,7 +19,7 @@
         $senha = $_POST["edtsenha"];
         $senhaconfirm = $_POST["edtsenhaconfirm"];
         
-        $senha_criptografada = hash('sha256', $senha);
+        $senha_criptografada = encryptPassword($senha);
 
         if (empty($nome) || empty($email) || empty($senha) || empty($senha) || empty($senhaconfirm)) {
             header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?error=empty_entries");
@@ -31,7 +31,7 @@
             exit();
         }
         
-        $funcionario = $daoFuncionario->findWithLogin($email, $senha);
+        $funcionario = $daoFuncionario->findByEmail($email);
 
         if ($funcionario == null){
             $funcionario = $daoFuncionario->insert($nome, $email, $senha_criptografada, TIPO_USUARIO::FUNCIONARIO);

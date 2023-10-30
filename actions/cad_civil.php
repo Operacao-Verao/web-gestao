@@ -25,7 +25,7 @@
 
         $cepCasa = $_POST["inputCep"];
         
-        $senha_criptografada = hash('sha256', $senha);
+        $senha_criptografada = encryptPassword($senha);
         //$numeroCasa = $_POST["numero"];
         //$complementoCasa = $_POST["complemento"];
         

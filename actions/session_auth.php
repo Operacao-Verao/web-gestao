@@ -34,6 +34,14 @@
 					$message = 'O cpf informado já está cadastrado!';
 				}
 				break;
+				case 'wrong_login': {
+					$message = "E-mail e/ou senha incorretos";
+				}
+				break;
+				case 'gestor_only': {
+					$message = "O acesso é permitido somente aos gestores";
+				}
+				break;
 				default: {
 					$message = 'Erro não catalogado';
 				}

@@ -17,7 +17,7 @@
 	}
 	
 	// Try fetch from viacep
-	else if (!isset(($extobj = json_decode(file_get_contents('https://viacep.com.br/ws/'.$in_get_endereco_cep.'/json/')))->erro) && $extobj!=null){
+	else if (!isset(($extobj = json_decode(@file_get_contents('https://viacep.com.br/ws/'.$in_get_endereco_cep.'/json/')))->erro) && $extobj!=null){
 		$get_endereco_out = '{
 			"cep": "'.addslashes($in_get_endereco_cep).'",
 			"rua": "'.addslashes($extobj->logradouro).'",

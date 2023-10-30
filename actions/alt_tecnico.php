@@ -46,7 +46,7 @@
                 $funcionario->setNome($nome);
                 $funcionario->setEmail($email);
                 if ($alterSenha){
-                    $senha_criptografada = hash('sha256', $senha);
+                    $senha_criptografada = encryptPassword($senha);
                     $funcionario->setSenha($senha_criptografada);
                 }
                 // Atualizar o técnico
