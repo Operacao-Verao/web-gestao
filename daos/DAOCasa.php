@@ -70,8 +70,8 @@
         
         // Search for all entries of "Casa" that matches the searched text
         // Returns an array with all the found models, returns an empty array in case of not
-        public function searchByText(string $text): ?array{
-            $select = $this->pdo->prepare('SELECT Casa.id AS id, Casa.id_residencial AS id_residencial, Casa.interdicao AS interdicao, Casa.complemento AS complemento FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE cep LIKE :text OR numero LIKE :text OR complemento LIKE :text'.$this->sql_length.$this->sql_offset);
+        public function searchByText(string $text, int $interdicao=-1): ?array{
+            $select = $this->pdo->prepare('SELECT Casa.id AS id, Casa.id_residencial AS id_residencial, Casa.interdicao AS interdicao, Casa.complemento AS complemento FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE (cep LIKE :text OR numero LIKE :text OR complemento LIKE :text)'.($interdicao==-1? '': ' AND Casa.interdicao = '.$interdicao).$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', $text.'%');
             $select->execute();
             
@@ -85,8 +85,8 @@
         
         // Search for all entries of "Casa" that matches the searched text and count
         // Returns an array with all the found models, returns an empty array in case of not
-        public function countByText(string $text): int{
-            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE cep LIKE :text OR numero LIKE :text OR complemento LIKE :text');
+        public function countByText(string $text, int $interdicao=-1): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Casa INNER JOIN Residencial on Casa.id_residencial = Residencial.id WHERE (cep LIKE :text OR numero LIKE :text OR complemento LIKE :text)'.($interdicao==-1? '': ' AND Casa.interdicao = '.$interdicao));
             $select->bindValue(':text', $text.'%');
             $select->execute();
             

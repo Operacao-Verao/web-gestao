@@ -22,8 +22,8 @@
 		$daoCasa->setListOffset($input['offset']);
 		$daoCasa->setListLength($input['entries']);
 		
-		$casas = $daoCasa->searchByText($input['text']);
-		$total = $daoCasa->countByText($input['text']);
+		$casas = $daoCasa->searchByText($input['text'], $input['interdicao']);
+		$total = $daoCasa->countByText($input['text'], $input['interdicao']);
 		
 		$first = true;
 		

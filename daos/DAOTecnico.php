@@ -66,7 +66,7 @@
 		// Search for records of "Tecnico"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Tecnico'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT Tecnico.id AS id, Tecnico.id_funcionario AS id_funcionario, Tecnico.ativo AS ativo FROM Tecnico INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id ORDER BY Funcionario.nome ASC'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed

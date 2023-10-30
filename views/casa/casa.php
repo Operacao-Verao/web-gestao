@@ -40,6 +40,11 @@
           </div>
         </section>
         <section class="activity-data">
+          <div class="status">
+            <button class="btnStatus" id="abaNaoInterditado" onclick="trocarAba(0)">Não Interditados</button>
+            <button class="btnStatus" id="abaParcialInterditado" onclick="trocarAba(1)">Parcialmente Interditados</button>
+            <button class="btnStatus" id="abaTotalInterditado" onclick="trocarAba(2)">Totalmente Interditados</button>
+          </div>
           <div class="data name" id="list_ceps">
             <span class="data-title">CEP</span>
           </div>
@@ -136,6 +141,7 @@
     pageCount = 1;
     pageEntries = 10;
     createPaginationFooter(pagination_footer);
+    let aba_status_interdicao = 0; // Seleciona entre status de interdicao
     let casa_atual = null;
 
     function requestFromAction(action, onSuccess = function (r) { }, onError = function (r) { }, data = {}, method) {
@@ -227,10 +233,33 @@
           pageCount = Math.ceil(json.limit/pageEntries)||1;
           changePage(pageIndex);
         });
-      }, function () { }, { "text": text, "offset": pageIndex*pageEntries, "entries": pageEntries }, "PUT");
+      }, function () { }, { "text": text, "offset": pageIndex*pageEntries, "entries": pageEntries, "interdicao": aba_status_interdicao }, "PUT");
     }
-    searchCasas('');
 
+    function trocarAba(status_interdicao){
+      pageIndex = 0;
+      let stAba = abaNaoInterditado, ustAba1 = abaParcialInterditado, ustAba2 = abaTotalInterditado;
+      if (status_interdicao != 0){
+        if (status_interdicao==1){
+          stAba = abaParcialInterditado;
+          ustAba1 = abaNaoInterditado;
+        }
+        else {
+          stAba = abaTotalInterditado;
+          ustAba2 = abaNaoInterditado;
+        }
+      }
+      stAba.style.backgroundColor = '#023b7e';
+      stAba.style.color = '#fff';
+      ustAba1.style.backgroundColor = '#FFF';
+      ustAba1.style.color = '#000';
+      ustAba2.style.backgroundColor = '#FFF';
+      ustAba2.style.color = '#000';
+      aba_status_interdicao = status_interdicao;
+      searchCasas(search_casa.value);
+    }
+    trocarAba(0);
+    
     function closeModal() {
       document.querySelector('.viewCivil.open').classList.remove('open');
     }

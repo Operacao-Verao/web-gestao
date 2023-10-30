@@ -157,7 +157,7 @@
 	function randomItem($arr, $use_latest=false) {
 		global $_rli;
 		$_rli = $use_latest? $_rli: rand(0, count($arr)-1);
-		return $arr[$_rli];
+		return $_rli>=count($arr)? $arr[count($arr)-1]:$arr[$_rli];
 	}
 	
 	function genRandomPersonName() {
@@ -264,7 +264,7 @@
 		$nome = genRandomPersonName();
 		$civis_casa[] = randomItem($casas);
 	}
-		$civis[] = $daoCivil->insert(randomItem($residenciais, true), $nome, genRandomEmail($nome), '', substr(hexdec(encrypt('sha256', 'cpf:'.$i)).'', 2, 11), '119'.substr(hexdec(hash('sha256', 'celular:'.$i)).'', 2, 8), '11'.substr(hexdec(hash('sha256', 'telefone:'.$i)).'', 2, 8));
+		$civis[] = $daoCivil->insert(randomItem($residenciais, true), $nome, genRandomEmail($nome), '', substr(hexdec(hash('sha256', 'cpf:'.$i)).'', 2, 11), '119'.substr(hexdec(hash('sha256', 'celular:'.$i)).'', 2, 8), '11'.substr(hexdec(hash('sha256', 'telefone:'.$i)).'', 2, 8));
 	
 	echo '<h2>Ocorrencias</h2>';
 	$ocorrencias = array();
