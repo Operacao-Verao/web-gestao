@@ -245,6 +245,20 @@
       requestFromAction("../../actions/fetch/alter_casa.php", function (r) {
         r.text().then(function (r) {
           console.log(r);
+          
+          let status = '';
+          switch (alter_aprovado.value){
+            case '0': status = 'não'; break;
+            case '1': status = 'parcial'; break;
+            case '2': status = 'sim'; break;
+          }
+          
+          if (r=='success'){
+            alert("Status de interdição de casa foi alterado para '"+status+"' com SUCESSO!");
+          }
+          else {
+            alert("FALHA em alterar status de interdição de casa para  '"+status+"'!");
+          }
         });
       }, function () { }, { "idCasa": casa_atual, "interdicao": interdicao }, "POST");
     }

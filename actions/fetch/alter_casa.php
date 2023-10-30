@@ -21,10 +21,10 @@
 		$casa = $daoCasa->findById($input['idCasa']); 
 
 		if ($casa){
-			echo $input['interdicao'];
 			$casa->setInterdicao(intval($input['interdicao']));
 			$daoCasa->update($casa);
 		}
+		echo 'success';
 	}
 	catch (Throwable $error){
 		echo 'null';
