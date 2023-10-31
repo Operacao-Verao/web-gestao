@@ -63,7 +63,7 @@ authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
 <script>
   pageIndex = 0;
   pageCount = 1;
-  pageEntries = 5;
+  pageEntries = 10;
   createPaginationFooter(pagination_footer);
   let relatorio_atual = null;
 

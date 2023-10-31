@@ -8,7 +8,7 @@
 		
 		// Insert data of "DadosDaVistoria" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(Relatorio $relatorio, bool $desmoronamento, bool $deslizamento, bool $esgotoEscoamento, bool $erosao, bool $inundacao, bool $incendio, bool $arvores, bool $infiltracaoTrinca, bool $judicial, bool $monitoramento, bool $transito, string $outros): ?DadosDaVistoria{
+		public function insert(Relatorio $relatorio, bool $desmoronamento, bool $deslizamento, bool $esgotoEscoamento, bool $erosao, bool $inundacao, bool $incendio, bool $arvores, bool $infiltracaoTrinca, bool $judicial, bool $monitoramento, bool $transito, ?string $outros): ?DadosDaVistoria{
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("INSERT INTO DadosDaVistoria (id_relatorio, desmoronamento, deslizamento, esgoto_escoamento, erosao, inundacao, incendio, arvores, infiltracao_trinca, judicial, monitoramento, transito, outros) VALUES (:relatorio, :desmoronamento, :deslizamento, :esgoto_escoamento, :erosao, :inundacao, :incendio, :arvores, :infiltracao_trinca, :judicial, :monitoramento, :transito, :outros)");
 			$insertion->bindValue(":relatorio", $relatorio->getId());

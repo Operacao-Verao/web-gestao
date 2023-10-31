@@ -8,9 +8,10 @@
         
         // Insert data of "Ocorrencia" into the table
         // Returns a model if the insertion is successful, otherwise returns null
-        public function insert(?Tecnico $tecnico, Civil $civil, Residencial $residencial, string $acionamento, string $relatoCivil, int $numCasas, int $aprovado, int $encerrado, string $dataOcorrencia): ?Ocorrencia{
+        public function insert(?Funcionario $atendente, ?Tecnico $tecnico, Civil $civil, Residencial $residencial, string $acionamento, string $relatoCivil, int $numCasas, int $aprovado, int $encerrado, string $dataOcorrencia): ?Ocorrencia{
             // Try to insert the provided data into the database
-            $insertion = $this->pdo->prepare("INSERT INTO Ocorrencia (id_tecnico, id_civil, id_residencial, acionamento, relato_civil, num_casas, aprovado, encerrado, data_ocorrencia) VALUES (:id_tecnico, :id_civil, :id_residencial, :acionamento, :relato_civil, :num_casas, :aprovado, :encerrado, :data_ocorrencia)");
+            $insertion = $this->pdo->prepare("INSERT INTO Ocorrencia (id_atendente, id_tecnico, id_civil, id_residencial, acionamento, relato_civil, num_casas, aprovado, encerrado, data_ocorrencia) VALUES (:id_atendente, :id_tecnico, :id_civil, :id_residencial, :acionamento, :relato_civil, :num_casas, :aprovado, :encerrado, :data_ocorrencia)");
+            $insertion->bindValue(":id_atendente", $atendente? $atendente->getId(): null);
             $insertion->bindValue(":id_tecnico", $tecnico? $tecnico->getId(): null);
             $insertion->bindValue(":id_civil", $civil->getId());
             $insertion->bindValue(":id_residencial", $residencial->getId());
@@ -25,7 +26,7 @@
             if ($insertion->execute()) {
                 // Retrieve the ID of the last inserted instance and return a corresponding model for it
                 $lastId = intval($this->pdo->lastInsertId());
-                return new Ocorrencia($lastId, $tecnico? $tecnico->getId(): null, $civil->getId(), $residencial->getId(), $acionamento, $relatoCivil, $numCasas, $aprovado, $encerrado, $dataOcorrencia);
+                return new Ocorrencia($lastId, $atendente? $atendente->getId(): null, $tecnico? $tecnico->getId(): null, $civil->getId(), $residencial->getId(), $acionamento, $relatoCivil, $numCasas, $aprovado, $encerrado, $dataOcorrencia);
             }
 
             // Otherwise, return null
@@ -50,7 +51,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+                return new Ocorrencia($query['id'], $query['id_atendente'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
             }
             return null;
         }
@@ -66,7 +67,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+                $models[] = new Ocorrencia($query['id'], $query['id_atendente'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
             }
             return $models;
         }
@@ -80,7 +81,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+                $models[] = new Ocorrencia($query['id'], $query['id_atendente'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
             }
             return $models;
         }
@@ -105,7 +106,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+                $models[] = new Ocorrencia($query['id'], $query['id_atendente'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
             }
             return $models;
         }
@@ -124,7 +125,7 @@
         // Search for records of "Ocorrencia" by text and "aprovado" status
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByText(string $text, bool $status, bool $encerrado=true): array{
-            $select = $this->pdo->prepare('SELECT Ocorrencia.id AS id, Ocorrencia.id_tecnico AS id_tecnico, Ocorrencia.id_civil AS id_civil, Ocorrencia.id_residencial AS id_residencial, Ocorrencia.acionamento AS acionamento, Ocorrencia.relato_civil AS relato_civil, Ocorrencia.num_casas AS num_casas, Ocorrencia.aprovado AS aprovado, Ocorrencia.encerrado AS encerrado, Ocorrencia.data_ocorrencia AS data_ocorrencia FROM Ocorrencia INNER JOIN Civil ON Ocorrencia.id_civil = Civil.id INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE (Ocorrencia.relato_civil LIKE :text OR Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text) AND '.($encerrado? 'encerrado = false': 'aprovado = :aprovado AND encerrado = true').' ORDER BY Ocorrencia.data_ocorrencia DESC'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT Ocorrencia.id AS id, Ocorrencia.id_atendente AS id_atendente, Ocorrencia.id_tecnico AS id_tecnico, Ocorrencia.id_civil AS id_civil, Ocorrencia.id_residencial AS id_residencial, Ocorrencia.acionamento AS acionamento, Ocorrencia.relato_civil AS relato_civil, Ocorrencia.num_casas AS num_casas, Ocorrencia.aprovado AS aprovado, Ocorrencia.encerrado AS encerrado, Ocorrencia.data_ocorrencia AS data_ocorrencia FROM Ocorrencia INNER JOIN Civil ON Ocorrencia.id_civil = Civil.id INNER JOIN Residencial ON Ocorrencia.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE (Ocorrencia.relato_civil LIKE :text OR Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text) AND '.($encerrado? 'encerrado = false': 'aprovado = :aprovado AND encerrado = true').' ORDER BY Ocorrencia.data_ocorrencia DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', "%".$text."%");
             $select->bindValue(':aprovado', (int)$status);
             $select->execute();
@@ -132,7 +133,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Ocorrencia($query['id'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
+                $models[] = new Ocorrencia($query['id'], $query['id_atendente'], $query['id_tecnico'], $query['id_civil'], $query['id_residencial'], $query['acionamento'], $query['relato_civil'], $query['num_casas'], $query['aprovado'], $query['encerrado'], $query['data_ocorrencia']);
             }
             return $models;
         }
@@ -196,8 +197,9 @@
         // Update the "Ocorrencia" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Ocorrencia $ocorrencia): bool{
-            $update = $this->pdo->prepare("UPDATE Ocorrencia SET id_tecnico = :id_tecnico, id_civil = :id_civil, id_residencial = :id_residencial, acionamento = :acionamento, relato_civil = :relato_civil, num_casas = :num_casas, aprovado = :aprovado, encerrado = :encerrado, data_ocorrencia = :data_ocorrencia WHERE id = :id");
+            $update = $this->pdo->prepare("UPDATE Ocorrencia SET id_atendente = :id_atendente, id_tecnico = :id_tecnico, id_civil = :id_civil, id_residencial = :id_residencial, acionamento = :acionamento, relato_civil = :relato_civil, num_casas = :num_casas, aprovado = :aprovado, encerrado = :encerrado, data_ocorrencia = :data_ocorrencia WHERE id = :id");
             $update->bindValue(":id", $ocorrencia->getId());
+            $update->bindValue(":id_atendente", $ocorrencia->getIdAtendente());
             $update->bindValue(":id_tecnico", $ocorrencia->getIdTecnico());
             $update->bindValue(":id_civil", $ocorrencia->getIdCivil());
             $update->bindValue(":id_residencial", $ocorrencia->getIdResidencial());

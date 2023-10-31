@@ -34,6 +34,14 @@
 					$message = 'O cpf informado já está cadastrado!';
 				}
 				break;
+				case 'existing_email': {
+					$message = 'O email informado já está cadastrado!';
+				}
+				break;
+				case 'existing_tecnico': {
+					$message = 'Já há um técnico cadastrado com o email fornecido!';
+				}
+				break;
 				case 'wrong_login': {
 					$message = "E-mail e/ou senha incorretos";
 				}

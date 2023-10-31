@@ -138,16 +138,17 @@
 		"Caique", "Felipe", "Rosângela", "Everaldo", "Carol", "Caroline", "Cedrick", "Jean", "Isabela",
 		"Isadora", "Isaque", "Joel", "Jonas", "Juliana", "Camily", "Querolyne", "Johnny", "Rodrigo",
 		"Danilo", "Leonardo", "Márcia", "Márcio", "Marceline", "Diogo", "Diego", "Cristiana", "Sofia",
-		"Richard", "Fabrício", "Osvaldo"
+		"Richard", "Fabrício", "Osvaldo", "Charles", "Rohniere", "Yasmin", "Luide", "Rovilson", "Neymar",
+		"Henrique", "Cláudio", "Ebert", "Michel", "Michele", "Clara", "Leandro", "Cássio", "Arthur"
 	];
 	$lastName = [
-		"Souza", "de Souza", "Oliveira", "de Oliveira", "Salles", "Sartre", "Russeau", "Gonçalves", "da Silva", "Silva", "Santos",
+		"Souza", "de Souza", "Oliveira", "de Oliveira", "Salles", "Sartre", "Russeau", "Gonçalves", "da Silva", "Silva", "Santos", "Diaz", "Richards", "Manragon", "Pinho", "Brown",
 		"Pereira", "Ferreira", "Augusto", "Filho", "Pinto", "Santos", "dos Santos", "Jaime", "Luís",
 		"Cruz", "Putin", "Cassandra", "Alves", "Roberto", "Picasso", "Daniel", "Nilda", "Freitas",
 		"Ledo", "Lirussi", "Noberto", "Bueno", "Pires", "Souzones", "Pedro", "Felipe", "Buarque",
 		"Porto", "de Holanda", "Vitor", "Bergman", "Bergantins", "Soares", "Mello", "Lima", "Rodrigues",
 		"Brito", "Alencar", "de Alencar", "Nogueira", "Lenha Verde", "da Penha", "Gentile", "Lins",
-		"Lusiano", "Lusitano", "Osvaldo", "Araújo", "Ferraz"
+		"Lusiano", "Lusitano", "Osvaldo", "Araújo", "Ferraz", "Veríssimo", "Ramos", "Júnior", "Fagundes"
 	];
 	$mail = [
 		"email", "gmail", "hotmail", "yahoo", "outlook"
@@ -260,11 +261,32 @@
 	echo '<h2>Civis</h2>';
 	$civis = array();
 	$civis_casa = array();
-	for ($i=0; $i<$limit; $i++){
+	for ($i=0; $i<$limit*2; $i++){
 		$nome = genRandomPersonName();
+		
+		// Generating cpf
+		$cpf = str_pad(''.rand(0, 999999999), 9, '0', STR_PAD_LEFT);
+		$acu_v1 = 0;
+		for ($s=0; $s<9; $s++){
+			$digit = $cpf[$s];
+			$acu_v1 += $digit*(10-$s);
+		}
+		$ver1 = (11 - ($acu_v1%11));
+		$ver1 = $ver1>=10? 0: $ver1;
+		$cpf .= $ver1;
+		
+		$acu_v2 = 0;
+		for ($s=0; $s<10; $s++){
+			$digit = $cpf[$s];
+			$acu_v2 += $digit*(11-$s);
+		}
+		$ver2 = (11 - ($acu_v2%11));
+		$ver2 = $ver2>=10? 0: $ver2;
+		$cpf .= $ver2;
+		
 		$civis_casa[] = randomItem($casas);
+		$civis[] = $daoCivil->insert(randomItem($residenciais, true), $nome, genRandomEmail($nome), '', $cpf, '119'.substr(hexdec(hash('sha256', 'celular:'.$i)).'', 2, 8), '11'.substr(hexdec(hash('sha256', 'telefone:'.$i)).'', 2, 8));
 	}
-		$civis[] = $daoCivil->insert(randomItem($residenciais, true), $nome, genRandomEmail($nome), '', substr(hexdec(hash('sha256', 'cpf:'.$i)).'', 2, 11), '119'.substr(hexdec(hash('sha256', 'celular:'.$i)).'', 2, 8), '11'.substr(hexdec(hash('sha256', 'telefone:'.$i)).'', 2, 8));
 	
 	echo '<h2>Ocorrencias</h2>';
 	$ocorrencias = array();
@@ -274,7 +296,7 @@
 		$aprovado = ($i%3)==0? 1: 0;
 		$desaprovado = $i&1;
 		$ocorrencias_casas[] = randomItem($civis_casa);
-		$ocorrencias[] = $daoOcorrencia->insert($aprovado? $tecnicos[$i>>1]: null, randomItem($civis, true), new Residencial(randomItem($civis_casa, true)->getIdResidencial(), '', ''), (($i&1) == 0? "telefone": "presencial"), $relatos[$i%count($relatos)].' #'.$i, 1, $aprovado? 1: 0, $aprovado? 1: ($desaprovado), $data->format('Y-m-d H:i:s'));
+		$ocorrencias[] = $daoOcorrencia->insert(null, $aprovado? $tecnicos[$i>>1]: null, randomItem($civis, true), new Residencial(randomItem($civis_casa, true)->getIdResidencial(), '', ''), (($i&1) == 0? "telefone": "presencial"), $relatos[$i%count($relatos)].' #'.$i, 1, $aprovado? 1: 0, $aprovado? 1: ($desaprovado), $data->format('Y-m-d H:i:s'));
 	}
 	
 	echo '<h2>Relatorios</h2>';

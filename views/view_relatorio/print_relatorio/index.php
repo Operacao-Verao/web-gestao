@@ -76,6 +76,7 @@
   // Obtendo dados de Técnico e Funcionário
   $tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
   $funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
+  $atendente = $ocorrencia->getIdAtendente()? $daoFuncionario->findById($ocorrencia->getIdAtendente()): null;
 
   // Obtendo Fotos
   $fotos = $daoFoto->searchByRelatorio($relatorio);
@@ -149,28 +150,34 @@
                         <p class="item-title">Cidade: </p>
                         <p><?php echo $endereco->getCidade(); ?>/SP</p>
                     </div>
-                    <div class="item-row">
-                        <p class="item-title">Acionamento: </p>
-                        <p><?php echo $ocorrencia->getAcionamento(); ?></p>
+                    <div class="item-row-2">
+                        <div class="item-row">
+                            <p class="item-title">Acionamento: </p>
+                            <p><?php echo $ocorrencia->getAcionamento(); ?></p>
+                        </div>
+                        <div class="item-row">
+                            <p class="item-title">Atendente: </p>
+                            <p><?php echo $atendente? $atendente->getNome(): ''; ?></p>
+                        </div>
                     </div>
                     <div class="item-row">
                         <p class="item-title">Relatos: </p>
-                        <p><?php echo $ocorrencia->getRelatoCivil(); ?></p>
+                        <p><?php echo $relatorio->getRelatorio(); ?></p>
                     </div>
                 </article>
                 <article>
                     <div class="item-row">
                         <p class="item-title">Descrição/Orientações: </p>
-                        <p class="item-description">¯\_(ツ)_/¯</p>
+                        <p class="item-description"><?php echo $ocorrencia->getRelatoCivil(); ?></p>
                     </div>
                 </article>
                 <div class="assinatura">
                     <div>
-                        <p>¯\_(ツ)_/¯</p>
+                        <p><br/><br/></p>
                         <p class="item-title">Assinatura (Gestor): </p>
                     </div>
                     <div>
-                        <p>¯\_(ツ)_/¯</p>
+                        <p><br/><br/></p>
                         <p class="item-title">Assinatura (Técnico): </p>
                     </div>
                 </div>

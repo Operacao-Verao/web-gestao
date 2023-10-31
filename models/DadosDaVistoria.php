@@ -13,12 +13,12 @@
         private bool $judicial;
         private bool $monitoramento;
         private bool $transito;
-        private string $outros;
+        private ?string $outros;
         
         public function __construct(
             int $id, int $idRelatorio, bool $desmoronamento, bool $deslizamento, bool $esgotoEscoamento,
             bool $erosao, bool $inundacao, bool $incendio, bool $arvores, bool $infiltracaoTrinca,
-            bool $judicial, bool $monitoramento, bool $transito, string $outros
+            bool $judicial, bool $monitoramento, bool $transito, ?string $outros
         ) {
             $this->id = $id;
             $this->idRelatorio = $idRelatorio;
@@ -136,11 +136,11 @@
             $this->transito = $transito;
         }
         
-        public function getOutros(): string {
+        public function getOutros(): ?string {
             return $this->outros;
         }
         
-        public function setOutros(string $outros): void {
+        public function setOutros(?string $outros): void {
             $this->outros = $outros;
         }
     }

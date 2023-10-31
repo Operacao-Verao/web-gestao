@@ -37,6 +37,11 @@
             $funcionario = $daoFuncionario->insert($nome, $email, $senha_criptografada, TIPO_USUARIO::FUNCIONARIO);
         }
         
+        if ($daoTecnico->findByFuncionario($funcionario)){
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?error=existing_tecnico");
+            exit();
+        }
+        
         $tecnico = $daoTecnico->insert($funcionario, true);
         
         header("Location: ../views/tecnicos/tecnicos.php");

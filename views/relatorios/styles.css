@@ -11,17 +11,13 @@
 	height: 95dvh;
 	width: 100%;
 }
-.activity div:first-child {
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-}
 .dash-content .activity-data {
 	display: flex;
 	justify-content: space-between;
 	overflow-x: auto;
 	scroll-snap-type: x mandatory;
 	scroll-behavior: smooth;
+	margin-top: 3rem;
 }
 .search-space {
 	width: 100%;

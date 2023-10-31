@@ -154,7 +154,7 @@
   <article>
     <div class="item-row">
       <p class="item-row-title">Técnico Responsável - </p>
-      <p class="item-row-content"></p>
+      <p class="item-row-content"><?php echo $funcionario->getNome(); ?></p>
     </div>
     <div class="boxContent">
       <div class="dadosVistoria">

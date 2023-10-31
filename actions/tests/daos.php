@@ -469,9 +469,9 @@
 	echo '<h1>Ocorrencia</h1>';
 	
 	// Inserting
-	$ocorrencia1 = $daoOcorrencia->insert(null, $civil1, $residencial1, "telefone", 'É tenso', 1, 0, 0, getCurrentDatetime());
-	$ocorrencia2 = $daoOcorrencia->insert(null, $civil1, $residencial1, "telefone", 'Tá difícil', 1, 0, 0, getCurrentDatetime());
-	$ocorrencia4 = $daoOcorrencia->insert(null, $civil1, $residencial1, "telefone", 'Ajuda aí faz favor', 1, 0, 0, getCurrentDatetime());
+	$ocorrencia1 = $daoOcorrencia->insert(null, null, $civil1, $residencial1, "telefone", 'É tenso', 1, 0, 0, getCurrentDatetime());
+	$ocorrencia2 = $daoOcorrencia->insert(null, null, $civil1, $residencial1, "telefone", 'Tá difícil', 1, 0, 0, getCurrentDatetime());
+	$ocorrencia4 = $daoOcorrencia->insert(null, null, $civil1, $residencial1, "telefone", 'Ajuda aí faz favor', 1, 0, 0, getCurrentDatetime());
 	
 	// Updating
 	$ocorrencia1->setTecnico($tecnico1);

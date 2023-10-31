@@ -23,6 +23,7 @@
 		$daoOcorrencia = new DAOOcorrencia($pdo);
 		$daoEndereco = new DAOEndereco($pdo);
 		$daoResidencial = new DAOResidencial($pdo);
+		$daoFuncionario = new DAOFuncionario($pdo);
 		$daoCasa = new DAOCasa($pdo);
 		$daoCivil = new DAOCivil($pdo);
 		
@@ -99,7 +100,8 @@
 			$daoCivil->update($civil);
 		}
 		
-		$ocorrencia = $daoOcorrencia->insert(null, $civil, $residencial, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
+		$atendente = $daoFuncionario->findById($_SESSION["usuario_id"]);
+		$ocorrencia = $daoOcorrencia->insert($atendente, null, $civil, $residencial, $acionamento, $relato, $numCasas, 0, 0, getCurrentDatetime());
 		if ($ocorrencia == null){
 			header("Location: ../views/ocorrencias/cad_ocorrencia/cad_ocorrencia.php?error=cadastrofalhou");
 	        exit();
