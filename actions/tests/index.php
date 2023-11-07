@@ -46,7 +46,8 @@
 		
 		<ul>
 			<li><a href="chart.php">chart.php</a></li>
-			<li><a href="daos.php">daos.php</a></li>
+			<li><a href="crypto.php">crypto.php</a></li>
+            <li><a href="daos.php">daos.php</a></li>
 			<li><a href="formats.php">formats.php</a></li>
 			<li><a href="list_ocorrencia.php">list_ocorrencia.php</a></li>
 			<li><a href="listas.php">listas.php</a></li>
@@ -54,6 +55,11 @@
             <li><a href="populate.php?base=100">populate.php</a></li>
 			<li><a href="search_ocorrencia.php">search_ocorrencia.php</a></li>
 		</ul>
+        
+       <!-- De accesso facilitado para Devs -->
+       <a href="../_dev_access.php">Fica sussa meu nobre, sou dev!</a>
+       <br/>
+       <!--<a href="../../actions/tests/index.php">Página de testes</a>-->
 		
 	</body>
 </html>

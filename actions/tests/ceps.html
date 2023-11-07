@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+	</head>
+	<body>
+		
+		<script>
+			// viacep.com.br/ws/01001000/json/
+			let ceps = [];
+			let next = 0;
+			let end = 99999;
+			
+			let keep_trying = true;
+			
+			function nextCep() {
+				if (!keep_trying){
+					return;
+				}
+				if (next > end){
+					document.innerHTML = '';
+					document.write(JSON.stringify(ceps));
+					return;
+				}
+				let cep = '078'+(''+next).padStart(5, '0');
+				
+				console.log("Fetching cep "+cep);
+				fetch('https://viacep.com.br/ws/'+cep+'/json/', {'mode':'no-cors'}).then(function(r){
+					next++;
+					r.json().then(function(j){
+						if (j.erro != true){
+							ceps.push(j);
+						}
+						nextCep();
+					}, function(){
+						console.log("Could not decode the response!");
+						nextCep();
+					});
+				},
+				function(){
+					console.log("Error fetching, trying again...");
+					nextCep();
+				});
+			}
+			
+			nextCep();
+			
+		</script>
+		
+	</body>
+</html>

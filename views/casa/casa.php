@@ -45,17 +45,19 @@
             <button class="btnStatus" id="abaParcialInterditado" onclick="trocarAba(1)">Parcialmente Interditados</button>
             <button class="btnStatus" id="abaTotalInterditado" onclick="trocarAba(2)">Totalmente Interditados</button>
           </div>
-          <div class="data name" id="list_ceps">
-            <span class="data-title">CEP</span>
-          </div>
-          <div class="data email" id="list_numeros">
-            <span class="data-title">Número</span>
-          </div>
-          <div class="data cpf" id="list_complementos">
-            <span class="data-title">Complemento</span>
-          </div>
-          <div class="data ver" id="list_views">
-            <span class="data-title">Ver</span>
+          <div class="row">
+            <div class="data name" id="list_ceps">
+              <span class="data-title">CEP</span>
+            </div>
+            <div class="data email" id="list_numeros">
+              <span class="data-title">Número</span>
+            </div>
+            <div class="data cpf" id="list_complementos">
+              <span class="data-title">Complemento</span>
+            </div>
+            <div class="data ver" id="list_views">
+              <span class="data-title">Ver</span>
+            </div>
           </div>
         </section>
       </div>

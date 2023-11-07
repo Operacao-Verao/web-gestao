@@ -20,9 +20,20 @@
 
           <form method="post" action="../../actions/login.php">
                 <?php
-                  if(!empty($_SESSION['erro'])) {
-                    echo '<span class="error">'.$_SESSION['erro'].'</span><br>';
-                    $_SESSION['erro'] = '';  
+                  if(!empty($_GET['error'])) {
+                    $message = 'Erro interno do servidor, contacte os desenvolvedores!';
+                    switch ($_GET['error']){
+                      case 'wrong_login': {
+                        $message = 'O E-mail e/ou a senha estão incorretos!';
+                      }
+                      break;
+                      case 'gestor_only': {
+                        $message = 'Apenas o gestor pode ter acesso!';
+                      }
+                      break;
+                    }
+                    echo '<span class="error">'.$message.'</span><br>';
+                    $_GET['error'] = '';  
                     session_destroy();
                   }
                 ?>
@@ -32,11 +43,6 @@
                 <input type="password" id="senha" name="edtsenha">
                 
            <button type="submit">Logar</button>
-           
-           <!-- De accesso facilitado para Devs -->
-           <a href="../../actions/_dev_access.php">Fica sussa meu nobre, sou dev!</a>
-           <br/>
-           <a href="../../actions/tests/index.php">Página de testes</a>
           </form>
         </div>
       </section>

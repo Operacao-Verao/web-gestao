@@ -24,7 +24,7 @@
 	width: 50%;
 	height: min-content;
 
-	margin: 15px auto;
+	margin: 0 auto;
 }
 
 .search-div input {
@@ -47,15 +47,35 @@
 
 .activity-data {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	flex-direction: column;
+	gap: 4rem;
 
 	width: 100%;
 	background-color: var(--box-color);
 	border-radius: 0.6rem;
-	padding: 4rem 2rem;
+	padding: 1rem 3rem;
 }
-
+.status {
+	display: flex;
+	font-weight: 600;
+	gap: 3rem;
+}
+.btnStatus {
+	border: 0;
+	border-radius: 2rem;
+	padding: 1rem 1.5rem;
+	font-weight: 500;
+	font-size: 2rem;
+	cursor: pointer;
+}
+.btnStatus:hover {
+	text-decoration: underline;
+}
+.activity-data .row{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
 .activity-data .data {
 	display: flex;
 	flex-direction: column;

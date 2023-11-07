@@ -20,8 +20,6 @@
             exit();
         }
         
-        //$senha = encryptPassword($senha);
-        
         $funcionario = $daoFuncionario->findByEmail($email);
         $acesso_permitido = $funcionario != null && verifyPassword($funcionario->getSenha(), $senha);
         
@@ -29,7 +27,7 @@
         
         if ($funcionario != null){
             $gestor = $daoGestor->findByFuncionario($funcionario);
-            if ($gestor == null){
+            if ($gestor == null || $funcionario->getTipoUsuario()!=TIPO_USUARIO::GESTOR){
                 header("Location: ../views/login/login.php?error=gestor_only");
                 exit();
             }

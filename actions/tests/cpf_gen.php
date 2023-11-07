@@ -1,4 +1,10 @@
 <?php
+    include_once('../conn.php');
+    
+    // Only allowed in DEV version
+    if (DEV_LEVEL != DEV_LEVEL::DEV_MODE){
+        header("Location: ../../views/login/login.php");
+    }
 	
 	// Generating cpf
 	$cpf = str_pad(''.rand(0, 999999999), 9, '0', STR_PAD_LEFT);
