@@ -10,8 +10,6 @@
 </head>
 
   <?php
-    require '../../../actions/conn.php';
-    require '../../../actions/session_auth.php';
     authenticateSession(TIPO_USUARIO::GESTOR, '', '../../login/login.php');
     
     require '../../../models/Tecnico.php';

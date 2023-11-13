@@ -6,10 +6,7 @@
 </head>
 	<?php
 		require '../../partials/header/header.php';
-		require '../../actions/conn.php';
-		
-		require '../../actions/session_auth.php';
-		authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+		authenticateSession(TIPO_USUARIO::GESTOR, '', 'cad_ocorrencia/cad_ocorrencia.php');
 	?>
 	<div class="wrapper-main">
 		<section class="search-space">

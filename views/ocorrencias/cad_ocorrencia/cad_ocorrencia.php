@@ -11,12 +11,13 @@
 <?php
   require '../../../actions/conn.php';
   require '../../../actions/session_auth.php';
-  authenticateSession(TIPO_USUARIO::GESTOR, '', '../../login/login.php');
   
   require '../../../models/Civil.php';
   require '../../../daos/DAOCivil.php';
   require '../../../models/Residencial.php';
   require '../../../daos/DAOResidencial.php';
+
+  session_start();
   
   $daoCivil = new DAOCivil($pdo);
   $daoResidencial = new DAOResidencial($pdo);
@@ -30,7 +31,17 @@
 <body>
   <main>
   <div class="topRow">
-    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256" onclick="location = '../ocorrencias.php'"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+    <?php
+      try {
+        if(!empty($_SESSION['usuario_id']) || $_SESSION["usuario_tipo"] != TIPO_USUARIO::GESTOR) {
+          require '../../../partials/svgs/svg_gestao.php';
+        } else {
+          require '../../../partials/svgs/svg_civil.php';
+        }
+      } catch (\Throwable $th) {
+        echo $th;
+      }
+    ?>
       <h1>Criar Ocorrência</h1>
   </div>
     <form method="post" action="../../../actions/cad_ocorrencia.php">
