@@ -133,6 +133,9 @@
 			}
 		})
 	}
+
+	enableNotif();
+
 	function registerNotificationOnDatabase(subscription) {
 		requestFromAction("../../actions/fetch/registrar_service_worker.php", function(r){
 	      r.json().then(function(json){

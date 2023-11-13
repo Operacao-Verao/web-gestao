@@ -9,6 +9,13 @@
 		// Insert data of "Service Worker Data" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
 		public function insert(string $sw_endpoint, string $auth, string $p256dh, Gestor $gestor): ?ServiceWorker{
+			$select = $this->pdo->prepare('SELECT * FROM ServiceWorkerData WHERE sw_endpoint = :sw_endpoint');
+			$select->bindValue(":sw_endpoint", $sw_endpoint);
+      $select->execute();
+
+			if($select->rowCount() > 0) {
+				return null;
+			}
 			// Try to insert the provided data into the database
 			$insertion = $this->pdo->prepare("INSERT INTO ServiceWorkerData (sw_endpoint, auth, p256dh, id_gestor) VALUES (:sw_endpoint, :auth, :p256dh, :id_gestor)");
 			$insertion->bindValue(":sw_endpoint", $sw_endpoint);
