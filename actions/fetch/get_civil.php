@@ -25,12 +25,6 @@
 	require '../../daos/DAORegistro.php';
 	
 	try {
-		// Protective measures against ilegal data access
-		if($_SESSION["usuario_tipo"] != 0){
-			echo '{}';
-			exit();
-		}
-		
 		$daoCivil = new DAOCivil($pdo);
 		$daoOcorrencia = new DAOOcorrencia($pdo);
 		$daoRelatorio = new DAORelatorio($pdo);

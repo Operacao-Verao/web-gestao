@@ -8,10 +8,12 @@
 		
 		// Insert data of "Pluviometro" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(string $cep, float $latitude, float $longitude): ?Pluviometro{
+		public function insert(string $cep, string $authKey, string $authToken, float $latitude, float $longitude): ?Pluviometro{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("INSERT INTO Pluviometro (cep, latitude, longitude) VALUES (:cep, :latitude, :longitude)");
+			$insertion = $this->pdo->prepare("INSERT INTO Pluviometro (cep, auth_key, auth_token, latitude, longitude) VALUES (:cep, :auth_key, :auth_token, :latitude, :longitude)");
 			$insertion->bindValue(":cep", $cep);
+			$insertion->bindValue(":auth_key", $authKey);
+			$insertion->bindValue(":auth_token", $authToken);
 			$insertion->bindValue(":latitude", $latitude);
 			$insertion->bindValue(":longitude", $longitude);
 
@@ -19,7 +21,7 @@
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$lastId = intval($this->pdo->lastInsertId());
-				return new Pluviometro($lastId, $cep, $latitude, $longitude);
+				return new Pluviometro($lastId, $cep, $authKey, $authToken, $latitude, $longitude);
 			}
 
 			// Otherwise, return null
@@ -44,7 +46,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Pluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
+                return new Pluviometro($query['id'], $query['cep'], $query['auth_key'], $query['auth_token'], $query['latitude'], $query['longitude']);
             }
             return null;
 		}
@@ -58,7 +60,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Pluviometro($query['id'], $query['cep'], $query['latitude'], $query['longitude']);
+                $models[] = new Pluviometro($query['id'], $query['cep'], $query['auth_key'], $query['auth_token'], $query['latitude'], $query['longitude']);
             }
             return $models;
 		}
@@ -66,9 +68,11 @@
 		// Update the "Pluviometro" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Pluviometro $pluviometro): bool{
-			$insertion = $this->pdo->prepare("UPDATE Pluviometro SET cep = :cep, latitude = :latitude, longitude = :longitude WHERE id = :id");
+			$insertion = $this->pdo->prepare("UPDATE Pluviometro SET cep = :cep, auth_key = :auth_key, auth_token = :auth_token, latitude = :latitude, longitude = :longitude WHERE id = :id");
 			$insertion->bindValue(":id", $pluviometro->getId());
 			$insertion->bindValue(":cep", $pluviometro->getCep());
+			$insertion->bindValue(":auth_key", $pluviometro->getAuthKey());
+			$insertion->bindValue(":auth_token", $pluviometro->getAuthToken());
 			$insertion->bindValue(":latitude", $pluviometro->getLatitude());
 			$insertion->bindValue(":longitude", $pluviometro->getLongitude());
 			return $insertion->execute();

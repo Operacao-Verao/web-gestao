@@ -1,7 +1,7 @@
 <?php
 	require 'conn.php';
 	require 'session_auth.php';
-	authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+	authenticateSession(TIPO_USUARIO::GUEST);
 	
 	require '../models/Ocorrencia.php';
 	require '../daos/DAOOcorrencia.php';
@@ -28,7 +28,7 @@
 		$daoCivil = new DAOCivil($pdo);
 		
 		$cpf = $_POST['inputCpf'];
-		$acionamento = $_POST['inputAcionamento'];
+		$acionamento = isset($_POST['inputAcionamento'])? $_POST['inputAcionamento']: 'web';
 		$relato = $_POST['inputRelato'];
 		$numCasas = $_POST['inputNumCasas'];
 		$numero = $_POST['inputNumero'];
@@ -107,7 +107,12 @@
 	        exit();
 		}
 		
-		header("Location: ../views/ocorrencias/ocorrencias.php?id=".$ocorrencia->getId());
+		if ($_SESSION['usuario_tipo'] == TIPO_USUARIO::GESTOR){
+			header("Location: ../views/ocorrencias/ocorrencias.php?id=".$ocorrencia->getId());
+		}
+		else {
+			header("Location: ../views/index.php");
+		}
 		exit();
 	} catch (Throwable $error) {
 		regError($error);

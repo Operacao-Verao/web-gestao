@@ -5,18 +5,14 @@
 	require '../conn.php';
 	
 	// A session as Arduino must be initialized
-	if (!isset($_SESSION['arduino_id']) || !isset($_SESSION['arduino_device']) || !isset($_SESSION['arduino_token'])){
-		echo '0';
-		exit();
-	}
-	// Check if the token in the device matches the session token
-	if ($input['token'] != $_SESSION['arduino_token']){
+	if (!isset($input['id']) || !isset($input['device']) || !isset($input['token']) || !isset($input['medida'])){
 		echo '0';
 		exit();
 	}
 	
+	// Just to ensure the device accessing the port is arduino with the correct key
 	// Pluviômetro
-	if ($_SESSION['arduino_device']==0){
+	if ($input['device']==0){
 		require '../../models/Pluviometro.php';
 		require '../../daos/DAOPluviometro.php';
 		require '../../models/NivelChuva.php';
@@ -24,10 +20,12 @@
 		
 		$daoPluviometro = new DAOPluviometro($pdo);
 		$daoNivelChuva = new DAONivelChuva($pdo);
-		
 		$pluviometro = $daoPluviometro->findById($input['id']);
-		$daoNivelChuva->insert($pluviometro, $input['medida'], getCurrentDatetime());
-		echo '1';
+		if ($pluviometro && $pluviometro->getAuthToken()==$input['token']){
+			$daoNivelChuva->insert($pluviometro, $input['medida'], getCurrentDatetime());
+			echo '1';
+			exit();
+		}
 	}
 	// Fluviômetro
 	else {
@@ -38,9 +36,14 @@
 		
 		$daoFluviometro = new DAOFluviometro($pdo);
 		$daoNivelRio = new DAONivelRio($pdo);
-		
 		$fluviometro = $daoFluviometro->findById($input['id']);
-		$daoNivelRio->insert($fluviometro, $input['medida'], getCurrentDatetime());
-		echo '1';
+		if ($fluviometro && $fluviometro->getAuthToken()==$input['token']){
+			$daoNivelRio->insert($fluviometro, $input['medida'], getCurrentDatetime());
+			echo '1';
+			exit();
+		}
 	}
+	
+	echo '0';
+	exit();
 ?>

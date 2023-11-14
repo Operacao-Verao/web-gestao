@@ -62,6 +62,8 @@
     enum TIPO_USUARIO{
         const GESTOR = 0;
         const FUNCIONARIO = 1;
+        const CIVIL = 10;
+        const GUEST = -1;
     };
     
     // Errors regs

@@ -17,7 +17,7 @@
   require '../../../models/Residencial.php';
   require '../../../daos/DAOResidencial.php';
 
-  session_start();
+  authenticateSession(TIPO_USUARIO::GUEST);
   
   $daoCivil = new DAOCivil($pdo);
   $daoResidencial = new DAOResidencial($pdo);
@@ -33,7 +33,7 @@
   <div class="topRow">
     <?php
       try {
-        if(!empty($_SESSION['usuario_id']) || $_SESSION["usuario_tipo"] != TIPO_USUARIO::GESTOR) {
+        if($_SESSION["usuario_tipo"] == TIPO_USUARIO::GESTOR) {
           require '../../../partials/svgs/svg_gestao.php';
         } else {
           require '../../../partials/svgs/svg_civil.php';
@@ -74,7 +74,7 @@
             echo '<input type="text" name="inputCpf" id="inputCpf" placeholder="Ex.: 53903904920" value="'.$civil->getCpf().'" readonly required>';
           }
           else{
-            echo '<input type="text" name="inputCpf" id="inputCpf" placeholder="Ex.: 53903904920" oninput="getCivil(this.value)" required>';
+            echo '<input type="text" name="inputCpf" id="inputCpf" placeholder="Ex.: 53903904920" required>';
           }
         ?>
       </div>
@@ -102,20 +102,33 @@
           ?>
         </div>
       </div>
-      <div class="inputAreaRow">
-        <div class="inputArea">
-          <label for="inputAcionamento">Acionamento*</label>
-          <select name="inputAcionamento" required>
-            <option value="web">Formulário do Site</option>
-            <option value="telefone" selected>Telefone</option>
-            <option value="presencial">Presencial</option>
-          </select>
-        </div>
-        <div class="inputArea">
-          <label for="inputNumCasas">Casas Envolvidas*</label>
-          <input type="number" name="inputNumCasas" placeholder="Ex.: 3" required>
-        </div>
-      </div>
+      <?php
+        if ($_SESSION["usuario_tipo"] == TIPO_USUARIO::GESTOR){
+          echo '
+            <div class="inputAreaRow">
+              <div class="inputArea">
+                <label for="inputAcionamento">Acionamento*</label>
+                <select name="inputAcionamento" required>
+                  <option value="web">Formulário do Site</option>
+                  <option value="telefone" selected>Telefone</option>
+                  <option value="presencial">Presencial</option>
+                </select>
+              </div>
+              <div class="inputArea">
+                <label for="inputNumCasas">Casas Envolvidas*</label>
+                <input type="number" name="inputNumCasas" placeholder="Ex.: 3" required>
+              </div>
+            </div>';
+        }
+        else {
+          echo '
+            <div class="inputArea">
+              <label for="inputNumCasas">Casas Envolvidas*</label>
+              <input type="number" name="inputNumCasas" placeholder="Ex.: 3" required>
+            </div>';
+        }
+      ?>
+      
       <div class="inputArea">
         <label for="inputRelato">Assunto*</label>
         <textarea name="inputRelato" rows="5"></textarea>
@@ -200,24 +213,6 @@
     );
   }
   
-  function getCivil(cpf){
-    requestFromAction("../../../actions/fetch/get_civil.php", function(r){
-      r.json().then(function(json){
-        //console.log(json);
-        
-        if (Object.keys(json).length > 0){
-          inputName.value = json.nome;
-          inputEmail.value = json.email;
-          inputCelular.value = json.celular;
-          inputTelefone.value = json.telefone;
-          inputCep.value = json.cep;
-          inputCep.oninput();
-          inputNumero.value = json.numero;
-        }
-      })
-    }, function(){}, {'cpf': cpf});
-  }
-  
   function tryRequestAndValidateCep(cep){
     validating_cep = true;
     requestFromAction("../../../actions/fetch/get_endereco.php?cep="+cep, function(r){
@@ -244,10 +239,43 @@
     inputEmail.value = inputEmail.value.substr(0, 70);
   }
   
-  inputCpf.oninput = function(){
-    inputCpf.value = inputCpf.value.replace(/[^0-9]/g, '').substr(0, 11);
-    getCivil(inputCpf.value);
-  }
+  <?php
+    if ($_SESSION["usuario_tipo"] == TIPO_USUARIO::GESTOR){
+      echo '
+        function getCivil(cpf){
+          requestFromAction("../../../actions/fetch/get_civil.php", function(r){
+            r.json().then(function(json){
+              //console.log(json);
+              
+              if (typeof json.error === "undefined"){
+                inputName.value = json.nome;
+                inputEmail.value = json.email;
+                inputCelular.value = json.celular;
+                inputTelefone.value = json.telefone;
+                inputCep.value = json.cep;
+                inputCep.oninput();
+                inputNumero.value = json.numero;
+              }
+            })
+          }, function(){}, {"cpf": cpf});
+        }
+        
+        inputCpf.oninput = function(){
+          inputCpf.value = inputCpf.value.replace(/[^0-9]/g, "").substr(0, 11);
+          if (inputCpf.value.length==11){
+            getCivil(inputCpf.value);
+          }
+        }
+      ';
+    }
+    else {
+      echo '
+        inputCpf.oninput = function(){
+          inputCpf.value = inputCpf.value.replace(/[^0-9]/g, "").substr(0, 11);
+        }
+      ';
+    }
+  ?>
   
   inputCelular.oninput = function(){
     inputCelular.value = inputCelular.value.replace(/[^0-9]/g, '').substr(0, 11);

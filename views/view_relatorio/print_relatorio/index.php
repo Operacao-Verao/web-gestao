@@ -12,7 +12,6 @@
 <?php
   authenticateSession(TIPO_USUARIO::GESTOR, '', '../../login/login.php');
   
-  
   require '../../../models/Relatorio.php';
   require '../../../daos/DAORelatorio.php';
   require '../../../models/Ocorrencia.php';

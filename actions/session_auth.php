@@ -1,10 +1,40 @@
 <?php
+	$_session_started = false;
 	function authenticateSession($require_level, $error_echo_back='', $error_redirect_back=null) {
-		session_start();
-		if(empty($_SESSION['usuario_id']) || $_SESSION["usuario_tipo"] != $require_level) {
+		global $_session_started;
+		if (!$_session_started){
+			session_start();
+			$_session_started = true;
+		}
+		// Any user in Guest mode can access the page
+		// If not logged as guest, automatically log on an return to page
+		if ($require_level == TIPO_USUARIO::GUEST){
+			if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_tipo'])){
+				$_SESSION["usuario_id"] = -1;
+		        $_SESSION["usuario_nome"] = 'guest';
+		        $_SESSION["usuario_tipo"] = TIPO_USUARIO::GUEST;
+			}
+			return;
+		}
+		
+		$access_allowed = true;
+		if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_tipo'])) {
+			$access_allowed = false;
+		}
+		else {
+			if(empty($_SESSION['usuario_id'])) {
+				$access_allowed = false;
+			};
+			if ($_SESSION["usuario_tipo"] != $require_level){
+				$access_allowed = false;
+			}
+		}
+		
+		if (!$access_allowed){
 			session_destroy();
 			if ($error_redirect_back != null){
 				header('Location: '.$error_redirect_back);
+				exit();
 				return;
 			}
 			else {
@@ -12,7 +42,7 @@
 				die();
 				return;
 			}
-		};
+		}
 	}
 	function echoError(){
 		if (isset($_GET['error'])){

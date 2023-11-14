@@ -9,26 +9,33 @@
 	<link rel="stylesheet" href="../../partials/header/styles.css" />
 </head>
 <?php
-		require '../../actions/session_auth.php';
-		require '../../actions/conn.php';
+	require '../../actions/conn.php';
+	require '../../actions/session_auth.php';
 
-		session_start();
+	authenticateSession(TIPO_USUARIO::GUEST);
 ?>
 <body>
 	<nav>
 		<div class="logo-name">
 			<span>
-				<a href=<?php if(!empty($_SESSION['usuario_id']) || $_SESSION["usuario_tipo"] != TIPO_USUARIO::GESTOR) echo "../../views/home/home.php"; else echo "../../views/niveis_chuva/niveis_chuva.php";?> class="logo_name">Defesa Civil</a>
+				<a href=<?php
+					if($_SESSION["usuario_tipo"] == TIPO_USUARIO::GESTOR) {
+						echo "../../views/home/home.php";
+					}
+					else {
+						echo "../../views/niveis_chuva/niveis_chuva.php";
+					}
+				?> class="logo_name">Defesa Civil</a>
 			</span>
 		</div>
 		<div class="menu-items">
 			<?php
-				if(!empty($_SESSION['usuario_id']) || $_SESSION["usuario_tipo"] != TIPO_USUARIO::GESTOR) {
+				if($_SESSION["usuario_tipo"] == TIPO_USUARIO::GESTOR) {
 					require 'header_gestao.php';
-				} else {
+				}
+				else {
 					require 'header_civil.php';
 				}
-				
 			?>
 		</div>
 	</nav>
