@@ -125,6 +125,9 @@ authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
     searchRelatorios(search_relatorio.value);
   }
   
+  let update = setInterval(function(){
+    searchRelatorios(search_relatorio.value);
+  }, 30 * 1000);
 </script>
 
 </html>

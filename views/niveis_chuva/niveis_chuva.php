@@ -34,7 +34,7 @@
 		);
 	}
 	// Procura por níveis de chuva
-	function searchNiveisChuva(text) {
+	function searchNiveisChuva() {
 		requestFromAction("../../actions/fetch/search_niveis_pluviometro.php", function(r){
 	      r.json().then(function(json){
 
@@ -139,8 +139,12 @@
 
 					Highcharts.chart(`main-graph`, grafico_geral);
 	      });
-	    }, function(){}, {"text": text, "nivel": true});
+	    }, function(){}, {"nivel": true});
 	}
-	searchNiveisChuva("");
+	searchNiveisChuva();
+	
+	let update = setInterval(function(){
+		searchNiveisChuva();
+	}, 30 * 1000);
 </script>
 </html>

@@ -1,7 +1,7 @@
 <?php 
     require 'conn.php';
     require 'session_auth.php';
-    authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+    authenticateSession(TIPO_USUARIO::GESTOR, '', '../views/login/login.php');
     
     include_once("../models/Funcionario.php");
     include_once("../daos/DAOFuncionario.php");

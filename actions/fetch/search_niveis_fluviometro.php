@@ -35,6 +35,7 @@
 					echo ',';
 				}
 				
+				$daoNivelRio->setListLength(20);
 				$niveis = $daoNivelRio->listAllByFluv($fluviometro->getId());
 			
 				$endereco = $daoEndereco->findByCep($fluviometro->getCep());

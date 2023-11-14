@@ -35,6 +35,7 @@
 					echo ',';
 				}
 				
+				$daoNivelChuva->setListLength(20);
 				$niveis = $daoNivelChuva->listAllByPluv($pluviometro->getId());
 			
 				$endereco = $daoEndereco->findByCep($pluviometro->getCep());

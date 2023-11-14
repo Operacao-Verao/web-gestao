@@ -80,7 +80,7 @@
 								$tecnicos_funcionarios = [];
 								foreach ($tecnicos as $tecnico) {
 									$funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
-									if ($funcionario){
+									if ($funcionario && $tecnico->getAtivo()){
 										echo '<option value="'.$tecnico->getId().'">'.$funcionario->getNome().'</option>';
 									}
 								}
@@ -237,6 +237,10 @@
 		    alter_aprovado.disabled = true;
 		    btnTrancar.hidden = true;
 		}
+		
+		let update = setInterval(function(){
+			searchOcorrencias(search_ocorrencia.value);
+		}, 30 * 1000);
 	</script>
 	<?php
 		if (isset($_GET['id'])){

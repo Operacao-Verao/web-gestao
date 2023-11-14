@@ -34,7 +34,7 @@
 		);
 	}
 	// Procura por ocorrencias
-	function searchOcorrencias(text) {
+	function searchNiveisRio() {
 		requestFromAction("../../actions/fetch/search_niveis_fluviometro.php", function(r){
 	      r.json().then(function(json){
 
@@ -139,8 +139,12 @@
 
 					Highcharts.chart(`main-graph`, grafico_geral);
 	      });
-	    }, function(){}, {"text": text, "nivel": true});
+	    }, function(){}, {"nivel": true});
 	}
-	searchOcorrencias("");
+	searchNiveisRio();
+	
+	let update = setInterval(function(){
+		searchNiveisRio();
+	}, 30 * 1000);
 </script>
 </html>

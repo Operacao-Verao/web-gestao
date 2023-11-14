@@ -358,6 +358,11 @@
 	    }, function(){}, {"rank": 3}, "POST");
 	}
 	refreshStatistics();
+	
+	let update = setInterval(function(){
+		refreshStatistics();
+		refreshOcorrencias();
+	}, 30 * 1000);
 </script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>

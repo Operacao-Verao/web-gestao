@@ -79,12 +79,14 @@
 	color: #71717a;
 	padding-right: 3rem;
 	border-right: 2px solid #9ca3af;
+	max-width: 115px;
+	min-width: 115px;
 }
 
 .ocorrencias .ocorrencia-date::after {
 	content: '';
 	width: 2px;
-	min-height: 80px;
+	min-height: 60px;
 }
 
 .ocorrencias .ocorrencia-info {
@@ -99,6 +101,12 @@
 	font-size: 1.8rem;
 	font-weight: 500;
 	gap: 1.5rem;
+}
+
+.all-ocorrencias{
+	display: flex;
+    flex-direction: column;
+    gap: 3rem;
 }
 
 .ocorrencia-title button {
