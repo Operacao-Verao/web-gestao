@@ -29,9 +29,9 @@
     function getCurrentTime() {
         return date('h:i:s', time());
     }
-    function formatDate($datetime) {
+    function formatDate($datetime, $with_year=true) {
         $date = date_create($datetime);
-        return date_format($date, 'd/m/Y');
+        return date_format($date, $with_year? 'd/m/Y': 'd/m');
     }
     function formatWeekDay($datetime, $full_name = true) {
         $format = date_format(date_create($datetime), 'w');

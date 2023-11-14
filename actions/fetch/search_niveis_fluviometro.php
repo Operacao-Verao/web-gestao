@@ -58,8 +58,8 @@
 
 							echo '{
 								"nivel":'.$nivel->getNivelRio().',
-								"data":"'.addslashes(formatdate($nivel->getDataDiario())).'",
-								"hora":"'.addslashes(formattime($nivel->getDataDiario())).'"
+								"data":"'.addslashes(formatDate($nivel->getDataDiario(), true)).'",
+								"hora":"'.addslashes(formatTime($nivel->getDataDiario())).'"
 							}';
 						}
 					echo ']';

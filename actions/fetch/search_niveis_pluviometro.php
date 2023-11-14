@@ -58,8 +58,8 @@
 
 							echo '{
 								"nivel":'.$nivel->getChuvaEmMm().',
-								"data":"'.addslashes(formatdate($nivel->getDataChuva())).'",
-								"hora":"'.addslashes(formattime($nivel->getDataChuva())).'"
+								"data":"'.addslashes(formatDate($nivel->getDataChuva(), false)).'",
+								"hora":"'.addslashes(formatTime($nivel->getDataChuva())).'"
 							}';
 						}
 					echo ']';
