@@ -222,7 +222,7 @@
             cep_content += '<span class="data-list">' + casa.cep + '</span>';
             numero_content += '<span class="data-list">' + casa.numero + '</span>';
             complemento_content += '<span class="data-list">' + (casa.complemento.trim()==''?'<br/>':casa.complemento) + '</span>';
-            view_content += '<button class="data-list" onclick=\'openModal("viewCivil", ' + casa.id + ')\'><i class="ph-bold ph-eye"></i></button>';
+            view_content += '<button class="data-list-2" onclick=\'openModal("viewCivil", ' + casa.id + ')\'><i class="ph-bold ph-eye"></i></button>';
           }
           list_ceps.innerHTML = cep_content;
           list_numeros.innerHTML = numero_content;

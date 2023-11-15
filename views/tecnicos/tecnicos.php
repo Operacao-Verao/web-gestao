@@ -63,8 +63,8 @@
 					let toe = json.entries[i];
 					nome_content += '<span class="data-list">' + toe.nome + '</span>';
 					email_content += '<span class="data-list">' + toe.email + '</span>';
-					status_content += '<span class="data-list ' + (toe.status ? 'ativo' : 'inativo') + '">' + (toe.status ? 'Ativo' : 'Inativo') + '</span>';
-					editar_content += '<span class="data-list"><a href="cad_tecnico/cad_tecnico.php?tecnico_id=' + toe.id + '"><i class="ph-bold ph-pencil"></i></a></span>';
+					status_content += '<span class="data-list-2 ' + (toe.status ? 'ativo' : 'inativo') + '">' + (toe.status ? 'Ativo' : 'Inativo') + '</span>';
+					editar_content += '<span class="data-list-2"><a href="cad_tecnico/cad_tecnico.php?tecnico_id=' + toe.id + '"><i class="ph-bold ph-pencil"></i></a></span>';
 				}
 				list_nomes.innerHTML = nome_content;
 				list_emails.innerHTML = email_content;

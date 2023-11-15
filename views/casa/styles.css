@@ -71,7 +71,7 @@
 .btnStatus:hover {
 	text-decoration: underline;
 }
-.activity-data .row{
+.activity-data .row {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -90,11 +90,19 @@
 }
 
 .activity-data .data .data-list {
-	font-size: 1.6rem;
+	font-size: 1.4rem;
 	font-weight: 400;
 	color: var(--text-color);
 	white-space: nowrap;
 
+	margin-top: 2rem;
+}
+
+.activity-data .data .data-list-2 {
+	font-weight: 400;
+	color: var(--text-color);
+	white-space: nowrap;
+ 
 	margin-top: 2rem;
 }
 
@@ -105,10 +113,10 @@
 }
 
 .data.ver i {
-	font-size: 2rem;
+	font-size: 1.7rem;
 }
 
-button.data-list {
+button.data-list-2 {
 	border: 0;
 	background: transparent;
 	font-size: 1.7rem;
@@ -190,32 +198,33 @@ body.viewCivil-open {
 .civil-item .item-content {
 	font-size: 1.5rem;
 }
-.interdicao{
+.interdicao {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
 }
-.interdicao p::after{
-	content: "-";
-	margin-left: .7rem;
+.interdicao p::after {
+	content: '-';
+	margin-left: 0.7rem;
 }
 .ocorrencias {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	gap: 5rem;
-	margin-top: 5rem;
+	gap: 2rem;
+	margin-top: 2rem;
 }
-.ocorrencias-items{
+.ocorrencias-items {
 	overflow-y: auto;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    max-height: 280px;
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+	max-height: 320px;
 }
 .ocorrencias .ocorrencia-item {
 	display: flex;
 	justify-content: flex-start;
 	gap: 3rem;
+	margin-top: 2rem;
 }
 
 .ocorrencias .ocorrencia-date {
@@ -224,19 +233,15 @@ body.viewCivil-open {
 	color: #71717a;
 	padding-right: 3rem;
 	border-right: 2px solid #9ca3af;
-}
-
-.ocorrencias .ocorrencia-date::after {
-	content: '';
-	width: 2px;
-	min-height: 80px;
+	max-height: 80px;
+	max-width: 115px;
+	min-width: 115px;
 }
 
 .ocorrencias .ocorrencia-info {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-	width: 100%;
 }
 
 .ocorrencia-info .ocorrencia-title {
@@ -280,7 +285,7 @@ body.viewCivil-open {
 	width: fit-content;
 	border: 1px solid #ccc;
 	padding: 1rem 2rem;
-	border-radius: .5rem;
+	border-radius: 0.5rem;
 }
 
 .pagination {
@@ -299,26 +304,26 @@ body.viewCivil-open {
 }
 
 .pagination :is(a:first-child, a:last-child) {
-	gap: .7rem;
+	gap: 0.7rem;
 }
 
 .pagination a:first-child {
-	margin-right: .7rem;
+	margin-right: 0.7rem;
 }
 
 .pagination a:last-child {
-	margin-left: .7rem;
+	margin-left: 0.7rem;
 }
 
 .pagination .active {
 	background-color: #bae6fd;
 	padding: 0.5rem 1.2rem;
 	color: var(--blue);
-	border-radius: .4rem;
+	border-radius: 0.4rem;
 }
-.pagination a:hover{
+.pagination a:hover {
 	background-color: #bae6fd;
 	padding: 0.5rem 1.2rem;
 	color: var(--blue);
-	border-radius: .4rem;
+	border-radius: 0.4rem;
 }

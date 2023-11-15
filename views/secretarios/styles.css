@@ -17,7 +17,7 @@
 	width: 100%;
 	background-color: var(--box-color);
 	border-radius: 1rem;
-	padding: 4rem 2rem;
+	padding: 3rem 2rem;
 }
 .activity-data .data {
 	display: flex;
@@ -38,13 +38,21 @@
 
 	margin-top: 2rem;
 }
+.activity-data .data .data-list-2 {
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: var(--text-color);
+	white-space: nowrap;
+
+	margin-top: 1.9rem;
+}
 .data.editar {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 .data.editar i {
-	font-size: 2rem;
+	font-size: 1.7rem;
 }
 a {
 	text-decoration: none;

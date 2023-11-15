@@ -206,7 +206,7 @@ echoError();
           nome_content += '<span class="data-list">' + civil.nome + '</span>';
           email_content += '<span class="data-list">' + civil.email + '</span>';
           cpf_content += '<span class="data-list">' + civil.cpf + '</span>';
-          view_content += '<button class="data-list" onclick=\'openModal("viewCivil", ' + civil.id + ')\'><i class="ph-bold ph-eye"></i></button>';
+          view_content += '<button class="data-list-2" onclick=\'openModal("viewCivil", ' + civil.id + ')\'><i class="ph-bold ph-eye"></i></button>';
         }
         list_nomes.innerHTML = nome_content;
         list_emails.innerHTML = email_content;

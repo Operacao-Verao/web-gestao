@@ -61,7 +61,7 @@ $secretarios = $daoSecretario->listAll();
         // Print Secretarias
         foreach ($secretarios as $secretario) {
           $cargo = $daoCargo->findById($secretario->getIdCargo());
-          echo '<span class="data-list"><a href="#" onclick="openModal(\'' . $secretario->getId() . '\', \'' . $secretario->getNomeSecretario() . '\', \'' . $cargo->getNomeCargo() . '\', ' . $secretario->getIdSecretaria() . ')"><i class="ph-bold ph-pencil"></i></a></span>';
+          echo '<span class="data-list-2"><a href="#" onclick="openModal(\'' . $secretario->getId() . '\', \'' . $secretario->getNomeSecretario() . '\', \'' . $cargo->getNomeCargo() . '\', ' . $secretario->getIdSecretaria() . ')"><i class="ph-bold ph-pencil"></i></a></span>';
         }
         ?>
       </div>
@@ -193,7 +193,7 @@ echoError();
         nome_content += '<span class="data-list">' + soe.nome + '</span>';
         cargo_content += '<span class="data-list">' + soe.cargo + '</span>';
         secretaria_content += '<span class="data-list">' + soe.secretaria + '</span>';
-        editar_content += '<span class="data-list"><a href="#" onclick="openModal(\'' + soe.id + '\', \'' + soe.nome + '\', \'' + soe.cargo + '\', ' + soe.id_secretaria + ')"><i class="ph-bold ph-pencil"></i></a></span>';
+        editar_content += '<span class="data-list-2"><a href="#" onclick="openModal(\'' + soe.id + '\', \'' + soe.nome + '\', \'' + soe.cargo + '\', ' + soe.id_secretaria + ')"><i class="ph-bold ph-pencil"></i></a></span>';
       }
       list_nomes.innerHTML = nome_content;
       list_cargos.innerHTML = cargo_content;
