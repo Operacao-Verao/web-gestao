@@ -53,7 +53,6 @@
     function listTecnicos() {
     	requestFromAction("../../actions/fetch/search_tecnico.php", function (r) {
 			r.json().then(function (json) {
-				//console.log(json);
 				let nome_content = '<span class="data-title">Nome</span>';
 				let email_content = '<span class="data-title">Email</span>';
 				let status_content = '<span class="data-title">Status</span>';

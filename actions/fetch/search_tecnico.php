@@ -44,6 +44,7 @@
 		echo '], "limit": '.$total.'}';
 	} catch (Throwable $error) {
 		echo '{"error":500}';
+		echo $error;
 		regError($error);
 	}
 ?>

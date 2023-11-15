@@ -229,7 +229,20 @@
 			
 			requestFromAction("../../actions/fetch/tranca_ocorrencia.php", function(r){
 		      r.text().then(function(r){
-		      	console.log(r);
+		      	// envia notificação ao técnico no mobile
+						const data = {
+							ids: [r.token]
+						};
+
+						fetch("https://exp.host/--/api/v2/push/getReceipts", {
+							method: "POST",
+							mode: "no-cors",
+							headers: {
+								"Content-Type": "application/json"
+							},
+							body: JSON.stringify(data)
+						})
+
 		      });
 		      trocarAba(aba_status_aprovado);
 		    }, function(){}, {"id":ocorrencia_atual, "idTecnico":isNaN(Number(alter_tecnico.value))||alter_tecnico.value==""?null:Number(alter_tecnico.value), "aprovado":(alter_aprovado.value=="1"?1:0)}, 'POST');

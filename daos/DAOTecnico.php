@@ -43,7 +43,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Tecnico($query['id'], $query['id_funcionario'], $query['ativo']);
+                return new Tecnico($query['id'], $query['id_funcionario'], $query['ativo'], $query['token']);
             }
             return null;
 		}
@@ -58,7 +58,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Tecnico($query['id'], $query['id_funcionario'], $query['ativo']);
+                return new Tecnico($query['id'], $query['id_funcionario'], $query['ativo'], $query['token']);
             }
             return null;
 		}
@@ -72,7 +72,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Tecnico($query['id'], $query['id_funcionario'], $query['ativo']);
+                $models[] = new Tecnico($query['id'], $query['id_funcionario'], $query['ativo'], $query['token']);
             }
             return $models;
 		}
