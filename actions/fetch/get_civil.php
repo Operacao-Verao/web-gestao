@@ -90,7 +90,7 @@
 		echo ']}';
 	}
 	catch (Throwable $error){
-		echo '{}';
+		echo '{"error": 500, "error_log": "'.addslashes($error).'"}';
 		regError($error);
 	}
 ?>

@@ -160,6 +160,7 @@
 		echo json_encode($json);
 	}
 	catch (Throwable $error){
+		echo '{"error": 500, "error_log": "'.addslashes($error).'"}';
 		regError($error);
 	}
 ?>

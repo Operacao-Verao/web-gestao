@@ -51,7 +51,7 @@
 		// Return all records of "NivelRio"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAllByFluv($id_fluviometro): array{
-			$select = $this->pdo->prepare('SELECT * FROM NivelRio WHERE id_fluviometro = :id_fluviometro'.$this->sql_length.$this->sql_offset);
+			$select = $this->pdo->prepare('SELECT * FROM NivelRio WHERE id_fluviometro = :id_fluviometro ORDER BY NivelRio.data_diario DESC'.$this->sql_length.$this->sql_offset);
 $select->bindValue(':id_fluviometro', $id_fluviometro);
 			$select->execute();
 			
@@ -64,7 +64,7 @@ $select->bindValue(':id_fluviometro', $id_fluviometro);
 }
 
 		public function searchByText(string $text): array{
-            $select = $this->pdo->prepare('SELECT NivelRio.id AS id, NivelRio.id_fluviometro AS id_fluviometro, NivelRio.nivel_rio AS nivel_rio, NivelRio.data_diario AS data_diario FROM NivelRio INNER JOIN Fluviometro ON NivelRio.id_fluviometro = Fluviometro.id INNER JOIN Endereco ON Fluviometro.cep = Endereco.cep WHERE Endereco.cep LIKE :text OR Endereco.rua LIKE :text OR Endereco.cidade LIKE :text OR Endereco.bairro LIKE :text OR NivelRio.nivel_rio LIKE :text'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT NivelRio.id AS id, NivelRio.id_fluviometro AS id_fluviometro, NivelRio.nivel_rio AS nivel_rio, NivelRio.data_diario AS data_diario FROM NivelRio INNER JOIN Fluviometro ON NivelRio.id_fluviometro = Fluviometro.id INNER JOIN Endereco ON Fluviometro.cep = Endereco.cep WHERE Endereco.cep LIKE :text OR Endereco.rua LIKE :text OR Endereco.cidade LIKE :text OR Endereco.bairro LIKE :text OR NivelRio.nivel_rio LIKE :text ORDER BY NivelRio.data_diario DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', '%'.$text.'%');
             $select->execute();
             

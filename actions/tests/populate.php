@@ -229,7 +229,7 @@
 	echo '<h2>Técnicos</h2>';
 	$tecnicos = array();
 	for ($i=0; $i<$limit/2; $i++){
-		$tecnicos[] = $daoTecnico->insert($funcionarios[$i], ($i&1) == 0);
+		$tecnicos[] = $daoTecnico->insert($funcionarios[$i], ($i&1) == 0, null);
 	}
 	
 	echo '<h2>Comunicados</h2>';
@@ -370,7 +370,7 @@
 	for ($i=0; $i<(($limit>>4)+1); $i++){
 		$fixed_i = $i>>3;
 		$cep = str_pad($fixed_i.'9', 8, '0');
-		$pluviometros[] = $daoPluviometro->insert($cep, 0.5*$i, 1.5*$i);
+		$pluviometros[] = $daoPluviometro->insert($cep, '71bff9bd7d44d5b48f201d6e0129035ebbb912127bc7d6361577c13f68147ad2', '', 0.5*$i, 1.5*$i);
 	}
 	
 	echo '<h2>Fluviometros</h2>';
@@ -378,7 +378,7 @@
 	for ($i=0; $i<(($limit>>4)+1); $i++){
 		$fixed_i = $i>>3;
 		$cep = str_pad($fixed_i.'9', 8, '0');
-		$fluviometros[] = $daoFluviometro->insert($cep, 0.75*$i, 1.75*$i);
+		$fluviometros[] = $daoFluviometro->insert($cep, '71bff9bd7d44d5b48f201d6e0129035ebbb912127bc7d6361577c13f68147ad2', '', 0.75*$i, 1.75*$i);
 	}
 	
 	echo '<h2>NivelChuva</h2>';

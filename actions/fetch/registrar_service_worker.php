@@ -20,7 +20,6 @@
 
 		$input = json_decode(file_get_contents('php://input'), true);
 		
-		session_start();
 		$swEndpoint = $input['endpoint'];
 		$auth = $input['keys']['auth'];
 		$p256dh = $input['keys']['p256dh'];

@@ -6,7 +6,7 @@
 	
 	require '../../models/Endereco.php';
 	require '../../daos/DAOEndereco.php';
-  require '../../models/Pluviometro.php';
+	require '../../models/Pluviometro.php';
 	require '../../daos/DAOPluviometro.php';
 	require '../../models/NivelChuva.php';
 	require '../../daos/DAONivelChuva.php';
@@ -67,6 +67,7 @@
 			}
 		echo ']';
 	} catch (Throwable $error) {
+		echo '{"error": 500, "error_log": "'.addslashes($error).'"}';
 		echo $error;
 	}
 ?>

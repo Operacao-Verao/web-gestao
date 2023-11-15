@@ -1,7 +1,7 @@
 <?php
 	require '../conn.php';
 	require '../session_auth.php';
-	authenticateSession(TIPO_USUARIO::GESTOR, 'Error 403');
+	authenticateSession(TIPO_USUARIO::GESTOR, '{"error": 403}');
 	
 	$input = json_decode(file_get_contents('php://input'), true);
 	
@@ -24,10 +24,10 @@
 			$casa->setInterdicao(intval($input['interdicao']));
 			$daoCasa->update($casa);
 		}
-		echo 'success';
+		echo '{"status": "success"}';
 	}
 	catch (Throwable $error){
-		echo 'null';
+		echo '{"error": 500, "error_log": "'.addslashes($error).'"}';
 		regError($error);
 	}
 ?>

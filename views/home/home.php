@@ -20,7 +20,7 @@
 			<div class="box box1">
 				<i class="ph-bold ph-basket"></i>
 				<div class="box-info">
-					<span class="text">Ocorrências</span>
+					<span class="text">Ocorrências<br/>(em aberto)</span>
 					<span class="number" id="countOcorrencias">Infinity</span>
 				</div>
 			</div>
@@ -76,7 +76,7 @@
 	<div class="activity">
 		<div class="title">
 			<i class="ph-bold ph-clock"></i>
-			<span class="text">Ocorrências Recentes</span>
+			<span class="text">Ocorrências não dispensadas Recentes</span>
 		</div>
 
 		<div class="activity-data" id="lista_ocorrencias">

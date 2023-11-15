@@ -18,7 +18,7 @@
 		echo $get_endereco_out;
 	}
 	catch (Throwable $error){
-		echo '{"error": 500}';
+		echo '{"error": 500, "error_log": "'.addslashes($error).'"}';
 		regError($error);
 	}
 ?>

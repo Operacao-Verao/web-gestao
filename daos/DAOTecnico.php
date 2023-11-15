@@ -8,17 +8,18 @@
 		
 		// Insert data of "Tecnico" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
-		public function insert(Funcionario $funcionario, bool $ativo): ?Tecnico{
+		public function insert(Funcionario $funcionario, bool $ativo, ?string $token): ?Tecnico{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("INSERT INTO Tecnico (id_funcionario, ativo) VALUES (:id_funcionario, :ativo)");
+			$insertion = $this->pdo->prepare("INSERT INTO Tecnico (id_funcionario, ativo, token) VALUES (:id_funcionario, :ativo, :token)");
 			$insertion->bindValue(":id_funcionario", $funcionario->getId());
 			$insertion->bindValue(":ativo", (int)$ativo);
+			$insertion->bindValue(":token", $token);
 
 			// Try to insert, if successful, return the corresponding model
 			if ($insertion->execute()){
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$lastId = intval($this->pdo->lastInsertId());
-				return new Tecnico($lastId, $funcionario->getId(), $ativo);
+				return new Tecnico($lastId, $funcionario->getId(), $ativo, $token);
 			}
 
 			// Otherwise, return null
@@ -66,7 +67,7 @@
 		// Search for records of "Tecnico"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT Tecnico.id AS id, Tecnico.id_funcionario AS id_funcionario, Tecnico.ativo AS ativo FROM Tecnico INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id ORDER BY Funcionario.nome ASC'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT Tecnico.id AS id, Tecnico.id_funcionario AS id_funcionario, Tecnico.ativo AS ativo, Tecnico.token AS token FROM Tecnico INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id ORDER BY Funcionario.nome ASC'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -89,10 +90,11 @@
 		// Update the "Tecnico" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Tecnico $tecnico): bool{
-			$insertion = $this->pdo->prepare("UPDATE Tecnico SET id_funcionario = :id_funcionario, ativo = :ativo WHERE id = :id");
+			$insertion = $this->pdo->prepare("UPDATE Tecnico SET id_funcionario = :id_funcionario, ativo = :ativo, token = :token WHERE id = :id");
 			$insertion->bindValue(":id", $tecnico->getId());
 			$insertion->bindValue(":id_funcionario", $tecnico->getIdFuncionario());
 			$insertion->bindValue(":ativo", (int)$tecnico->getAtivo());
+			$insertion->bindValue(":token", $tecnico->getToken());
 			return $insertion->execute();
 		}
         

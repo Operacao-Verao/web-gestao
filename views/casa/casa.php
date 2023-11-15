@@ -271,8 +271,8 @@
       else if (alter_aprovado.value == "2") interdicao = 2;
 
       requestFromAction("../../actions/fetch/alter_casa.php", function (r) {
-        r.text().then(function (r) {
-          console.log(r);
+        r.json().then(function (json) {
+          console.log(json);
           
           let status = '';
           switch (alter_aprovado.value){
@@ -281,12 +281,14 @@
             case '2': status = 'sim'; break;
           }
           
-          if (r=='success'){
+          if (json.status=='success'){
             alert("Status de interdição de casa foi alterado para '"+status+"' com SUCESSO!");
           }
           else {
             alert("FALHA em alterar status de interdição de casa para  '"+status+"'!");
           }
+          
+          searchCasas(search_casa.value);
         });
       }, function () { }, { "idCasa": casa_atual, "interdicao": interdicao }, "POST");
     }

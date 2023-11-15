@@ -120,16 +120,17 @@
 						chuva_grafico.title.text = `${oe.cidade} - ${oe.bairro} - ${oe.rua}`;
 
 						for(let j = 0; j < oe.registros.length; j++) {
-							chuva_grafico.xAxis.categories.push(`${oe.registros[j].data}  ${oe.registros[j].hora}`);
+							let registro = oe.registros[j];
+							chuva_grafico.xAxis.categories.push(`${registro.data}  ${registro.hora}`);
 
 							let registerExist = chuva_grafico.series.findIndex((item) => item.name === `${oe.cidade} - ${oe.bairro} - ${oe.rua}`);
 							
 							if(registerExist !== -1) {
-								chuva_grafico.series[registerExist].data.push(oe.registros[j].nivel);
+								chuva_grafico.series[registerExist].data.push(registro.nivel);
 							} else {
 								chuva_grafico.series.push({
 									name: `${oe.cidade} - ${oe.bairro} - ${oe.rua}`,
-									data: [oe.registros[j].nivel]
+									data: [registro.nivel]
 								});
 							}
 						}

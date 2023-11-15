@@ -7,7 +7,7 @@
 	
 	session_destroy();
 	
-	header("Location: ../index.php");
+	header("Location: ../views/login/login.php");
 	
 	exit;
 ?>

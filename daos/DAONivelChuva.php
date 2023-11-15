@@ -52,7 +52,7 @@
 		// Return all records of "NivelChuva"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAllByPluv($id_pluviometro): array{
-			$select = $this->pdo->prepare('SELECT * FROM NivelChuva WHERE id_pluviometro = :id_pluviometro'.$this->sql_length.$this->sql_offset);
+			$select = $this->pdo->prepare('SELECT * FROM NivelChuva WHERE id_pluviometro = :id_pluviometro ORDER BY NivelChuva.data_chuva DESC'.$this->sql_length.$this->sql_offset);
 $select->bindValue(':id_pluviometro', $id_pluviometro);
 			$select->execute();
 			
@@ -67,7 +67,7 @@ $select->bindValue(':id_pluviometro', $id_pluviometro);
 		// Search for all entries in "NivelChuva" by text
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function searchByText(string $text): array{
-            $select = $this->pdo->prepare('SELECT NivelChuva.id AS id, NivelChuva.id_pluviometro AS id_pluviometro, NivelChuva.chuva_em_mm AS chuva_em_mm, NivelChuva.data_chuva AS data_chuva FROM NivelChuva INNER JOIN Pluviometro ON NivelChuva.id_pluviometro = Pluviometro.id INNER JOIN Endereco ON Pluviometro.cep = Endereco.cep WHERE Endereco.cep LIKE :text OR Endereco.rua LIKE :text OR Endereco.cidade LIKE :text OR Endereco.bairro LIKE :text OR NivelChuva.chuva_em_mm LIKE :text'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT NivelChuva.id AS id, NivelChuva.id_pluviometro AS id_pluviometro, NivelChuva.chuva_em_mm AS chuva_em_mm, NivelChuva.data_chuva AS data_chuva FROM NivelChuva INNER JOIN Pluviometro ON NivelChuva.id_pluviometro = Pluviometro.id INNER JOIN Endereco ON Pluviometro.cep = Endereco.cep WHERE Endereco.cep LIKE :text OR Endereco.rua LIKE :text OR Endereco.cidade LIKE :text OR Endereco.bairro LIKE :text OR NivelChuva.chuva_em_mm LIKE :text ORDER BY NivelChuva.data_chuva DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', '%'.$text.'%');
             $select->execute();
             

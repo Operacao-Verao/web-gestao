@@ -31,12 +31,12 @@
         public function setAtivo(bool $ativo): void {
             $this->ativo = $ativo;
         }
-
-        public function getToken(): string {
+        
+        public function getToken(): ?string {
             return $this->token;
         }
-            
-        public function setToken(string $token): void {
+        
+        public function setToken(?string $token): void {
             $this->token = $token;
         }
     }

@@ -42,7 +42,7 @@
             exit();
         }
         
-        $tecnico = $daoTecnico->insert($funcionario, true);
+        $tecnico = $daoTecnico->insert($funcionario, true, null);
         
         header("Location: ../views/tecnicos/tecnicos.php");
     }

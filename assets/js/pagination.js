@@ -52,7 +52,7 @@ function changePage(index) {
     // Setup begin index
     pageBegin.textContent = '1';
     pageBegin.className = index==0? 'active': '';
-    pageBegin.style.display = pageCount<=0? 'none': 'block';
+    pageBegin.style.display = pageCount<=1? 'none': 'block';
     pagePrevious.style.display = index<=0? 'none': 'block';
     pageBegin.onclick = function(){
         pageIndex = 0;

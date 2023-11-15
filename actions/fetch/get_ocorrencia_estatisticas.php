@@ -39,7 +39,7 @@
 		echo json_encode(array('ranges' => $ranges, 'aprovados' => $aprovados, 'desaprovados' => $desaprovados, 'interditados' => $interditados, 'nao_interditados' => $nao_interditados, 'ocorrencias_abertas' => $ocorrencias_abertas, 'relatorios' => $relatorios), true);
 	}
 	catch (Throwable $error){
-		echo '{}';
+		echo '{"error": 500, "error_log": "'.addslashes($error).'"}';
 		regError($error);
 	}
 ?>
