@@ -37,7 +37,12 @@
 	function searchNiveisRio() {
 		requestFromAction("../../actions/fetch/search_niveis_fluviometro.php", function(r){
 	      r.json().then(function(json){
-
+	      	//console.log(json);
+	      	
+					for (let i=0; i<json.length; i++){
+						json[i].registros.reverse();
+					}
+					
 					let grafico_geral = {
 						colors: ['#38BDF8', '#E879F9', '#FF3980', '#38BE28', '#E80399', '#ee1980'],
 						chart: {
@@ -67,7 +72,7 @@
 						},
 						series: []
 					};
-
+					
 					for(let k = 0; k < json[0].registros.length; k++) {
 						grafico_geral.xAxis.categories.push(`${json[0].registros[k].data}  ${json[0].registros[k].hora}`);
 					}

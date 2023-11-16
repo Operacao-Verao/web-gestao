@@ -37,7 +37,11 @@
 	function searchNiveisChuva() {
 		requestFromAction("../../actions/fetch/search_niveis_pluviometro.php", function(r){
 	      r.json().then(function(json){
-
+	      	
+					for (let i=0; i<json.length; i++){
+						json[i].registros.reverse();
+					}
+					
 					let grafico_geral = {
 						colors: ['#38BDF8', '#E879F9', '#FF3980', '#38BE28', '#E80399', '#ee1980'],
 						chart: {
