@@ -66,7 +66,15 @@
         const GUEST = -1;
     };
     
-    // Errors regs
+    // Database Register
+    function regLog(int $acao, string $descricao) {
+        global $pdo;
+        $daoRegistro = new DAORegistro($pdo);
+        $daoFuncionario = new DAOFuncionario($pdo);
+        $owner = $daoFuncionario->findById($_SESSION['usuario_id']);
+        $daoRegistro->insert($owner, $acao, $descricao, getCurrentDatetime());
+    }
+    
     function regError(Throwable $error) {
         global $pdo;
         $daoRegistro = new DAORegistro($pdo);

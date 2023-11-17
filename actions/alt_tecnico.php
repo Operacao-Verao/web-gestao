@@ -52,17 +52,16 @@
                 // Atualizar o técnico
                 $tecnico->setFuncionario($funcionario);
                 $tecnico->setAtivo($status);
-
-                try {
-                    $daoFuncionario->update($funcionario);
-                    $daoTecnico->update($tecnico);
-                    header("Location: ../views/tecnicos/tecnicos.php");
-                } catch (PDOException $th) {
-                    echo $th->getMessage();
-                    header("Location: ../views/tecnicos/tecnicos.php");
-                }
+                
+                $daoFuncionario->update($funcionario);
+                $daoTecnico->update($tecnico);
+                
+                regLog(REG_ACAO::ALT_TECNICO, 'Nome: '.$funcionario->getNome().'; Email: '.$funcionario->getEmail().'; Status: '.($tecnico->getAtivo()? 'Ativo': 'Inativo').'; Id: '.$tecnico->getId());
+                
+                header("Location: ../views/tecnicos/tecnicos.php");
             }
-        } else {
+        }
+        else {
             $_SESSION['erro'] = 'Id não encontrado';
             header("Location: ../views/tecnicos/tecnicos.php");
             exit();

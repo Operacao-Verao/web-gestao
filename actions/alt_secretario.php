@@ -37,6 +37,8 @@
 		$secretario->setSecretaria($secretaria);
 		$daoSecretario->update($secretario);
 		
+		regLog(REG_ACAO::ALT_SECRETARIO, 'Nome: '.$secretario->getNomeSecretario().'; Cargo: '.$cargo->getNomeCargo().'; Secretaria: '.$secretaria->getNomeSecretaria().'; Id: '.$secretario->getId());
+		
 		header("Location: ../views/secretarios/secretarios.php");
 	}
 	catch (Throwable $error){

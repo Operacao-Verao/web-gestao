@@ -23,9 +23,9 @@
 		$swEndpoint = $input['endpoint'];
 		$auth = $input['keys']['auth'];
 		$p256dh = $input['keys']['p256dh'];
-		$idGestor = $_SESSION["usuario_id"];
+		$idFuncionario = $_SESSION["usuario_id"];
 		
-		$funcionario = $daoFuncionario->findById($idGestor);
+		$funcionario = $daoFuncionario->findById($idFuncionario);
 		$gestor = $daoGestor->findByFuncionario($funcionario);
 		
 		$daoServiceWorker->insert($swEndpoint, $auth, $p256dh, $gestor);  

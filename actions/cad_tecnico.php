@@ -44,6 +44,8 @@
         
         $tecnico = $daoTecnico->insert($funcionario, true, null);
         
+        regLog(REG_ACAO::CAD_TECNICO, 'Nome: '.$funcionario->getNome().'; Email: '.$funcionario->getEmail().'; Id: '.$tecnico->getId());
+        
         header("Location: ../views/tecnicos/tecnicos.php");
     }
     catch (Throwable $error){

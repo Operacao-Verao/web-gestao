@@ -19,6 +19,9 @@
         $daoMemo = new DAOMemo($pdo);
         
         $memo = $daoMemo->insert($relatorio, $secretaria, $dataMemo, $statusMemo, $processo);
+        
+        regLog(REG_ACAO::GEN_MEMO, 'Status: '.$memo->getStatusMemo().'; Setor: '.$memo->getSetor().'; Processo: '.$memo->getProcesso().'; Id: '.$memo->getId());
+        
         echo 'Memo generated successfully.';
     }
     catch (Throwable $error){

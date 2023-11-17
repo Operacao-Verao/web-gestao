@@ -28,12 +28,14 @@
 			$ocorrencia->setAprovado($input['aprovado']);
 			$ocorrencia->setEncerrado(true);
 			$daoOcorrencia->update($ocorrencia);
+			
+	        regLog(REG_ACAO::TRANCA_OCORRENCIA, 'Acionamento: '.$ocorrencia->getAcionamento().'; Status: '.($ocorrencia->getAprovado()? 'Aprovado': 'Desaprovado').'; Id: '.$ocorrencia->getId());
 		}
 		
 		if($ocorrencia->getIdTecnico() != null){
 			$tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
 			$funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
-
+			
 			echo '{
 				"id": '.$tecnico->getId().',
 				"id_funcionario": '.$funcionario->getId().',

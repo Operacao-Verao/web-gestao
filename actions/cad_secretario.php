@@ -28,6 +28,8 @@
 		$secretaria = $daoSecretaria->findById($secretaria_id);
 		$secretario = $daoSecretario->insert($secretaria, $cargo, $nome);
 		
+		regLog(REG_ACAO::CAD_SECRETARIO, 'Nome: '.$secretario->getNomeSecretario().'; Cargo: '.$cargo->getNomeCargo().'; Secretaria: '.$secretaria->getNomeSecretaria().'; Id: '.$secretario->getId());
+		
 		header("Location: ../views/secretarios/secretarios.php");
 	}
 	catch (Throwable $error){

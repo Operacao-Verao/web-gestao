@@ -42,6 +42,8 @@
             
             $novoCivil = $daoCivil->insert(null, $nome, $email, $senha_criptografada, $cpf, $celular, $telefone);
             
+            regLog(REG_ACAO::CAD_CIVIL, 'Nome: '.$novoCivil->getNome().'; Email: '.$novoCivil->getEmail().'; Id: '.$novoCivil->getId());
+            
             header("Location: ../views/civil/civil.php");
             exit();
         //} else {

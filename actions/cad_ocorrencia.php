@@ -108,6 +108,8 @@
 		}
 		
 		if ($_SESSION['usuario_tipo'] == TIPO_USUARIO::GESTOR){
+            regLog(REG_ACAO::CAD_OCORRENCIA, 'Acionamento: '.$ocorrencia->getAcionamento().'; Id: '.$ocorrencia->getId());
+            
 			header("Location: ../views/ocorrencias/ocorrencias.php?id=".$ocorrencia->getId());
 		}
 		else {
