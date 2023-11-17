@@ -158,7 +158,7 @@
       // Data Filling
       requestFromAction("../../actions/fetch/get_casa.php", function (r) {
         r.json().then(function (json) {
-          console.log(json);
+          //console.log(json);
           document.getElementById(id).classList.add('open');
 
           view_rua.textContent = json.rua;
@@ -272,7 +272,7 @@
 
       requestFromAction("../../actions/fetch/alter_casa.php", function (r) {
         r.json().then(function (json) {
-          console.log(json);
+          //console.log(json);
           
           let status = '';
           switch (alter_aprovado.value){

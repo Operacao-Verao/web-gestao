@@ -113,7 +113,7 @@ authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
         
         pageCount = Math.ceil(json.limit/pageEntries)||1;
         
-        console.log(json);
+        //console.log(json);
         relatorios_list.innerHTML = content_enderecos + "</div>" + content_tecnicos + "</div>" + content_datas + "</div>" + content_vers + "</div>";
         changePage(pageIndex);
       });

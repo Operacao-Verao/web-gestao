@@ -149,7 +149,7 @@
               confirmarSenha.value = '00000000';
             }
             chksenha.value = chksenha.checked? 1: 0;
-            console.log(chksenha.checked);
+            //console.log(chksenha.checked);
           }
           chksenha.checked = false;
           chksenha.oninput();

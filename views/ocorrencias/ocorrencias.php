@@ -128,7 +128,7 @@
 		function openModal(id, ocorrencia_id) {
 			requestFromAction("../../actions/fetch/get_ocorrencia.php", function(r){
 		      r.json().then(function(json){
-				console.log(json);
+				//console.log(json);
 				document.getElementById(id).classList.add('open');
 				
 				view_civil.textContent = json.civil;
@@ -161,7 +161,7 @@
 		function searchOcorrencias(text) {
 			requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 		      r.json().then(function(json){
-		      	console.log(json);
+		      	//console.log(json);
 		      	let content = "";
 		      	
 		      	for (let i=0; i<json.entries.length; i++){

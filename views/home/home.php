@@ -138,7 +138,7 @@
 	      r.json().then(function(json){
 				});
 	    }, function(){
-				console.log('deu erro')
+				//console.log('deu erro')
 			}, JSON.parse(subscription), "POST")
 	}
 	
@@ -165,7 +165,7 @@
 	function refreshOcorrencias() {
 		requestFromAction("../../actions/fetch/search_ocorrencia.php", function(r){
 	      r.json().then(function(json){
-	      	console.log(json);
+	      	//console.log(json);
 	      	let content_endereco = '<div class="data address"><span class="data-title">Endereço</span>';
 	      	let content_tecnico = '<div class="data names"><span class="data-title">Técnico</span>';
 	      	let content_data = '<div class="data request"><span class="data-title">Data</span>';
@@ -199,7 +199,7 @@
 	function refreshStatistics() {
 		requestFromAction("../../actions/fetch/get_ocorrencia_estatisticas.php", function(r){
 	      r.json().then(function(json){
-	      	console.log(json);
+	      	//console.log(json);
 	      	
 	      	let ranges = json.ranges;
 	      	let ocorrencia_bairro_graph = {

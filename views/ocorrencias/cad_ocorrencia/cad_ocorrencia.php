@@ -217,7 +217,7 @@
     validating_cep = true;
     requestFromAction("../../../actions/fetch/get_endereco.php?cep="+cep, function(r){
       r.json().then(function(json){
-        console.log(json);
+        //console.log(json);
         if (!json.error){
           valid_cep = true;
         }
