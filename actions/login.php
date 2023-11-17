@@ -16,7 +16,7 @@
         $senha = $_POST["edtsenha"];
 
         if (empty($email) || empty($senha)) {
-            header("Location: ../views/login/login.php");
+            header("Location: ../views/login/login.php?error=empty_entries");
             exit();
         }
         

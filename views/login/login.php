@@ -37,10 +37,10 @@
                     session_destroy();
                   }
                 ?>
-                Email
-                <input type="text" id="email" name="edtemail" autofocus><br>
-                Senha
-                <input type="password" id="senha" name="edtsenha">
+                Email*
+                <input type="text" id="email" name="edtemail" required autofocus><br>
+                Senha*
+                <input type="password" id="senha" name="edtsenha" required>
                 
            <button type="submit">Logar</button>
           </form>

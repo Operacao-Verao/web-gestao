@@ -57,22 +57,22 @@
                 ?>
 
                 <div class="inputArea">
-                  <label for="edtnome">Nome</label>
+                  <label for="edtnome">Nome*</label>
                   <?php
                     if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
                       echo '<input class="inputText" type="text" id="edtnome" name="edtnome" value="'.$tecnico_funcionario->getNome().'" autofocus required>';
                     } else {
-                      echo '<input class="inputText" type="text" id="edtnome" name="edtnome" autofocus>';
+                      echo '<input class="inputText" type="text" id="edtnome" name="edtnome" autofocus required>';
                     }
                   ?>
                 </div>
                 <div class="inputArea">
-                  <label for="edtemail">Email</label>
+                  <label for="edtemail">Email*</label>
                   <?php
                     if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
-                      echo '<input class="inputText" type="text" id="email" name="edtemail" value="'.$tecnico_funcionario->getEmail().'">';
+                      echo '<input class="inputText" type="text" id="email" name="edtemail" value="'.$tecnico_funcionario->getEmail().'" required>';
                     } else {
-                      echo '<input class="inputText" type="text" id="email" name="edtemail" autofocus>';
+                      echo '<input class="inputText" type="text" id="email" name="edtemail" required autofocus>';
                     }
                   ?>
                 </div>
@@ -80,7 +80,7 @@
                     if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
                       echo '
                         <div class="inputArea">
-                          <label for="edtsenha">Atualizar Senha</label>
+                          <label for="edtsenha">Atualizar Senha*</label>
                           <input class="inputText" type="checkbox" id="chksenha" name="chksenha">
                         </div>';
                     }
@@ -88,9 +88,9 @@
                 <div class="inputArea">
                   <?php
                     if (array_key_exists('tecnico_id', $_GET) && $tecnico_funcionario != null) {
-                      echo '<label for="edtsenha">Nova senha</label>';
+                      echo '<label for="edtsenha" required>Nova senha*</label>';
                     } else {
-                      echo '<label for="edtsenha">Senha</label>';
+                      echo '<label for="edtsenha" required>Senha*</label>';
                     }
                   ?>
                   <input class="inputText" type="password" id="senha" name="edtsenha" required>

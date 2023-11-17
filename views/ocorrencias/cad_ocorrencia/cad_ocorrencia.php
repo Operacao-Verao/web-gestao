@@ -247,7 +247,7 @@
             r.json().then(function(json){
               //console.log(json);
               
-              if (typeof json.error === "undefined"){
+              if (typeof json.id !== "undefined"){
                 inputName.value = json.nome;
                 inputEmail.value = json.email;
                 inputCelular.value = json.celular;

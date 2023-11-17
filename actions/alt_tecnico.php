@@ -27,12 +27,12 @@
         var_dump($senha);
         var_dump($senhaconfirm);
         if (empty($nome) || empty($email) || ($alterSenha? empty($senha) || empty($senhaconfirm): 0)) {
-            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?tecnico_id=".$tecnicoId."&error=camposobrigatorios");
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?tecnico_id=".$tecnicoId."&error=empty_entries");
             exit();
         }
 
         if ($alterSenha && $senha != $senhaconfirm){
-            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?tecnico_id=".$tecnicoId."&error=senhaincorreta");
+            header("Location: ../views/tecnicos/cad_tecnico/cad_tecnico.php?tecnico_id=".$tecnicoId."&error=unmatched_password");
             exit();
         }
 
