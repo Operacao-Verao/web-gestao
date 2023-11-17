@@ -1,6 +1,6 @@
 <ul class="nav-links">
   <li>
-    <a href="../../views/ocorrencias/ocorrencias.php"><i class="ph-bold ph-users"></i><span class="link-name">Ocorrências</span></a>
+    <a href="../../views/ocorrencias/ocorrencias.php"><i class="ph-bold ph-users"></i><span class="link-name">Criar Ocorrência</span></a>
   </li>
   <li>
     <a href="../../views/niveis_chuva/niveis_chuva.php"><i class="ph-bold ph-cloud-rain"></i><span class="link-name">Níveis de chuva</span></a>
