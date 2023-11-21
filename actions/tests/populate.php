@@ -377,7 +377,7 @@
 		'07801130' => $daoEndereco->insert('07801130', 'Viela Quarenta e Dois', 'Companhia Fazenda Belém', 'Franco da Rocha'),
 		'07801140' => $daoEndereco->insert('07801140', 'Rua Doutor Osório Cezar', 'Companhia Fazenda Belém', 'Franco da Rocha'),
 		'07801160' => $daoEndereco->insert('07801160', 'Viela Trinta e Um', 'Companhia Fazenda Belém', 'Franco da Rocha'),
-		'07801170' => $daoEndereco->insert('07801170', 'Rua Barão de Mauá', 'Companhia Fazenda Belém', 'Franco da Rocha')/*,
+		'07801170' => $daoEndereco->insert('07801170', 'Rua Barão de Mauá', 'Companhia Fazenda Belém', 'Franco da Rocha'),
 		'07801180' => $daoEndereco->insert('07801180', 'Viela Trinta', 'Companhia Fazenda Belém', 'Franco da Rocha'),
 		'07801200' => $daoEndereco->insert('07801200', 'Rua Doutor Adolpho Loretti Pujol', 'Companhia Fazenda Belém', 'Franco da Rocha'),
 		'07801210' => $daoEndereco->insert('07801210', 'Viela Joaquim Bento da Silva', 'Companhia Fazenda Belém', 'Franco da Rocha'),
@@ -1487,7 +1487,7 @@
 		'07813120' => $daoEndereco->insert('07813120', 'Rua Jasmin', 'Villa Verde', 'Franco da Rocha'),
 		'07813130' => $daoEndereco->insert('07813130', 'Viela Três', 'Villa Verde', 'Franco da Rocha'),
 		'07813140' => $daoEndereco->insert('07813140', 'Rua Girassol', 'Villa Verde', 'Franco da Rocha'),
-		'07813150' => $daoEndereco->insert('07813150', 'Rua Rosas', 'Villa Verde', 'Franco da Rocha')*/
+		'07813150' => $daoEndereco->insert('07813150', 'Rua Rosas', 'Villa Verde', 'Franco da Rocha')
 	);
 	$ceps = array();
 	foreach ($enderecos as $endereco){

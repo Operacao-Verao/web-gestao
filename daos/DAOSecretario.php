@@ -52,7 +52,7 @@
 		// Return all records of "Secretario"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Secretario'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT * FROM Secretario ORDER BY nome_secretario'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
