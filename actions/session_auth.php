@@ -80,6 +80,10 @@
 					$message = "O acesso é permitido somente aos gestores";
 				}
 				break;
+				case 'not_existing_relatorio': {
+					$message = 'O relatório requisitado não existe!';
+				}
+				break;
 				default: {
 					$message = 'Erro não catalogado';
 				}

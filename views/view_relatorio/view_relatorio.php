@@ -53,8 +53,7 @@
 
   $relatorio = $daoRelatorio->findById($_GET['id']);
   if ($relatorio == null){
-    echo '{}';
-    die();
+    header("location: ../relatorios/relatorios.php?error=not_existing_relatorio");
   }
   $ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
 
@@ -69,6 +68,9 @@
   $endereco = $daoEndereco->findByCep($residencial->getCep());
 
   // Obtendo dados de Técnico e Funcionário
+  if ($ocorrencia->getIdTecnico() == null){
+    header("location: ../relatorios/relatorios.php?error=500");
+  }
   $tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
   $funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
 
