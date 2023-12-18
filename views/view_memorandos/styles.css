@@ -1,0 +1,134 @@
+@media print {
+	@page {
+		margin: 0;
+	}
+	body {
+		margin: 1.6cm 2.25cm;
+	}
+}
+
+:root {
+	font-size: 62.5%;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	min-height: 100dvh;
+	font-family: Calibri;
+	font-size: 1.3rem;
+}
+
+@media print {
+	.pagebreak {
+		height: 2cm;
+		page-break-before: always;
+	}
+}
+
+.wrapper {
+	margin: auto;
+	max-width: calc(90vw - 15px);
+}
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+header > img {
+	width: 140px;
+}
+
+header > span {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-weight: 600;
+	gap: 1rem;
+}
+main {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-height: 80vh;
+	gap: 5rem;
+}
+main section:first-child {
+	display: flex;
+	flex-direction: column;
+	margin-top: 5rem;
+	gap: 2.5rem;
+}
+section:first-child .memorando {
+	font-weight: 600;
+}
+section:first-child .data {
+	text-align: end;
+}
+section:nth-child(2) {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+section .lugar {
+	font-weight: 600;
+}
+section .endereco {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+section .descricao {
+	text-align: justify;
+	text-indent: 1.25cm;
+	line-height: 1.6;
+}
+section .atenciosamente {
+	margin-top: 3rem;
+	text-indent: 3cm;
+}
+
+section:last-child {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 3rem;
+}
+section .gestor {
+	text-align: center;
+}
+section .gestor .nome {
+	font-weight: 600;
+}
+.footer-wrapper {
+	position: absolute;
+	bottom: 10px;
+	right: 0;
+	display: flex;
+	justify-content: end;
+	align-items: end;
+	flex: 1;
+}
+.footer {
+	display: flex;
+	flex-direction: column;
+	font-size: 1.3rem;
+	text-align: end;
+	color: #475569;
+}
+
+.footer > p:first-of-type {
+	font-weight: 600;
+}
+
+.footer div {
+	display: flex;
+	justify-content: end;
+	gap: 1rem;
+}
