@@ -6,15 +6,19 @@
         private string $dataMemo;
         private string $statusMemo;
         private string $setor;
+        private string $memorando;
+        private string $oficio;
         private string $processo;
         
-        public function __construct(int $id, int $idRelatorio, int $idSecretaria, string $dataMemo, string $statusMemo, string $setor, string $processo) {
+        public function __construct(int $id, int $idRelatorio, int $idSecretaria, string $dataMemo, string $statusMemo, string $setor, string $memorando, string $oficio, string $processo) {
             $this->id = $id;
             $this->idRelatorio = $idRelatorio;
             $this->idSecretaria = $idSecretaria;
             $this->dataMemo = $dataMemo;
             $this->statusMemo = $statusMemo;
             $this->setor = $setor;
+            $this->memorando = $memorando;
+            $this->oficio = $oficio;
             $this->processo = $processo;
         }
         
@@ -60,6 +64,22 @@
         
         public function setSetor(string $setor): void {
             $this->setor = $setor;
+        }
+        
+        public function getMemorando(): string {
+            return $this->memorando;
+        }
+        
+        public function setMemorando(string $memorando): void {
+            $this->memorando = $memorando;
+        }
+        
+        public function getOficio(): string {
+            return $this->oficio;
+        }
+        
+        public function setOficio(string $oficio): void {
+            $this->oficio = $oficio;
         }
         
         public function getProcesso(): string {

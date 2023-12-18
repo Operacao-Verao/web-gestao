@@ -8,18 +8,20 @@
         
         // Insert data of "Memo" into the table
         // Returns a model if the insertion is successful, otherwise returns null
-        public function insert(Relatorio $relatorio, Secretaria $secretaria, string $dataMemo, string $statusMemo, string $setor, string $processo): ?Memo{
-            $insertion = $this->pdo->prepare("INSERT INTO Memo (id_relatorio, id_secretaria, data_memo, status_memo, setor, processo) VALUES (:id_relatorio, :id_secretaria, :data_memo, :status_memo, :setor, :processo)");
+        public function insert(Relatorio $relatorio, Secretaria $secretaria, string $dataMemo, string $statusMemo, string $setor, string $memorando, string $oficio, string $processo): ?Memo{
+            $insertion = $this->pdo->prepare("INSERT INTO Memo (id_relatorio, id_secretaria, data_memo, status_memo, setor, memorando, oficio, processo) VALUES (:id_relatorio, :id_secretaria, :data_memo, :status_memo, :setor, :memorando, :oficio, :processo)");
             $insertion->bindValue(":id_relatorio", $relatorio->getId());
             $insertion->bindValue(":id_secretaria", $secretaria->getId());
             $insertion->bindValue(":data_memo", $dataMemo);
             $insertion->bindValue(":status_memo", $statusMemo);
             $insertion->bindValue(":setor", $setor);
+            $insertion->bindValue(":memorando", $memorando);
+            $insertion->bindValue(":oficio", $oficio);
             $insertion->bindValue(":processo", $processo);
 
             if ($insertion->execute()) {
                 $lastId = intval($this->pdo->lastInsertId());
-                return new Memo($lastId, $relatorio->getId(), $secretaria->getId(), $dataMemo, $statusMemo, $setor, $processo);
+                return new Memo($lastId, $relatorio->getId(), $secretaria->getId(), $dataMemo, $statusMemo, $setor, $memorando, $oficio, $processo);
             }
 
             return null;
@@ -43,7 +45,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['processo']);
+                return new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['memorando'], $query['oficio'], $query['processo']);
             }
             return null;
         }
@@ -58,7 +60,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['processo']);
+                return new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['memorando'], $query['oficio'], $query['processo']);
             }
             return null;
         }
@@ -72,7 +74,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['processo']);
+                $models[] = new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['memorando'], $query['oficio'], $query['processo']);
             }
             return $models;
         }
@@ -80,13 +82,15 @@
         // Update the "Memo" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Memo $memo): bool{
-            $update = $this->pdo->prepare("UPDATE Memo SET id_relatorio = :id_relatorio, id_secretaria = :id_secretaria, data_memo = :data_memo, status_memo = :status_memo, setor = :setor, processo = :processo WHERE id = :id");
+            $update = $this->pdo->prepare("UPDATE Memo SET id_relatorio = :id_relatorio, id_secretaria = :id_secretaria, data_memo = :data_memo, status_memo = :status_memo, setor = :setor, memorando = :memorando, oficio = :oficio, processo = :processo WHERE id = :id");
             $update->bindValue(":id", $memo->getId());
             $update->bindValue(":id_relatorio", $memo->getIdRelatorio());
             $update->bindValue(":id_secretaria", $memo->getIdSecretaria());
             $update->bindValue(":data_memo", $memo->getDataMemo());
             $update->bindValue(":status_memo", $memo->getStatusMemo());
             $update->bindValue(":setor", $memo->getSetor());
+            $update->bindValue(":memorando", $memo->getMemorando());
+            $update->bindValue(":oficio", $memo->getOficio());
             $update->bindValue(":processo", $memo->getProcesso());
             return $update->execute();
         }

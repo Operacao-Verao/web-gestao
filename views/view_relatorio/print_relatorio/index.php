@@ -505,15 +505,15 @@
                     <div class="item-grid3">
                         <div class="item-row">
                             <p class="item-title">Memorando: </p>
-                            <p><?php echo $relatorio->getMemorando();?></p>
+                            <p><?php if($memo) echo $memo->getMemorando();?></p>
                         </div>
                         <div class="item-row">
                             <p class="item-title">Ofício: </p>
-                            <p><?php echo $relatorio->getOficio();?></p>
+                            <p><?php if($memo) echo $memo->getOficio();?></p>
                         </div>
                         <div class="item-row">
                             <p class="item-title">Processo: </p>
-                            <p><?php echo $relatorio->getProcesso();?></p>
+                            <p><?php if($memo) echo $memo->getProcesso();?></p>
                         </div>
                     </div>
                     <div class="item-row-2">

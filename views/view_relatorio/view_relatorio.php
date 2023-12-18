@@ -417,15 +417,15 @@
       <div class="memorando-oficio-processo">
         <div>
           <p class="item-row-title">Memorando: </p>
-          <p class="item-row-content"><?php echo $relatorio->getMemorando();?></p>
+          <p class="item-row-content"><?php if($memo) echo $memo->getMemorando();?></p>
         </div>
         <div>
           <p class="item-row-title">Ofício: </p>
-          <p class="item-row-content"><?php echo $relatorio->getOficio();?></p>
+          <p class="item-row-content"><?php if($memo) echo $memo->getOficio();?></p>
         </div>
         <div>
           <p class="item-row-title">Processo: </p>
-          <p class="item-row-content"><?php echo $relatorio->getProcesso();?></p>
+          <p class="item-row-content"><?php if($memo) echo $memo->getProcesso();?></p>
         </div>
       </div>
       <div class="setor-data">

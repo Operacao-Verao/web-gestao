@@ -44,9 +44,6 @@
         private int $gravidade;
         private string $relatorio;
         private string $encaminhamento;
-        private string $memorando;
-        private string $oficio;
-        private string $processo;
         private string $assunto;
         private string $observacoes;
         private int $areaAfetada;
@@ -58,18 +55,18 @@
         private bool $danosMateriais;
         private string $dataGeracao;
         private string $dataAtendimento;
+        private string $assinaturaGestor;
+        private string $assinaturaTecnico;
+        private string $assinaturaCivil;
 
-        public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $encaminhamento, string $memorando, string $oficio, string $processo, string $assunto, string $observacoes, int $areaAfetada, int
-            $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento) {
+        public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $encaminhamento, string $assunto, string $observacoes, int $areaAfetada, int
+            $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento, string $assinaturaGestor, string $assinaturaTecnico, string $assinaturaCivil) {
             $this->id = $id;
             $this->idOcorrencia = $idOcorrencia;
             $this->idCasa = $idCasa;
             $this->gravidade = $gravidade;
             $this->relatorio = $relatorio;
             $this->encaminhamento = $encaminhamento;
-            $this->memorando = $memorando;
-            $this->oficio = $oficio;
-            $this->processo = $processo;
             $this->assunto = $assunto;
             $this->observacoes = $observacoes;
             $this->areaAfetada = $areaAfetada;
@@ -81,6 +78,9 @@
             $this->danosMateriais = $danosMateriais;
             $this->dataGeracao = $dataGeracao;
             $this->dataAtendimento = $dataAtendimento;
+            $this->assinaturaGestor = $assinaturaGestor;
+            $this->assinaturaTecnico = $assinaturaTecnico;
+            $this->assinaturaCivil = $assinaturaCivil;
         }
         
         public function getId(): int{
@@ -124,30 +124,6 @@
         
         public function setEncaminhamento(string $encaminhamento): void{
             $this->encaminhamento = $encaminhamento;
-        }
-        
-        public function getMemorando(): string{
-            return $this->memorando;
-        }
-        
-        public function setMemorando(string $memorando): void{
-            $this->memorando = $memorando;
-        }
-        
-        public function getOficio(): string{
-            return $this->oficio;
-        }
-        
-        public function setOficio(string $oficio): void{
-            $this->oficio = $oficio;
-        }
-        
-        public function getProcesso(): string{
-            return $this->processo;
-        }
-        
-        public function setProcesso(string $processo): void{
-            $this->processo = $processo;
         }
         
         public function getAssunto(): string{
@@ -236,6 +212,30 @@
         
         public function setDataAtendimento(string $dataAtendimento): void{
             $this->dataAtendimento = $dataAtendimento;
+        }
+        
+        public function getAssinaturaGestor(): string{
+            return $this->assinaturaGestor;
+        }
+        
+        public function setAssinaturaGestor(string $assinaturaGestor): void{
+            $this->assinaturaGestor = $assinaturaGestor;
+        }
+        
+        public function getAssinaturaTecnico(): string{
+            return $this->assinaturaTecnico;
+        }
+        
+        public function setAssinaturaTecnico(string $assinaturaTecnico): void{
+            $this->assinaturaTecnico = $assinaturaTecnico;
+        }
+        
+        public function getAssinaturaCivil(): string{
+            return $this->assinaturaCivil;
+        }
+        
+        public function setAssinaturaCivil(string $assinaturaCivil): void{
+            $this->assinaturaCivil = $assinaturaCivil;
         }
     }
 ?>
