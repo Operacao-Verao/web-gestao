@@ -10,87 +10,87 @@
 </head>
 
 <?php
-require '../../../actions/conn.php';
-require '../../../actions/session_auth.php';
-authenticateSession(TIPO_USUARIO::GESTOR, '', '../../login/login.php');
+    require '../../../actions/conn.php';
+    require '../../../actions/session_auth.php';
+    authenticateSession(TIPO_USUARIO::GESTOR, '', '../../login/login.php');
 
-require '../../../models/Relatorio.php';
-require '../../../daos/DAORelatorio.php';
-require '../../../models/Ocorrencia.php';
-require '../../../daos/DAOOcorrencia.php';
-require '../../../models/Civil.php';
-require '../../../daos/DAOCivil.php';
-require '../../../models/Residencial.php';
-require '../../../daos/DAOResidencial.php';
-require '../../../models/Casa.php';
-require '../../../daos/DAOCasa.php';
-require '../../../models/Endereco.php';
-require '../../../daos/DAOEndereco.php';
-require '../../../models/Tecnico.php';
-require '../../../daos/DAOTecnico.php';
-require '../../../models/Funcionario.php';
-require '../../../daos/DAOFuncionario.php';
-require '../../../models/Foto.php';
-require '../../../daos/DAOFoto.php';
-require '../../../models/DadosDaVistoria.php';
-require '../../../daos/DAODadosDaVistoria.php';
-require '../../../models/Afetados.php';
-require '../../../daos/DAOAfetados.php';
-require '../../../models/Animal.php';
-require '../../../daos/DAOAnimal.php';
-require '../../../models/Memo.php';
-require '../../../daos/DAOMemo.php';
+    require '../../../models/Relatorio.php';
+    require '../../../daos/DAORelatorio.php';
+    require '../../../models/Ocorrencia.php';
+    require '../../../daos/DAOOcorrencia.php';
+    require '../../../models/Civil.php';
+    require '../../../daos/DAOCivil.php';
+    require '../../../models/Residencial.php';
+    require '../../../daos/DAOResidencial.php';
+    require '../../../models/Casa.php';
+    require '../../../daos/DAOCasa.php';
+    require '../../../models/Endereco.php';
+    require '../../../daos/DAOEndereco.php';
+    require '../../../models/Tecnico.php';
+    require '../../../daos/DAOTecnico.php';
+    require '../../../models/Funcionario.php';
+    require '../../../daos/DAOFuncionario.php';
+    require '../../../models/Foto.php';
+    require '../../../daos/DAOFoto.php';
+    require '../../../models/DadosDaVistoria.php';
+    require '../../../daos/DAODadosDaVistoria.php';
+    require '../../../models/Afetados.php';
+    require '../../../daos/DAOAfetados.php';
+    require '../../../models/Animal.php';
+    require '../../../daos/DAOAnimal.php';
+    require '../../../models/Memo.php';
+    require '../../../daos/DAOMemo.php';
 
-$daoRelatorio = new DAORelatorio($pdo);
-$daoOcorrencia = new DAOOcorrencia($pdo);
-$daoCivil = new DAOCivil($pdo);
-$daoResidencial = new DAOResidencial($pdo);
-$daoCasa = new DAOCasa($pdo);
-$daoEndereco = new DAOEndereco($pdo);
-$daoTecnico = new DAOTecnico($pdo);
-$daoFuncionario = new DAOFuncionario($pdo);
-$daoFoto = new DAOFoto($pdo);
-$daoDadosDaVistoria = new DAODadosDaVistoria($pdo);
-$daoAfetados = new DAOAfetados($pdo);
-$daoAnimal = new DAOAnimal($pdo);
-$daoMemo = new DAOMemo($pdo);
+    $daoRelatorio = new DAORelatorio($pdo);
+    $daoOcorrencia = new DAOOcorrencia($pdo);
+    $daoCivil = new DAOCivil($pdo);
+    $daoResidencial = new DAOResidencial($pdo);
+    $daoCasa = new DAOCasa($pdo);
+    $daoEndereco = new DAOEndereco($pdo);
+    $daoTecnico = new DAOTecnico($pdo);
+    $daoFuncionario = new DAOFuncionario($pdo);
+    $daoFoto = new DAOFoto($pdo);
+    $daoDadosDaVistoria = new DAODadosDaVistoria($pdo);
+    $daoAfetados = new DAOAfetados($pdo);
+    $daoAnimal = new DAOAnimal($pdo);
+    $daoMemo = new DAOMemo($pdo);
 
-$relatorio = $daoRelatorio->findById($_GET['id']);
-if ($relatorio == null) {
-    echo '{}';
-    die();
-}
-$ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
+    $relatorio = $daoRelatorio->findById($_GET['id']);
+    if ($relatorio == null) {
+        echo '{}';
+        die();
+    }
+    $ocorrencia = $daoOcorrencia->findById($relatorio->getIdOcorrencia());
 
-// Obtendo dados de Civil
-$civil = $daoCivil->findById($ocorrencia->getIdCivil());
+    // Obtendo dados de Civil
+    $civil = $daoCivil->findById($ocorrencia->getIdCivil());
 
-// Obtendo dados de Casa
-$casa = $daoCasa->findById($relatorio->getIdCasa());
-$residencial = $daoResidencial->findById($casa->getIdResidencial());
+    // Obtendo dados de Casa
+    $casa = $daoCasa->findById($relatorio->getIdCasa());
+    $residencial = $daoResidencial->findById($casa->getIdResidencial());
 
-// Obtendo dados de Endereco
-$endereco = $daoEndereco->findByCep($residencial->getCep());
+    // Obtendo dados de Endereco
+    $endereco = $daoEndereco->findByCep($residencial->getCep());
 
-// Obtendo dados de Técnico e Funcionário
-$tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
-$funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
-$atendente = $ocorrencia->getIdAtendente() ? $daoFuncionario->findById($ocorrencia->getIdAtendente()) : null;
+    // Obtendo dados de Técnico e Funcionário
+    $tecnico = $daoTecnico->findById($ocorrencia->getIdTecnico());
+    $funcionario = $daoFuncionario->findById($tecnico->getIdFuncionario());
+    $atendente = $ocorrencia->getIdAtendente() ? $daoFuncionario->findById($ocorrencia->getIdAtendente()) : null;
 
-// Obtendo Fotos
-$fotos = $daoFoto->searchByRelatorio($relatorio);
+    // Obtendo Fotos
+    $fotos = $daoFoto->searchByRelatorio($relatorio);
 
-// Obtendo Dados da Vistoria
-$dadosDaVistoria = $daoDadosDaVistoria->findByRelatorio($relatorio);
+    // Obtendo Dados da Vistoria
+    $dadosDaVistoria = $daoDadosDaVistoria->findByRelatorio($relatorio);
 
-// Obtendo Afetados
-$afetados = $daoAfetados->findByRelatorio($relatorio);
+    // Obtendo Afetados
+    $afetados = $daoAfetados->findByRelatorio($relatorio);
 
-// Obtendo Animais
-$animal = $daoAnimal->findByRelatorio($relatorio);
+    // Obtendo Animais
+    $animal = $daoAnimal->findByRelatorio($relatorio);
 
-// Obtendo Memorando
-$memo = $daoMemo->findByRelatorio($relatorio);
+    // Obtendo Memorando
+    $memo = $daoMemo->findByRelatorio($relatorio);
 ?>
 
 <body>
@@ -107,7 +107,7 @@ $memo = $daoMemo->findByRelatorio($relatorio);
         <main>
             <section>
                 <p class="section-title">Solicitação de Vistoria Nº
-                    <?php echo ' ' . $ocorrencia->getId() . ' - ' . formatWeekDay($ocorrencia->getDataOcorrencia()) . ', ' . formatDate($ocorrencia->getDataOcorrencia()) ?>
+                    <?php echo ' ' . $ocorrencia->getId() . ' - ' . formatWeekDay($ocorrencia->getDataOcorrencia()) . ', ' . formatDate($ocorrencia->getDataOcorrencia()); ?>
                 </p>
                 <article>
                     <div class="item-row">
@@ -241,6 +241,7 @@ $memo = $daoMemo->findByRelatorio($relatorio);
                         <p><i class="ph ph-instagram-logo"></i>@prefeituradefranco</p>
                         <p><i class="ph ph-facebook-logo"></i>/prefeituradefranco</p>
                     </div>
+                    <p><?php echo systemVersionName(true); ?></p>
                 </div>
                 <div class="pagebreak"></div>
                 <article>
@@ -633,6 +634,7 @@ $memo = $daoMemo->findByRelatorio($relatorio);
                         <p><i class="ph ph-instagram-logo"></i>@prefeituradefranco</p>
                         <p><i class="ph ph-facebook-logo"></i>/prefeituradefranco</p>
                     </div>
+                    <p><?php echo systemVersionName(true); ?></p>
                 </div>
             </section>
         </main>

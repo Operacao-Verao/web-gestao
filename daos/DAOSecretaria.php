@@ -1,7 +1,7 @@
 <?php
-	class DAOSecretaria{
-		private PDO $pdo;
-		
+	include_once $SERVER_LOCATION.'/daos/DAO.php';
+	
+	class DAOSecretaria extends DAO{
 		public function __construct(PDO $pdo) {
 			$this->pdo = $pdo;
 		}
@@ -50,7 +50,7 @@
 		// Return all records of "Secretaria"
 		// Returns an array with all the found models, returns an empty array in case of an error
 		public function listAll(): array{
-            $select = $this->pdo->prepare('SELECT * FROM Secretaria');
+            $select = $this->pdo->prepare('SELECT * FROM Secretaria ORDER BY nome_secretaria'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -59,6 +59,15 @@
                 $models[] = new Secretaria($query['id'], $query['nome_secretaria']);
             }
             return $models;
+		}
+		
+		// Count all records of "Secretaria"
+		// Returns an array with all the found models, returns an empty array in case of an error
+		public function countAll(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Secretaria');
+            $select->execute();
+            
+            return $select->fetch()[0];
 		}
 		
 		// Update the "Secretaria" entry in the table

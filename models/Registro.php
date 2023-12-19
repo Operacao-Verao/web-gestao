@@ -1,15 +1,18 @@
 <?php
     enum REG_ACAO {
         const ERRO = 1;
-        const ALT_SECRETARIO = 2;
-        const ALT_TECNICO = 3;
-        const ALT_CASA = 4;
-        const TRANCA_OCORRENCIA = 5;
-        const CAD_CIVIL = 6;
-        const CAD_OCORRENCIA = 7;
-        const CAD_SECRETARIO = 8;
-        const CAD_TECNICO = 9;
-        const GEN_MEMO = 10;
+        const ALT_SECRETARIA = 2;
+        const ALT_SECRETARIO = 3;
+        const ALT_TECNICO = 4;
+        const ALT_CASA = 5;
+        const TRANCA_OCORRENCIA = 6;
+        const CAD_CIVIL = 7;
+        const CAD_OCORRENCIA = 8;
+        const CAD_SECRETARIA = 9;
+        const CAD_SECRETARIO = 10;
+        const CAD_TECNICO = 11;
+        const GERACAO_MEMO = 12;
+        const GEN_MEMO = 13;
     }
     
     class Registro {

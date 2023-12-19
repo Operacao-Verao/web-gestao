@@ -448,6 +448,9 @@
         <p class="item-row-content"><?php echo $relatorio->getAssunto();?></p>
       </div>
     </div>
+    
+    <button class="btnImprimir"><a target="_Blank"
+      <?php echo 'href="print_relatorio/index.php?id='.$relatorio->getId().'"'; ?>>Gerar Memorando</a></button>
   </article>
 </section>
 </main>

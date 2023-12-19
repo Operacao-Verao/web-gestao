@@ -1,7 +1,7 @@
 <?php
-    class DAOMemo {
-        private PDO $pdo;
-        
+    include_once $SERVER_LOCATION.'/daos/DAO.php';
+    
+    class DAOMemo extends DAO{
         public function __construct(PDO $pdo) {
             $this->pdo = $pdo;
         }
@@ -64,11 +64,11 @@
             }
             return null;
         }
-
+        
         // Return all records of "Memo"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function listAll(): ?array{
-            $select = $this->pdo->prepare('SELECT * FROM Memo');
+            $select = $this->pdo->prepare('SELECT * FROM Memo'.$this->sql_length.$this->sql_offset);
             $select->execute();
             
             // All entries will be traversed
@@ -78,7 +78,47 @@
             }
             return $models;
         }
-
+        
+        // Return all records of "Memo" where references to a specific "Relatorio"
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function searchByRelatorio(Relatorio $relatorio): array{
+            $select = $this->pdo->prepare('SELECT * FROM Memo WHERE id_relatorio = :id_relatorio ORDER BY data_memo DESC');
+            $select->bindValue(':id_relatorio', $relatorio->getId());
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['memorando'], $query['oficio'], $query['processo']);
+            }
+            return $models;
+        }
+        
+        // Search for records of "Memo" that matches the text
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function searchByText($text): ?array{
+            $select = $this->pdo->prepare('SELECT Memo.id AS id, Memo.id_relatorio AS id_relatorio, Memo.id_secretaria AS id_secretaria, Memo.data_memo AS data_memo, Memo.status_memo AS status_memo, Memo.setor AS setor, Memo.memorando AS memorando, Memo.oficio AS oficio, Memo.processo AS processo FROM Memo INNER JOIN Relatorio ON Memo.id_relatorio = Relatorio.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR Memo.memorando LIKE :text ORDER BY data_memo DESC'.$this->sql_length.$this->sql_offset);
+            $select->bindValue(':text', '%'.$text.'%');
+            $select->execute();
+            
+            // All entries will be traversed
+            $models = [];
+            while (($query = $select->fetch())) {
+                $models[] = new Memo($query['id'], $query['id_relatorio'], $query['id_secretaria'], $query['data_memo'], $query['status_memo'], $query['setor'], $query['memorando'], $query['oficio'], $query['processo']);
+            }
+            return $models;
+        }
+        
+        // Search for records of "Memo" that matches the text
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function countByText($text): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Memo INNER JOIN Relatorio ON Memo.id_relatorio = Relatorio.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR Memo.memorando LIKE :text');
+            $select->bindValue(':text', '%'.$text.'%');
+            $select->execute();
+            
+            return $select->fetch()[0];
+        }
+        
         // Update the "Memo" entry in the table
         // Returns true if the update is successful, otherwise returns false
         public function update(Memo $memo): bool{

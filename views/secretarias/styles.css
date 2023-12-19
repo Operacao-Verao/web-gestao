@@ -1,0 +1,221 @@
+.wrapper-main {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	min-height: 95vh;
+	background-color: #fff;
+	border-radius: 1rem;
+	margin-top: 1rem;
+}
+.activity-data {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	width: 100%;
+	background-color: var(--box-color);
+	border-radius: 1rem;
+	padding: 3rem 2rem;
+}
+.activity-data .data {
+	display: flex;
+	flex-direction: column;
+
+	margin: 0 1.5rem;
+}
+.activity-data .data-title {
+	font-size: 1.8rem;
+	font-weight: 500;
+	color: var(--text-color);
+}
+.activity-data .data .data-list {
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: var(--text-color);
+	white-space: nowrap;
+
+	margin-top: 2rem;
+}
+.activity-data .data .data-list-2 {
+	font-size: 1.4rem;
+	font-weight: 400;
+	color: var(--text-color);
+	white-space: nowrap;
+
+	margin-top: 1.9rem;
+}
+.data.editar {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.data.editar i {
+	font-size: 1.7rem;
+}
+a {
+	text-decoration: none;
+	color: inherit;
+}
+button.data-list {
+	border: 0;
+	background: transparent;
+	font-size: 1.7rem;
+	cursor: pointer;
+}
+.btnCadastrar {
+	font-size: 1.7rem;
+	font-weight: 500;
+	padding: 1.5rem 2.5rem;
+	cursor: pointer;
+	background-color: var(--blue);
+	color: #fff;
+	border: 0;
+	border-radius: 0.5rem;
+}
+
+/* MODAL */
+
+.viewSecretario {
+	position: absolute;
+	top: 7%;
+	left: 20%;
+	display: block;
+	width: 40%;
+	height: 720px;
+	background-color: var(--panel-color);
+	padding: 3.5rem;
+	border: 2px solid #ccc;
+	border-radius: 2rem;
+}
+.viewSecretario.open {
+	display: block;
+}
+body.viewSecretario-open {
+	overflow: hidden;
+}
+.viewSecretario .topRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+.viewSecretario .topRow h2 {
+	text-align: center;
+}
+.viewSecretario .topRow button {
+	background: transparent;
+	border: 0;
+}
+.viewSecretario .topRow i {
+	font-size: 2.8rem;
+	cursor: pointer;
+}
+form {
+	display: flex;
+	flex-direction: column;
+	height: 95%;
+	justify-content: space-between;
+	padding: 2.5rem;
+}
+.inputArea {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	margin-top: 2rem;
+}
+.inputArea label {
+	font-size: 1.7rem;
+}
+.inputArea :is(input, select, textarea) {
+	width: 100%;
+	font-size: 1.5rem;
+	border: 1px solid #303030;
+	border-radius: 1.2rem;
+	padding: 1.4rem 2rem;
+	outline: 0;
+	resize: none;
+}
+.btnCadastrarSecretario {
+	padding: 1.5rem 0;
+	font-size: 1.7rem;
+	font-weight: 500;
+	cursor: pointer;
+	background-color: var(--blue);
+	color: #fff;
+	border: 0;
+	border-radius: 0.5rem;
+}
+
+.pagination-button {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	align-items: center;
+	padding: 4rem 2rem;
+}
+
+.pagination-button>* {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}
+
+.pagination-button a {
+	text-decoration: none;
+}
+
+.pagination-button button {
+	background-color: var(--blue);
+	color: #fff;
+	font-size: 1.6rem;
+	border-radius: 8px;
+	padding: 1.5rem 1rem;
+	border: 0;
+	cursor: pointer;
+}
+
+.pagination {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.pagination a {
+	display: flex;
+	align-items: center;
+	color: #000;
+}
+
+.pagination :is(a:first-child, a:last-child) {
+	gap: .7rem;
+}
+
+.pagination a:first-child {
+	margin-right: .7rem;
+}
+
+.pagination a:last-child {
+	margin-left: .7rem;
+}
+
+.pagination .active {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
+}
+
+.pagination a:hover {
+	background-color: #bae6fd;
+	padding: 0.5rem 1.2rem;
+	color: var(--blue);
+	border-radius: .4rem;
+}
+
+@media (max-width: 1000px) {
+	.activity-data{
+		overflow-x: scroll;
+		scroll-snap-type: x mandatory;
+		scroll-behavior: smooth;
+	}
+}

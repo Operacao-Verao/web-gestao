@@ -7,8 +7,8 @@
 </head>
 
 <?php
-require '../../partials/header/header.php';
-authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
+  require '../../partials/header/header.php';
+  authenticateSession(TIPO_USUARIO::GESTOR, '', '../login/login.php');
 ?>
 
 <div class="dash-content">

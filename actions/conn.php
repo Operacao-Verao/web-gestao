@@ -33,6 +33,10 @@
         $date = date_create($datetime);
         return date_format($date, $with_year? 'd/m/Y': 'd/m');
     }
+    function formatYear($datetime) {
+        $date = date_create($datetime);
+        return date_format($date, 'Y');
+    }
     function formatWeekDay($datetime, $full_name = true) {
         $format = date_format(date_create($datetime), 'w');
         $days = array('Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado');
@@ -97,4 +101,10 @@
         const STABLE = 1;
     }
     const DEV_LEVEL = DEV_LEVEL::DEV_MODE;
+    const SYSTEM_NAME = 'GODNCH';
+    const VERSION_NAME = 'Versão 1.0/2023';
+    
+    function systemVersionName($append_msg=false){
+        return ($append_msg? 'Gerado por Sistema ': '').' '.SYSTEM_NAME.' - '.VERSION_NAME.' '.(DEV_LEVEL==DEV_LEVEL::DEV_MODE? '(DEV MODE)': (DEV_LEVEL==DEV_LEVEL::STABLE? '': '(NIGHTLY)'));
+    }
 ?>

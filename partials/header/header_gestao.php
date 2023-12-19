@@ -15,6 +15,10 @@
         class="link-name">Relatórios</span></a>
   </li>
   <li>
+    <a href="../../views/secretarias/secretarias.php"><i class="ph-bold ph-user-list"></i><span
+        class="link-name">Secretarias</span></a>
+  </li>
+  <li>
     <a href="../../views/secretarios/secretarios.php"><i class="ph-bold ph-user-list"></i><span
         class="link-name">Secretários</span></a>
   </li>
