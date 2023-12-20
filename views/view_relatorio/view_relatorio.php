@@ -449,8 +449,8 @@
       </div>
     </div>
     
-    <button class="btnImprimir"><a target="_Blank"
-      <?php echo 'href="print_relatorio/index.php?id='.$relatorio->getId().'"'; ?>>Gerar Memorando</a></button>
+    <button class="btnImprimir"><a
+      <?php echo 'href="gen_memorando/gen_memorando.php?relatorio_id='.$relatorio->getId().'"'; ?>>Gerar Memorando</a></button>
   </article>
 </section>
 </main>

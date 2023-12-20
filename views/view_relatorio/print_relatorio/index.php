@@ -40,6 +40,8 @@
     require '../../../daos/DAOAnimal.php';
     require '../../../models/Memo.php';
     require '../../../daos/DAOMemo.php';
+    require '../../../models/Secretaria.php';
+    require '../../../daos/DAOSecretaria.php';
 
     $daoRelatorio = new DAORelatorio($pdo);
     $daoOcorrencia = new DAOOcorrencia($pdo);
@@ -54,6 +56,7 @@
     $daoAfetados = new DAOAfetados($pdo);
     $daoAnimal = new DAOAnimal($pdo);
     $daoMemo = new DAOMemo($pdo);
+    $daoSecretaria = new DAOSecretaria($pdo);
 
     $relatorio = $daoRelatorio->findById($_GET['id']);
     if ($relatorio == null) {
@@ -564,7 +567,23 @@
                     <div class="item-row">
                         <p class="item-title">Encaminhamentos: </p>
                         <p>
-                            <?php echo $relatorio->getEncaminhamento(); ?>
+                            <?php
+                                $setext = '';
+                                $rel_memos = $daoMemo->searchByRelatorio($relatorio);
+                                $nomes = [];
+                                
+                                foreach ($rel_memos as $memo){
+                                    $secretaria = $daoSecretaria->findById($memo->getIdSecretaria());
+                                    $nomes[] = $secretaria->getNomeSecretaria();
+                                }
+                                
+                                $total = count($nomes);
+                                for ($i=0; $i<$total; $i++){
+                                    $setext .= ($i==0? '': ($i==($total-1)? ' e ': ', ')).$nomes[$i];
+                                }
+                                
+                                echo $setext;
+                            ?>
                         </p>
                     </div>
                     <div class="item-grid3">

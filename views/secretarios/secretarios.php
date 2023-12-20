@@ -55,15 +55,15 @@ $secretarios = $daoSecretario->listAll();
       <input type="hidden" name="inputId" id="inputId">
       <div>
         <div class="inputArea">
-          <label for="">Nome</label>
+          <label for="">Nome*</label>
           <input type="text" name="inputNome" id="inputNome" required>
         </div>
         <div class="inputArea">
-          <label for="">Cargo</label>
+          <label for="">Cargo*</label>
           <input type="text" name="inputCargo" id="inputCargo" required>
         </div>
         <div class="inputArea">
-          <label for="">Secretaria</label>
+          <label for="">Secretaria*</label>
           <select name="inputSecretaria" id="inputSecretaria" required>
             <?php
             $secretarias = $daoSecretaria->listAll();
@@ -126,6 +126,7 @@ echoError();
 
   function openModal(id_secretario = null, nome = null, cargo = null, secretaria = null) {
     document.getElementById('viewSecretario').style.display = 'block';
+    inputNome.focus();
     if (id_secretario == null) {
       cadWindowTitle.textContent = "Cadastrar Secretário";
       cadButton.textContent = "Cadastrar";

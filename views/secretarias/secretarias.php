@@ -70,7 +70,7 @@ echoError();
   pageCount = 1;
   pageEntries = 15;
   createPaginationFooter(pagination_footer);
-  let exp_nome = /[^a-zA-ZáàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s]/g;
+  let exp_nome = /[^a-zA-Z0-9áàÁÀéèÉÈíìÍÌóòÓÒúùÚÙãçÃÇâÂêÊõÕôÔûÛ\s\&\#\:\-\/\\=]/g;
 
   function goToAction(action, values = {}) {
     let form = document.createElement('form');
@@ -105,6 +105,7 @@ echoError();
 
   function openModal(id_secretaria = null, secretaria = null) {
     document.getElementById('viewSecretario').style.display = 'block';
+    inputSecretaria.focus();
     if (id_secretaria == null) {
       cadWindowTitle.textContent = "Cadastrar Secretaria";
       cadButton.textContent = "Cadastrar";

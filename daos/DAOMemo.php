@@ -79,6 +79,15 @@
             return $models;
         }
         
+        // Count all records of "Memo"
+        // Returns an array with all the found models, returns an empty array in case of an error
+        public function countAll(): int{
+            $select = $this->pdo->prepare('SELECT COUNT(*) FROM Memo');
+            $select->execute();
+            
+            return $select->fetch()[0];
+        }
+        
         // Return all records of "Memo" where references to a specific "Relatorio"
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByRelatorio(Relatorio $relatorio): array{
@@ -109,7 +118,7 @@
             return $models;
         }
         
-        // Search for records of "Memo" that matches the text
+        // Count all records of "Memo" that matches the text
         // Returns an array with all the found models, returns an empty array in case of an error
         public function countByText($text): int{
             $select = $this->pdo->prepare('SELECT COUNT(*) FROM Memo INNER JOIN Relatorio ON Memo.id_relatorio = Relatorio.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR Memo.memorando LIKE :text');
