@@ -55,12 +55,11 @@
         private bool $danosMateriais;
         private string $dataGeracao;
         private string $dataAtendimento;
-        private string $assinaturaGestor;
         private string $assinaturaTecnico;
         private string $assinaturaCivil;
 
         public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $encaminhamento, string $assunto, string $observacoes, int $areaAfetada, int
-            $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento, string $assinaturaGestor, string $assinaturaTecnico, string $assinaturaCivil) {
+            $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento, string $assinaturaTecnico, string $assinaturaCivil) {
             $this->id = $id;
             $this->idOcorrencia = $idOcorrencia;
             $this->idCasa = $idCasa;
@@ -78,7 +77,6 @@
             $this->danosMateriais = $danosMateriais;
             $this->dataGeracao = $dataGeracao;
             $this->dataAtendimento = $dataAtendimento;
-            $this->assinaturaGestor = $assinaturaGestor;
             $this->assinaturaTecnico = $assinaturaTecnico;
             $this->assinaturaCivil = $assinaturaCivil;
         }
@@ -212,14 +210,6 @@
         
         public function setDataAtendimento(string $dataAtendimento): void{
             $this->dataAtendimento = $dataAtendimento;
-        }
-        
-        public function getAssinaturaGestor(): string{
-            return $this->assinaturaGestor;
-        }
-        
-        public function setAssinaturaGestor(string $assinaturaGestor): void{
-            $this->assinaturaGestor = $assinaturaGestor;
         }
         
         public function getAssinaturaTecnico(): string{

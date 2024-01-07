@@ -9,9 +9,9 @@
 		// Insert data of "Relatorio" into the table
 		// Returns a model if the insertion is successful, otherwise returns null
 			public function insert(Ocorrencia $ocorrencia, Casa $casa, int $gravidade, string $relatorio, string $encaminhamento, string $assunto, string $observacoes, int $areaAfetada, int
-			$tipoConstrucao, int $tipoTalude, int $vegetacao, int $interdicao, int $situacaoVitimas, bool $danosMateriais, string $dataGeracao, string $dataAtendimento, string $assinaturaGestor, string $assinaturaTecnico, string $assinaturaCivil): ?Relatorio{
+			$tipoConstrucao, int $tipoTalude, int $vegetacao, int $interdicao, int $situacaoVitimas, bool $danosMateriais, string $dataGeracao, string $dataAtendimento, string $assinaturaTecnico, string $assinaturaCivil): ?Relatorio{
 			// Try to insert the provided data into the database
-			$insertion = $this->pdo->prepare("INSERT INTO Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento, assinatura_gestor, assinatura_tecnico, assinatura_civil) VALUES (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento, :assinatura_gestor, :assinatura_tecnico, :assinatura_civil)");
+			$insertion = $this->pdo->prepare("INSERT INTO Relatorio (id_ocorrencia, id_casa, gravidade, relatorio, encaminhamento, assunto, observacoes, area_afetada, tipo_construcao, tipo_talude, vegetacao, situacao_vitimas, interdicao, danos_materiais, data_geracao, data_atendimento, assinatura_tecnico, assinatura_civil) VALUES (:ocorrencia, :casa, :gravidade, :relatorio, :encaminhamento, :assunto, :observacoes, :area_afetada, :tipo_construcao, :tipo_talude, :vegetacao, :situacao_vitimas, :interdicao, :danos_materiais, :data_geracao, :data_atendimento, :assinatura_tecnico, :assinatura_civil)");
 			$insertion->bindValue(":ocorrencia", $ocorrencia->getId());
 			$insertion->bindValue(":casa", $casa->getId());
 			$insertion->bindValue(":gravidade", $gravidade);
@@ -28,7 +28,6 @@
 			$insertion->bindValue(":danos_materiais", (int)$danosMateriais);
 			$insertion->bindValue(":data_geracao", $dataGeracao);
 			$insertion->bindValue(":data_atendimento", $dataAtendimento);
-			$insertion->bindValue(":assinatura_gestor", $assinaturaGestor);
 			$insertion->bindValue(":assinatura_tecnico", $assinaturaTecnico);
 			$insertion->bindValue(":assinatura_civil", $assinaturaCivil);
 
@@ -37,7 +36,7 @@
 				// Retrieve the ID of the last inserted instance and return a corresponding model for it
 				$lastId = intval($this->pdo->lastInsertId());
 				return new Relatorio($lastId, $ocorrencia->getId(), $casa->getId(), $gravidade, $relatorio, $encaminhamento, $assunto, $observacoes, $areaAfetada,
-					$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento, $assinaturaGestor, $assinaturaTecnico, $assinaturaCivil);
+					$tipoConstrucao, $tipoTalude, $vegetacao, $situacaoVitimas, $interdicao, $danosMateriais, $dataGeracao, $dataAtendimento, $assinaturaTecnico, $assinaturaCivil);
 			}
 
 			// Otherwise, return null
@@ -62,7 +61,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_gestor'], $query['assinatura_tecnico'], $query['assinatura_civil']);
+                return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_tecnico'], $query['assinatura_civil']);
             }
             return null;
 		}
@@ -77,7 +76,7 @@
             // Only one entry is needed, in this case, the first one
             if ($select->rowCount()>0){
                 $query = $select->fetch();
-                return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_gestor'], $query['assinatura_tecnico'], $query['assinatura_civil']);
+                return new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_tecnico'], $query['assinatura_civil']);
             }
             return null;
 		}
@@ -92,7 +91,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_gestor'], $query['assinatura_tecnico'], $query['assinatura_civil']);
+                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_tecnico'], $query['assinatura_civil']);
             }
             return $models;
 		}
@@ -106,7 +105,7 @@
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_gestor'], $query['assinatura_tecnico'], $query['assinatura_civil']);
+                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_tecnico'], $query['assinatura_civil']);
             }
             return $models;
 		}
@@ -114,14 +113,14 @@
         // Search for records of "Relatorio" by text
         // Returns an array with all the found models, returns an empty array in case of an error
         public function searchByText(string $text): array{
-            $select = $this->pdo->prepare('SELECT Relatorio.id AS id, Relatorio.id_ocorrencia AS id_ocorrencia, Relatorio.id_casa AS id_casa, Relatorio.gravidade AS gravidade, Relatorio.relatorio AS relatorio, Relatorio.encaminhamento AS encaminhamento, Relatorio.assunto AS assunto, Relatorio.observacoes AS observacoes, Relatorio.area_afetada AS area_afetada, Relatorio.tipo_construcao AS tipo_construcao, Relatorio.tipo_talude AS tipo_talude, Relatorio.vegetacao AS vegetacao, Relatorio.situacao_vitimas AS situacao_vitimas, Relatorio.interdicao AS interdicao, Relatorio.danos_materiais AS danos_materiais, Relatorio.data_geracao AS data_geracao, Relatorio.data_atendimento AS data_atendimento, Relatorio.assinatura_gestor AS assinatura_gestor, Relatorio.assinatura_tecnico AS assinatura_tecnico, Relatorio.assinatura_civil AS assinatura_civil FROM Relatorio INNER JOIN Ocorrencia ON Relatorio.id_ocorrencia = Ocorrencia.id INNER JOIN Tecnico ON Ocorrencia.id_tecnico = Tecnico.id INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id AND Tecnico.id_funcionario = Funcionario.id) OR Ocorrencia.id_tecnico IS NULL) AND (Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR ((NOT Ocorrencia.id_tecnico IS NULL) AND Funcionario.nome LIKE :text)) /*GROUP BY Relatorio.id */ORDER BY Relatorio.data_geracao DESC'.$this->sql_length.$this->sql_offset);
+            $select = $this->pdo->prepare('SELECT Relatorio.id AS id, Relatorio.id_ocorrencia AS id_ocorrencia, Relatorio.id_casa AS id_casa, Relatorio.gravidade AS gravidade, Relatorio.relatorio AS relatorio, Relatorio.encaminhamento AS encaminhamento, Relatorio.assunto AS assunto, Relatorio.observacoes AS observacoes, Relatorio.area_afetada AS area_afetada, Relatorio.tipo_construcao AS tipo_construcao, Relatorio.tipo_talude AS tipo_talude, Relatorio.vegetacao AS vegetacao, Relatorio.situacao_vitimas AS situacao_vitimas, Relatorio.interdicao AS interdicao, Relatorio.danos_materiais AS danos_materiais, Relatorio.data_geracao AS data_geracao, Relatorio.data_atendimento AS data_atendimento, Relatorio.assinatura_tecnico AS assinatura_tecnico, Relatorio.assinatura_civil AS assinatura_civil FROM Relatorio INNER JOIN Ocorrencia ON Relatorio.id_ocorrencia = Ocorrencia.id INNER JOIN Tecnico ON Ocorrencia.id_tecnico = Tecnico.id INNER JOIN Funcionario ON Tecnico.id_funcionario = Funcionario.id INNER JOIN Casa ON Relatorio.id_casa = Casa.id INNER JOIN Residencial ON Casa.id_residencial = Residencial.id INNER JOIN Endereco ON Residencial.cep = Endereco.cep WHERE ((Ocorrencia.id_tecnico = Tecnico.id AND Tecnico.id_funcionario = Funcionario.id) OR Ocorrencia.id_tecnico IS NULL) AND (Endereco.rua LIKE :text OR Endereco.bairro LIKE :text OR Residencial.numero LIKE :text OR ((NOT Ocorrencia.id_tecnico IS NULL) AND Funcionario.nome LIKE :text)) /*GROUP BY Relatorio.id */ORDER BY Relatorio.data_geracao DESC'.$this->sql_length.$this->sql_offset);
             $select->bindValue(':text', '%'.$text.'%');
             $select->execute();
             
             // All entries will be traversed
             $models = [];
             while (($query = $select->fetch())) {
-                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_gestor'], $query['assinatura_tecnico'], $query['assinatura_civil']);
+                $models[] = new Relatorio($query['id'], $query['id_ocorrencia'], $query['id_casa'], $query['gravidade'], $query['relatorio'], $query['encaminhamento'], $query['assunto'], $query['observacoes'], $query['area_afetada'], $query['tipo_construcao'], $query['tipo_talude'], $query['vegetacao'], $query['situacao_vitimas'], $query['interdicao'], $query['danos_materiais'], $query['data_geracao'], $query['data_atendimento'], $query['assinatura_tecnico'], $query['assinatura_civil']);
             }
             return $models;
         }
@@ -158,7 +157,7 @@
 		// Update the "Relatorio" entry in the table
 		// Returns true if the update is successful, otherwise returns false
 		public function update(Relatorio $relatorio): bool{
-			$insertion = $this->pdo->prepare("UPDATE Relatorio SET id_ocorrencia = :id_ocorrencia, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento, assinatura_gestor = :assinatura_gestor, assinatura_tecnico = :assinatura_tecnico, assinatura_civil = :assinatura_civil WHERE id = :id");
+			$insertion = $this->pdo->prepare("UPDATE Relatorio SET id_ocorrencia = :id_ocorrencia, gravidade = :gravidade, relatorio = :relatorio, encaminhamento = :encaminhamento, assunto = :assunto, observacoes = :observacoes, area_afetada = :area_afetada, tipo_construcao = :tipo_construcao, tipo_talude = :tipo_talude, vegetacao = :vegetacao, situacao_vitimas = :situacao_vitimas, interdicao = :interdicao, danos_materiais = :danos_materiais, data_geracao = :data_geracao, data_atendimento = :data_atendimento, assinatura_tecnico = :assinatura_tecnico, assinatura_civil = :assinatura_civil WHERE id = :id");
 			$insertion->bindValue(":id", $relatorio->getId());
 			$insertion->bindValue(":id_ocorrencia", $relatorio->getIdOcorrencia());
 			$insertion->bindValue(":gravidade", $relatorio->getGravidade());
@@ -175,7 +174,6 @@
 			$insertion->bindValue(":danos_materiais", (int)$relatorio->getDanosMateriais());
 			$insertion->bindValue(":data_geracao", $relatorio->getDataGeracao());
 			$insertion->bindValue(":data_atendimento", $relatorio->getDataAtendimento());
-			$insertion->bindValue(":assinatura_gestor", $relatorio->getAssinaturaGestor());
 			$insertion->bindValue(":assinatura_tecnico", $relatorio->getAssinaturaTecnico());
 			$insertion->bindValue(":assinatura_civil", $relatorio->getAssinaturaCivil());
 			return $insertion->execute();
