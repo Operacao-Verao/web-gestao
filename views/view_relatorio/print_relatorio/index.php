@@ -204,12 +204,12 @@
                 </article>
                 <div class="assinatura">
                     <div>
-                        <p><br /><br /></p>
-                        <p class="item-title">Assinatura (Gestor): </p>
+                        <p><img src=<?php echo $relatorio->getAssinaturaCivil();?> class="signature"></p>
+                        <p class="item-title">Assinatura (Civil)</p>
                     </div>
                     <div>
-                        <p><br /><br /></p>
-                        <p class="item-title">Assinatura (Técnico): </p>
+                        <p><img src=<?php echo $relatorio->getAssinaturaTecnico();?> class="signature"></p>
+                        <p class="item-title">Assinatura (Técnico)</p>
                     </div>
                 </div>
                 <div class="data-horario">

@@ -84,6 +84,10 @@ article .item-row-2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
+.signature {
+    height: 50px;
+    width: 250px;
+}
 
 .item-title {
     font-weight: 500;
