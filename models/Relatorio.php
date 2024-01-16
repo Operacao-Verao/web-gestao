@@ -43,7 +43,6 @@
         private int $idCasa;
         private int $gravidade;
         private string $relatorio;
-        private string $encaminhamento;
         private string $assunto;
         private string $observacoes;
         private int $areaAfetada;
@@ -58,14 +57,13 @@
         private string $assinaturaTecnico;
         private string $assinaturaCivil;
 
-        public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $encaminhamento, string $assunto, string $observacoes, int $areaAfetada, int
+        public function __construct(int $id, int $idOcorrencia, int $idCasa, int $gravidade, string $relatorio, string $assunto, string $observacoes, int $areaAfetada, int
             $tipoConstrucao, int $tipoTalude, int $vegetacao, int $situacaoVitimas, int $interdicao, bool $danosMateriais, string $dataGeracao, string $dataAtendimento, string $assinaturaTecnico, string $assinaturaCivil) {
             $this->id = $id;
             $this->idOcorrencia = $idOcorrencia;
             $this->idCasa = $idCasa;
             $this->gravidade = $gravidade;
             $this->relatorio = $relatorio;
-            $this->encaminhamento = $encaminhamento;
             $this->assunto = $assunto;
             $this->observacoes = $observacoes;
             $this->areaAfetada = $areaAfetada;
@@ -114,14 +112,6 @@
         
         public function setRelatorio(string $relatorio): void{
             $this->relatorio = $relatorio;
-        }
-        
-        public function getEncaminhamento(): string{
-            return $this->encaminhamento;
-        }
-        
-        public function setEncaminhamento(string $encaminhamento): void{
-            $this->encaminhamento = $encaminhamento;
         }
         
         public function getAssunto(): string{

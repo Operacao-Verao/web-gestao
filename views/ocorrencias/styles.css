@@ -50,8 +50,6 @@
 }
 
 .wrapper .status {
-	display: flex;
-	font-weight: 600;
 	gap: 3rem;
 }
 
@@ -60,7 +58,7 @@
 	border-radius: 2rem;
 	padding: 1rem 1.5rem;
 	font-weight: 500;
-	font-size: 2rem;
+	font-size: clamp(1.6rem, 3vw, 2rem);
 	cursor: pointer;
 }
 
@@ -77,6 +75,7 @@
 	display: flex;
 	flex-direction: column;
 	color: #71717a;
+	font-size: clamp(1.2rem, 2vw, 1.6rem);
 	padding-right: 3rem;
 	border-right: 2px solid #9ca3af;
 	max-width: 115px;
@@ -98,15 +97,15 @@
 .ocorrencia-info .ocorrencia-title {
 	display: flex;
 	align-items: center;
-	font-size: 1.8rem;
+	font-size: clamp(1.4rem, 2vw, 1.8rem);
 	font-weight: 500;
 	gap: 1.5rem;
 }
 
-.all-ocorrencias{
+.all-ocorrencias {
 	display: flex;
-    flex-direction: column;
-    gap: 3rem;
+	flex-direction: column;
+	gap: 3rem;
 }
 
 .ocorrencia-title button {
@@ -116,11 +115,12 @@
 }
 
 .ocorrencia-info .ocorrencia-title i {
-	font-size: 2rem;
+	font-size: clamp(1.6rem, 3vw, 2rem);
 }
 
 .ocorrencia-info .ocorrencia-subtitle {
 	color: #71717a;
+	font-size: clamp(1.2rem, 2vw, 1.6rem);
 }
 
 .btnCriar {
@@ -184,8 +184,7 @@ body.viewOcorrencia-open {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-areas:
 		'civil acionamento relato'
-		'endereco casas relato'
-	;
+		'endereco casas relato';
 	padding-bottom: 3rem;
 	border-bottom: 2px solid #9ca3af;
 }
@@ -248,7 +247,7 @@ body.viewOcorrencia-open {
 	width: fit-content;
 	margin-top: 1rem;
 	padding: 1rem 2rem;
-	border-radius: .5rem;
+	border-radius: 0.5rem;
 }
 
 option:checked {
@@ -260,7 +259,7 @@ option:checked {
 	width: fit-content;
 	border: 1px solid #ccc;
 	padding: 1rem 2rem;
-	border-radius: .5rem;
+	border-radius: 0.5rem;
 }
 
 .btnTrancar {
@@ -283,7 +282,7 @@ option:checked {
 	align-items: center;
 }
 
-.pagination-button>* {
+.pagination-button > * {
 	display: flex;
 	justify-content: end;
 	align-items: center;
@@ -306,42 +305,34 @@ option:checked {
 .pagination {
 	display: flex;
 	align-items: center;
-	gap: 2rem;
+	gap: 0.75rem;
 }
 
 .pagination a {
 	display: flex;
 	align-items: center;
 	color: #000;
+	padding: 0.5rem 1.2rem;
 }
 
 .pagination :is(a:first-child, a:last-child) {
-	gap: .7rem;
-}
-
-.pagination a:first-child {
-	margin-right: .7rem;
-}
-
-.pagination a:last-child {
-	margin-left: .7rem;
+	gap: 0.7rem;
 }
 
 .pagination .active {
 	background-color: #bae6fd;
-	padding: 0.5rem 1.2rem;
 	color: var(--blue);
-	border-radius: .4rem;
+	border-radius: 0.4rem;
 }
 
 .pagination a:hover {
 	background-color: #bae6fd;
 	padding: 0.5rem 1.2rem;
 	color: var(--blue);
-	border-radius: .4rem;
+	border-radius: 0.4rem;
 }
 
-@media (max-width: 1000px) {
+@media (width <= 1000px) {
 	.wrapper-main {
 		overflow-x: scroll;
 		scroll-snap-type: x mandatory;
@@ -353,5 +344,32 @@ option:checked {
 		flex-direction: column;
 		align-items: start;
 		gap: 2rem;
+	}
+}
+
+@media (width <= 520px) {
+	.wrapper {
+		padding: 0;
+	}
+	.search-div {
+		width: 100%;
+	}
+	.ocorrencias {
+		margin-top: 2rem;
+	}
+	.ocorrencias .ocorrencia-item {
+		flex-direction: column;
+		padding-bottom: 1rem;
+		border-bottom: 2px solid #9ca3af;
+		gap: 0;
+	}
+	.ocorrencias .ocorrencia-date {
+		border-right: 0;
+	}
+	.ocorrencias .ocorrencia-date::after {
+		min-height: 10px;
+	}
+	.status {
+		margin-top: 1.5rem;
 	}
 }

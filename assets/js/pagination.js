@@ -52,8 +52,8 @@ function changePage(index) {
     // Setup begin index
     pageBegin.textContent = '1';
     pageBegin.className = index==0? 'active': '';
-    pageBegin.style.display = pageCount<=1? 'none': 'block';
-    pagePrevious.style.display = index<=0? 'none': 'block';
+    pageBegin.style.display = pageCount<=1? 'none': 'flex';
+    pagePrevious.style.display = index<=0? 'none': 'flex';
     pageBegin.onclick = function(){
         pageIndex = 0;
         pageChangeCallback(0);
@@ -62,8 +62,8 @@ function changePage(index) {
     // Setup end index
     pageEnd.textContent = ''+pageCount;
     pageEnd.className = index==(pageCount-1)? 'active': '';
-    pageEnd.style.display = pageCount<=1? 'none': 'block';
-    pageNext.style.display = index>=(pageCount-1)? 'none': 'block';
+    pageEnd.style.display = pageCount<=1? 'none': 'flex';
+    pageNext.style.display = index>=(pageCount-1)? 'none': 'flex';
     pageEnd.onclick = function(){
         pageIndex = pageCount-1;
         pageChangeCallback(pageCount-1);
@@ -80,15 +80,15 @@ function changePage(index) {
     else {
         start = index-2;
     }
-    pageGapB.style.display = start>1? 'block': 'none';
-    pageGapE.style.display = start<(pageCount-6)? 'block': 'none';
+    pageGapB.style.display = start>1? 'flex': 'none';
+    pageGapE.style.display = start<(pageCount-6)? 'flex': 'none';
     
     // Setup middle indices
     for (let i=0; i<5; i++){
         let el = document.getElementById('pageIdx'+(i+1));
         let idx = start+i;
         el.textContent = ''+(idx+1);
-        el.style.display = idx>=(pageCount-1) || idx<=0? 'none': 'block';
+        el.style.display = idx>=(pageCount-1) || idx<=0? 'none': 'flex';
         el.onclick = function(){
             pageIndex = idx;
             pageChangeCallback(idx);

@@ -47,13 +47,6 @@
 					</span>
 				</div>
 			</div>
-			<div class="box box4">
-				<i class="ph ph-coins"></i>
-				<div class="box-info">
-					<span class="text">Fluviômetro</span>
-					<span class="number">75%</span>
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -114,6 +107,7 @@
 		);
 	}
 
+	/*
 	navigator.serviceWorker.register("sw.js");
 
 	function enableNotif() {
@@ -122,7 +116,7 @@
 				navigator.serviceWorker.ready.then((sw) => {
 					sw.pushManager.subscribe({
 						userVisibleOnly: true,
-						applicationServerKey: "BPwL7jbII3foRiJ180O05ZKwOo7AlAY7on_DLg5p_OuWMOPSDuD4716aWYtqNzIDwpDlONY0tH-hj2dJIktk_0s"
+						applicationServerKey: ""
 					}).then((subscription) => {
 						registerNotificationOnDatabase(JSON.stringify(subscription));
 					});
@@ -141,6 +135,7 @@
 				//console.log('deu erro')
 			}, JSON.parse(subscription), "POST")
 	}
+	*/
 	
 	function goToAction(action, values={}){
 		let form = document.createElement('form');

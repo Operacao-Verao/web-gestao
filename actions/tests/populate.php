@@ -1555,7 +1555,7 @@
 		$data1 = genRandomDate();
 		$data2 = genRandomDate();
 		// casa_id must be non repetible
-		$relatorios[] = $daoRelatorio->insert($ocorrencias[floor($i/3)], $ocorrencias_casas[floor($i/3)], $i%3, "Relatório".$i, "Encaminhamento".$i, "Assunto".$i, "Observações".$i, AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, rand(0, 100)<20? INTERDICAO::NAO: (rand(0, 75)? INTERDICAO::PARCIAL: INTERDICAO::TOTAL), SITUACAO_VITIMAS::DESABRIGADOS, ($i&1) != 0, $data1->format('Y-m-d H:i:s'), $data2->format('Y-m-d H:i:s'), '', '', '');
+		$relatorios[] = $daoRelatorio->insert($ocorrencias[floor($i/3)], $ocorrencias_casas[floor($i/3)], $i%3, "Relatório".$i, "Assunto".$i, "Observações".$i, AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, rand(0, 100)<20? INTERDICAO::NAO: (rand(0, 75)? INTERDICAO::PARCIAL: INTERDICAO::TOTAL), SITUACAO_VITIMAS::DESABRIGADOS, ($i&1) != 0, $data1->format('Y-m-d H:i:s'), $data2->format('Y-m-d H:i:s'), '', '', '');
 	}
 	
 	echo '<h2>Afetados</h2>';

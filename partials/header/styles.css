@@ -204,6 +204,7 @@ nav .menu-items {
 	}
 	nav ~ .dashboard {
 		left: 73px;
+		padding: 1rem 1rem;
 		width: calc(100% - 73px);
 	}
 	nav.close ~ .dashboard {

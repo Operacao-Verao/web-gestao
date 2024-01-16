@@ -42,9 +42,9 @@
         </div>
         <div class="data ver">
           <span class="data-title">Ver</span>
-          <span class="data-list"><i class="ph-bold ph-eye"></i></span>
-          <span class="data-list"><i class="ph-bold ph-eye"></i></span>
-          <span class="data-list"><i class="ph-bold ph-eye"></i></span>
+          <span class="data-list"></span>
+          <span class="data-list"></span>
+          <span class="data-list"></span>
         </div>
       </div>
     </div>

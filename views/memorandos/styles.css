@@ -86,36 +86,26 @@
 .pagination {
 	display: flex;
 	align-items: center;
-	gap: 2rem;
-	padding: 2rem;
-	margin: 0 auto;
+	gap: 0.75rem;
 }
 
 .pagination a {
 	display: flex;
 	align-items: center;
-	text-decoration: none;
 	color: #000;
+	padding: 0.5rem 1.2rem;
 }
 
 .pagination :is(a:first-child, a:last-child) {
 	gap: 0.7rem;
 }
 
-.pagination a:first-child {
-	margin-right: 0.7rem;
-}
-
-.pagination a:last-child {
-	margin-left: 0.7rem;
-}
-
 .pagination .active {
 	background-color: #bae6fd;
-	padding: 0.5rem 1.2rem;
 	color: var(--blue);
 	border-radius: 0.4rem;
 }
+
 .pagination a:hover {
 	background-color: #bae6fd;
 	padding: 0.5rem 1.2rem;
