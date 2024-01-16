@@ -2,154 +2,27 @@
 
 <head>
 	<link rel="stylesheet" href="./styles.css" />
-	<title>Defesa Civil - Níveis</title>
+	<title>Defesa Civil - Chuva</title>
 </head>
 
 <?php
-	require '../../partials/header/header.php';
+require '../../partials/header/header.php';
 ?>
 <div class="wrapper-main">
 	<section class="wrapper" id="container">
-		<div id="main-graph"></div>
+		<p>Níveis de Chuva</p>
+		<p>Chegando em breve.</p>
 	</section>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 340">
+		<path fill="#fff" fill-opacity="1"
+			d="M0,32L60,26.7C120,21,240,11,360,10.7C480,11,600,21,720,64C840,107,960,181,1080,181.3C1200,181,1320,107,1380,69.3L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z">
+		</path>
+	</svg>
 </div>
 </main>
 
 <?php
-  echoError();
+echoError();
 ?>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script>
-	
-	function requestFromAction(action, onSuccess=function(r){}, onError=function(r){}, data={}){
-		fetch(action, {
-			"method": "PUT",
-			"headers": {"Content-Type": "application/json"},
-			"body": JSON.stringify(data)
-		}).then(
-			onSuccess, onError
-		);
-	}
-	// Procura por níveis de chuva
-	function searchNiveisChuva() {
-		requestFromAction("../../actions/fetch/search_niveis_pluviometro.php", function(r){
-	      r.json().then(function(json){
-	      	
-					for (let i=0; i<json.length; i++){
-						json[i].registros.reverse();
-					}
-					
-					let grafico_geral = {
-						colors: ['#38BDF8', '#E879F9', '#FF3980', '#38BE28', '#E80399', '#ee1980'],
-						chart: {
-							type: 'column',
-						},
-						title: {
-							text: 'Nível de Chuva por Bairros',
-						},
-						xAxis: {
-							categories: [],
-							crosshair: true,
-						},
-						tooltip: {
-							headerFormat: '<span style="font-size:14px">{point.key}</span><table>',
-							pointFormat:
-								'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-								'<td style="padding:0"><b>{point.y}</b></td></tr>',
-							footerFormat: '</table>',
-							shared: true,
-							useHTML: true,
-						},
-						plotOptions: {
-							column: {
-								pointPadding: 0.2,
-								borderWidth: 0,
-							},
-						},
-						series: []
-					};
 
-					for(let k = 0; k < json[0].registros.length; k++) {
-						grafico_geral.xAxis.categories.push(`${json[0].registros[k].data}  ${json[0].registros[k].hora}`);
-					}
-
-	      	for (let i=0; i<json.length; i++){
-						let oe = json[i]; // Entrada de chuva
-
-						let registros = [];
-
-						oe.registros.map((item) => {
-							registros.push(item.nivel);
-						});
-
-						grafico_geral.series.push({
-							name: `${oe.bairro} - ${oe.cidade}`,
-							data: registros
-						});
-
-						let section = document.getElementById('container');
-						let graph = document.createElement('div');
-						graph.setAttribute('id', `graph-${i}`);
-						section.appendChild(graph);
-
-						let chuva_grafico = {
-							chart: {
-								type: 'line'
-							},
-							title: {
-								text: ''
-							},
-							xAxis: {
-								categories: []
-							},
-							yAxis: {
-								title: {
-									text: 'Nível Chuva (mm)'
-								}
-							},
-							plotOptions: {
-								line: {
-									dataLabels: {
-										enabled: true
-									},
-									enableMouseTracking: false
-								}
-							},
-							series: []
-						};
-
-						chuva_grafico.title.text = `${oe.cidade} - ${oe.bairro} - ${oe.rua}`;
-
-						for(let j = 0; j < oe.registros.length; j++) {
-							let registro = oe.registros[j];
-							chuva_grafico.xAxis.categories.push(`${registro.data}  ${registro.hora}`);
-
-							let registerExist = chuva_grafico.series.findIndex((item) => item.name === `${oe.cidade} - ${oe.bairro} - ${oe.rua}`);
-							
-							if(registerExist !== -1) {
-								chuva_grafico.series[registerExist].data.push(registro.nivel);
-							} else {
-								chuva_grafico.series.push({
-									name: `${oe.cidade} - ${oe.bairro} - ${oe.rua}`,
-									data: [registro.nivel]
-								});
-							}
-						}
-
-						Highcharts.chart(`graph-${i}`, chuva_grafico);
-					}
-
-					Highcharts.chart(`main-graph`, grafico_geral);
-	      });
-	    }, function(){}, {"nivel": true});
-	}
-	searchNiveisChuva();
-	
-	let update = setInterval(function(){
-		searchNiveisChuva();
-	}, 30 * 1000);
-</script>
 </html>
