@@ -236,8 +236,8 @@
 	echo '<h1>Tecnico</h1>';
 	
 	// Inserting
-	$tecnico1 = $daoTecnico->insert($funcionario1, true);
-	$tecnico2 = $daoTecnico->insert($funcionario4, true);
+	$tecnico1 = $daoTecnico->insert($funcionario1, true, null);
+	$tecnico2 = $daoTecnico->insert($funcionario4, true, null);
 	
 	// Updating
 	$tecnico2->setAtivo(false);
@@ -512,12 +512,10 @@
 	echo '<h1>Relatorio</h1>';
 	
 	// Inserting
-	$relatorio1 = $daoRelatorio->insert($ocorrencia1, $casa1, 2, "Primeiro relatório", "Sem encaminhamento", "Primeiro memo", "Primeiro ofício", "Primeiro processo", "Primeiro assunto", "Primeiras observações", AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, 0, SITUACAO_VITIMAS::DESABRIGADOS, false, getCurrentDatetime(), getCurrentDatetime());
-	$relatorio2 = $daoRelatorio->insert($ocorrencia4, $casa4, 2, "Segundo relatório", "Sem encaminhamento", "Segundo memo", "Segundo ofício", "Segundo processo", "Segundo assunto", "Segundas observações", AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, 0, SITUACAO_VITIMAS::DESABRIGADOS, false, getCurrentDatetime(), getCurrentDatetime());
+	$relatorio1 = $daoRelatorio->insert($ocorrencia1, $casa1, 2, "Primeiro relatório", "Primeiro memo", "Primeiro ofício", "Primeiro assunto", "Primeiras observações", AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, 0, SITUACAO_VITIMAS::DESABRIGADOS, false, getCurrentDatetime(), getCurrentDatetime());
+	$relatorio2 = $daoRelatorio->insert($ocorrencia4, $casa4, 2, "Segundo relatório", "Segundo memo", "Segundo ofício", "Segundo assunto", "Segundas observações", AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, 0, SITUACAO_VITIMAS::DESABRIGADOS, false, getCurrentDatetime(), getCurrentDatetime());
 	
 	// Updating
-	$relatorio1->setEncaminhamento("Reencaminhado");
-	$daoRelatorio->update($relatorio1);
 	
 	// Finding by id
 	echo '<b>findById</b><br/>';
@@ -550,7 +548,7 @@
 	
 	// Removing
 	echo '<b>Removing entry, status: '.$daoRelatorio->remove($relatorio2).'</b><br/>';
-	$relatorio4 = $daoRelatorio->insert($ocorrencia4, $casa4, 2, "Segundo relatório", "Sem encaminhamento", "Segundo memo", "Segundo ofício", "Segundo processo", "Segundo assunto", "Segundas observações", AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, 0, SITUACAO_VITIMAS::DESABRIGADOS, false, getCurrentDatetime(), getCurrentDatetime());
+	$relatorio4 = $daoRelatorio->insert($ocorrencia4, $casa4, 2, "Segundo relatório", "Segundo memo", "Segundo ofício", "Segundo assunto", "Segundas observações", AREA_AFETADA::PARTICULAR, TIPO_CONSTRUCAO::MADEIRA, TIPO_TALUDE::NATURAL, VEGETACAO::NENHUMA, 0, SITUACAO_VITIMAS::DESABRIGADOS, false, getCurrentDatetime(), getCurrentDatetime());
 	
 	
 	//
@@ -813,8 +811,8 @@
 	echo '<h1>Memo</h1>';
 	
 	// Inserting
-	$memo1 = $daoMemo->insert($relatorio1, $secretaria1, getCurrentDatetime(), 'Status 1', 'industrial', 'Primário');
-	$memo2 = $daoMemo->insert($relatorio4, $secretaria1, getCurrentDatetime(), 'Status 2', 'farmacêutico', 'Secundário');
+	$memo1 = $daoMemo->insert($relatorio1, $secretaria1, getCurrentDatetime(), 'Status 1', 'industrial', 'Primário', "oficio", "processo");
+	$memo2 = $daoMemo->insert($relatorio4, $secretaria1, getCurrentDatetime(), 'Status 2', 'farmacêutico', 'Secundário', "oficio", "processo");
 	
 	// Updating
 	$memo2->setStatusMemo('Status 3');
@@ -886,8 +884,8 @@
 	echo '<h1>Pluviometro</h1>';
 	
 	// Inserting
-	$pluviometro1 = $daoPluviometro->insert('10000111', 25.10, 22.25);
-	$pluviometro2 = $daoPluviometro->insert('10000111', 50.10, 74.25);
+	$pluviometro1 = $daoPluviometro->insert('10000111', "", "", 25.10, 22.25);
+	$pluviometro2 = $daoPluviometro->insert('10000111', "", "", 50.10, 74.25);
 	
 	// Updating
 	$pluviometro2->setLongitude(5);
@@ -920,8 +918,8 @@
 	echo '<h1>Fluviometro</h1>';
 	
 	// Inserting
-	$fluviometro1 = $daoFluviometro->insert('10000111', 25.10, 22.25);
-	$fluviometro2 = $daoFluviometro->insert('10000111', 50.10, 74.25);
+	$fluviometro1 = $daoFluviometro->insert('10000111', "", "", 25.10, 22.25);
+	$fluviometro2 = $daoFluviometro->insert('10000111', "", "", 50.10, 74.25);
 	
 	// Updating
 	$fluviometro2->setLongitude(5);
@@ -976,7 +974,7 @@
 	
 	// Listing
 	echo '<b>listAll</b><br/>';
-	var_dump($daoNivelChuva->listAll()); echo '- <b>LIST OF ENTRIES</b><br/>';
+	var_dump($daoNivelChuva->listAllByPluv(1)); echo '- <b>LIST OF ENTRIES</b><br/>';
 	
 	// Search by text
 	echo '<b>searchByText</b><br/>';
@@ -1014,7 +1012,7 @@
 	
 	// Listing
 	echo '<b>listAll</b><br/>';
-	var_dump($daoNivelRio->listAll()); echo '- <b>LIST OF ENTRIES</b><br/>';
+	var_dump($daoNivelRio->listAllByFluv(1)); echo '- <b>LIST OF ENTRIES</b><br/>';
 	
 	// Search by text
 	echo '<b>searchByText</b><br/>';

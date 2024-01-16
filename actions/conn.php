@@ -100,7 +100,7 @@
         const DEV_MODE = 0;
         const STABLE = 1;
     }
-    const DEV_LEVEL = DEV_LEVEL::DEV_MODE;
+    const DEV_LEVEL = DEV_LEVEL::STABLE;
     const SYSTEM_NAME = 'GODNCH';
     const VERSION_NAME = 'Versão 1.0/2023';
     
