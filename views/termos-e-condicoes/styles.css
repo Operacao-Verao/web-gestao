@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root {
+  font-size: 62.5%;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  min-height: 100vh;
+  font-size: 1.6rem;
+  background-color: #f8fafc;
+  color: #475569;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+  margin-bottom: 1rem;
+}
+header h1 {
+  font-size: 4.2rem;
+  font-weight: 600;
+}
+header h3 {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 2rem;
+  width: 1280px;
+}
+section ol {
+  list-style-type: none;
+  counter-reset: item 0;
+}
+section li:not(ul li) {
+  position: relative;
+  counter-increment: item 1;
+  margin-bottom: 1.8rem;
+  padding-left: 4rem;
+}
+section li:not(ul li)::before {
+  position: absolute;
+  left: 0px;
+  content: counters(item, ".") ". ";
+}
+section > ol > li {
+  margin-top: 1.6rem;
+  font-weight: 500;
+  color: #000;
+  font-size: 1.8rem;
+}
+ul {
+  list-style-type: square;
+  padding-left: 4.4rem;
+}
+
+p {
+  text-align: justify;
+  font-size: 1.6rem;
+}
+
+@media (width <= 1280px) {
+  main {
+    width: auto;
+    padding: 3rem;
+  }
+}
