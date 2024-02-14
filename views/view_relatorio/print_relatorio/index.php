@@ -204,11 +204,11 @@
                 </article>
                 <div class="assinatura">
                     <div>
-                        <p><img src=<?php echo $relatorio->getAssinaturaCivil();?> class="signature"></p>
+                        <p><img src="<?php echo $relatorio->getAssinaturaCivil();?>" class="signature"></p>
                         <p class="item-title">Assinatura (Civil)</p>
                     </div>
                     <div>
-                        <p><img src=<?php echo $relatorio->getAssinaturaTecnico();?> class="signature"></p>
+                        <p><img src="<?php echo $relatorio->getAssinaturaTecnico();?>" class="signature"></p>
                         <p class="item-title">Assinatura (Técnico)</p>
                     </div>
                 </div>
